@@ -6,10 +6,6 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		645EBD3F2D5B6F5F00AC7BAC /* Swift.gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 645EBD3E2D5B6F5F00AC7BAC /* Swift.gitignore */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXContainerItemProxy section */
 		645EBD112D58F9C800AC7BAC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -31,7 +27,6 @@
 		645EBCFE2D58F9C600AC7BAC /* Pencula.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pencula.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		645EBD102D58F9C800AC7BAC /* PenculaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PenculaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		645EBD1A2D58F9C800AC7BAC /* PenculaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PenculaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		645EBD3E2D5B6F5F00AC7BAC /* Swift.gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = Swift.gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -84,7 +79,6 @@
 				645EBD132D58F9C800AC7BAC /* PenculaTests */,
 				645EBD1D2D58F9C800AC7BAC /* PenculaUITests */,
 				645EBCFF2D58F9C600AC7BAC /* Products */,
-				645EBD3E2D5B6F5F00AC7BAC /* Swift.gitignore */,
 			);
 			sourceTree = "<group>";
 		};
@@ -222,7 +216,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				645EBD3F2D5B6F5F00AC7BAC /* Swift.gitignore in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
