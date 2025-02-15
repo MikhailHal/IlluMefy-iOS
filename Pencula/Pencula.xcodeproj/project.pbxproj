@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		645EBD3F2D5B6F5F00AC7BAC /* Swift.gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 645EBD3E2D5B6F5F00AC7BAC /* Swift.gitignore */; };
-		6492A80A2D60A49700AF6AFE /* SwiftLintFramework in Frameworks */ = {isa = PBXBuildFile; productRef = 6492A8092D60A49700AF6AFE /* SwiftLintFramework */; };
-		6492A80C2D60A49700AF6AFE /* swiftlint in Frameworks */ = {isa = PBXBuildFile; productRef = 6492A80B2D60A49700AF6AFE /* swiftlint */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,8 +57,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6492A80A2D60A49700AF6AFE /* SwiftLintFramework in Frameworks */,
-				6492A80C2D60A49700AF6AFE /* swiftlint in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +108,7 @@
 				645EBCFA2D58F9C600AC7BAC /* Sources */,
 				645EBCFB2D58F9C600AC7BAC /* Frameworks */,
 				645EBCFC2D58F9C600AC7BAC /* Resources */,
+				6492A80D2D60AC1C00AF6AFE /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -122,8 +119,6 @@
 			);
 			name = Pencula;
 			packageProductDependencies = (
-				6492A8092D60A49700AF6AFE /* SwiftLintFramework */,
-				6492A80B2D60A49700AF6AFE /* swiftlint */,
 			);
 			productName = Pencula;
 			productReference = 645EBCFE2D58F9C600AC7BAC /* Pencula.app */;
@@ -209,7 +204,6 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				64CBBFD52D5BB55600993B1D /* XCRemoteSwiftPackageReference "RxSwift" */,
-				6492A8082D60A49700AF6AFE /* XCRemoteSwiftPackageReference "SwiftLint" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 645EBCFF2D58F9C600AC7BAC /* Products */;
@@ -247,6 +241,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6492A80D2D60AC1C00AF6AFE /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif command -v swiftlint >/dev/null 2>&1\nthen\n    swiftlint\nelse\n    echo \"warning: `swiftlint` command not found - See https://github.com/realm/SwiftLint#installation for installation instructions.\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		645EBCFA2D58F9C600AC7BAC /* Sources */ = {
@@ -573,14 +587,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		6492A8082D60A49700AF6AFE /* XCRemoteSwiftPackageReference "SwiftLint" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/realm/SwiftLint";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.58.2;
-			};
-		};
 		64CBBFD52D5BB55600993B1D /* XCRemoteSwiftPackageReference "RxSwift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ReactiveX/RxSwift";
@@ -590,19 +596,6 @@
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		6492A8092D60A49700AF6AFE /* SwiftLintFramework */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 6492A8082D60A49700AF6AFE /* XCRemoteSwiftPackageReference "SwiftLint" */;
-			productName = SwiftLintFramework;
-		};
-		6492A80B2D60A49700AF6AFE /* swiftlint */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 6492A8082D60A49700AF6AFE /* XCRemoteSwiftPackageReference "SwiftLint" */;
-			productName = swiftlint;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 645EBCF62D58F9C600AC7BAC /* Project object */;
 }
