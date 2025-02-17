@@ -9,7 +9,12 @@ import SwiftUI
 
 struct SignUpView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            Text("Hi! Welcome to Pencula!!")
+                .background(Color.positive)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.background)
     }
 }
 
