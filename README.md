@@ -12,7 +12,7 @@ IDE: Xcode(Ver 16.2)
 Language: Swift  
 Architecture: Clean Architecture + VIPER  
 Package Manager: SPM(Swift Package Manager)  
-Static Analysis: SwiftLint
+Static Analysis: SwiftLint  
 Design UI/UX: Figma
 
 ### Libraries
