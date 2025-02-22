@@ -13,6 +13,7 @@ Language: Swift
 Architecture: Clean Architecture + VIPER  
 Package Manager: SPM(Swift Package Manager)  
 Static Analysis: SwiftLint
+Design UI/UX: Figma
 
 ### Libraries
 #### UI
