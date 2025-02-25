@@ -39,7 +39,6 @@ struct SignUpView: View {
                 )
                 PenculaPlainTextField(text: $name, title: "メールアドレス", placeHolder: "メールアドレスを入力してください。")
                 Spacer()
-                //test
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.screenBackground)
