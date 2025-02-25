@@ -29,9 +29,30 @@
 		645EBD1A2D58F9C800AC7BAC /* PenculaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PenculaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		64EF85B82D6E099F00C9732A /* Exceptions for "Pencula" folder in "PenculaTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Resources/Components/TextFields/PenculaPlainTextField.swift,
+			);
+			target = 645EBD0F2D58F9C800AC7BAC /* PenculaTests */;
+		};
+		64EF85B92D6E099F00C9732A /* Exceptions for "Pencula" folder in "PenculaUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Resources/Components/TextFields/PenculaPlainTextField.swift,
+			);
+			target = 645EBD192D58F9C800AC7BAC /* PenculaUITests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		645EBD002D58F9C600AC7BAC /* Pencula */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				64EF85B82D6E099F00C9732A /* Exceptions for "Pencula" folder in "PenculaTests" target */,
+				64EF85B92D6E099F00C9732A /* Exceptions for "Pencula" folder in "PenculaUITests" target */,
+			);
 			path = Pencula;
 			sourceTree = "<group>";
 		};

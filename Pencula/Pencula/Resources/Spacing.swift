@@ -7,6 +7,7 @@
 
 import CoreGraphics
 enum Spacing {
+    static let none: CGFloat = 0
     static let xxxs: CGFloat = 2
     static let xxs: CGFloat = 4
     static let xs: CGFloat = 8
