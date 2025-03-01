@@ -7,14 +7,17 @@
 
 import CoreGraphics
 enum Spacing {
+    // doesn't divide
     static let none: CGFloat = 0
-    static let xxxs: CGFloat = 2
-    static let xxs: CGFloat = 4
-    static let xs: CGFloat = 8
-    static let sm: CGFloat = 12
-    static let md: CGFloat = 16
-    static let lg: CGFloat = 24
-    static let xl: CGFloat = 32
-    static let xxl: CGFloat = 40
-    static let xxxl: CGFloat = 48
+    // group related components together.
+    // e.g. labels that tell what is this form and actual fields
+    static let componentGrouping: CGFloat = 8
+    // divide related components with different functions.
+    // e.g. email fields and password fields.
+    static let relatedComponentDivider: CGFloat = 12
+    // screen content padding(from edges)
+    static let screenEdgePadding: CGFloat = 16
+    // divide unrelated components with different functions.
+    // e.g. email fields and login button.
+    static let unrelatedComponentDivider: CGFloat = 24
 }

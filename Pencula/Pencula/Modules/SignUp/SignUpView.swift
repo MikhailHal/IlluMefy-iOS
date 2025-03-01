@@ -22,7 +22,7 @@ struct SignUpView: View {
                 Image("SignUpRegisteringAccountStep")
                     .padding(
                         EdgeInsets(
-                            top: Spacing.xl,
+                            top: Spacing.unrelatedComponentDivider,
                             leading: Spacing.none,
                             bottom: Spacing.none,
                             trailing: Spacing.none
@@ -31,7 +31,7 @@ struct SignUpView: View {
                 Text("受信可能なメールアドレスを入力してください。\n入力されたメールアドレスに認証番号を送信します。")
                     .foregroundColor(Color.textForeground)
                     .padding(EdgeInsets(
-                        top: Spacing.xxxl,
+                        top: Spacing.unrelatedComponentDivider,
                         leading: Spacing.none,
                         bottom: Spacing.none,
                         trailing: Spacing.none
@@ -39,14 +39,13 @@ struct SignUpView: View {
                 )
                 PenculaPlainTextField(text: $name, title: "メールアドレス", placeHolder: "メールアドレスを入力してください。")
                 Spacer()
-                // test
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.screenBackground)
             .navigationTitle("会員登録")
             .navigationBarTitleDisplayMode(.inline)
         }
-        .padding(Spacing.md)
+        .padding(Spacing.screenEdgePadding)
         .background(Color.screenBackground)
     }
 }
