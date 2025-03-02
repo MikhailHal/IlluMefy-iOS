@@ -24,12 +24,12 @@ struct PenculaPlainTextField: View {
     var body: some View {
         ZStack(alignment: .leading) {
             TextField("", text: $text).padding(.leading)
-                .frame(height: 60).focused($isTyping)
-                .background(isTyping ? .main : Color.white,
+                .frame(width: .infinity, height: 60).focused($isTyping)
+                .background(isTyping ? .main : Color.textBorderNoneFocused,
                             in: RoundedRectangle(cornerRadius: 12).stroke(style: StrokeStyle(lineWidth: 2)))
             Text(isTyping || !text.isEmpty ? title : placeHolder).padding(.horizontal, 10)
                 .background(.screenBackground.opacity(isTyping || !text.isEmpty ? 1 : 0))
-                .foregroundStyle(isTyping ? .main : Color.gray)
+                .foregroundStyle(isTyping ? .main : Color.textForeground)
                 .padding(.leading).offset(y: isTyping || !text.isEmpty ? -27 : 0)
                 .onTapGesture { isTyping.toggle() }
         }
@@ -37,15 +37,14 @@ struct PenculaPlainTextField: View {
     }
 }
 
-/*
 struct PenculaPlainTextFieldPreviews: PreviewProvider {
     static var previews: some View {
         Group {
             // Empty state preview
-            PenculaPlainTextField(text: .constant("text"), title: "titlaaaaaaaae")
+            PenculaPlainTextField(text: .constant("text"), title: "Email Address", placeHolder: "プレースホルダー")
                 .previewDisplayName("Empty TextField")
         }
         .padding()
         .previewLayout(.sizeThatFits)
     }
-}*/
+}

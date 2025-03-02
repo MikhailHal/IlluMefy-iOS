@@ -8,28 +8,29 @@
 import SwiftUI
 
 struct SignUpView: View {
-    @State var name = ""
+    @State var email = ""
+    @State var password = ""
     init() {
         let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = UIColor.screenBackground
         appearance.titleTextAttributes = [
-            .font: UIFont.preferredFont(forTextStyle: .largeTitle)
+            .font: UIFont.preferredFont(forTextStyle: .title3),
+            .foregroundColor: UIColor.textForeground
         ]
         UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
     }
     var body: some View {
         NavigationView {
             VStack {
-                Image("SignUpRegisteringAccountStep")
-                    .padding(
-                        EdgeInsets(
-                            top: Spacing.unrelatedComponentDivider,
-                            leading: Spacing.none,
-                            bottom: Spacing.none,
-                            trailing: Spacing.none
-                        )
-                    )
-                Text("受信可能なメールアドレスを入力してください。\n入力されたメールアドレスに認証番号を送信します。")
+                Text("STEP：1 / 3")
                     .foregroundColor(Color.textForeground)
+                    .bold()
+                    .font(.title)
+                Text("受信可能なメールアドレスを入力してください。\n受信可能なものを指定してください。")
+                    .foregroundColor(Color.textForeground)
+                    .font(.body)
                     .padding(EdgeInsets(
                         top: Spacing.unrelatedComponentDivider,
                         leading: Spacing.none,
@@ -37,16 +38,20 @@ struct SignUpView: View {
                         trailing: Spacing.none
                     )
                 )
-                PenculaPlainTextField(text: $name, title: "メールアドレス", placeHolder: "メールアドレスを入力してください。")
+                PenculaPlainTextField(text: $email, title: "メールアドレス", placeHolder: "メールアドレスを入力")
+                    .padding(EdgeInsets(
+                        top: Spacing.unrelatedComponentDivider,
+                        leading: Spacing.none,
+                        bottom: Spacing.none,
+                        trailing: Spacing.none))
                 Spacer()
-            }
+            }.padding(Spacing.screenEdgePadding)
+            .padding(Spacing.screenEdgePadding)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.screenBackground)
             .navigationTitle("会員登録")
             .navigationBarTitleDisplayMode(.inline)
         }
-        .padding(Spacing.screenEdgePadding)
-        .background(Color.screenBackground)
     }
 }
 

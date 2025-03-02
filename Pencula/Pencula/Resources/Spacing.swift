@@ -16,8 +16,8 @@ enum Spacing {
     // e.g. email fields and password fields.
     static let relatedComponentDivider: CGFloat = 12
     // screen content padding(from edges)
-    static let screenEdgePadding: CGFloat = 16
+    static let screenEdgePadding: CGFloat = 12
     // divide unrelated components with different functions.
     // e.g. email fields and login button.
-    static let unrelatedComponentDivider: CGFloat = 24
+    static let unrelatedComponentDivider: CGFloat = 32
 }
