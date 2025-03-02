@@ -38,7 +38,7 @@ struct SignUpView: View {
                         trailing: Spacing.none
                     )
                 )
-                PenculaPlainTextField(text: $email, title: "メールアドレス", placeHolder: "メールアドレスを入力")
+                PenculaPlainTextField(text: $email, title: "メールアドレス", placeHolder: "example@email.com")
                     .padding(EdgeInsets(
                         top: Spacing.unrelatedComponentDivider,
                         leading: Spacing.none,

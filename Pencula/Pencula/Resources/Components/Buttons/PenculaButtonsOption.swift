@@ -6,8 +6,8 @@
 //
 
 import Foundation
-enum PenculaButtonsOption{
-    enum EventType{
+enum PenculaButtonsOption {
+    enum EventType {
         case positive
         case negative
     }

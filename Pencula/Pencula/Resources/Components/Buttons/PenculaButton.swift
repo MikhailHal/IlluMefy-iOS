@@ -20,7 +20,7 @@ struct PenculaButton: View {
 
     var body: some View {
         Button(action: onClick) {
-            HStack{
+            HStack {
                 if let icon = leadingIcon {
                     icon
                 }
@@ -28,7 +28,9 @@ struct PenculaButton: View {
                     .foregroundColor(Color.buttonForegroundPositive)
             }
             .frame(maxWidth: .infinity, maxHeight: 60)
-            .background(eventType == PenculaButtonsOption.EventType.positive ? Color.buttonBackgroundPositive : Color.black)
+            .background(eventType == PenculaButtonsOption.EventType.positive ?
+                        Color.buttonBackgroundPositive : Color.black
+            )
         }
         .disabled(!isEnabled)
     }

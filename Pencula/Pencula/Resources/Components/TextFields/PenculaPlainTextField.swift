@@ -24,7 +24,8 @@ struct PenculaPlainTextField: View {
     var body: some View {
         ZStack(alignment: .leading) {
             TextField("", text: $text).padding(.leading)
-                .frame(width: .infinity, height: 60).focused($isTyping)
+                .frame(maxWidth: .infinity, maxHeight: 60)
+                .focused($isTyping)
                 .background(isTyping ? .main : Color.textBorderNoneFocused,
                             in: RoundedRectangle(cornerRadius: 12).stroke(style: StrokeStyle(lineWidth: 2)))
             Text(isTyping || !text.isEmpty ? title : placeHolder).padding(.horizontal, 10)
