@@ -28,7 +28,7 @@ struct SignUpView: View {
                     .foregroundColor(Color.textForeground)
                     .bold()
                     .font(.title)
-                Text("受信可能なメールアドレスを入力してください。\n受信可能なものを指定してください。")
+                Text("受信可能なメールアドレスを入力してください。")
                     .foregroundColor(Color.textForeground)
                     .font(.body)
                     .padding(EdgeInsets(
