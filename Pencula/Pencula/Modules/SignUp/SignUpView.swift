@@ -44,6 +44,35 @@ struct SignUpView: View {
                         leading: Spacing.none,
                         bottom: Spacing.none,
                         trailing: Spacing.none))
+                Text("メールが届きませんか？\nそういった場合は下記をご確認ください。")
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .foregroundColor(Color.textForegroundError)
+                    .font(.body)
+                    .bold()
+                    .padding(EdgeInsets(
+                        top: Spacing.componentGrouping,
+                        leading: Spacing.none,
+                        bottom: Spacing.none,
+                        trailing: Spacing.none))
+                Text("1. 迷惑メールに届いていないか\n" + "2. メールアドレスは正しいか\n" + "3. インターネットに接続されているか")
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .foregroundColor(Color.textForeground)
+                    .font(.body)
+                    .padding(EdgeInsets(
+                        top: Spacing.componentGrouping,
+                        leading: Spacing.none,
+                        bottom: Spacing.none,
+                        trailing: Spacing.none))
+                PenculaButton(
+                    eventType: PenculaButtonsOption.EventType.positive,
+                    text: "認証コードを送信",
+                    isEnabled: true,
+                    onClick: {}
+                ).padding(EdgeInsets(
+                    top: Spacing.unrelatedComponentDivider,
+                    leading: Spacing.none,
+                    bottom: Spacing.none,
+                    trailing: Spacing.none))
                 Spacer()
             }.padding(Spacing.screenEdgePadding)
             .padding(Spacing.screenEdgePadding)
