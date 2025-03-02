@@ -74,12 +74,13 @@ struct SignUpView: View {
                     bottom: Spacing.none,
                     trailing: Spacing.none))
                 Spacer()
-            }.padding(Spacing.screenEdgePadding)
+            }
             .padding(Spacing.screenEdgePadding)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.screenBackground)
             .navigationTitle("会員登録")
             .navigationBarTitleDisplayMode(.inline)
+            .ignoresSafeArea(.keyboard, edges: .all)
         }
     }
 }
