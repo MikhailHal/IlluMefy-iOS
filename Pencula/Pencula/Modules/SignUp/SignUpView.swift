@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct SignUpView: View {
-    @State var email = ""
-    @State var password = ""
+    @StateObject private var viewModel = SignUpViewModel()
     init() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
@@ -38,7 +37,7 @@ struct SignUpView: View {
                         trailing: Spacing.none
                     )
                 )
-                PenculaPlainTextField(text: $email, title: "メールアドレス", placeHolder: "example@email.com")
+                PenculaPlainTextField(text: $viewModel.email, title: "メールアドレス", placeHolder: "example@email.com")
                     .padding(EdgeInsets(
                         top: Spacing.unrelatedComponentDivider,
                         leading: Spacing.none,
@@ -67,7 +66,7 @@ struct SignUpView: View {
                     eventType: PenculaButtonsOption.EventType.positive,
                     text: "認証コードを送信",
                     isEnabled: true,
-                    onClick: {}
+                    onClick: { viewModel.sendEmailAuthentucationCode() }
                 ).padding(EdgeInsets(
                     top: Spacing.unrelatedComponentDivider,
                     leading: Spacing.none,
