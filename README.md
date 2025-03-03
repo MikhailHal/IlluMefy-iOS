@@ -19,3 +19,10 @@ Design UI/UX: Figma
 #### UI
   ・SwiftUI  
   ・StoaryBoard
+#### Logic
+  ・Firebase Authentication  
+  ・Fireabse Cloud Functions  
+  ・Firebase Clashlytics  
+  ・Firebase Analytics  
+  ・Firebase VertexAI  
+  ・Firebase Storage  
