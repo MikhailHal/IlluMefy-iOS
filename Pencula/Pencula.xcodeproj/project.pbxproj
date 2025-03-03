@@ -490,6 +490,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = aoi.Pencula;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -519,6 +520,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = aoi.Pencula;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -605,7 +607,7 @@
 				645EBD232D58F9C800AC7BAC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		645EBD242D58F9C800AC7BAC /* Build configuration list for PBXNativeTarget "Pencula" */ = {
 			isa = XCConfigurationList;
@@ -614,7 +616,7 @@
 				645EBD262D58F9C800AC7BAC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		645EBD272D58F9C800AC7BAC /* Build configuration list for PBXNativeTarget "PenculaTests" */ = {
 			isa = XCConfigurationList;
@@ -623,7 +625,7 @@
 				645EBD292D58F9C800AC7BAC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		645EBD2A2D58F9C800AC7BAC /* Build configuration list for PBXNativeTarget "PenculaUITests" */ = {
 			isa = XCConfigurationList;
@@ -632,7 +634,7 @@
 				645EBD2C2D58F9C800AC7BAC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 
