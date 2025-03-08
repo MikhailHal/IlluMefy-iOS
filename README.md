@@ -26,3 +26,7 @@ Design UI/UX: Figma
   ・Firebase Analytics  
   ・Firebase VertexAI  
   ・Firebase Storage  
+
+## Related URL
+・[Google Cloud](https://github.com/aoi-stella/Nimli-GoogleCloud)  
+・[iOS](https://github.com/aoi-stella/Nimli-iOS)
