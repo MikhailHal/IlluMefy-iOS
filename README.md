@@ -1,7 +1,7 @@
-# Pencula
+# Nimli
 
 ## What's this app?
-Pencula is a cross-platform mobile application(iOS/Android) developed by aoi-stella.  
+Nimli is a cross-platform mobile application(iOS/Android) developed by aoi-stella.  
 It helps users manage purchased ingredients.
 Its key feature is sharing ingredient information within group would be created by themselves.
 The reason that developed it is to reduce food waste.
