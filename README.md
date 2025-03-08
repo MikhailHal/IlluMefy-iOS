@@ -7,7 +7,7 @@ Its key feature is sharing ingredient information within group would be created 
 The reason that developed it is to reduce food waste.
 
 ## What are used in this app?
-### Basin Information
+### Basic Information
 IDE: Xcode(Ver 16.2)  
 Language: Swift  
 Architecture: Clean Architecture + VIPER  
