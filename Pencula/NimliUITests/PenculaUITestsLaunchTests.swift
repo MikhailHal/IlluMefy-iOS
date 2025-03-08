@@ -1,13 +1,13 @@
 //
-//  PenculaUITestsLaunchTests.swift
-//  PenculaUITests
+//  NimliUITestsLaunchTests.swift
+//  NimliUITests
 //
 //  Created by はると on 2025/02/09.
 //
 
 import XCTest
 
-final class PenculaUITestsLaunchTests: XCTestCase {
+final class NimliUITestsLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true

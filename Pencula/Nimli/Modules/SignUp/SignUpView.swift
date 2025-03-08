@@ -1,8 +1,8 @@
 //
 //  SignUpView.swift
-//  Pencula
+//  Nimli
 //
-//  Created by はると on 2025/02/12.
+//  Created by Haruto K. on 2025/02/12.
 //
 
 import SwiftUI
@@ -37,7 +37,7 @@ struct SignUpView: View {
                         trailing: Spacing.none
                     )
                 )
-                PenculaPlainTextField(text: $viewModel.email, title: "メールアドレス", placeHolder: "example@email.com")
+                NimliPlainTextField(text: $viewModel.email, title: "メールアドレス", placeHolder: "example@email.com")
                     .padding(EdgeInsets(
                         top: Spacing.unrelatedComponentDivider,
                         leading: Spacing.none,
@@ -62,8 +62,8 @@ struct SignUpView: View {
                         leading: Spacing.none,
                         bottom: Spacing.none,
                         trailing: Spacing.none))
-                PenculaButton(
-                    eventType: PenculaButtonsOption.EventType.positive,
+                NimliButton(
+                    eventType: NimliButtonsOption.EventType.positive,
                     text: "認証コードを送信",
                     isEnabled: true,
                     onClick: { viewModel.sendEmailAuthentucationCode() }

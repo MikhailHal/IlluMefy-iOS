@@ -1,6 +1,6 @@
 //
 //  Spacing.swift
-//  Pencula
+//  Nimli
 //
 //  Created by Haruto K. on 2025/02/24.
 //

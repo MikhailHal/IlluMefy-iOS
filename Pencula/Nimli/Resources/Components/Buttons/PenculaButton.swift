@@ -1,6 +1,6 @@
 //
-//  PenculaPlainTextField.swift
-//  Pencula
+//  NimliPlainTextField.swift
+//  Nimli
 //
 //  Created by Haruto K. on 2025/02/25.
 //
@@ -10,8 +10,8 @@ import SwiftUI
 /*
  This was created for commonalizing button.
  */
-struct PenculaButton: View {
-    var eventType: PenculaButtonsOption.EventType
+struct NimliButton: View {
+    var eventType: NimliButtonsOption.EventType
     var text: String
     var isEnabled: Bool
     var onClick: () -> Void
@@ -28,7 +28,7 @@ struct PenculaButton: View {
                     .foregroundColor(Color.buttonForegroundPositive)
             }
             .frame(maxWidth: .infinity, maxHeight: 60)
-            .background(eventType == PenculaButtonsOption.EventType.positive ?
+            .background(eventType == NimliButtonsOption.EventType.positive ?
                         Color.buttonBackgroundPositive : Color.black
             )
         }
@@ -36,12 +36,12 @@ struct PenculaButton: View {
     }
 }
 
-struct PenculaButtonPreviews: PreviewProvider {
+struct NimliButtonPreviews: PreviewProvider {
     static var previews: some View {
         Group {
             // Empty state preview
-            PenculaButton(
-                eventType: PenculaButtonsOption.EventType.positive,
+            NimliButton(
+                eventType: NimliButtonsOption.EventType.positive,
                 text: "ログインする",
                 isEnabled: true) {
                 print("")

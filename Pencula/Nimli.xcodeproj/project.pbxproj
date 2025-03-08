@@ -35,46 +35,46 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		645EBCFE2D58F9C600AC7BAC /* Pencula.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pencula.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		645EBD102D58F9C800AC7BAC /* PenculaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PenculaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		645EBD1A2D58F9C800AC7BAC /* PenculaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PenculaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		645EBCFE2D58F9C600AC7BAC /* Nimli.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nimli.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		645EBD102D58F9C800AC7BAC /* NimliTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NimliTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		645EBD1A2D58F9C800AC7BAC /* NimliUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NimliUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		64EF85B82D6E099F00C9732A /* Exceptions for "Pencula" folder in "PenculaTests" target */ = {
+		64EF85B82D6E099F00C9732A /* Exceptions for "Nimli" folder in "NimliTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Resources/Components/TextFields/PenculaPlainTextField.swift,
 			);
-			target = 645EBD0F2D58F9C800AC7BAC /* PenculaTests */;
+			target = 645EBD0F2D58F9C800AC7BAC /* NimliTests */;
 		};
-		64EF85B92D6E099F00C9732A /* Exceptions for "Pencula" folder in "PenculaUITests" target */ = {
+		64EF85B92D6E099F00C9732A /* Exceptions for "Nimli" folder in "NimliUITests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Resources/Components/TextFields/PenculaPlainTextField.swift,
 			);
-			target = 645EBD192D58F9C800AC7BAC /* PenculaUITests */;
+			target = 645EBD192D58F9C800AC7BAC /* NimliUITests */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		645EBD002D58F9C600AC7BAC /* Pencula */ = {
+		645EBD002D58F9C600AC7BAC /* Nimli */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				64EF85B82D6E099F00C9732A /* Exceptions for "Pencula" folder in "PenculaTests" target */,
-				64EF85B92D6E099F00C9732A /* Exceptions for "Pencula" folder in "PenculaUITests" target */,
+				64EF85B82D6E099F00C9732A /* Exceptions for "Nimli" folder in "NimliTests" target */,
+				64EF85B92D6E099F00C9732A /* Exceptions for "Nimli" folder in "NimliUITests" target */,
 			);
-			path = Pencula;
+			path = Nimli;
 			sourceTree = "<group>";
 		};
-		645EBD132D58F9C800AC7BAC /* PenculaTests */ = {
+		645EBD132D58F9C800AC7BAC /* NimliTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = PenculaTests;
+			path = NimliTests;
 			sourceTree = "<group>";
 		};
-		645EBD1D2D58F9C800AC7BAC /* PenculaUITests */ = {
+		645EBD1D2D58F9C800AC7BAC /* NimliUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = PenculaUITests;
+			path = NimliUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -115,9 +115,9 @@
 		645EBCF52D58F9C600AC7BAC = {
 			isa = PBXGroup;
 			children = (
-				645EBD002D58F9C600AC7BAC /* Pencula */,
-				645EBD132D58F9C800AC7BAC /* PenculaTests */,
-				645EBD1D2D58F9C800AC7BAC /* PenculaUITests */,
+				645EBD002D58F9C600AC7BAC /* Nimli */,
+				645EBD132D58F9C800AC7BAC /* NimliTests */,
+				645EBD1D2D58F9C800AC7BAC /* NimliUITests */,
 				645EBCFF2D58F9C600AC7BAC /* Products */,
 			);
 			sourceTree = "<group>";
@@ -125,9 +125,9 @@
 		645EBCFF2D58F9C600AC7BAC /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				645EBCFE2D58F9C600AC7BAC /* Pencula.app */,
-				645EBD102D58F9C800AC7BAC /* PenculaTests.xctest */,
-				645EBD1A2D58F9C800AC7BAC /* PenculaUITests.xctest */,
+				645EBCFE2D58F9C600AC7BAC /* Nimli.app */,
+				645EBD102D58F9C800AC7BAC /* NimliTests.xctest */,
+				645EBD1A2D58F9C800AC7BAC /* NimliUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -135,9 +135,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		645EBCFD2D58F9C600AC7BAC /* Pencula */ = {
+		645EBCFD2D58F9C600AC7BAC /* Nimli */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 645EBD242D58F9C800AC7BAC /* Build configuration list for PBXNativeTarget "Pencula" */;
+			buildConfigurationList = 645EBD242D58F9C800AC7BAC /* Build configuration list for PBXNativeTarget "Nimli" */;
 			buildPhases = (
 				645EBCFA2D58F9C600AC7BAC /* Sources */,
 				645EBCFB2D58F9C600AC7BAC /* Frameworks */,
@@ -150,9 +150,9 @@
 				64EF85362D620B8400C9732A /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				645EBD002D58F9C600AC7BAC /* Pencula */,
+				645EBD002D58F9C600AC7BAC /* Nimli */,
 			);
-			name = Pencula;
+			name = Nimli;
 			packageProductDependencies = (
 				64EF864B2D7601B900C9732A /* FirebaseAnalytics */,
 				64EF864D2D7601B900C9732A /* FirebaseAuth */,
@@ -164,12 +164,12 @@
 				64EF86592D7601B900C9732A /* FirebaseVertexAI */,
 			);
 			productName = Pencula;
-			productReference = 645EBCFE2D58F9C600AC7BAC /* Pencula.app */;
+			productReference = 645EBCFE2D58F9C600AC7BAC /* Nimli.app */;
 			productType = "com.apple.product-type.application";
 		};
-		645EBD0F2D58F9C800AC7BAC /* PenculaTests */ = {
+		645EBD0F2D58F9C800AC7BAC /* NimliTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 645EBD272D58F9C800AC7BAC /* Build configuration list for PBXNativeTarget "PenculaTests" */;
+			buildConfigurationList = 645EBD272D58F9C800AC7BAC /* Build configuration list for PBXNativeTarget "NimliTests" */;
 			buildPhases = (
 				645EBD0C2D58F9C800AC7BAC /* Sources */,
 				645EBD0D2D58F9C800AC7BAC /* Frameworks */,
@@ -181,18 +181,18 @@
 				645EBD122D58F9C800AC7BAC /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				645EBD132D58F9C800AC7BAC /* PenculaTests */,
+				645EBD132D58F9C800AC7BAC /* NimliTests */,
 			);
-			name = PenculaTests;
+			name = NimliTests;
 			packageProductDependencies = (
 			);
 			productName = PenculaTests;
-			productReference = 645EBD102D58F9C800AC7BAC /* PenculaTests.xctest */;
+			productReference = 645EBD102D58F9C800AC7BAC /* NimliTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		645EBD192D58F9C800AC7BAC /* PenculaUITests */ = {
+		645EBD192D58F9C800AC7BAC /* NimliUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 645EBD2A2D58F9C800AC7BAC /* Build configuration list for PBXNativeTarget "PenculaUITests" */;
+			buildConfigurationList = 645EBD2A2D58F9C800AC7BAC /* Build configuration list for PBXNativeTarget "NimliUITests" */;
 			buildPhases = (
 				645EBD162D58F9C800AC7BAC /* Sources */,
 				645EBD172D58F9C800AC7BAC /* Frameworks */,
@@ -204,13 +204,13 @@
 				645EBD1C2D58F9C800AC7BAC /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				645EBD1D2D58F9C800AC7BAC /* PenculaUITests */,
+				645EBD1D2D58F9C800AC7BAC /* NimliUITests */,
 			);
-			name = PenculaUITests;
+			name = NimliUITests;
 			packageProductDependencies = (
 			);
 			productName = PenculaUITests;
-			productReference = 645EBD1A2D58F9C800AC7BAC /* PenculaUITests.xctest */;
+			productReference = 645EBD1A2D58F9C800AC7BAC /* NimliUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -236,7 +236,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 645EBCF92D58F9C600AC7BAC /* Build configuration list for PBXProject "Pencula" */;
+			buildConfigurationList = 645EBCF92D58F9C600AC7BAC /* Build configuration list for PBXProject "Nimli" */;
 			developmentRegion = ja;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -255,9 +255,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				645EBCFD2D58F9C600AC7BAC /* Pencula */,
-				645EBD0F2D58F9C800AC7BAC /* PenculaTests */,
-				645EBD192D58F9C800AC7BAC /* PenculaUITests */,
+				645EBCFD2D58F9C600AC7BAC /* Nimli */,
+				645EBD0F2D58F9C800AC7BAC /* NimliTests */,
+				645EBD192D58F9C800AC7BAC /* NimliUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -333,12 +333,12 @@
 /* Begin PBXTargetDependency section */
 		645EBD122D58F9C800AC7BAC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 645EBCFD2D58F9C600AC7BAC /* Pencula */;
+			target = 645EBCFD2D58F9C600AC7BAC /* Nimli */;
 			targetProxy = 645EBD112D58F9C800AC7BAC /* PBXContainerItemProxy */;
 		};
 		645EBD1C2D58F9C800AC7BAC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 645EBCFD2D58F9C600AC7BAC /* Pencula */;
+			target = 645EBCFD2D58F9C600AC7BAC /* Nimli */;
 			targetProxy = 645EBD1B2D58F9C800AC7BAC /* PBXContainerItemProxy */;
 		};
 		64EF85362D620B8400C9732A /* PBXTargetDependency */ = {
@@ -476,7 +476,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Pencula/Resources/Preview\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Nimli/Resources/Preview\"";
 				DEVELOPMENT_TEAM = T7S2NXSZLM;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -506,7 +506,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Pencula/Resources/Preview\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Nimli/Resources/Preview\"";
 				DEVELOPMENT_TEAM = T7S2NXSZLM;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -543,7 +543,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Pencula.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Pencula";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Nimli.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Nimli";
 			};
 			name = Debug;
 		};
@@ -561,7 +561,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Pencula.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Pencula";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Nimli.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Nimli";
 			};
 			name = Release;
 		};
@@ -600,7 +600,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		645EBCF92D58F9C600AC7BAC /* Build configuration list for PBXProject "Pencula" */ = {
+		645EBCF92D58F9C600AC7BAC /* Build configuration list for PBXProject "Nimli" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				645EBD222D58F9C800AC7BAC /* Debug */,
@@ -609,7 +609,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		645EBD242D58F9C800AC7BAC /* Build configuration list for PBXNativeTarget "Pencula" */ = {
+		645EBD242D58F9C800AC7BAC /* Build configuration list for PBXNativeTarget "Nimli" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				645EBD252D58F9C800AC7BAC /* Debug */,
@@ -618,7 +618,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		645EBD272D58F9C800AC7BAC /* Build configuration list for PBXNativeTarget "PenculaTests" */ = {
+		645EBD272D58F9C800AC7BAC /* Build configuration list for PBXNativeTarget "NimliTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				645EBD282D58F9C800AC7BAC /* Debug */,
@@ -627,7 +627,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		645EBD2A2D58F9C800AC7BAC /* Build configuration list for PBXNativeTarget "PenculaUITests" */ = {
+		645EBD2A2D58F9C800AC7BAC /* Build configuration list for PBXNativeTarget "NimliUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				645EBD2B2D58F9C800AC7BAC /* Debug */,

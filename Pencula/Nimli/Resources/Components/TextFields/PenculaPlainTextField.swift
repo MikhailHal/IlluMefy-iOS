@@ -1,6 +1,6 @@
 //
-//  PenculaPlainTextField.swift
-//  Pencula
+//  NimliPlainTextField.swift
+//  Nimli
 //
 //  Created by Haruto K. on 2025/02/25.
 //
@@ -11,7 +11,7 @@ import SwiftUI
  This was created for commonalizing plain text input.
  This wasn't created for secure information(e.g. password, credit card and more!).
  */
-struct PenculaPlainTextField: View {
+struct NimliPlainTextField: View {
     let title: String
     let placeHolder: String
     @Binding var text: String
@@ -38,11 +38,11 @@ struct PenculaPlainTextField: View {
     }
 }
 
-struct PenculaPlainTextFieldPreviews: PreviewProvider {
+struct NimliPlainTextFieldPreviews: PreviewProvider {
     static var previews: some View {
         Group {
             // Empty state preview
-            PenculaPlainTextField(text: .constant("text"), title: "Email Address", placeHolder: "プレースホルダー")
+            NimliPlainTextField(text: .constant("text"), title: "Email Address", placeHolder: "プレースホルダー")
                 .previewDisplayName("Empty TextField")
         }
         .padding()

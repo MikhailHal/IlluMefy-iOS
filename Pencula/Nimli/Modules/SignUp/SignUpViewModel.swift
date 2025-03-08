@@ -1,6 +1,6 @@
 //
 //  SignUpViewModel.swift
-//  Pencula
+//  Nimli
 //
 //  Created by Haruto K. on 2025/03/03.
 //

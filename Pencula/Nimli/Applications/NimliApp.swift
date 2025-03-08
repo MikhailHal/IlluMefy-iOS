@@ -1,8 +1,8 @@
 //
-//  PenculaApp.swift
-//  Pencula
+//  NimliApp.swift
+//  Nimli
 //
-//  Created by はると on 2025/02/09.
+//  Created by Haruto K. on 2025/02/09.
 //
 
 import SwiftUI
@@ -18,7 +18,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 }
 
 @main
-struct PenculaApp: App {
+struct NimliApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     var body: some Scene {
         WindowGroup {

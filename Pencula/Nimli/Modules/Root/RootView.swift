@@ -1,8 +1,8 @@
 //
 //  ContentView.swift
-//  Pencula
+//  Nimli
 //
-//  Created by はると on 2025/02/09.
+//  Created by Haruto K. on 2025/02/09.
 //  Test
 
 import SwiftUI
