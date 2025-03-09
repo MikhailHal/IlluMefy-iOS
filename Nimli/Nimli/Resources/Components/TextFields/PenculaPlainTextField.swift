@@ -16,16 +16,21 @@ struct NimliPlainTextField: View {
     let placeHolder: String
     @Binding var text: String
     @FocusState var isTyping: Bool
-    init(text: Binding<String>, title: String, placeHolder: String) {
-        self._text = text
-        self.title = title
-        self.placeHolder = placeHolder
+    init(
+        text: Binding<String>,
+        title: String,
+        placeHolder: String,
+        onTextChange: ((String) -> Void)? = nil) {
+            self._text = text
+            self.title = title
+            self.placeHolder = placeHolder
     }
     var body: some View {
         ZStack(alignment: .leading) {
             TextField("", text: $text).padding(.leading)
                 .frame(maxWidth: .infinity, maxHeight: 60)
                 .focused($isTyping)
+                .foregroundColor(Color.textForeground)
                 .background(isTyping ? .main : Color.textBorderNoneFocused,
                             in: RoundedRectangle(cornerRadius: 12).stroke(style: StrokeStyle(lineWidth: 2)))
             Text(isTyping || !text.isEmpty ? title : placeHolder).padding(.horizontal, 10)

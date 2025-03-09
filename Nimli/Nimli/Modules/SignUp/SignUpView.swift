@@ -27,45 +27,88 @@ struct SignUpView: View {
                     .foregroundColor(Color.textForeground)
                     .bold()
                     .font(.title)
-                Text("受信可能なメールアドレスを入力してください。")
+                Text("ニムリーへようこそ！\nまずはアカウントを登録しましょう！")
                     .foregroundColor(Color.textForeground)
-                    .font(.body)
-                    .padding(EdgeInsets(
+                    .font(.title3)
+                    .padding(
+                        EdgeInsets(
+                            top: Spacing.unrelatedComponentDivider,
+                            leading: Spacing.none,
+                            bottom: Spacing.none,
+                            trailing: Spacing.none
+                        )
+                    )
+                NimliPlainTextField(
+                    text: $viewModel.email,
+                    title: "メールアドレス",
+                    placeHolder: "メールアドレス(受信可能なもの)"
+                )
+                .padding(
+                    EdgeInsets(
                         top: Spacing.unrelatedComponentDivider,
                         leading: Spacing.none,
                         bottom: Spacing.none,
                         trailing: Spacing.none
                     )
                 )
-                NimliPlainTextField(text: $viewModel.email, title: "メールアドレス", placeHolder: "example@email.com")
-                    .padding(EdgeInsets(
-                        top: Spacing.unrelatedComponentDivider,
+                .onChange(of: viewModel.email) {
+                    viewModel.onEmailDidChange()
+                }
+                NimliPlainTextField(
+                    text: $viewModel.password,
+                    title: "パスワード",
+                    placeHolder: "パスワード"
+                )
+                .onChange(of: viewModel.password) {
+                    viewModel.onPasswordDidChange()
+                }
+                .padding(
+                    EdgeInsets(
+                        top: Spacing.relatedComponentDivider,
                         leading: Spacing.none,
                         bottom: Spacing.none,
-                        trailing: Spacing.none))
-                Text("メールが届きませんか？\nそういった場合は下記をご確認ください。")
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .foregroundColor(Color.textForegroundError)
-                    .font(.body)
-                    .bold()
-                    .padding(EdgeInsets(
-                        top: Spacing.componentGrouping,
-                        leading: Spacing.none,
-                        bottom: Spacing.none,
-                        trailing: Spacing.none))
-                Text("1. 迷惑メールに届いていないか\n" + "2. メールアドレスは正しいか\n" + "3. インターネットに接続されているか")
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .foregroundColor(Color.textForeground)
-                    .font(.body)
-                    .padding(EdgeInsets(
-                        top: Spacing.componentGrouping,
-                        leading: Spacing.none,
-                        bottom: Spacing.none,
-                        trailing: Spacing.none))
+                        trailing: Spacing.none
+                    )
+                )
+                if viewModel.isErrorUpperCase {
+                    Text("・大文字を入れてください")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .foregroundColor(Color.textForegroundError)
+                        .font(.body)
+                        .bold()
+                        .padding(
+                            EdgeInsets(
+                                top: Spacing.componentGrouping,
+                                leading: Spacing.none,
+                                bottom: Spacing.none,
+                                trailing: Spacing.none)
+                        )
+                }
+                if viewModel.isErrorLowerCase {
+                    Text("・小文字を入れてください")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .foregroundColor(Color.textForegroundError)
+                        .font(.body)
+                        .bold()
+                }
+                if viewModel.isErrorNumber {
+                    Text("・数字を入れてください")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .foregroundColor(Color.textForegroundError)
+                        .font(.body)
+                        .bold()
+                }
+                if viewModel.isErrorLength {
+                    Text("・6文字以上入力してください")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .foregroundColor(Color.textForegroundError)
+                        .font(.body)
+                        .bold()
+                }
                 NimliButton(
                     eventType: NimliButtonsOption.EventType.positive,
-                    text: "認証コードを送信",
-                    isEnabled: true,
+                    text: "アカウントを登録する",
+                    isEnabled: viewModel.isEnableRegisterButton,
                     onClick: { viewModel.sendEmailAuthentucationCode() }
                 ).padding(EdgeInsets(
                     top: Spacing.unrelatedComponentDivider,
