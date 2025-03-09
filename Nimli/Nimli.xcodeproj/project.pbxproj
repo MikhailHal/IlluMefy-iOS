@@ -55,12 +55,20 @@
 			);
 			target = 645EBD192D58F9C800AC7BAC /* NimliUITests */;
 		};
+		64EF87572D7DD2DF00C9732A /* Exceptions for "Nimli" folder in "Nimli" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 645EBCFD2D58F9C600AC7BAC /* Nimli */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		645EBD002D58F9C600AC7BAC /* Nimli */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
+				64EF87572D7DD2DF00C9732A /* Exceptions for "Nimli" folder in "Nimli" target */,
 				64EF85B82D6E099F00C9732A /* Exceptions for "Nimli" folder in "NimliTests" target */,
 				64EF85B92D6E099F00C9732A /* Exceptions for "Nimli" folder in "NimliUITests" target */,
 			);
@@ -480,6 +488,7 @@
 				DEVELOPMENT_TEAM = T7S2NXSZLM;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Nimli/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -511,6 +520,7 @@
 				DEVELOPMENT_TEAM = T7S2NXSZLM;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Nimli/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
