@@ -10,7 +10,7 @@ The reason that developed it is to reduce food waste.
 ### Basic Information
 IDE: Xcode(Ver 16.2)  
 Language: Swift  
-Architecture: Clean Architecture + VIPER  
+Architecture: Clean Architecture  
 Package Manager: SPM(Swift Package Manager)  
 Static Analysis: SwiftLint  
 Design UI/UX: Figma
