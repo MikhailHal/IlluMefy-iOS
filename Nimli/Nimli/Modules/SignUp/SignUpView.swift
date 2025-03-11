@@ -27,9 +27,10 @@ struct SignUpView: View {
                     .foregroundColor(Color.textForeground)
                     .bold()
                     .font(.title)
-                Text("ニムリーへようこそ！\nまずはアカウントを登録しましょう！")
+                Text("Welcome to Nimli!!")
                     .foregroundColor(Color.textForeground)
                     .font(.title3)
+                    .bold()
                     .padding(
                         EdgeInsets(
                             top: Spacing.unrelatedComponentDivider,
@@ -41,7 +42,7 @@ struct SignUpView: View {
                 NimliPlainTextField(
                     text: $viewModel.email,
                     title: "メールアドレス",
-                    placeHolder: "メールアドレス(受信可能なもの)"
+                    placeHolder: "メールアドレス"
                 )
                 .padding(
                     EdgeInsets(
