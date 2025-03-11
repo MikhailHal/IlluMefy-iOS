@@ -44,14 +44,14 @@
 		64EF85B82D6E099F00C9732A /* Exceptions for "Nimli" folder in "NimliTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Resources/Components/TextFields/PenculaPlainTextField.swift,
+				Utilities/Components/TextFields/PenculaPlainTextField.swift,
 			);
 			target = 645EBD0F2D58F9C800AC7BAC /* NimliTests */;
 		};
 		64EF85B92D6E099F00C9732A /* Exceptions for "Nimli" folder in "NimliUITests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Resources/Components/TextFields/PenculaPlainTextField.swift,
+				Utilities/Components/TextFields/PenculaPlainTextField.swift,
 			);
 			target = 645EBD192D58F9C800AC7BAC /* NimliUITests */;
 		};
