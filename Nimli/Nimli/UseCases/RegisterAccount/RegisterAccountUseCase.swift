@@ -5,10 +5,18 @@
 //  Created by Haruto K. on 2025/03/12.
 //
 
+import Foundation
+import FirebaseAuth
+
 class RegisterAccountUseCase: RegisterAccountUseCaseProtocol {
-    typealias Request = (username: String, password: String)
-    typealias Response = (username: String, password: String)
+    typealias Repository = AccountRegistrationRepository
+    typealias Request = RegistrationAccount
+    typealias Response = Bool
     typealias Error = RegisterAccountUseCaseError
+    private let registerAccountRepository: Repository
+    init(repository: Repository) {
+        self.registerAccountRepository = repository
+    }
     func isValidEmail(email: String) -> Bool {
         return email.isValidEmail()
     }
@@ -25,6 +33,22 @@ class RegisterAccountUseCase: RegisterAccountUseCaseProtocol {
         return .success
     }
     func execute(request: Request) async throws -> Response {
-        return ("", "")
+        do {
+            return try await registerAccountRepository.execute(
+                UserRegistrationWithEmailAndPasswordRequest(
+                    email: request.email,
+                    password: request.password
+                )
+            )
+        } catch let error as NSError {
+            switch error.code {
+            case
+                AuthErrorCode.accountExistsWithDifferentCredential.rawValue,
+                AuthErrorCode.emailAlreadyInUse.rawValue:
+                throw RegisterAccountUseCaseError.alreadyRegistered
+            default:
+                throw RegisterAccountUseCaseError.networkError
+            }
+        }
     }
 }

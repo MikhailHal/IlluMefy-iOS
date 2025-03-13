@@ -7,12 +7,7 @@
 import Combine
 import FirebaseAuth
 
-/*
- TODO:
- 1. add error cases
- 2. change to clean architecture
- */
-class SignUpViewModel: ViewModelProtocol, ObservableObject {
+class SignUpViewModel: ViewModelBase, ObservableObject {
     @Published var isLoading: Bool = false
     @Published var errorMessage: String = ""
     @Published var isEnableRegisterButton: Bool = false
@@ -23,6 +18,11 @@ class SignUpViewModel: ViewModelProtocol, ObservableObject {
     @Published var isErrorNumber: Bool = false
     @Published var isErrorLength: Bool = false
     let allowedPasswordMinLength = 6
+    let registrationAccountUseCase: any RegisterAccountUseCaseProtocol
+    init() {
+        let repository = AccountRegistrationRepository()
+        self.registrationAccountUseCase = RegisterAccountUseCase(repository: repository)
+    }
     var isEmailValid: Bool {
         return email.isValidEmail()
     }
@@ -31,12 +31,17 @@ class SignUpViewModel: ViewModelProtocol, ObservableObject {
     }
     func getErrorMessage() -> String {
         return ""
+        // TODO: implement
     }
-    func sendEmailAuthentucationCode() {
-        Auth.auth().createUser(
-            withEmail: "xx@gmail.com",
-            password: "Abcde12345!"
-        )
+    func sendEmailAuthentucationCode() async {
+        let repository = AccountRegistrationRepository()
+        let xxxx  = RegisterAccountUseCase(repository: repository)
+        do {
+            _ = try await xxxx.execute(request: RegistrationAccount(email: email, password: password))
+            return
+        } catch {
+            // TODO: handle errors
+        }
     }
     func onEmailDidChange() {
         updateRegisterButtonAvailability()

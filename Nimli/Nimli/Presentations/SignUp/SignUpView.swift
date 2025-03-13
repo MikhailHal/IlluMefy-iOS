@@ -110,7 +110,11 @@ struct SignUpView: View {
                     eventType: NimliButtonsOption.EventType.positive,
                     text: "アカウントを登録する",
                     isEnabled: viewModel.isEnableRegisterButton,
-                    onClick: { viewModel.sendEmailAuthentucationCode() }
+                    onClick: {
+                        Task {
+                            await viewModel.sendEmailAuthentucationCode()
+                        }
+                    }
                 ).padding(EdgeInsets(
                     top: Spacing.unrelatedComponentDivider,
                     leading: Spacing.none,

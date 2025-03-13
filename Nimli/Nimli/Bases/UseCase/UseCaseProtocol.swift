@@ -9,6 +9,7 @@
 protocol UseCaseProtocol {
     associatedtype Request
     associatedtype Response
+    associatedtype Repository
     associatedtype Error: UseCaseErrorProtocol
     /// To call the method of repository.
     /// Restrict repository method calls to this function only.

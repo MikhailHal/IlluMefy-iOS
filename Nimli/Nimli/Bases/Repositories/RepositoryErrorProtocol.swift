@@ -6,4 +6,7 @@
 //
 
 // All repository errors will be required to inherit this.
-protocol RepositoryErrorProtocol: Error {}
+protocol RepositoryErrorProtocol: Error {
+    var code: Int { get set }
+    var message: String { get set }
+}
