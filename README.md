@@ -18,7 +18,6 @@ Design UI/UX: Figma
 ### Libraries
 #### UI
   ・SwiftUI  
-  ・StoaryBoard
 #### Logic
   ・Firebase Authentication  
   ・Fireabse Cloud Functions  
@@ -26,6 +25,7 @@ Design UI/UX: Figma
   ・Firebase Analytics  
   ・Firebase VertexAI  
   ・Firebase Storage  
+  ・Combine
 
 ## Related URL
 ・[Google Cloud](https://github.com/aoi-stella/Nimli-GoogleCloud)  
