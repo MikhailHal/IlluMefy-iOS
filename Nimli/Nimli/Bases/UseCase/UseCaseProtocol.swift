@@ -9,7 +9,7 @@
 protocol UseCaseProtocol {
     associatedtype Request
     associatedtype Response
-    associatedtype UseCaseError: UseCaseErrorProtocol
+    associatedtype Error: UseCaseErrorProtocol
     /// To call the method of repository.
     /// Restrict repository method calls to this function only.
     ///
@@ -22,5 +22,5 @@ protocol UseCaseProtocol {
     /// If the inherited class has no parameters, this function should be empty and return a successful status.
     ///
     ///  - Returns: Result of validation
-    func checkParameterValidation() -> UseCaseError
+    func checkParameterValidation() -> Error
 }
