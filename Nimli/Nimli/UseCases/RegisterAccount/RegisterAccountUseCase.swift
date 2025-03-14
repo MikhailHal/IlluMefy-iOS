@@ -34,7 +34,7 @@ class RegisterAccountUseCase: RegisterAccountUseCaseProtocol {
     }
     func execute(request: Request) async throws -> Response {
         do {
-            return try await registerAccountRepository.execute(
+            return try await registerAccountRepository.register(
                 UserRegistrationWithEmailAndPasswordRequest(
                     email: request.email,
                     password: request.password
