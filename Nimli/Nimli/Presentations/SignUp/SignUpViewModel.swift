@@ -33,10 +33,13 @@ class SignUpViewModel: SignUpViewModelProtocol {
         // TODO: implement
     }
     func register() async {
-        let repository = AccountRegistrationRepository()
-        let xxxx  = RegisterAccountUseCase(repository: repository)
         do {
-            _ = try await xxxx.execute(request: RegistrationAccount(email: email, password: password))
+            _ = try await registrationAccountUseCase.execute(
+                request: RegistrationAccount(
+                    email: email,
+                    password: password
+                )
+            )
             return
         } catch {
             // TODO: handle errors

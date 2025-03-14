@@ -5,7 +5,7 @@
 //  Created by Haruto K. on 2025/03/12.
 //
 
-protocol RegisterAccountUseCaseProtocol: UseCaseProtocol {
+protocol RegisterAccountUseCaseProtocol: UseCaseWithParametesProtocol where Request == RegistrationAccount {
     func isValidEmail(email: String) -> Bool
     func isValidPassword(password: String) -> Bool
 }

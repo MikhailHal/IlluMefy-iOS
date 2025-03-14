@@ -9,13 +9,11 @@ import Foundation
 import FirebaseAuth
 
 class RegisterAccountUseCase: RegisterAccountUseCaseProtocol {
-    typealias Repository = AccountRegistrationRepository
-    typealias Request = RegistrationAccount
     typealias Response = Bool
     typealias Error = RegisterAccountUseCaseError
-    private let registerAccountRepository: Repository
-    init(repository: Repository) {
-        self.registerAccountRepository = repository
+    private let registerAccountRepository: AccountRegistrationRepository
+    init(registerAccountRepository: AccountRegistrationRepository) {
+        self.registerAccountRepository = registerAccountRepository
     }
     func isValidEmail(email: String) -> Bool {
         return email.isValidEmail()
@@ -32,7 +30,7 @@ class RegisterAccountUseCase: RegisterAccountUseCaseProtocol {
         }
         return .success
     }
-    func execute(request: Request) async throws -> Response {
+    func execute(request: RegistrationAccount) async throws -> Response {
         do {
             return try await registerAccountRepository.register(
                 UserRegistrationWithEmailAndPasswordRequest(

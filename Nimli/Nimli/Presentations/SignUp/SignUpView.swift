@@ -10,7 +10,7 @@ import SwiftUI
 struct SignUpView: View {
     @StateObject private var viewModel = SignUpViewModel(
         registrationAccountUseCase: RegisterAccountUseCase(
-            repository: AccountRegistrationRepository())
+            registerAccountRepository: AccountRegistrationRepository())
         )
     init() {
         let appearance = UINavigationBarAppearance()
