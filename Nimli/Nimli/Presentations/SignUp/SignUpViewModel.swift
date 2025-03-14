@@ -7,7 +7,7 @@
 import Combine
 import FirebaseAuth
 
-class SignUpViewModel: ViewModelBase, ObservableObject {
+class SignUpViewModel: ViewModelProtocol {
     @Published var isLoading: Bool = false
     @Published var errorMessage: String = ""
     @Published var isEnableRegisterButton: Bool = false
