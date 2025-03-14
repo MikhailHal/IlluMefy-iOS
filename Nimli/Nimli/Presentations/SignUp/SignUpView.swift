@@ -8,7 +8,10 @@
 import SwiftUI
 
 struct SignUpView: View {
-    @StateObject private var viewModel = SignUpViewModel()
+    @StateObject private var viewModel = SignUpViewModel(
+        registrationAccountUseCase: RegisterAccountUseCase(
+            repository: AccountRegistrationRepository())
+        )
     init() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
@@ -112,7 +115,7 @@ struct SignUpView: View {
                     isEnabled: viewModel.isEnableRegisterButton,
                     onClick: {
                         Task {
-                            await viewModel.sendEmailAuthentucationCode()
+                            await viewModel.register()
                         }
                     }
                 ).padding(EdgeInsets(

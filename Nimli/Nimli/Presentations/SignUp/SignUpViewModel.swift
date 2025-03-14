@@ -7,7 +7,7 @@
 import Combine
 import FirebaseAuth
 
-class SignUpViewModel: ViewModelProtocol {
+class SignUpViewModel: SignUpViewModelProtocol {
     @Published var isLoading: Bool = false
     @Published var errorMessage: String = ""
     @Published var isEnableRegisterButton: Bool = false
@@ -18,10 +18,9 @@ class SignUpViewModel: ViewModelProtocol {
     @Published var isErrorNumber: Bool = false
     @Published var isErrorLength: Bool = false
     let allowedPasswordMinLength = 6
-    let registrationAccountUseCase: any RegisterAccountUseCaseProtocol
-    init() {
-        let repository = AccountRegistrationRepository()
-        self.registrationAccountUseCase = RegisterAccountUseCase(repository: repository)
+    private let registrationAccountUseCase: any RegisterAccountUseCaseProtocol
+    init(registrationAccountUseCase: any RegisterAccountUseCaseProtocol) {
+        self.registrationAccountUseCase = registrationAccountUseCase
     }
     var isEmailValid: Bool {
         return email.isValidEmail()
@@ -33,7 +32,7 @@ class SignUpViewModel: ViewModelProtocol {
         return ""
         // TODO: implement
     }
-    func sendEmailAuthentucationCode() async {
+    func register() async {
         let repository = AccountRegistrationRepository()
         let xxxx  = RegisterAccountUseCase(repository: repository)
         do {
