@@ -8,6 +8,8 @@ import Combine
 import FirebaseAuth
 
 class SignUpViewModel: SignUpViewModelProtocol {
+    var registrationAccountUseCase: any RegisterAccountUseCaseProtocol
+    
     @Published var isLoading: Bool = false
     @Published var errorMessage: String = ""
     @Published var isEnableRegisterButton: Bool = false
@@ -18,7 +20,6 @@ class SignUpViewModel: SignUpViewModelProtocol {
     @Published var isErrorNumber: Bool = false
     @Published var isErrorLength: Bool = false
     let allowedPasswordMinLength = 6
-    private let registrationAccountUseCase: any RegisterAccountUseCaseProtocol
     init(registrationAccountUseCase: any RegisterAccountUseCaseProtocol) {
         self.registrationAccountUseCase = registrationAccountUseCase
     }

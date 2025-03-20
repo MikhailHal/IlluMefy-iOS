@@ -6,6 +6,7 @@
 //
 
 protocol RegisterAccountUseCaseProtocol: UseCaseWithParametesProtocol where Request == RegistrationAccount {
+    var registerAccountRepository: any AccountRegistrationRepositoryProtocol { get set }
     func isValidEmail(email: String) -> Bool
     func isValidPassword(password: String) -> Bool
 }

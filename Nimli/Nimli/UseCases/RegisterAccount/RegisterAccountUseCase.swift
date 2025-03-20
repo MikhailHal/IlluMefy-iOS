@@ -9,10 +9,10 @@ import Foundation
 import FirebaseAuth
 
 class RegisterAccountUseCase: RegisterAccountUseCaseProtocol {
+    var registerAccountRepository: any AccountRegistrationRepositoryProtocol
     typealias Response = Bool
     typealias Error = RegisterAccountUseCaseError
-    private let registerAccountRepository: AccountRegistrationRepository
-    init(registerAccountRepository: AccountRegistrationRepository) {
+    init(registerAccountRepository: any AccountRegistrationRepositoryProtocol) {
         self.registerAccountRepository = registerAccountRepository
     }
     func isValidEmail(email: String) -> Bool {

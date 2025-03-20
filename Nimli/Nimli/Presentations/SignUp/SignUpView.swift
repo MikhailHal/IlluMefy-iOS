@@ -8,10 +8,7 @@
 import SwiftUI
 
 struct SignUpView: View {
-    @StateObject private var viewModel = SignUpViewModel(
-        registrationAccountUseCase: RegisterAccountUseCase(
-            registerAccountRepository: AccountRegistrationRepository())
-        )
+    @StateObject private var viewModel = DependencyContainer.shared.resolve(SignUpViewModel.self)!
     init() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
