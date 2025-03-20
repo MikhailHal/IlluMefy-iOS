@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		648FF53E2D8C5A4800340F3E /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 648FF53D2D8C5A4800340F3E /* Swinject */; };
 		64EF864C2D7601B900C9732A /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 64EF864B2D7601B900C9732A /* FirebaseAnalytics */; };
 		64EF864E2D7601B900C9732A /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 64EF864D2D7601B900C9732A /* FirebaseAuth */; };
 		64EF86502D7601B900C9732A /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 64EF864F2D7601B900C9732A /* FirebaseCrashlytics */; };
@@ -97,6 +98,7 @@
 				64EF86502D7601B900C9732A /* FirebaseCrashlytics in Frameworks */,
 				64EF86522D7601B900C9732A /* FirebaseFirestore in Frameworks */,
 				64EF86542D7601B900C9732A /* FirebaseFunctions in Frameworks */,
+				648FF53E2D8C5A4800340F3E /* Swinject in Frameworks */,
 				64EF86582D7601B900C9732A /* FirebaseStorage in Frameworks */,
 				64EF864C2D7601B900C9732A /* FirebaseAnalytics in Frameworks */,
 				64EF864E2D7601B900C9732A /* FirebaseAuth in Frameworks */,
@@ -170,6 +172,7 @@
 				64EF86552D7601B900C9732A /* FirebaseMessaging */,
 				64EF86572D7601B900C9732A /* FirebaseStorage */,
 				64EF86592D7601B900C9732A /* FirebaseVertexAI */,
+				648FF53D2D8C5A4800340F3E /* Swinject */,
 			);
 			productName = Pencula;
 			productReference = 645EBCFE2D58F9C600AC7BAC /* Nimli.app */;
@@ -257,6 +260,7 @@
 				64CBBFD52D5BB55600993B1D /* XCRemoteSwiftPackageReference "RxSwift" */,
 				64EF851B2D620AD900C9732A /* XCRemoteSwiftPackageReference "SwiftLint" */,
 				64EF864A2D7601B900C9732A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				648FF53C2D8C5A4800340F3E /* XCRemoteSwiftPackageReference "Swinject" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 645EBCFF2D58F9C600AC7BAC /* Products */;
@@ -651,6 +655,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		648FF53C2D8C5A4800340F3E /* XCRemoteSwiftPackageReference "Swinject" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Swinject/Swinject.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.9.1;
+			};
+		};
 		64CBBFD52D5BB55600993B1D /* XCRemoteSwiftPackageReference "RxSwift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ReactiveX/RxSwift";
@@ -678,6 +690,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		648FF53D2D8C5A4800340F3E /* Swinject */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 648FF53C2D8C5A4800340F3E /* XCRemoteSwiftPackageReference "Swinject" */;
+			productName = Swinject;
+		};
 		64EF85352D620B8400C9732A /* SwiftLintBuildToolPlugin */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 64EF851B2D620AD900C9732A /* XCRemoteSwiftPackageReference "SwiftLint" */;
