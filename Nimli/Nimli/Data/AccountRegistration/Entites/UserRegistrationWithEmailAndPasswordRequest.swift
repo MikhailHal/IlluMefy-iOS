@@ -11,7 +11,6 @@
 struct UserRegistrationWithEmailAndPasswordRequest {
     var email: String
     var password: String
-    
     func makeMe(email: String, password: String) -> UserRegistrationWithEmailAndPasswordRequest {
         return UserRegistrationWithEmailAndPasswordRequest(email: email, password: password)
     }

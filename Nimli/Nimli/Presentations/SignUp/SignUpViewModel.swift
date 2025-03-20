@@ -9,7 +9,6 @@ import FirebaseAuth
 
 class SignUpViewModel: SignUpViewModelProtocol {
     var registrationAccountUseCase: any RegisterAccountUseCaseProtocol
-    
     @Published var isLoading: Bool = false
     @Published var errorMessage: String = ""
     @Published var isEnableRegisterButton: Bool = false

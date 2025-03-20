@@ -73,6 +73,9 @@
 				64EF85B82D6E099F00C9732A /* Exceptions for "Nimli" folder in "NimliTests" target */,
 				64EF85B92D6E099F00C9732A /* Exceptions for "Nimli" folder in "NimliUITests" target */,
 			);
+			explicitFileTypes = {
+				.swiftlint.yml = text.yaml;
+			};
 			path = Nimli;
 			sourceTree = "<group>";
 		};
