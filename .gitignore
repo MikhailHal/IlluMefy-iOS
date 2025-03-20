@@ -44,3 +44,5 @@ fastlane/test_output
 iOSInjectionProject/
 
 !*.xcodeproj/xcshareddata/
+
+GoogleService-Info.plist
