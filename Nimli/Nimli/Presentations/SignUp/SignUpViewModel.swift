@@ -28,10 +28,6 @@ class SignUpViewModel: SignUpViewModelProtocol {
     var isPasswordValid: Bool {
         return !password.isEmpty && !isErrorUpperCase && !isErrorLowerCase && !isErrorNumber && !isErrorLength
     }
-    func getErrorMessage() -> String {
-        return ""
-        // TODO: implement
-    }
     func register() async {
         do {
             _ = try await registrationAccountUseCase.execute(
@@ -40,9 +36,18 @@ class SignUpViewModel: SignUpViewModelProtocol {
                     password: password
                 )
             )
-            return
         } catch {
-            // TODO: handle errors
+            let usecaseError = error as? RegisterAccountUseCaseError
+            switch usecaseError {
+            case .invalidEmail:
+                errorMessage = "Email is invalid"
+            case .invalidPassword:
+                errorMessage = "Password is invalid"
+            case .alreadyRegistered:
+                errorMessage = "Account already registered"
+            default:
+                errorMessage = "Network error"
+            }
         }
     }
     func onEmailDidChange() {
