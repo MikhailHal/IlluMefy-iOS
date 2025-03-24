@@ -108,7 +108,6 @@ struct SignUpView: View {
                             .bold()
                     }
                     NimliButton(
-                        eventType: NimliButtonsOption.EventType.positive,
                         text: "アカウントを登録する",
                         isEnabled: viewModel.isEnableRegisterButton,
                         onClick: {

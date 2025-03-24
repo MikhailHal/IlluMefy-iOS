@@ -11,7 +11,6 @@ import SwiftUI
  This was created for commonalizing button.
  */
 struct NimliButton: View {
-    var eventType: NimliButtonsOption.EventType
     var text: String
     var isEnabled: Bool
     var onClick: () -> Void
@@ -28,8 +27,8 @@ struct NimliButton: View {
                     .foregroundColor(Color.buttonForegroundPositive)
             }
             .frame(maxWidth: .infinity, maxHeight: 60)
-            .background(eventType == NimliButtonsOption.EventType.positive ?
-                        Color.buttonBackgroundPositive : Color.black
+            .background(isEnabled ?
+                        Color.buttonBackgroundPositive : Color.buttonBackgroundNegative
             )
         }
         .disabled(!isEnabled)
@@ -39,9 +38,7 @@ struct NimliButton: View {
 struct NimliButtonPreviews: PreviewProvider {
     static var previews: some View {
         Group {
-            // Empty state preview
             NimliButton(
-                eventType: NimliButtonsOption.EventType.positive,
                 text: "ログインする",
                 isEnabled: true) {
                 print("")
