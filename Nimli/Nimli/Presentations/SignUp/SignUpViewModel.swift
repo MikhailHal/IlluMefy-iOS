@@ -65,19 +65,16 @@ class SignUpViewModel: SignUpViewModelProtocol {
         }
     }
     func onEmailDidChange() {
-        updateRegisterButtonAvailability()
+        isEnableRegisterButton = isEmailValid && isPasswordValid
     }
     func onPasswordDidChange() {
         updatePasswordAvailability(password)
-        updateRegisterButtonAvailability()
+        isEnableRegisterButton = isEmailValid && isPasswordValid
     }
     private func updatePasswordAvailability(_ password: String) {
         isErrorUpperCase = !(password.contains(where: { $0.isUppercase }))
         isErrorLowerCase = !(password.contains(where: { $0.isLowercase }))
         isErrorNumber = !(password.contains(where: { $0.isNumber }))
         isErrorLength = password.count < allowedPasswordMinLength
-    }
-    private func updateRegisterButtonAvailability() {
-        isEnableRegisterButton = isEmailValid && isPasswordValid
     }
 }
