@@ -29,6 +29,9 @@ class SignUpViewModel: SignUpViewModelProtocol {
         return !password.isEmpty && !isErrorUpperCase && !isErrorLowerCase && !isErrorNumber && !isErrorLength
     }
     func register() async {
+        await MainActor.run {
+            isLoading = true
+        }
         do {
             _ = try await registrationAccountUseCase.execute(
                 request: RegistrationAccount(
@@ -48,6 +51,9 @@ class SignUpViewModel: SignUpViewModelProtocol {
             default:
                 errorMessage = "Network error"
             }
+        }
+        await MainActor.run {
+            isLoading = false
         }
     }
     func onEmailDidChange() {
