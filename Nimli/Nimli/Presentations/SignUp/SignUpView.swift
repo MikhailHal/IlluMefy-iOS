@@ -131,6 +131,16 @@ struct SignUpView: View {
                 .ignoresSafeArea(.keyboard, edges: .all)
             }
             NimliLoadingDialog(isLoading: viewModel.isLoading)
+            .alert("アカウント登録失敗", isPresented: $viewModel.isShowErrorDialog) {
+                Button("OK") { viewModel.isShowErrorDialog = false }
+            } message: {
+                Text(viewModel.errorMessage)
+            }
+            .alert("アカウント登録成功", isPresented: $viewModel.isShowNotificationDialog) {
+                Button("OK") { viewModel.isShowNotificationDialog = false }
+            } message: {
+                Text("新規アカウントの仮登録に成功しました。\n次画面にてメールアドレスの認証をしてください。")
+            }
         }
     }
 }
