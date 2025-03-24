@@ -18,6 +18,7 @@ Design UI/UX: Figma
 ### Libraries
 #### UI
   ・SwiftUI  
+  ・SwiftfulLoadingIndicators  
 #### Logic
   ・Firebase Authentication  
   ・Fireabse Cloud Functions  
