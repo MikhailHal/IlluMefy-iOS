@@ -21,17 +21,18 @@ class RegisterAccountUseCase: RegisterAccountUseCaseProtocol {
     func isValidPassword(password: String) -> Bool {
         return true
     }
-    func checkParameterValidation() -> RegisterAccountUseCaseError {
-        if !isValidEmail(email: "") {
-            return .invalidEmail
+    func checkParameterValidation(request: RegistrationAccount) throws -> RegisterAccountUseCaseError {
+        if !isValidEmail(email: request.email) {
+            throw RegisterAccountUseCaseError.invalidEmail
         }
-        if !isValidPassword(password: "") {
-            return .invalidPassword
+        if !isValidPassword(password: request.password) {
+            throw RegisterAccountUseCaseError.invalidPassword
         }
         return .success
     }
     func execute(request: RegistrationAccount) async throws -> Response {
         do {
+            _ = try checkParameterValidation(request: request)
             return try await registerAccountRepository.register(
                 UserRegistrationWithEmailAndPasswordRequest(
                     email: request.email,
@@ -47,6 +48,8 @@ class RegisterAccountUseCase: RegisterAccountUseCaseProtocol {
             default:
                 throw RegisterAccountUseCaseError.networkError
             }
+        } catch let error as RegisterAccountUseCaseError {
+            throw error
         }
     }
 }
