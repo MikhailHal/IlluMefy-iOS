@@ -22,5 +22,5 @@ protocol UseCaseWithParametesProtocol {
     /// If the inherited class has no parameters, this function should be empty and return a successful status.
     ///
     ///  - Returns: Result of validation
-    func checkParameterValidation() -> Error
+    func checkParameterValidation(request: Request) throws -> Error
 }
