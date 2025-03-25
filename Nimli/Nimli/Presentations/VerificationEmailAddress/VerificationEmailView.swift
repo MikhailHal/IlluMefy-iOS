@@ -1,14 +1,14 @@
 //
-//  SignUpView.swift
+//  VerificationEmailView.swift
 //  Nimli
 //
-//  Created by Haruto K. on 2025/02/12.
+//  Created by Haruto K. on 2025/03/25.
 //
 
 import SwiftUI
 
-struct SignUpView: View {
-    @StateObject private var viewModel = DependencyContainer.shared.resolve(SignUpViewModel.self)!
+struct VerificationEmailView: View {
+    @StateObject private var viewModel = DependencyContainer.shared.resolve(VerificationEmailAddressViewModel.self)!
     init() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
@@ -24,11 +24,11 @@ struct SignUpView: View {
         ZStack {
             NavigationView {
                 VStack {
-                    Text("STEP：1 / 3")
+                    Text("STEP：2 / 3")
                         .foregroundColor(Color.textForeground)
                         .bold()
                         .font(.title)
-                    Text("Welcome to Nimli!!")
+                    Text("受信メールを確認しましょう！")
                         .foregroundColor(Color.textForeground)
                         .font(.title3)
                         .bold()
@@ -41,9 +41,9 @@ struct SignUpView: View {
                             )
                         )
                     NimliPlainTextField(
-                        text: $viewModel.email,
-                        title: "メールアドレス",
-                        placeHolder: "メールアドレス"
+                        text: $viewModel.authenticationCode,
+                        title: "認証コード",
+                        placeHolder: "認証コードを入力"
                     )
                     .padding(
                         EdgeInsets(
@@ -53,66 +53,12 @@ struct SignUpView: View {
                             trailing: Spacing.none
                         )
                     )
-                    .onChange(of: viewModel.email) {
-                        viewModel.onEmailDidChange()
-                    }
-                    NimliPlainTextField(
-                        text: $viewModel.password,
-                        title: "パスワード",
-                        placeHolder: "パスワード"
-                    )
-                    .onChange(of: viewModel.password) {
-                        viewModel.onPasswordDidChange()
-                    }
-                    .padding(
-                        EdgeInsets(
-                            top: Spacing.relatedComponentDivider,
-                            leading: Spacing.none,
-                            bottom: Spacing.none,
-                            trailing: Spacing.none
-                        )
-                    )
-                    if viewModel.isErrorUpperCase {
-                        Text("・大文字を入れてください")
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .foregroundColor(Color.textForegroundError)
-                            .font(.body)
-                            .bold()
-                            .padding(
-                                EdgeInsets(
-                                    top: Spacing.componentGrouping,
-                                    leading: Spacing.none,
-                                    bottom: Spacing.none,
-                                    trailing: Spacing.none)
-                            )
-                    }
-                    if viewModel.isErrorLowerCase {
-                        Text("・小文字を入れてください")
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .foregroundColor(Color.textForegroundError)
-                            .font(.body)
-                            .bold()
-                    }
-                    if viewModel.isErrorNumber {
-                        Text("・数字を入れてください")
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .foregroundColor(Color.textForegroundError)
-                            .font(.body)
-                            .bold()
-                    }
-                    if viewModel.isErrorLength {
-                        Text("・6文字以上入力してください")
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .foregroundColor(Color.textForegroundError)
-                            .font(.body)
-                            .bold()
-                    }
                     NimliButton(
-                        text: "アカウントを登録する",
-                        isEnabled: viewModel.isEnableRegisterButton,
+                        text: "認証",
+                        isEnabled: viewModel.isEnableAuthenticationButton,
                         onClick: {
                             Task {
-                                await viewModel.register()
+                                await viewModel.verificationEmailAddress()
                             }
                         }
                     ).padding(EdgeInsets(
@@ -145,5 +91,5 @@ struct SignUpView: View {
 }
 
 #Preview {
-    SignUpView()
+    VerificationEmailView()
 }
