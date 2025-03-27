@@ -10,6 +10,8 @@ import SwiftUI
 
 class NimliAppRouter: ObservableObject {
     @Published var path = NavigationPath()
+    @Published var isShowingLoadingIndicator = false
+    @Published var loadingMessage: String?
     enum Destination: Hashable {
         case signUp
         case emailVerification
@@ -22,5 +24,12 @@ class NimliAppRouter: ObservableObject {
     }
     func navigateToRoot() {
         path = NavigationPath()
+    }
+    func showLoading(message: String? = nil) {
+        loadingMessage = message
+        isShowingLoadingIndicator = true
+    }
+    func hideLoading() {
+        isShowingLoadingIndicator = false
     }
 }

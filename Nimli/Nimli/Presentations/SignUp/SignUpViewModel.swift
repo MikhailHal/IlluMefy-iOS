@@ -9,7 +9,6 @@ import FirebaseAuth
 
 class SignUpViewModel: SignUpViewModelProtocol {
     var registrationAccountUseCase: any RegisterAccountUseCaseProtocol
-    @Published var isLoading: Bool = false
     @Published var isShowErrorDialog: Bool = false
     @Published var isShowNotificationDialog: Bool = false
     @Published var isEnableRegisterButton: Bool = false
@@ -31,9 +30,6 @@ class SignUpViewModel: SignUpViewModelProtocol {
         return !password.isEmpty && !isErrorUpperCase && !isErrorLowerCase && !isErrorNumber && !isErrorLength
     }
     func register() async {
-        await MainActor.run {
-            isLoading = true
-        }
         do {
             _ = try await registrationAccountUseCase.execute(
                 request: RegistrationAccount(
@@ -59,9 +55,6 @@ class SignUpViewModel: SignUpViewModelProtocol {
             await MainActor.run {
                 isShowErrorDialog = true
             }
-        }
-        await MainActor.run {
-            isLoading = false
         }
     }
     func onEmailDidChange() {
