@@ -10,14 +10,8 @@ import SwiftData
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
-
+    @EnvironmentObject var router: NimliAppRouter
     var body: some View {
-        NavigationStack {
-            Spacer()
-        }
+        SignUpView()
     }
-}
-
-#Preview {
-    ContentView()
 }

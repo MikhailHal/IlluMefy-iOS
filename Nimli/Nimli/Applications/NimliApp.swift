@@ -26,9 +26,10 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 @main
 struct NimliApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    @StateObject private var router = NimliAppRouter()
     var body: some Scene {
         WindowGroup {
-            SignUpView()
+            ContentView().environmentObject(router)
         }
     }
 }

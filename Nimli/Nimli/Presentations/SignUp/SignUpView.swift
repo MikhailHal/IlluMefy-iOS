@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SignUpView: View {
     @StateObject private var viewModel = DependencyContainer.shared.resolve(SignUpViewModel.self)!
+    @EnvironmentObject var router: NimliAppRouter
     init() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
@@ -22,7 +23,7 @@ struct SignUpView: View {
     }
     var body: some View {
         ZStack {
-            NavigationView {
+            NavigationStack(path: $router.path) {
                 VStack {
                     Text("STEP：1 / 3")
                         .foregroundColor(Color.textForeground)
@@ -127,6 +128,14 @@ struct SignUpView: View {
                 .background(Color.screenBackground)
                 .navigationTitle("会員登録")
                 .navigationBarTitleDisplayMode(.inline)
+                .navigationDestination(for: NimliAppRouter.Destination.self) { destination in
+                    switch destination {
+                    case .signUp:
+                        SignUpView()
+                    case .emailVerification:
+                        VerificationEmailView()
+                    }
+                }
                 .ignoresSafeArea(.keyboard, edges: .all)
             }
             NimliLoadingDialog(isLoading: viewModel.isLoading)
@@ -136,7 +145,10 @@ struct SignUpView: View {
                 Text(viewModel.errorMessage)
             }
             .alert("アカウント登録成功", isPresented: $viewModel.isShowNotificationDialog) {
-                Button("OK") { viewModel.isShowNotificationDialog = false }
+                Button("OK") {
+                    viewModel.isShowNotificationDialog = false
+                    router.navigate(to: .emailVerification)
+                }
             } message: {
                 Text("新規アカウントの仮登録に成功しました。\n次画面にてメールアドレスの認証をしてください。")
             }
@@ -145,5 +157,5 @@ struct SignUpView: View {
 }
 
 #Preview {
-    SignUpView()
+    SignUpView().environmentObject(NimliAppRouter())
 }
