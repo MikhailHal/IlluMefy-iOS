@@ -9,7 +9,6 @@ import FirebaseAuth
 
 class VerificationEmailAddressViewModel: VerificationEmailAddressViewModelProtocol {
     var verificationEmailAddressUseCase: any VerificationEmailAddressUseCaseProtocol
-    @Published var isLoading: Bool = false
     @Published var isShowErrorDialog: Bool = false
     @Published var isShowNotificationDialog: Bool = false
     @Published var isEnableAuthenticationButton: Bool = false
@@ -19,7 +18,6 @@ class VerificationEmailAddressViewModel: VerificationEmailAddressViewModelProtoc
         self.verificationEmailAddressUseCase = verificationEmailAddressUseCase
     }
     func verificationEmailAddress() async {
-        await MainActor.run { isLoading = true }
         do {
             _ = try await verificationEmailAddressUseCase.execute(request: Auth.auth().currentUser)
         } catch {
@@ -35,7 +33,6 @@ class VerificationEmailAddressViewModel: VerificationEmailAddressViewModelProtoc
                     isShowErrorDialog = true
                 }
             }
-            await MainActor.run { isLoading = false }
             return
         }
     }
