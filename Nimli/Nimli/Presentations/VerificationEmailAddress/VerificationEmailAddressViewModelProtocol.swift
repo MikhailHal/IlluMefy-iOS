@@ -7,5 +7,5 @@
 
 protocol VerificationEmailAddressViewModelProtocol: ViewModelProtocol {
     var verificationEmailAddressUseCase: any VerificationEmailAddressUseCaseProtocol { get set }
-    func verificationEmailAddress() async
+    func sendVerificationEmailLink() async -> (title: String, message: String)
 }

@@ -9,31 +9,30 @@ import FirebaseAuth
 
 class VerificationEmailAddressViewModel: VerificationEmailAddressViewModelProtocol {
     var verificationEmailAddressUseCase: any VerificationEmailAddressUseCaseProtocol
-    @Published var isShowErrorDialog: Bool = false
-    @Published var isShowNotificationDialog: Bool = false
-    @Published var isEnableAuthenticationButton: Bool = false
-    @Published var authenticationCode: String = ""
+    @Published var isShowDialog: Bool = false
+    @Published var dialogTitle: String = ""
+    @Published var dialogMessage: String = ""
     internal var errorMessage: String = ""
     init(verificationEmailAddressUseCase: any VerificationEmailAddressUseCaseProtocol) {
         self.verificationEmailAddressUseCase = verificationEmailAddressUseCase
     }
-    func verificationEmailAddress() async {
+    ///
+    /// send link to specific email-address for authenticating it
+    ///
+    func sendVerificationEmailLink() async -> (title: String, message: String) {
         do {
             _ = try await verificationEmailAddressUseCase.execute(request: Auth.auth().currentUser)
+            return ("メール送信完了", "認証リンクを送信しました。\nメール内のリンクをタップしてください。")
         } catch {
             let usecaseError = error as? VerificationEmailAddressUseCaseError
             switch usecaseError {
             case .unknownUser:
-                errorMessage = "再度アカウントを作り直してください。"
+                return ("メール送信失敗", "再度アカウントを作り直してください。")
             case .sendError:
-                errorMessage = "メールの送信に失敗しました。"
+                return ("メール送信失敗", "メールの送信に失敗しました。")
             default:
-                errorMessage = "ネットワークエラーが発生しました。"
-                await MainActor.run {
-                    isShowErrorDialog = true
-                }
+                return ("メール送信失敗", "ネットワークエラーが発生しました。")
             }
-            return
         }
     }
 }

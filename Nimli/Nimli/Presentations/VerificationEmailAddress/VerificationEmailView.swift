@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@MainActor
 struct VerificationEmailView: View {
     @StateObject private var viewModel = DependencyContainer.shared.resolve(VerificationEmailAddressViewModel.self)!
     @EnvironmentObject var router: NimliAppRouter
@@ -28,46 +29,11 @@ struct VerificationEmailView: View {
                     .foregroundColor(Color.textForeground)
                     .bold()
                     .font(.title)
-                Text("受信メールを確認しましょう！")
+                Spacer()
+                Text("メール内のリンクを押下してアプリを開いてください。")
                     .foregroundColor(Color.textForeground)
-                    .font(.title3)
+                    .font(.title2)
                     .bold()
-                    .padding(
-                        EdgeInsets(
-                            top: Spacing.unrelatedComponentDivider,
-                            leading: Spacing.none,
-                            bottom: Spacing.none,
-                            trailing: Spacing.none
-                        )
-                    )
-                NimliPlainTextField(
-                    text: $viewModel.authenticationCode,
-                    title: "認証コード",
-                    placeHolder: "認証コードを入力"
-                )
-                .padding(
-                    EdgeInsets(
-                        top: Spacing.unrelatedComponentDivider,
-                        leading: Spacing.none,
-                        bottom: Spacing.none,
-                        trailing: Spacing.none
-                    )
-                )
-                NimliButton(
-                    text: "認証",
-                    isEnabled: viewModel.isEnableAuthenticationButton,
-                    onClick: {
-                        Task {
-                            router.showLoading()
-                            await viewModel.verificationEmailAddress()
-                            router.hideLoading()
-                        }
-                    }
-                ).padding(EdgeInsets(
-                    top: Spacing.unrelatedComponentDivider,
-                    leading: Spacing.none,
-                    bottom: Spacing.none,
-                    trailing: Spacing.none))
                 Spacer()
             }
             .padding(Spacing.screenEdgePadding)
@@ -76,15 +42,24 @@ struct VerificationEmailView: View {
             .navigationTitle("会員登録")
             .navigationBarTitleDisplayMode(.inline)
             .ignoresSafeArea(.keyboard, edges: .all)
-            .alert("アカウント登録失敗", isPresented: $viewModel.isShowErrorDialog) {
-                Button("OK") { viewModel.isShowErrorDialog = false }
-            } message: {
-                Text(viewModel.errorMessage)
+            .onAppear {
+                Task {
+                    router.showLoading()
+                    if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] != "1" {
+                        let result = await viewModel.sendVerificationEmailLink()
+                        await MainActor.run {
+                            viewModel.dialogTitle = result.title
+                            viewModel.dialogMessage = result.message
+                            viewModel.isShowDialog = true
+                        }
+                    }
+                    router.hideLoading()
+                }
             }
-            .alert("アカウント登録成功", isPresented: $viewModel.isShowNotificationDialog) {
-                Button("OK") { viewModel.isShowNotificationDialog = false }
+            .alert(viewModel.dialogTitle, isPresented: $viewModel.isShowDialog) {
+                Button("OK") { viewModel.isShowDialog = false }
             } message: {
-                Text("新規アカウントの仮登録に成功しました。\n次画面にてメールアドレスの認証をしてください。")
+                Text(viewModel.dialogMessage)
             }
         }
     }

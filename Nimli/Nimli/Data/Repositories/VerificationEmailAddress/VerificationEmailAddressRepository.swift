@@ -9,12 +9,10 @@ import FirebaseAuth
 
 class VerificationEmailAddressRepository: VerificationEmailAddressRepositoryProtocol {
     func sendVerificationMail(_ user: FirebaseAuth.User) async -> Bool {
-        var result: Bool = false
+        var result: Bool = true
         user.sendEmailVerification { error in
             if error != nil {
                 result = false
-            } else {
-                result = true
             }
         }
         return result
