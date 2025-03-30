@@ -18,6 +18,9 @@ class SignUpViewModel: SignUpViewModelProtocol {
     @Published var isErrorLowerCase: Bool = false
     @Published var isErrorNumber: Bool = false
     @Published var isErrorLength: Bool = false
+    @Published var isShowTermsOfServiceBottomSheet: Bool = false
+    @Published var isShowPrivacyPolicyBottomSheet: Bool = false
+    @Published var isAgreedTermsOfService: Bool = false
     internal var errorMessage: String = ""
     let allowedPasswordMinLength = 6
     init(registrationAccountUseCase: any RegisterAccountUseCaseProtocol) {
