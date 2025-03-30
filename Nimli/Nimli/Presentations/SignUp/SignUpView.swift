@@ -163,12 +163,12 @@ struct SignUpView: View {
             }
             .sheet(isPresented: $viewModel.isShowTermsOfServiceBottomSheet) {
                 TermsOfServiceBottomSheetContent()
-                    .presentationDetents([.large])
+                    .presentationDetents([.medium, .large])
                     .presentationDragIndicator(.visible)
             }
             .sheet(isPresented: $viewModel.isShowPrivacyPolicyBottomSheet) {
                 PrivacyPolicyBottomSheetContent()
-                    .presentationDetents([.large])
+                    .presentationDetents([.medium, .large])
                     .presentationDragIndicator(.visible)
             }
         }
@@ -257,32 +257,36 @@ struct PrivacyPolicyBottomSheetContent: View {
     @Environment(\.openURL) var openURL
     var body: some View {
         VStack(spacing: 20) {
-            Text("Nimli プライバシーポリシー")
-                .font(.headline)
-            Text("1. 収集する情報")
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .bold()
-                .font(.title2)
-            Text("Nimliは食材管理とグループ共有のために必要な最小限の情報のみを収集します。これには、アカウント情報（メールアドレスやパスワード）、登録された食材情報、および共有グループ情報が含まれます。")
-                .multilineTextAlignment(.leading)
-                .bold()
-                .font(.body)
-            Text("2. 情報の利用方法")
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .bold()
-                .font(.title2)
-            Text("収集した情報は、アプリの基本機能の提供、サービス改善、および技術的な問題の解決のみに使用されます。")
-                .multilineTextAlignment(.leading)
-                .bold()
-                .font(.body)
-            Text("3. 情報の共有")
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .bold()
-                .font(.title2)
-            Text("ユーザーが明示的に許可した場合を除き、個人情報を第三者と共有することはありません。食材情報はユーザーが指定したグループメンバーとのみ共有されます。")
-                .multilineTextAlignment(.leading)
-                .bold()
-                .font(.body)
+            ScrollView {
+                VStack(spacing: 20) {
+                    Text("Nimli プライバシーポリシー")
+                        .font(.headline)
+                    Text("1. 収集する情報")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .bold()
+                        .font(.title2)
+                    Text("当アプリは食材管理とグループ共有のために必要な情報のみを収集します。これには、アカウント情報（メールアドレスやパスワード）、登録された食材情報、および共有グループ情報が含まれます。")
+                        .multilineTextAlignment(.leading)
+                        .bold()
+                        .font(.body)
+                    Text("2. 情報の利用方法")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .bold()
+                        .font(.title2)
+                    Text("収集した情報は、アプリの基本機能の提供、サービス改善、および技術的な問題の解決のみに使用されます。")
+                        .multilineTextAlignment(.leading)
+                        .bold()
+                        .font(.body)
+                    Text("3. 情報の共有")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .bold()
+                        .font(.title2)
+                    Text("ユーザーが明示的に許可した場合を除き、個人情報を第三者と共有することはありません。食材情報はユーザーが指定したグループメンバーとのみ共有されます。")
+                        .multilineTextAlignment(.leading)
+                        .bold()
+                        .font(.body)
+                }
+            }
             NimliButton(
                 text: "プライバシーポリシーの詳細を確認する",
                 isEnabled: true,
