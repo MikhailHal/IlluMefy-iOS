@@ -14,10 +14,10 @@ class SignUpViewModel: SignUpViewModelProtocol {
     @Published var isEnableRegisterButton: Bool = false
     @Published var email: String = ""
     @Published var password: String = ""
-    @Published var isErrorUpperCase: Bool = false
-    @Published var isErrorLowerCase: Bool = false
-    @Published var isErrorNumber: Bool = false
-    @Published var isErrorLength: Bool = false
+    @Published var isErrorUpperCase: Bool = true
+    @Published var isErrorLowerCase: Bool = true
+    @Published var isErrorNumber: Bool = true
+    @Published var isErrorLength: Bool = true
     @Published var isShowTermsOfServiceBottomSheet: Bool = false
     @Published var isShowPrivacyPolicyBottomSheet: Bool = false
     @Published var isAgreedTermsOfService: Bool = false

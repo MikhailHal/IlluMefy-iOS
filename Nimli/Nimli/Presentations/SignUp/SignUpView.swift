@@ -79,6 +79,7 @@ struct SignUpFormView: View {
                         .font(.headline)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.bottom, 5)
+                        .foregroundColor(.textForeground)
                     
                     // Input fields
                     InputFieldsView(viewModel: viewModel)
@@ -89,22 +90,18 @@ struct SignUpFormView: View {
                 .padding(20)
                 .background(
                     RoundedRectangle(cornerRadius: 16)
-                        .fill(Color.white)
+                        .fill(Color.cardFillColorNormal)
                         .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 2)
                 )
-                
-                // Register button
-                RegisterButtonView(viewModel: viewModel, router: router)
-                    .padding(.top, 10)
                 
                 // Terms and policy card
                 VStack(spacing: 10) {
                     HStack {
                         Image(systemName: "doc.text")
-                            .foregroundColor(.blue)
+                            .foregroundColor(Color.imageForegroundPositive)
                         Text("利用規約とプライバシー")
                             .font(.headline)
-                            .foregroundColor(Color.primary)
+                            .foregroundColor(Color.textForeground)
                         Spacer()
                     }
                     
@@ -113,9 +110,13 @@ struct SignUpFormView: View {
                 .padding(20)
                 .background(
                     RoundedRectangle(cornerRadius: 16)
-                        .fill(Color.white)
+                        .fill(Color.cardFillColorNormal)
                         .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 2)
                 )
+                
+                // Register button
+                RegisterButtonView(viewModel: viewModel, router: router)
+                    .padding(.top, 10)
                 
                 // Login option
                 LoginOptionView(router: router)
@@ -205,13 +206,11 @@ struct PasswordValidationView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            if viewModel.password.count > 0 {
-                Text("パスワード要件:")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.top, 5)
-            }
+            Text("パスワード要件:")
+                .font(.caption)
+                .foregroundColor(.textForeground)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.top, 5)
             
             Group {
                 ValidationRow(
@@ -283,11 +282,11 @@ struct RegisterButtonView: View {
                 .background(
                     viewModel.isEnableRegisterButton ?
                         LinearGradient(
-                            gradient: Gradient(colors: [Color.blue, Color.blue.opacity(0.8)]),
+                            gradient: Gradient(colors: [.buttonBackgroundPositive, .buttonBackgroundPositive.opacity(0.8)]),
                             startPoint: .leading,
                             endPoint: .trailing) :
                         LinearGradient(
-                            gradient: Gradient(colors: [Color.gray, Color.gray.opacity(0.8)]),
+                            gradient: Gradient(colors: [.buttonBackgroundNegative, .buttonBackgroundNegative.opacity(0.8)]),
                             startPoint: .leading,
                             endPoint: .trailing)
                 )
@@ -313,7 +312,7 @@ struct TermsAndPolicyView: View {
         HStack {
             RoundedRectangle(cornerRadius: 2)
                 .frame(width: 4, height: 40)
-                .foregroundColor(.blue)
+                .foregroundColor(.viewForegroundPositive)
                 .padding(.trailing, 8)
             
             Text("アカウントを作成することで、[利用規約](termsOfService)および[プライバシーポリシー](privacyPolicy)に同意し、ニムリーを使用することに同意したものとみなします。")
@@ -332,6 +331,9 @@ struct TermsAndPolicyView: View {
                     return .handled
                 })
         }
+        .padding(20)
+        .background(Color.cardFillColorNormal)
+        .cornerRadius(10)
     }
 }
 
