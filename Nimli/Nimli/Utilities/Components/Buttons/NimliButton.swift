@@ -21,17 +21,23 @@ struct NimliButton: View {
         Button(action: onClick) {
             HStack {
                 if let icon = leadingIcon {
-                    icon
+                    icon.foregroundColor(.imageForegroundOnButton)
                 }
                 Text(text)
                     .foregroundColor(Color.buttonForegroundPositive)
             }
-            .frame(maxWidth: .infinity, maxHeight: 60)
+            .frame(maxWidth: .infinity, minHeight: 60)
             .background(isEnabled ?
                         Color.buttonBackgroundPositive : Color.buttonBackgroundNegative
             )
         }
         .disabled(!isEnabled)
+        .cornerRadius(10)
+        .shadow(
+            color: isEnabled ? .buttonBackgroundPositive.opacity(0.3) : Color.clear,
+            radius: 5, x: 0, y: 2
+        )
+        .padding(.top, 10)
     }
 }
 

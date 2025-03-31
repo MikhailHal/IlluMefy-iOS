@@ -115,8 +115,20 @@ struct SignUpFormView: View {
                 )
                 
                 // Register button
-                RegisterButtonView(viewModel: viewModel, router: router)
-                    .padding(.top, 10)
+                NimliButton(
+                    text: "アカウントを登録する",
+                    isEnabled: viewModel.isEnableRegisterButton,
+                    onClick: {
+                        Task {
+                            router.showLoading()
+                            await viewModel.register()
+                            router.hideLoading()
+                        }
+                    },
+                    leadingIcon: AnyView(
+                        Image(systemName: "person.crop.circle.badge.plus")
+                    )
+                )
                 
                 // Login option
                 LoginOptionView(router: router)
@@ -256,51 +268,6 @@ struct ValidationRow: View {
             
             Spacer()
         }
-    }
-}
-
-// Register button
-struct RegisterButtonView: View {
-    @ObservedObject var viewModel: SignUpViewModel
-    var router: NimliAppRouter
-
-    var body: some View {
-        Button(
-            action: {
-                Task {
-                    router.showLoading()
-                    await viewModel.register()
-                    router.hideLoading()
-                }
-            },
-            label: {
-                HStack {
-                    Image(systemName: "person.crop.circle.badge.plus")
-                    Text("アカウントを登録する")
-                        .fontWeight(.semibold)
-                }
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(
-                    viewModel.isEnableRegisterButton ?
-                        LinearGradient(
-                            gradient: Gradient(colors: [.buttonBackgroundPositive, .buttonBackgroundPositive.opacity(0.8)]),
-                            startPoint: .leading,
-                            endPoint: .trailing) :
-                        LinearGradient(
-                            gradient: Gradient(colors: [.buttonBackgroundNegative, .buttonBackgroundNegative.opacity(0.8)]),
-                            startPoint: .leading,
-                            endPoint: .trailing)
-                )
-                .foregroundColor(.white)
-                .cornerRadius(10)
-                .shadow(
-                    color: viewModel.isEnableRegisterButton ? Color.blue.opacity(0.3) : Color.clear,
-                    radius: 5, x: 0, y: 2
-                )
-            }
-        )
-        .disabled(!viewModel.isEnableRegisterButton)
     }
 }
 
