@@ -10,7 +10,12 @@ import SwiftUI
 struct SignUpView: View {
     @StateObject private var viewModel = DependencyContainer.shared.resolve(SignUpViewModel.self)!
     @EnvironmentObject var router: NimliAppRouter
+
     init() {
+        configureNavigationBarAppearance()
+    }
+
+    private func configureNavigationBarAppearance() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = UIColor.screenBackground
@@ -21,160 +26,328 @@ struct SignUpView: View {
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
     }
+
     var body: some View {
         ZStack {
-            VStack {
-                Text("Welcome to Nimli!!")
-                    .foregroundColor(Color.textForeground)
-                    .font(.title3)
-                    .bold()
-                    .padding(
-                        EdgeInsets(
-                            top: Spacing.unrelatedComponentDivider,
-                            leading: Spacing.none,
-                            bottom: Spacing.none,
-                            trailing: Spacing.none
-                        )
-                    )
-                NimliPlainTextField(
-                    text: $viewModel.email,
-                    title: "メールアドレス",
-                    placeHolder: "メールアドレス"
-                )
-                .padding(
-                    EdgeInsets(
-                        top: Spacing.unrelatedComponentDivider,
-                        leading: Spacing.none,
-                        bottom: Spacing.none,
-                        trailing: Spacing.none
-                    )
-                )
-                .onChange(of: viewModel.email) {
-                    viewModel.onEmailDidChange()
-                }
-                NimliPlainTextField(
-                    text: $viewModel.password,
-                    title: "パスワード",
-                    placeHolder: "パスワード"
-                )
-                .onChange(of: viewModel.password) {
-                    viewModel.onPasswordDidChange()
-                }
-                .padding(
-                    EdgeInsets(
-                        top: Spacing.relatedComponentDivider,
-                        leading: Spacing.none,
-                        bottom: Spacing.none,
-                        trailing: Spacing.none
-                    )
-                )
-                if viewModel.isErrorUpperCase {
-                    Text("・大文字を入れてください")
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .foregroundColor(Color.textForegroundError)
-                        .font(.body)
-                        .bold()
-                        .padding(
-                            EdgeInsets(
-                                top: Spacing.componentGrouping,
-                                leading: Spacing.none,
-                                bottom: Spacing.none,
-                                trailing: Spacing.none)
-                        )
-                }
-                if viewModel.isErrorLowerCase {
-                    Text("・小文字を入れてください")
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .foregroundColor(Color.textForegroundError)
-                        .font(.body)
-                        .bold()
-                }
-                if viewModel.isErrorNumber {
-                    Text("・数字を入れてください")
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .foregroundColor(Color.textForegroundError)
-                        .font(.body)
-                        .bold()
-                }
-                if viewModel.isErrorLength {
-                    Text("・6文字以上入力してください")
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .foregroundColor(Color.textForegroundError)
-                        .font(.body)
-                        .bold()
-                }
-                NimliButton(
-                    text: "アカウントを登録する",
-                    isEnabled: viewModel.isEnableRegisterButton,
-                    onClick: {
-                        Task {
-                            router.showLoading()
-                            await viewModel.register()
-                            router.hideLoading()
-                        }
-                    }
-                ).padding(EdgeInsets(
-                    top: Spacing.unrelatedComponentDivider,
-                    leading: Spacing.none,
-                    bottom: Spacing.none,
-                    trailing: Spacing.none))
-                Text("アカウントを作成することで、[利用規約](termsOfService)および[プライバシーポリシー](privacyPolicy)に同意し、ニムリーを使用することに同意したものとみなします。")
-                    .foregroundColor(Color.textForeground)
-                    .bold()
-                    .padding(
-                        EdgeInsets(
-                            top: Spacing.unrelatedComponentDivider,
-                            leading: Spacing.none,
-                            bottom: Spacing.none,
-                            trailing: Spacing.none
-                        )
-                    )
-                    .environment(\.openURL, OpenURLAction { specifiedParam in
-                        switch specifiedParam.description {
-                        case "termsOfService":
-                            viewModel.isShowTermsOfServiceBottomSheet = true
-                        case "privacyPolicy":
-                            viewModel.isShowPrivacyPolicyBottomSheet = true
-                        default:
-                            Void()
-                        }
-                        return .handled
-                    })
-                Spacer()
+            SignUpFormView(viewModel: viewModel, router: router)
+                .padding(Spacing.screenEdgePadding)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color.screenBackground)
+                .navigationTitle("会員登録")
+                .navigationBarTitleDisplayMode(.inline)
+                .ignoresSafeArea(.keyboard, edges: .all)
+        }
+        .alert("アカウント登録失敗", isPresented: $viewModel.isShowErrorDialog) {
+            Button("OK") { viewModel.isShowErrorDialog = false }
+        } message: {
+            Text(viewModel.errorMessage)
+        }
+        .alert("アカウント登録成功", isPresented: $viewModel.isShowNotificationDialog) {
+            Button("OK") {
+                viewModel.isShowNotificationDialog = false
+                router.navigate(to: .emailVerification)
             }
-            .padding(Spacing.screenEdgePadding)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color.screenBackground)
-            .navigationTitle("会員登録")
-            .navigationBarTitleDisplayMode(.inline)
-            .ignoresSafeArea(.keyboard, edges: .all)
-            .alert("アカウント登録失敗", isPresented: $viewModel.isShowErrorDialog) {
-                Button("OK") { viewModel.isShowErrorDialog = false }
-            } message: {
-                Text(viewModel.errorMessage)
-            }
-            .alert("アカウント登録成功", isPresented: $viewModel.isShowNotificationDialog) {
-                Button("OK") {
-                    viewModel.isShowNotificationDialog = false
-                    router.navigate(to: .emailVerification)
-                }
-            } message: {
-                Text("新規アカウントの仮登録に成功しました。\n次画面にてメールアドレスの認証をしてください。")
-            }
-            .sheet(isPresented: $viewModel.isShowTermsOfServiceBottomSheet) {
-                TermsOfServiceBottomSheetContent()
-                    .presentationDetents([.medium, .large])
-                    .presentationDragIndicator(.visible)
-            }
-            .sheet(isPresented: $viewModel.isShowPrivacyPolicyBottomSheet) {
-                PrivacyPolicyBottomSheetContent()
-                    .presentationDetents([.medium, .large])
-                    .presentationDragIndicator(.visible)
-            }
+        } message: {
+            Text("新規アカウントの仮登録に成功しました。\n次画面にてメールアドレスの認証をしてください。")
+        }
+        .sheet(isPresented: $viewModel.isShowTermsOfServiceBottomSheet) {
+            TermsOfServiceBottomSheetContent()
+                .presentationDetents([.medium, .large])
+                .presentationDragIndicator(.visible)
+        }
+        .sheet(isPresented: $viewModel.isShowPrivacyPolicyBottomSheet) {
+            PrivacyPolicyBottomSheetContent()
+                .presentationDetents([.medium, .large])
+                .presentationDragIndicator(.visible)
         }
     }
 }
 
+// Main form content view
+struct SignUpFormView: View {
+    @ObservedObject var viewModel: SignUpViewModel
+    var router: NimliAppRouter
+
+    var body: some View {
+        ScrollView {
+            VStack(spacing: 20) {
+                // Logo
+                LogoHeaderView()
+                    .padding(.bottom, 10)
+                
+                // Card for input fields
+                VStack(spacing: 16) {
+                    Text("アカウント情報")
+                        .font(.headline)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.bottom, 5)
+                    
+                    // Input fields
+                    InputFieldsView(viewModel: viewModel)
+                    
+                    // Password validation messages
+                    PasswordValidationView(viewModel: viewModel)
+                }
+                .padding(20)
+                .background(
+                    RoundedRectangle(cornerRadius: 16)
+                        .fill(Color.white)
+                        .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 2)
+                )
+                
+                // Register button
+                RegisterButtonView(viewModel: viewModel, router: router)
+                    .padding(.top, 10)
+                
+                // Terms and policy card
+                VStack(spacing: 10) {
+                    HStack {
+                        Image(systemName: "doc.text")
+                            .foregroundColor(.blue)
+                        Text("利用規約とプライバシー")
+                            .font(.headline)
+                            .foregroundColor(Color.primary)
+                        Spacer()
+                    }
+                    
+                    TermsAndPolicyView(viewModel: viewModel)
+                }
+                .padding(20)
+                .background(
+                    RoundedRectangle(cornerRadius: 16)
+                        .fill(Color.white)
+                        .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 2)
+                )
+                
+                // Login option
+                LoginOptionView(router: router)
+                    .padding(.top, 10)
+                
+                Spacer()
+            }
+            .padding(.vertical, 20)
+        }
+    }
+}
+
+// Logo and welcome header
+struct LogoHeaderView: View {
+    var body: some View {
+        VStack {
+            // Only include the Image if you have this asset
+            if let _ = UIImage(named: "nimli-logo") {
+                Image("nimli-logo")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 80, height: 80)
+                    .padding(.bottom, 10)
+            } else {
+                // Fallback icon if logo is not available
+                Image(systemName: "apps.iphone")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 60, height: 60)
+                    .foregroundColor(.blue)
+                    .padding(.bottom, 10)
+            }
+
+            Text("Welcome to Nimli!!")
+                .foregroundColor(Color.textForeground)
+                .font(.title2)
+                .bold()
+                .padding(.bottom, 5)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 20)
+    }
+}
+
+// Input fields section
+struct InputFieldsView: View {
+    @ObservedObject var viewModel: SignUpViewModel
+
+    var body: some View {
+        VStack {
+            // Email field
+            NimliPlainTextField(
+                text: $viewModel.email,
+                title: "メールアドレス",
+                placeHolder: "メールアドレス"
+            )
+            .frame(height: 50)
+            .onChange(of: viewModel.email) {
+                viewModel.onEmailDidChange()
+            }
+
+            // Password field
+            NimliPlainTextField(
+                text: $viewModel.password,
+                title: "パスワード",
+                placeHolder: "パスワード"
+            )
+            .frame(height: 50)  // 明示的な高さを指定
+            .onChange(of: viewModel.password) {
+                viewModel.onPasswordDidChange()
+            }
+            .padding(
+                EdgeInsets(
+                    top: Spacing.relatedComponentDivider,
+                    leading: Spacing.none,
+                    bottom: Spacing.none,
+                    trailing: Spacing.none
+                )
+            )
+        }
+    }
+}
+
+// Password validation messages
+struct PasswordValidationView: View {
+    @ObservedObject var viewModel: SignUpViewModel
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            if viewModel.password.count > 0 {
+                Text("パスワード要件:")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.top, 5)
+            }
+            
+            Group {
+                ValidationRow(
+                    isValid: !viewModel.isErrorUpperCase,
+                    text: "大文字を含む"
+                )
+                
+                ValidationRow(
+                    isValid: !viewModel.isErrorLowerCase,
+                    text: "小文字を含む"
+                )
+                
+                ValidationRow(
+                    isValid: !viewModel.isErrorNumber,
+                    text: "数字を含む"
+                )
+                
+                ValidationRow(
+                    isValid: !viewModel.isErrorLength,
+                    text: "6文字以上"
+                )
+            }
+        }
+        .padding(.top, 5)
+    }
+}
+
+struct ValidationRow: View {
+    var isValid: Bool
+    var text: String
+    
+    var body: some View {
+        HStack(spacing: 8) {
+            Image(systemName: isValid ? "checkmark.circle.fill" : "circle")
+                .foregroundColor(isValid ? .green : .gray)
+                .font(.system(size: 14))
+            
+            Text(text)
+                .font(.caption)
+                .foregroundColor(isValid ? .green : .gray)
+            
+            Spacer()
+        }
+    }
+}
+
+// Register button
+struct RegisterButtonView: View {
+    @ObservedObject var viewModel: SignUpViewModel
+    var router: NimliAppRouter
+
+    var body: some View {
+        Button(action: {
+            Task {
+                router.showLoading()
+                await viewModel.register()
+                router.hideLoading()
+            }
+        }) {
+            HStack {
+                Image(systemName: "person.crop.circle.badge.plus")
+                Text("アカウントを登録する")
+                    .fontWeight(.semibold)
+            }
+            .frame(maxWidth: .infinity)
+            .padding()
+            .background(
+                viewModel.isEnableRegisterButton ?
+                    LinearGradient(gradient: Gradient(colors: [Color.blue, Color.blue.opacity(0.8)]), startPoint: .leading, endPoint: .trailing) :
+                    LinearGradient(gradient: Gradient(colors: [Color.gray, Color.gray.opacity(0.8)]), startPoint: .leading, endPoint: .trailing)
+            )
+            .foregroundColor(.white)
+            .cornerRadius(10)
+            .shadow(color: viewModel.isEnableRegisterButton ? Color.blue.opacity(0.3) : Color.clear, radius: 5, x: 0, y: 2)
+        }
+        .disabled(!viewModel.isEnableRegisterButton)
+    }
+}
+
+// Terms and privacy policy text
+struct TermsAndPolicyView: View {
+    @ObservedObject var viewModel: SignUpViewModel
+
+    var body: some View {
+        HStack {
+            RoundedRectangle(cornerRadius: 2)
+                .frame(width: 4, height: 40)
+                .foregroundColor(.blue)
+                .padding(.trailing, 8)
+            
+            Text("アカウントを作成することで、[利用規約](termsOfService)および[プライバシーポリシー](privacyPolicy)に同意し、ニムリーを使用することに同意したものとみなします。")
+                .foregroundColor(Color.textForeground)
+                .font(.caption)
+                .lineSpacing(4)
+                .environment(\.openURL, OpenURLAction { specifiedParam in
+                    switch specifiedParam.description {
+                    case "termsOfService":
+                        viewModel.isShowTermsOfServiceBottomSheet = true
+                    case "privacyPolicy":
+                        viewModel.isShowPrivacyPolicyBottomSheet = true
+                    default:
+                        Void()
+                    }
+                    return .handled
+                })
+        }
+    }
+}
+
+// Login option view
+struct LoginOptionView: View {
+    var router: NimliAppRouter
+
+    var body: some View {
+        HStack(spacing: 4) {
+            Text("すでにアカウントをお持ちですか？")
+                .foregroundColor(Color.textForeground.opacity(0.8))
+                .font(.caption)
+
+            Button("ログイン") {
+                // Navigate to login screen
+                // Uncomment if you have this route:
+                // router.navigate(to: .login)
+            }
+            .foregroundColor(Color.blue)
+            .font(.caption.bold())
+        }
+        .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 8)
+                .stroke(Color.gray.opacity(0.2), lineWidth: 1)
+        )
+    }
+}
 struct TermsOfServiceBottomSheetContent: View {
     @Environment(\.openURL) var openURL
     var body: some View {
