@@ -14,16 +14,19 @@ import SwiftUI
 struct NimliPlainTextField: View {
     let title: String
     let placeHolder: String
+    let placeHolderColor: Color
     @Binding var text: String
     @FocusState var isTyping: Bool
     init(
         text: Binding<String>,
         title: String,
         placeHolder: String,
+        placeHolderColor: Color = .screenBackground,
         onTextChange: ((String) -> Void)? = nil) {
             self._text = text
             self.title = title
             self.placeHolder = placeHolder
+            self.placeHolderColor = placeHolderColor
     }
     var body: some View {
         ZStack(alignment: .leading) {
@@ -34,7 +37,7 @@ struct NimliPlainTextField: View {
                 .background(isTyping ? .main : Color.textBorderNoneFocused,
                             in: RoundedRectangle(cornerRadius: 12).stroke(style: StrokeStyle(lineWidth: 2)))
             Text(isTyping || !text.isEmpty ? title : placeHolder).padding(.horizontal, 10)
-                .background(.screenBackground.opacity(isTyping || !text.isEmpty ? 1 : 0))
+                .background(placeHolderColor.opacity(isTyping || !text.isEmpty ? 1 : 0))
                 .foregroundStyle(isTyping ? .main : Color.textForeground)
                 .padding(.leading).offset(y: isTyping || !text.isEmpty ? -27 : 0)
                 .onTapGesture { isTyping.toggle() }

@@ -171,7 +171,8 @@ struct InputFieldsView: View {
             NimliPlainTextField(
                 text: $viewModel.email,
                 title: "メールアドレス",
-                placeHolder: "メールアドレス"
+                placeHolder: "メールアドレス",
+                placeHolderColor: .cardFillColorNormal
             )
             .frame(height: 50)
             .onChange(of: viewModel.email) {
@@ -182,7 +183,8 @@ struct InputFieldsView: View {
             NimliPlainTextField(
                 text: $viewModel.password,
                 title: "パスワード",
-                placeHolder: "パスワード"
+                placeHolder: "パスワード",
+                placeHolderColor: .cardFillColorNormal
             )
             .frame(height: 50)  // 明示的な高さを指定
             .onChange(of: viewModel.password) {
