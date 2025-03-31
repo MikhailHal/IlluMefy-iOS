@@ -71,11 +71,9 @@ struct SignUpFormView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
-                // Logo
                 LogoHeaderView()
                     .padding(.bottom, 10)
                 
-                // Card for input fields
                 VStack(spacing: 16) {
                     Text("アカウント情報")
                         .font(.headline)
@@ -266,34 +264,48 @@ struct RegisterButtonView: View {
     var router: NimliAppRouter
 
     var body: some View {
-        Button(action: {
-            Task {
-                router.showLoading()
-                await viewModel.register()
-                router.hideLoading()
+        Button(
+            action: {
+                Task {
+                    router.showLoading()
+                    await viewModel.register()
+                    router.hideLoading()
+                }
+            },
+            label: {
+                HStack {
+                    Image(systemName: "person.crop.circle.badge.plus")
+                    Text("アカウントを登録する")
+                        .fontWeight(.semibold)
+                }
+                .frame(maxWidth: .infinity)
+                .padding()
+                .background(
+                    viewModel.isEnableRegisterButton ?
+                        LinearGradient(
+                            gradient: Gradient(colors: [Color.blue, Color.blue.opacity(0.8)]),
+                            startPoint: .leading,
+                            endPoint: .trailing) :
+                        LinearGradient(
+                            gradient: Gradient(colors: [Color.gray, Color.gray.opacity(0.8)]),
+                            startPoint: .leading,
+                            endPoint: .trailing)
+                )
+                .foregroundColor(.white)
+                .cornerRadius(10)
+                .shadow(
+                    color: viewModel.isEnableRegisterButton ? Color.blue.opacity(0.3) : Color.clear,
+                    radius: 5, x: 0, y: 2
+                )
             }
-        }) {
-            HStack {
-                Image(systemName: "person.crop.circle.badge.plus")
-                Text("アカウントを登録する")
-                    .fontWeight(.semibold)
-            }
-            .frame(maxWidth: .infinity)
-            .padding()
-            .background(
-                viewModel.isEnableRegisterButton ?
-                    LinearGradient(gradient: Gradient(colors: [Color.blue, Color.blue.opacity(0.8)]), startPoint: .leading, endPoint: .trailing) :
-                    LinearGradient(gradient: Gradient(colors: [Color.gray, Color.gray.opacity(0.8)]), startPoint: .leading, endPoint: .trailing)
-            )
-            .foregroundColor(.white)
-            .cornerRadius(10)
-            .shadow(color: viewModel.isEnableRegisterButton ? Color.blue.opacity(0.3) : Color.clear, radius: 5, x: 0, y: 2)
-        }
+        )
         .disabled(!viewModel.isEnableRegisterButton)
     }
 }
 
-// Terms and privacy policy text
+///
+/// Terms-of-service and Privacy-Policy
+///
 struct TermsAndPolicyView: View {
     @ObservedObject var viewModel: SignUpViewModel
 
@@ -323,7 +335,9 @@ struct TermsAndPolicyView: View {
     }
 }
 
-// Login option view
+///
+/// Navigate to login screen
+///
 struct LoginOptionView: View {
     var router: NimliAppRouter
 
@@ -348,6 +362,10 @@ struct LoginOptionView: View {
         )
     }
 }
+
+///
+/// Terms-of-service bottom sheet
+///
 struct TermsOfServiceBottomSheetContent: View {
     @Environment(\.openURL) var openURL
     var body: some View {
@@ -426,6 +444,9 @@ struct TermsOfServiceBottomSheetContent: View {
     }
 }
 
+///
+/// privacy-policy bottom sheet
+///
 struct PrivacyPolicyBottomSheetContent: View {
     @Environment(\.openURL) var openURL
     var body: some View {

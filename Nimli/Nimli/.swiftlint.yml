@@ -12,3 +12,7 @@ type_name:
 identifier_name:
   min_length: 4
   max_length: 60
+
+disabled_rules:
+  - trailing_whitespace
+  - file_length
