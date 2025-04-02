@@ -32,6 +32,10 @@ class DependencyContainer {
         container.register(AccountLoginRepository.self) { _ in
             AccountLoginRepository()
         }.inObjectScope(.container)
+        // the concrete type of AccountLoginRepository
+        container.register(UserLocalSettingsDataSource.self) { _ in
+            UserLocalSettingsDataSource()
+        }.inObjectScope(.container)
     }
     ///
     /// register all repositries
@@ -48,6 +52,11 @@ class DependencyContainer {
         // AccountLogin repository
         container.register((any AccountLoginRepositoryProtocol).self) { resolver in
             resolver.resolve(AccountLoginRepository.self)!
+        }.inObjectScope(.transient)
+        // UserPreferences repository
+        container.register((any UserPreferencesRepositoryProtocol).self) { resolver in
+            let userLocalSettingsDataSource = resolver.resolve((any UserLocalSettingsDataSourceProtocol).self)!
+            return UserPreferencesRepository(userLocalSettingsDataSource: userLocalSettingsDataSource)
         }.inObjectScope(.transient)
     }
     ///
