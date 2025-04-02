@@ -11,26 +11,17 @@ import FirebaseAuth
 class AccountLoginUseCase: AccountLoginUseCaseProtocol {
     var accountLoginRepository: any AccountLoginRepositoryProtocol
     typealias Response = Bool
-    typealias Error = RegisterAccountUseCaseError
+    typealias Error = AccountLoginUseCaseError
     init(accountLoginRepository: any AccountLoginRepositoryProtocol) {
         self.accountLoginRepository = accountLoginRepository
     }
     func isValidEmail(email: String) -> Bool {
         return email.isValidEmail()
     }
-    func isValidPassword(password: String) -> Bool {
-        return true
-    }
-    func checkParameterValidation(request: RegistrationAccount) throws -> RegisterAccountUseCaseError {
-        if !isValidEmail(email: request.email) {
-            throw RegisterAccountUseCaseError.invalidEmail
-        }
-        if !isValidPassword(password: request.password) {
-            throw RegisterAccountUseCaseError.invalidPassword
-        }
+    func checkParameterValidation(request: AccountLoginUseCaseRequest) throws -> AccountLoginUseCaseError {
         return .success
     }
-    func execute(request: RegistrationAccount) async throws -> Response {
+    func execute(request: AccountLoginUseCaseRequest) async throws -> Response {
         do {
             _ = try checkParameterValidation(request: request)
             return try await accountLoginRepository.login(
@@ -40,16 +31,36 @@ class AccountLoginUseCase: AccountLoginUseCaseProtocol {
                 )
             )
         } catch let error as NSError {
-            switch error.code {
-            case
-                AuthErrorCode.accountExistsWithDifferentCredential.rawValue,
-                AuthErrorCode.emailAlreadyInUse.rawValue:
-                throw RegisterAccountUseCaseError.alreadyRegistered
-            default:
-                throw RegisterAccountUseCaseError.networkError
+            let authError = AuthErrorCode(rawValue: error.code) ?? nil
+            if authError == nil {
+                throw error
+            } else {
+                switch authError!.code {
+                case AuthErrorCode.wrongPassword:
+                    throw AccountLoginUseCaseError.wrongPassword
+                    
+                case AuthErrorCode.invalidCredential:
+                    throw AccountLoginUseCaseError.invalidCredential
+                    
+                case AuthErrorCode.invalidEmail:
+                    throw AccountLoginUseCaseError.invalidEmail
+                    
+                case AuthErrorCode.userNotFound:
+                    throw AccountLoginUseCaseError.userNotFound
+                    
+                case AuthErrorCode.userDisabled:
+                    throw AccountLoginUseCaseError.userDisabled
+                
+                case AuthErrorCode.tooManyRequests:
+                    throw AccountLoginUseCaseError.tooManyRequests
+                    
+                case AuthErrorCode.networkError:
+                    throw AccountLoginUseCaseError.networkError
+                    
+                default:
+                    throw RegisterAccountUseCaseError.networkError
+                }
             }
-        } catch let error as RegisterAccountUseCaseError {
-            throw error
         }
     }
 }

@@ -21,6 +21,39 @@ class LoginViewModel: LoginViewModelProtocol {
     }
     
     func login() async {
-        return
+        do {
+            _ = try await loginUseCase.execute(
+                request: AccountLoginUseCaseRequest(
+                    email: email,
+                    password: password
+                )
+            )
+            await MainActor.run {
+                notificationDialogMessage = "ログインに成功しました。"
+                isShowNotificationDialog = true
+            }
+        } catch {
+            let usecaseError = error as? AccountLoginUseCaseError
+            switch usecaseError {
+            case
+                .invalidEmail,
+                .wrongPassword,
+                .invalidCredential,
+                .userNotFound:
+                    errorDialogMessage = "メールアドレスまたはパスワードが間違っています。"
+                
+            case .userDisabled:
+                errorDialogMessage = "このアカウントからのアクセスは禁止されています。"
+            
+            case .tooManyRequests:
+                errorDialogMessage = "大量のアクセスが検知されました。時間を置いてから再度お試しください。"
+                
+            default:
+                errorDialogMessage = "ネットワーク回線状況をお確かめください"
+            }
+            await MainActor.run {
+                isShowErrorDialog = true
+            }
+        }
     }
 }

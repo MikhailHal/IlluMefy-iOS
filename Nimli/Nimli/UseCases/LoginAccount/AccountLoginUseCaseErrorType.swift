@@ -7,8 +7,11 @@
 
 enum AccountLoginUseCaseError: UseCaseErrorProtocol {
     case success
+    case wrongPassword
     case invalidEmail
-    case invalidPassword
-    case alreadyRegistered
+    case invalidCredential
+    case userNotFound
+    case userDisabled
+    case tooManyRequests
     case networkError
 }
