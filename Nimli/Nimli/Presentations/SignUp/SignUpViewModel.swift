@@ -4,10 +4,6 @@
 //
 //  Created by Haruto K. on 2025/03/03.
 //
-//  MEMO:
-//    DON'T USE.
-//    This screen is WIP.
-//
 import Combine
 import FirebaseAuth
 
