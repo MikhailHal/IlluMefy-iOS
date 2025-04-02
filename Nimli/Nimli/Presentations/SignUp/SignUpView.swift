@@ -39,7 +39,7 @@ struct SignUpView: View {
         .alert("アカウント登録失敗", isPresented: $viewModel.isShowErrorDialog) {
             Button("OK") { viewModel.isShowErrorDialog = false }
         } message: {
-            Text(viewModel.errorMessage)
+            Text(viewModel.errorDialogMessage)
         }
         .alert("アカウント登録成功", isPresented: $viewModel.isShowNotificationDialog) {
             Button("OK") {
@@ -47,7 +47,7 @@ struct SignUpView: View {
                 router.navigate(to: .emailVerification)
             }
         } message: {
-            Text("新規アカウントの仮登録に成功しました。\n次画面にてメールアドレスの認証をしてください。")
+            Text(viewModel.notificationDialogMessage)
         }
         .sheet(isPresented: $viewModel.isShowTermsOfServiceBottomSheet) {
             TermsOfServiceBottomSheetContent()
@@ -144,8 +144,7 @@ struct SignUpFormView: View {
 struct LogoHeaderView: View {
     var body: some View {
         VStack {
-            // Only include the Image if you have this asset
-            if let _ = UIImage(named: "nimli-logo") {
+            if UIImage(named: "nimli-logo") != nil {
                 Image("nimli-logo")
                     .resizable()
                     .scaledToFit()

@@ -8,6 +8,8 @@ import Combine
 import FirebaseAuth
 
 class SignUpViewModel: SignUpViewModelProtocol {
+    var errorDialogMessage: String = ""
+    var notificationDialogMessage: String = ""
     var registrationAccountUseCase: any RegisterAccountUseCaseProtocol
     @Published var isShowErrorDialog: Bool = false
     @Published var isShowNotificationDialog: Bool = false
@@ -21,7 +23,6 @@ class SignUpViewModel: SignUpViewModelProtocol {
     @Published var isShowTermsOfServiceBottomSheet: Bool = false
     @Published var isShowPrivacyPolicyBottomSheet: Bool = false
     @Published var isAgreedTermsOfService: Bool = false
-    internal var errorMessage: String = ""
     let allowedPasswordMinLength = 6
     init(registrationAccountUseCase: any RegisterAccountUseCaseProtocol) {
         self.registrationAccountUseCase = registrationAccountUseCase
@@ -41,19 +42,20 @@ class SignUpViewModel: SignUpViewModelProtocol {
                 )
             )
             await MainActor.run {
+                notificationDialogMessage = "新規アカウントの仮登録に成功しました。\n次画面にてメールアドレスの認証をしてください。"
                 isShowNotificationDialog = true
             }
         } catch {
             let usecaseError = error as? RegisterAccountUseCaseError
             switch usecaseError {
             case .invalidEmail:
-                errorMessage = "メールアドレスが無効です"
+                errorDialogMessage = "メールアドレスが無効です"
             case .invalidPassword:
-                errorMessage = "パスワードが無効です"
+                errorDialogMessage = "パスワードが無効です"
             case .alreadyRegistered:
-                errorMessage = "入力されたメールアドレスは既に使用されています"
+                errorDialogMessage = "入力されたメールアドレスは既に使用されています"
             default:
-                errorMessage = "ネットワーク回線状況をお確かめください"
+                errorDialogMessage = "ネットワーク回線状況をお確かめください"
             }
             await MainActor.run {
                 isShowErrorDialog = true

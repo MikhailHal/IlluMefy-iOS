@@ -8,5 +8,8 @@
 import Combine
 
 protocol ViewModelProtocol: ObservableObject {
-    var errorMessage: String { get set }
+    var isShowErrorDialog: Bool { get set }
+    var errorDialogMessage: String { get set }
+    var isShowNotificationDialog: Bool { get set }
+    var notificationDialogMessage: String { get set }
 }

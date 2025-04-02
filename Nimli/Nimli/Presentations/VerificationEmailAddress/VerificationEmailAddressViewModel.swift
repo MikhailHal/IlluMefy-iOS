@@ -12,6 +12,10 @@ import Combine
 import FirebaseAuth
 
 class VerificationEmailAddressViewModel: VerificationEmailAddressViewModelProtocol {
+    var isShowErrorDialog: Bool = false
+    var errorDialogMessage: String = ""
+    var isShowNotificationDialog: Bool = false
+    var notificationDialogMessage: String = ""
     var verificationEmailAddressUseCase: any VerificationEmailAddressUseCaseProtocol
     @Published var isShowDialog: Bool = false
     @Published var dialogTitle: String = ""
