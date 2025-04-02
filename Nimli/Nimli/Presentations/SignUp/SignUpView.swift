@@ -4,6 +4,10 @@
 //
 //  Created by Haruto K. on 2025/02/12.
 //
+//  MEMO:
+//    DON'T USE.
+//    This screen is WIP.
+//
 
 import SwiftUI
 
