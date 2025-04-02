@@ -6,6 +6,7 @@
 //
 
 enum UserLocalSettingsDataSourceKey: String {
-    // swiftlint:disable:next redundant_string_enum_value
-    case isStoreLoginInfomation = "isStoreLoginInfomation"
+    case isStoreLoginInfomation = "isStoreLoginInfomation" // swiftlint:disable:this redundant_string_enum_value
+    case loginEmail = "loginEmail" // swiftlint:disable:this redundant_string_enum_value
+    case loginPassword = "loginPassword" // swiftlint:disable:this redundant_string_enum_value
 }
