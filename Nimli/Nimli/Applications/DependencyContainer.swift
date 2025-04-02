@@ -88,6 +88,11 @@ class DependencyContainer {
             let userPreferencesRepository = resolver.resolve((any UserPreferencesRepositoryProtocol).self)!
             return SetStoreLoginAccountInLocalUseCase(userPreferencesRepository: userPreferencesRepository)
         }.inObjectScope(.transient)
+        // GetStoreLoginAccountInLocal usecase
+        container.register((any GetStoreLoginAccountInLocalUseCaseProtocol).self) { resolver in
+            let userPreferencesRepository = resolver.resolve((any UserPreferencesRepositoryProtocol).self)!
+            return GetStoreLoginAccountInLocalUseCase(userPreferencesRepository: userPreferencesRepository)
+        }.inObjectScope(.transient)
     }
     ///
     /// register all view-models

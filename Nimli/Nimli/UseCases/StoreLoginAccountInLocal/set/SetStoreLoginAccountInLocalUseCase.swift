@@ -7,7 +7,7 @@
 
 class SetStoreLoginAccountInLocalUseCase: SetStoreLoginAccountInLocalUseCaseProtocol {
     typealias Request = SetStoreLoginAccountInLocalUseCaseRequest
-    typealias Response = StoreLoginAccount
+    typealias Response = Bool
     typealias Error = StoreLoginAccountInLocalUseCaseError
     
     var userPreferencesRepository: any UserPreferencesRepositoryProtocol
@@ -16,11 +16,11 @@ class SetStoreLoginAccountInLocalUseCase: SetStoreLoginAccountInLocalUseCaseProt
         self.userPreferencesRepository = userPreferencesRepository
     }
     
-    func execute(request: SetStoreLoginAccountInLocalUseCaseRequest) async throws -> Response {
-        let email = userPreferencesRepository.loginEmail
-        let password = userPreferencesRepository.loginPassowrd
-        let isStoreLoginInfo = userPreferencesRepository.isStoreLoginInfo
-        return StoreLoginAccount(email: email, password: password, isStore: isStoreLoginInfo)
+    func execute(request: SetStoreLoginAccountInLocalUseCaseRequest) async -> Response {
+        userPreferencesRepository.isStoreLoginInfo = request.isStore
+        userPreferencesRepository.loginEmail = request.email
+        userPreferencesRepository.loginPassowrd = request.password
+        return true
     }
     
     func checkParameterValidation(request: SetStoreLoginAccountInLocalUseCaseRequest) throws ->
