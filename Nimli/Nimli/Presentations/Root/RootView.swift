@@ -14,13 +14,15 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             NavigationStack(path: $router.path) {
-                SignUpView()
+                LoginView()
                     .navigationDestination(for: NimliAppRouter.Destination.self) { destination in
                         switch destination {
                         case .signUp:
                             SignUpView()
                         case .emailVerification:
                             VerificationEmailView()
+                        case .login:
+                            LoginView()
                         }
                     }
             }.environmentObject(router)

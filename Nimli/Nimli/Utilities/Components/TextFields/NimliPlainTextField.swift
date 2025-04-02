@@ -31,7 +31,7 @@ struct NimliPlainTextField: View {
     var body: some View {
         ZStack(alignment: .leading) {
             TextField("", text: $text).padding(.leading)
-                .frame(maxWidth: .infinity, maxHeight: 60)
+                .frame(maxWidth: .infinity, minHeight: 50)
                 .focused($isTyping)
                 .foregroundColor(Color.textForeground)
                 .background(isTyping ? .main : Color.textBorderNoneFocused,

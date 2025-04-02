@@ -14,6 +14,7 @@ class NimliAppRouter: ObservableObject {
     @Published var loadingMessage: String?
     enum Destination: Hashable {
         case signUp
+        case login
         case emailVerification
     }
     func navigate(to destination: Destination) {

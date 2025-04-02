@@ -12,6 +12,7 @@ struct NimliCheckboxView: View {
     var body: some View {
         Toggle(isOn: $isChecked) {
             Text(title)
+                .foregroundColor(.textForeground)
         }
         .toggleStyle(CheckboxToggleStyle())
     }
@@ -23,7 +24,7 @@ struct CheckboxToggleStyle: ToggleStyle {
             Image(systemName: configuration.isOn ? "checkmark.square.fill" : "square")
                 .resizable()
                 .frame(width: 22, height: 22)
-                .foregroundColor(configuration.isOn ? .blue : .gray)
+                .foregroundColor(configuration.isOn ? .checkboxFillPositive : .gray)
                 .onTapGesture {
                     configuration.isOn.toggle()
                 }

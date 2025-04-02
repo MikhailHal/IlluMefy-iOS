@@ -75,6 +75,11 @@ class DependencyContainer {
             let verificationEmailAddressUseCase = resolver.resolve((any VerificationEmailAddressUseCaseProtocol).self)!
             return VerificationEmailAddressViewModel(verificationEmailAddressUseCase: verificationEmailAddressUseCase)
         }.inObjectScope(.transient)
+        // Login screen
+        container.register(LoginViewModel.self) { resolver in
+            let registrationAccountUseCase = resolver.resolve((any RegisterAccountUseCaseProtocol).self)!
+            return LoginViewModel(loginUseCase: registrationAccountUseCase)
+        }.inObjectScope(.transient)
     }
     func resolve<T>(_ type: T.Type) -> T? {
         return container.resolve(type)
