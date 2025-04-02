@@ -28,6 +28,10 @@ class DependencyContainer {
         container.register(VerificationEmailAddressRepository.self) { _ in
             VerificationEmailAddressRepository()
         }.inObjectScope(.container)
+        // the concrete type of AccountLoginRepository
+        container.register(AccountLoginRepository.self) { _ in
+            AccountLoginRepository()
+        }.inObjectScope(.container)
     }
     ///
     /// register all repositries
@@ -40,6 +44,10 @@ class DependencyContainer {
         // VerificationEmailAddressRepository repository
         container.register((any VerificationEmailAddressRepositoryProtocol).self) { resolver in
             resolver.resolve(VerificationEmailAddressRepository.self)!
+        }.inObjectScope(.transient)
+        // AccountLogin repository
+        container.register((any AccountLoginRepositoryProtocol).self) { resolver in
+            resolver.resolve(AccountLoginRepository.self)!
         }.inObjectScope(.transient)
     }
     ///
