@@ -7,7 +7,7 @@
 
 import Combine
 class LoginViewModel: LoginViewModelProtocol {
-    var loginUseCase: any RegisterAccountUseCaseProtocol
+    var loginUseCase: any AccountLoginUseCaseProtocol
     var errorDialogMessage: String = ""
     var notificationDialogMessage: String = ""
     @Published var isShowNotificationDialog: Bool = false
@@ -16,7 +16,7 @@ class LoginViewModel: LoginViewModelProtocol {
     @Published var password: String = ""
     @Published var isStoreLoginInformation: Bool = false
     
-    init(loginUseCase: any RegisterAccountUseCaseProtocol) {
+    init(loginUseCase: any AccountLoginUseCaseProtocol) {
         self.loginUseCase = loginUseCase
     }
     

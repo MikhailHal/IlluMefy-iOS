@@ -6,6 +6,6 @@
 //
 
 protocol LoginViewModelProtocol: ViewModelProtocol {
-    var loginUseCase: any RegisterAccountUseCaseProtocol { get set }
+    var loginUseCase: any AccountLoginUseCaseProtocol { get set }
     func login() async
 }

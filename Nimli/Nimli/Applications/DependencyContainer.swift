@@ -68,6 +68,12 @@ class DependencyContainer {
                 verificationEmailAddressRepository: verificationEmailAddressRepositoryProtocol
             )
         }.inObjectScope(.transient)
+        // AccountLogin usecase
+        container.register((any AccountLoginUseCaseProtocol).self) { resolver in
+            let accountLoginRepositoryProtocol =
+            resolver.resolve((any AccountLoginRepositoryProtocol).self)!
+            return AccountLoginUseCase(accountLoginRepository: accountLoginRepositoryProtocol)
+        }.inObjectScope(.transient)
     }
     ///
     /// register all view-models
@@ -85,8 +91,8 @@ class DependencyContainer {
         }.inObjectScope(.transient)
         // Login screen
         container.register(LoginViewModel.self) { resolver in
-            let registrationAccountUseCase = resolver.resolve((any RegisterAccountUseCaseProtocol).self)!
-            return LoginViewModel(loginUseCase: registrationAccountUseCase)
+            let accountLoginUseCase = resolver.resolve((any AccountLoginUseCaseProtocol).self)!
+            return LoginViewModel(loginUseCase: accountLoginUseCase)
         }.inObjectScope(.transient)
     }
     func resolve<T>(_ type: T.Type) -> T? {
