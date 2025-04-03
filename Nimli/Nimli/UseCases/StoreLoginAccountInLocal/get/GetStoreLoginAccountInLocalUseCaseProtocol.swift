@@ -7,4 +7,5 @@
 
 protocol GetStoreLoginAccountInLocalUseCaseProtocol: UseCaseWithoutParametesProtocol {
     var userPreferencesRepository: any UserPreferencesRepositoryProtocol { get set }
+    func getStoreData() async -> StoreLoginAccount
 }

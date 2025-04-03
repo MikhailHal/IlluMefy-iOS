@@ -34,6 +34,11 @@ struct LoginView: View {
                 .navigationTitle("ログイン")
                 .navigationBarTitleDisplayMode(.inline)
                 .ignoresSafeArea(.keyboard, edges: .all)
+                .onAppear {
+                    Task {
+                        await viewModel.initializeStoedLoginAccountData()
+                    }
+                }
         }
         .alert("ログイン失敗", isPresented: $viewModel.isShowErrorDialog) {
             Button("OK") { viewModel.isShowErrorDialog = false }

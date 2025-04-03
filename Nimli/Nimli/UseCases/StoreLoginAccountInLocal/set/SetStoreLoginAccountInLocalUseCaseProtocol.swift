@@ -7,4 +7,5 @@
 
 protocol SetStoreLoginAccountInLocalUseCaseProtocol: UseCaseWithParametesProtocol {
     var userPreferencesRepository: any UserPreferencesRepositoryProtocol { get set }
+    func setStoreData(request: SetStoreLoginAccountInLocalUseCaseRequest) async -> Bool
 }

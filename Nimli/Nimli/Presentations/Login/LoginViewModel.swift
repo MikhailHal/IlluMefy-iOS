@@ -7,6 +7,8 @@
 
 import Combine
 class LoginViewModel: LoginViewModelProtocol {
+    var setStoreLoginAccountInLocalUseCase: any SetStoreLoginAccountInLocalUseCaseProtocol
+    var getStoreLoginAccountInLocalUseCase: any GetStoreLoginAccountInLocalUseCaseProtocol
     var loginUseCase: any AccountLoginUseCaseProtocol
     var errorDialogMessage: String = ""
     var notificationDialogMessage: String = ""
@@ -16,8 +18,22 @@ class LoginViewModel: LoginViewModelProtocol {
     @Published var password: String = ""
     @Published var isStoreLoginInformation: Bool = false
     
-    init(loginUseCase: any AccountLoginUseCaseProtocol) {
+    init(
+        loginUseCase: any AccountLoginUseCaseProtocol,
+        setStoreLoginAccountInLocalUseCase: any SetStoreLoginAccountInLocalUseCaseProtocol,
+        getStoreLoginAccountInLocalUseCase: any GetStoreLoginAccountInLocalUseCaseProtocol
+    ) {
         self.loginUseCase = loginUseCase
+        self.setStoreLoginAccountInLocalUseCase = setStoreLoginAccountInLocalUseCase
+        self.getStoreLoginAccountInLocalUseCase = getStoreLoginAccountInLocalUseCase
+    }
+    
+    func initializeStoedLoginAccountData() async {
+        let storeData = await getStoreLoginAccountInLocalUseCase.getStoreData()
+        if storeData.isStore == true {
+            email = storeData.email
+            password = storeData.password
+        }
     }
     
     func login() async {
@@ -28,6 +44,15 @@ class LoginViewModel: LoginViewModelProtocol {
                     password: password
                 )
             )
+            if isStoreLoginInformation {
+                _ = await setStoreLoginAccountInLocalUseCase.setStoreData(
+                    request: SetStoreLoginAccountInLocalUseCaseRequest(
+                        email: email,
+                        password: password,
+                        isStore: true
+                    )
+                )
+            }
             await MainActor.run {
                 notificationDialogMessage = "ログインに成功しました。"
                 isShowNotificationDialog = true

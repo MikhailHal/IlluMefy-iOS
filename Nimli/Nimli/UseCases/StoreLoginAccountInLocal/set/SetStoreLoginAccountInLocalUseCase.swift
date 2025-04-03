@@ -16,6 +16,10 @@ class SetStoreLoginAccountInLocalUseCase: SetStoreLoginAccountInLocalUseCaseProt
         self.userPreferencesRepository = userPreferencesRepository
     }
     
+    func setStoreData(request: SetStoreLoginAccountInLocalUseCaseRequest) async -> Bool {
+        return await execute(request: request)
+    }
+    
     func execute(request: SetStoreLoginAccountInLocalUseCaseRequest) async -> Response {
         userPreferencesRepository.isStoreLoginInfo = request.isStore
         userPreferencesRepository.loginEmail = request.email

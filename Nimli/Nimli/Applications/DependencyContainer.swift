@@ -54,8 +54,9 @@ class DependencyContainer {
             resolver.resolve(AccountLoginRepository.self)!
         }.inObjectScope(.transient)
         // UserPreferences repository
+        //TODO: DIの確認(UserPreferencesRepositoryの引数が具体になってるかも)
         container.register((any UserPreferencesRepositoryProtocol).self) { resolver in
-            let userLocalSettingsDataSource = resolver.resolve((any UserLocalSettingsDataSourceProtocol).self)!
+            let userLocalSettingsDataSource = resolver.resolve((UserLocalSettingsDataSource).self)!
             return UserPreferencesRepository(userLocalSettingsDataSource: userLocalSettingsDataSource)
         }.inObjectScope(.transient)
     }
@@ -111,7 +112,12 @@ class DependencyContainer {
         // Login screen
         container.register(LoginViewModel.self) { resolver in
             let accountLoginUseCase = resolver.resolve((any AccountLoginUseCaseProtocol).self)!
-            return LoginViewModel(loginUseCase: accountLoginUseCase)
+            let setStoreLoginAccountUseCase = resolver.resolve((any SetStoreLoginAccountInLocalUseCaseProtocol).self)!
+            let getStoreLoginAccountUseCase = resolver.resolve((any GetStoreLoginAccountInLocalUseCaseProtocol).self)!
+            return LoginViewModel(
+                loginUseCase: accountLoginUseCase,
+                setStoreLoginAccountInLocalUseCase: setStoreLoginAccountUseCase,
+                getStoreLoginAccountInLocalUseCase: getStoreLoginAccountUseCase)
         }.inObjectScope(.transient)
     }
     func resolve<T>(_ type: T.Type) -> T? {

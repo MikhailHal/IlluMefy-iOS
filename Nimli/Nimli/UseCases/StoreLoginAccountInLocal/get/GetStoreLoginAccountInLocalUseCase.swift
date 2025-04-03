@@ -6,7 +6,6 @@
 //
 
 class GetStoreLoginAccountInLocalUseCase: GetStoreLoginAccountInLocalUseCaseProtocol {
-    
     typealias Response = StoreLoginAccount
     typealias Error = StoreLoginAccountInLocalUseCaseError
     
@@ -16,7 +15,15 @@ class GetStoreLoginAccountInLocalUseCase: GetStoreLoginAccountInLocalUseCaseProt
         self.userPreferencesRepository = userPreferencesRepository
     }
     
-    func execute() throws -> StoreLoginAccount {
+    func getStoreData() async -> StoreLoginAccount {
+        do {
+            return try await execute()
+        } catch {
+            
+        }
+        return StoreLoginAccount(email: "", password: "", isStore: false)
+    }
+    func execute() async throws -> StoreLoginAccount {
         let email = userPreferencesRepository.loginEmail
         let password = userPreferencesRepository.loginPassowrd
         let isStoreLoginInfo = userPreferencesRepository.isStoreLoginInfo
