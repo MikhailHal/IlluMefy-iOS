@@ -8,7 +8,11 @@
 import FirebaseAuth
 
 class VerificationEmailAddressRepository: VerificationEmailAddressRepositoryProtocol {
-    func sendVerificationMail(_ user: FirebaseAuth.User) async -> Bool {
+    typealias Request = User
+    typealias Response = Bool
+    typealias Error = VerificationEmailAddressRepositoryError
+    
+    func sendVerificationMail(_ user: FirebaseAuth.User) -> Bool {
         var result: Bool = true
         user.sendEmailVerification { error in
             if error != nil {
@@ -16,5 +20,9 @@ class VerificationEmailAddressRepository: VerificationEmailAddressRepositoryProt
             }
         }
         return result
+    }
+    
+    func execute(request: User) throws -> Bool {
+        return sendVerificationMail(request)
     }
 }

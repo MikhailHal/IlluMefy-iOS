@@ -7,6 +7,6 @@
 
 import FirebaseAuth
 
-protocol VerificationEmailAddressRepositoryProtocol {
-    func sendVerificationMail(_ user: User) async -> Bool
+protocol VerificationEmailAddressRepositoryProtocol: RepositorySyncProtocol where Request == User, Response == Bool {
+    func sendVerificationMail(_ user: User) -> Bool
 }

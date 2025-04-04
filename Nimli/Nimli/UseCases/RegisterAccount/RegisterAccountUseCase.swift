@@ -9,9 +9,11 @@ import Foundation
 import FirebaseAuth
 
 class RegisterAccountUseCase: RegisterAccountUseCaseProtocol {
-    var registerAccountRepository: any AccountRegistrationRepositoryProtocol
+    typealias Request = RegistrationAccount
     typealias Response = Bool
     typealias Error = RegisterAccountUseCaseError
+    
+    var registerAccountRepository: any AccountRegistrationRepositoryProtocol
     
     init(registerAccountRepository: any AccountRegistrationRepositoryProtocol) {
         self.registerAccountRepository = registerAccountRepository

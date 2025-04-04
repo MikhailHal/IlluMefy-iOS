@@ -1,23 +1,25 @@
 //
-//  UseCaseWithParametesProtocol.swift
+//  UseCaseWithParametersSyncProtocol.swift
 //  Nimli
 //
-//  Created by Haruto K. on 2025/03/12.
+//  Created by Haruto K. on 2025/04/04.
 //
 
-// All usecases will be required to inherit this.
-protocol UseCaseWithParametesProtocol {
+// All synchronous usecases will be required to inherit this.
+protocol UseCaseWithParametersSyncProtocol {
     associatedtype Request
     associatedtype Response
     associatedtype Error: UseCaseErrorProtocol
+    
     /// To call the method of repository.
     /// Restrict repository method calls to this function only.
     ///
     ///  - Parameters:
-    ///     - request: api-request
+    ///     - request: request parameters
     ///
-    ///  - Returns: result of api-call
-    func execute(request: Request) async throws -> Response
+    ///  - Returns: result of operation
+    func execute(request: Request) throws -> Response
+    
     /// Validates the parameters.
     /// If the inherited class has no parameters, this function should be empty and return a successful status.
     ///

@@ -6,6 +6,7 @@
 //
 
 import FirebaseAuth
-protocol VerificationEmailAddressUseCaseProtocol: UseCaseWithParametesProtocol where Request == User? {
-    var verificationEmailAddressRepository: any VerificationEmailAddressRepositoryProtocol { get set }
+
+protocol VerificationEmailAddressUseCaseProtocol: UseCaseWithParametersSyncProtocol where Request == User? {
+    var verificationEmailAddressRepository: any VerificationEmailAddressRepositoryProtocol { get }
 }

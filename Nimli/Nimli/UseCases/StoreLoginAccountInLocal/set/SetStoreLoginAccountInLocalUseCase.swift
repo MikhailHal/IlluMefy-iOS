@@ -5,6 +5,8 @@
 //  Created by Haruto K. on 2025/04/03.
 //
 
+import Foundation
+
 class SetStoreLoginAccountInLocalUseCase: SetStoreLoginAccountInLocalUseCaseProtocol {
     typealias Request = SetStoreLoginAccountInLocalUseCaseRequest
     typealias Response = Bool
@@ -16,19 +18,22 @@ class SetStoreLoginAccountInLocalUseCase: SetStoreLoginAccountInLocalUseCaseProt
         self.userPreferencesRepository = userPreferencesRepository
     }
     
-    func setStoreData(request: SetStoreLoginAccountInLocalUseCaseRequest) async -> Bool {
-        return await execute(request: request)
+    func setStoreData(request: SetStoreLoginAccountInLocalUseCaseRequest) -> Bool {
+        do {
+            return try execute(request: request)
+        } catch {
+            return false
+        }
     }
     
-    func execute(request: SetStoreLoginAccountInLocalUseCaseRequest) async -> Response {
+    func execute(request: SetStoreLoginAccountInLocalUseCaseRequest) throws -> Response {
         userPreferencesRepository.isStoreLoginInfo = request.isStore
         userPreferencesRepository.loginEmail = request.email
         userPreferencesRepository.loginPassowrd = request.password
         return true
     }
     
-    func checkParameterValidation(request: SetStoreLoginAccountInLocalUseCaseRequest) throws ->
-    StoreLoginAccountInLocalUseCaseError {
+    func checkParameterValidation(request: SetStoreLoginAccountInLocalUseCaseRequest) throws -> StoreLoginAccountInLocalUseCaseError {
         if request.email.isEmpty || request.password.isEmpty {
             throw StoreLoginAccountInLocalUseCaseError.invalidFormat
         }

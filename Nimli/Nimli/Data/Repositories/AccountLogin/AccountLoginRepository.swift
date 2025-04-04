@@ -8,12 +8,20 @@
 import FirebaseAuth
 
 class AccountLoginRepository: AccountLoginRepositoryProtocol {
+    typealias Request = AccountLoginRequest
+    typealias Response = Bool
+    typealias Error = AccountLoginRepositoryError
+    
     func login(_ request: AccountLoginRequest) async throws -> Bool {
         do {
             try await Auth.auth().signIn(withEmail: request.email, password: request.password)
             return true
-        } catch let authError as NSError {
-            throw authError
+        } catch {
+            throw AccountLoginRepositoryError.from(error)
         }
+    }
+    
+    func execute(request: AccountLoginRequest) async throws -> Bool {
+        return try await login(request)
     }
 }

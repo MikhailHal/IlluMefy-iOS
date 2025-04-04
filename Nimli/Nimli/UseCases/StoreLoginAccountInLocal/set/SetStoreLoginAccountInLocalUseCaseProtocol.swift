@@ -5,7 +5,10 @@
 //  Created by Haruto K. on 2025/04/03.
 //
 
-protocol SetStoreLoginAccountInLocalUseCaseProtocol: UseCaseWithParametesProtocol {
-    var userPreferencesRepository: any UserPreferencesRepositoryProtocol { get set }
-    func setStoreData(request: SetStoreLoginAccountInLocalUseCaseRequest) async -> Bool
+import Foundation
+
+protocol SetStoreLoginAccountInLocalUseCaseProtocol: UseCaseWithParametersSyncProtocol {
+    var userPreferencesRepository: any UserPreferencesRepositoryProtocol { get }
+    
+    func setStoreData(request: SetStoreLoginAccountInLocalUseCaseRequest) -> Bool
 }
