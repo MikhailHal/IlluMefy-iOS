@@ -12,15 +12,19 @@ class RegisterAccountUseCase: RegisterAccountUseCaseProtocol {
     var registerAccountRepository: any AccountRegistrationRepositoryProtocol
     typealias Response = Bool
     typealias Error = RegisterAccountUseCaseError
+    
     init(registerAccountRepository: any AccountRegistrationRepositoryProtocol) {
         self.registerAccountRepository = registerAccountRepository
     }
+    
     func isValidEmail(email: String) -> Bool {
         return email.isValidEmail()
     }
+    
     func isValidPassword(password: String) -> Bool {
         return true
     }
+    
     func checkParameterValidation(request: RegistrationAccount) throws -> RegisterAccountUseCaseError {
         if !isValidEmail(email: request.email) {
             throw RegisterAccountUseCaseError.invalidEmail
@@ -30,6 +34,7 @@ class RegisterAccountUseCase: RegisterAccountUseCaseProtocol {
         }
         return .success
     }
+    
     func execute(request: RegistrationAccount) async throws -> Response {
         do {
             _ = try checkParameterValidation(request: request)
@@ -39,17 +44,8 @@ class RegisterAccountUseCase: RegisterAccountUseCaseProtocol {
                     password: request.password
                 )
             )
-        } catch let error as NSError {
-            switch error.code {
-            case
-                AuthErrorCode.accountExistsWithDifferentCredential.rawValue,
-                AuthErrorCode.emailAlreadyInUse.rawValue:
-                throw RegisterAccountUseCaseError.alreadyRegistered
-            default:
-                throw RegisterAccountUseCaseError.networkError
-            }
-        } catch let error as RegisterAccountUseCaseError {
-            throw error
+        } catch {
+            throw RegisterAccountUseCaseError.from(error)
         }
     }
 }

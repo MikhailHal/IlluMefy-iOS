@@ -12,8 +12,8 @@ class AccountRegistrationRepository: AccountRegistrationRepositoryProtocol {
         do {
             try await Auth.auth().createUser(withEmail: request.email, password: request.password)
             return true
-        } catch let authError as NSError {
-            throw authError
+        } catch {
+            throw AccountRegistrationError.from(error)
         }
     }
 }
