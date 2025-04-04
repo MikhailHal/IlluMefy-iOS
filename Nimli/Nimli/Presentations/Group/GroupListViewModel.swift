@@ -26,4 +26,4 @@ class GroupListViewModel: ObservableObject {
     func selectGroup(_ group: UserGroup) {
         // TODO: グループ詳細画面への遷移
     }
-} 
+}

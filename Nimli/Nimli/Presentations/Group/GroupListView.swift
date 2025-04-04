@@ -41,12 +41,14 @@ struct GroupListView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: {
-                    viewModel.createNewGroup()
-                }) {
-                    Image(systemName: "plus")
-                        .foregroundColor(.textForeground)
-                }
+                Button(
+                    action: {
+                        viewModel.createNewGroup()
+                    },
+                    label: {
+                        Image(systemName: "plus").foregroundColor(.textForeground)
+                    }
+                )
             }
         }
     }
