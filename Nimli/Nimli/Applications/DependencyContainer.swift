@@ -28,11 +28,11 @@ class DependencyContainer {
         container.register(VerificationEmailAddressRepository.self) { _ in
             VerificationEmailAddressRepository()
         }.inObjectScope(.container)
-        // the concrete type of AccountLoginRepository
+        // the concrete type of AccountLoginRepository
         container.register(AccountLoginRepository.self) { _ in
             AccountLoginRepository()
         }.inObjectScope(.container)
-        // the concrete type of AccountLoginRepository
+        // the concrete type of UserLocalSettingsDataSource
         container.register(UserLocalSettingsDataSource.self) { _ in
             UserLocalSettingsDataSource()
         }.inObjectScope(.container)
@@ -53,10 +53,13 @@ class DependencyContainer {
         container.register((any AccountLoginRepositoryProtocol).self) { resolver in
             resolver.resolve(AccountLoginRepository.self)!
         }.inObjectScope(.transient)
+        // UserLocalSettingsDataSource repository
+        container.register((any UserLocalSettingsDataSourceProtocol).self) { resolver in
+            resolver.resolve(UserLocalSettingsDataSource.self)!
+        }.inObjectScope(.transient)
         // UserPreferences repository
-        //TODO: DIの確認(UserPreferencesRepositoryの引数が具体になってるかも)
         container.register((any UserPreferencesRepositoryProtocol).self) { resolver in
-            let userLocalSettingsDataSource = resolver.resolve((UserLocalSettingsDataSource).self)!
+            let userLocalSettingsDataSource = resolver.resolve((any UserLocalSettingsDataSourceProtocol).self)!
             return UserPreferencesRepository(userLocalSettingsDataSource: userLocalSettingsDataSource)
         }.inObjectScope(.transient)
     }
