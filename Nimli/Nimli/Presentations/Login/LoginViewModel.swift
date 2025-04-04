@@ -74,8 +74,14 @@ class LoginViewModel: LoginViewModelProtocol {
             case .tooManyRequests:
                 errorDialogMessage = "大量のアクセスが検知されました。時間を置いてから再度お試しください。"
                 
+            case .networkError:
+                errorDialogMessage = "ネットワーク回線状況をお確かめください。"
+                
+            case .unknown:
+                errorDialogMessage = "予期せぬエラーが発生しました。"
+                
             default:
-                errorDialogMessage = "ネットワーク回線状況をお確かめください"
+                errorDialogMessage = "予期せぬエラーが発生しました。"
             }
             await MainActor.run {
                 isShowErrorDialog = true
