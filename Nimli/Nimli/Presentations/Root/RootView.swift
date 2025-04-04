@@ -31,6 +31,8 @@ struct ContentView: View {
                         VerificationEmailView()
                     case .login:
                         LoginView()
+                    case .groupList:
+                        GroupListView()
                     }
                 }
             }.environmentObject(router)

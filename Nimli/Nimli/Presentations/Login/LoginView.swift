@@ -48,7 +48,7 @@ struct LoginView: View {
         .alert("ログイン成功", isPresented: $viewModel.isShowNotificationDialog) {
             Button("OK") {
                 viewModel.isShowNotificationDialog = false
-                router.navigate(to: .emailVerification)
+                router.navigate(to: .groupList)
             }
         } message: {
             Text(viewModel.notificationDialogMessage)

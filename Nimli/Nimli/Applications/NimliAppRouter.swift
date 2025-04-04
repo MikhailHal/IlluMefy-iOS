@@ -16,6 +16,7 @@ class NimliAppRouter: ObservableObject {
         case signUp
         case login
         case emailVerification
+        case groupList
     }
     func navigate(to destination: Destination) {
         path.append(destination)
