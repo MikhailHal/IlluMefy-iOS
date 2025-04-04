@@ -12,40 +12,32 @@ struct AccountRegistrationError: RepositoryErrorProtocol {
     let underlyingError: Error?
     
     static func from(_ error: Error) -> AccountRegistrationError {
-        if let nsError = error as? NSError {
-            switch nsError.code {
-            case AuthErrorCode.emailAlreadyInUse.rawValue:
-                return AccountRegistrationError(
-                    code: nsError.code,
-                    message: ErrorMessages.Auth.alreadyRegistered,
-                    underlyingError: error
-                )
-            case AuthErrorCode.invalidEmail.rawValue:
-                return AccountRegistrationError(
-                    code: nsError.code,
-                    message: ErrorMessages.Auth.invalidEmail,
-                    underlyingError: error
-                )
-            case AuthErrorCode.weakPassword.rawValue:
-                return AccountRegistrationError(
-                    code: nsError.code,
-                    message: ErrorMessages.Auth.invalidPassword,
-                    underlyingError: error
-                )
-            default:
-                return AccountRegistrationError(
-                    code: nsError.code,
-                    message: ErrorMessages.Auth.unknownError,
-                    underlyingError: error
-                )
-            }
+        let nsError = error as NSError
+        switch nsError.code {
+        case AuthErrorCode.emailAlreadyInUse.rawValue:
+            return AccountRegistrationError(
+                code: nsError.code,
+                message: ErrorMessages.Auth.alreadyRegistered,
+                underlyingError: error
+            )
+        case AuthErrorCode.invalidEmail.rawValue:
+            return AccountRegistrationError(
+                code: nsError.code,
+                message: ErrorMessages.Auth.invalidEmail,
+                underlyingError: error
+            )
+        case AuthErrorCode.weakPassword.rawValue:
+            return AccountRegistrationError(
+                code: nsError.code,
+                message: ErrorMessages.Auth.invalidPassword,
+                underlyingError: error
+            )
+        default:
+            return AccountRegistrationError(
+                code: nsError.code,
+                message: ErrorMessages.Auth.unknownError,
+                underlyingError: error
+            )
         }
-        
-        // NSError以外のエラーの場合
-        return AccountRegistrationError(
-            code: -1,
-            message: ErrorMessages.Auth.unknownError,
-            underlyingError: error
-        )
     }
 }

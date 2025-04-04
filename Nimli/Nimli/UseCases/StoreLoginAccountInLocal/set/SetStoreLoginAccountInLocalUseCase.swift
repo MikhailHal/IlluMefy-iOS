@@ -33,7 +33,8 @@ class SetStoreLoginAccountInLocalUseCase: SetStoreLoginAccountInLocalUseCaseProt
         return true
     }
     
-    func checkParameterValidation(request: SetStoreLoginAccountInLocalUseCaseRequest) throws -> StoreLoginAccountInLocalUseCaseError {
+    func checkParameterValidation(request: SetStoreLoginAccountInLocalUseCaseRequest)
+    throws -> StoreLoginAccountInLocalUseCaseError {
         if request.email.isEmpty || request.password.isEmpty {
             throw StoreLoginAccountInLocalUseCaseError.invalidFormat
         }

@@ -55,26 +55,25 @@ enum AccountLoginUseCaseError: UseCaseErrorProtocol {
         if let useCaseError = error as? AccountLoginUseCaseError {
             return useCaseError
         }
-        if let nsError = error as? NSError {
-            switch nsError.code {
-            case AuthErrorCode.wrongPassword.rawValue:
-                return .wrongPassword
-            case AuthErrorCode.invalidEmail.rawValue:
-                return .invalidEmail
-            case AuthErrorCode.invalidCredential.rawValue:
-                return .invalidCredential
-            case AuthErrorCode.userNotFound.rawValue:
-                return .userNotFound
-            case AuthErrorCode.userDisabled.rawValue:
-                return .userDisabled
-            case AuthErrorCode.tooManyRequests.rawValue:
-                return .tooManyRequests
-            case AuthErrorCode.networkError.rawValue:
-                return .networkError
-            default:
-                return .unknown(error)
-            }
+        
+        let nsError = error as NSError
+        switch nsError.code {
+        case AuthErrorCode.wrongPassword.rawValue:
+            return .wrongPassword
+        case AuthErrorCode.invalidEmail.rawValue:
+            return .invalidEmail
+        case AuthErrorCode.invalidCredential.rawValue:
+            return .invalidCredential
+        case AuthErrorCode.userNotFound.rawValue:
+            return .userNotFound
+        case AuthErrorCode.userDisabled.rawValue:
+            return .userDisabled
+        case AuthErrorCode.tooManyRequests.rawValue:
+            return .tooManyRequests
+        case AuthErrorCode.networkError.rawValue:
+            return .networkError
+        default:
+            return .unknown(error)
         }
-        return .unknown(error)
     }
 }

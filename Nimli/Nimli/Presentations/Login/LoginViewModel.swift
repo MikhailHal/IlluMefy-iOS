@@ -29,7 +29,7 @@ class LoginViewModel: LoginViewModelProtocol {
     }
     
     func initializeStoedLoginAccountData() async {
-        let storeData = await getStoreLoginAccountInLocalUseCase.getStoreData()
+        let storeData = getStoreLoginAccountInLocalUseCase.getStoreData()
         if storeData.isStore == true {
             email = storeData.email
             password = storeData.password
@@ -45,7 +45,7 @@ class LoginViewModel: LoginViewModelProtocol {
                 )
             )
             if isStoreLoginInformation {
-                _ = await setStoreLoginAccountInLocalUseCase.setStoreData(
+                _ = setStoreLoginAccountInLocalUseCase.setStoreData(
                     request: SetStoreLoginAccountInLocalUseCaseRequest(
                         email: email,
                         password: password,

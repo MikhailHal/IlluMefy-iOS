@@ -29,7 +29,7 @@ class VerificationEmailAddressViewModel: VerificationEmailAddressViewModelProtoc
     ///
     func sendVerificationEmailLink() async -> (title: String, message: String) {
         do {
-            _ = try await verificationEmailAddressUseCase.execute(request: Auth.auth().currentUser)
+            _ = try verificationEmailAddressUseCase.execute(request: Auth.auth().currentUser)
             return ("メール送信完了", "認証リンクを送信しました。\nメール内のリンクをタップしてください。")
         } catch {
             let usecaseError = error as? VerificationEmailAddressUseCaseError

@@ -11,18 +11,11 @@ struct UserPreferencesRepositoryError: RepositoryErrorProtocol {
     let underlyingError: Error?
     
     static func from(_ error: Error) -> UserPreferencesRepositoryError {
-        if let nsError = error as? NSError {
-            return UserPreferencesRepositoryError(
-                code: nsError.code,
-                message: ErrorMessages.LocalStorage.readError,
-                underlyingError: error
-            )
-        }
-        
+        let nsError = error as NSError
         return UserPreferencesRepositoryError(
-            code: -1,
+            code: nsError.code,
             message: ErrorMessages.LocalStorage.readError,
             underlyingError: error
         )
     }
-} 
+}

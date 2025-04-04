@@ -13,17 +13,11 @@ struct VerificationEmailAddressRepositoryError: RepositoryErrorProtocol {
     let underlyingError: Error?
     
     static func from(_ error: Error) -> VerificationEmailAddressRepositoryError {
-        if let nsError = error as? NSError {
-            return VerificationEmailAddressRepositoryError(
-                code: nsError.code,
-                message: ErrorMessages.EmailVerification.sendError,
-                underlyingError: error
-            )
-        }
+        let nsError = error as NSError
         return VerificationEmailAddressRepositoryError(
-            code: 4001,
+            code: nsError.code,
             message: ErrorMessages.EmailVerification.sendError,
             underlyingError: error
         )
     }
-} 
+}

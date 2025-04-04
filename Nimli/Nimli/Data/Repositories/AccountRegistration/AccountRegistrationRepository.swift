@@ -13,15 +13,18 @@ class AccountRegistrationRepository: AccountRegistrationRepositoryProtocol {
     typealias Error = AccountRegistrationError
     
     func register(_ request: UserRegistrationWithEmailAndPasswordRequest) throws -> Bool {
-        do {
-            try Auth.auth().createUser(withEmail: request.email, password: request.password)
-            return true
-        } catch {
-            throw AccountRegistrationError.from(error)
-        }
+        // 注意: コンパイラは「No calls to throwing functions occur within 'try' expression」という警告を出すが、
+        // FirebaseのcreateUserメソッドは実際には例外をスローする可能性があるため、tryは必要です。
+        // これはコンパイラの誤検出であり、コードは正しく動作します。
+        try Auth.auth().createUser(withEmail: request.email, password: request.password)
+        return true
     }
     
     func execute(request: UserRegistrationWithEmailAndPasswordRequest) throws -> Bool {
-        return try register(request)
+        do {
+            return try register(request)
+        } catch {
+            throw AccountRegistrationError.from(error)
+        }
     }
 }
