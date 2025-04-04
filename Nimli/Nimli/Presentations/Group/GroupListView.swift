@@ -39,6 +39,7 @@ struct GroupListView: View {
         }
         .navigationTitle("グループ")
         .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(

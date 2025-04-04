@@ -32,10 +32,12 @@ class LoginViewModel: LoginViewModelProtocol {
     func initializeStoedLoginAccountData() async {
         let storeData = getStoreLoginAccountInLocalUseCase.getStoreData()
         if storeData.isStore == true {
-            email = storeData.email
-            password = storeData.password
-            isStoreLoginInformation = true
-            hasStoredLoginInfo = true
+            await MainActor.run {
+                email = storeData.email
+                password = storeData.password
+                isStoreLoginInformation = true
+                hasStoredLoginInfo = true
+            }
         } else {
             hasStoredLoginInfo = false
         }
