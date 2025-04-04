@@ -33,6 +33,7 @@ class LoginViewModel: LoginViewModelProtocol {
         if storeData.isStore == true {
             email = storeData.email
             password = storeData.password
+            isStoreLoginInformation = true
         }
     }
     
