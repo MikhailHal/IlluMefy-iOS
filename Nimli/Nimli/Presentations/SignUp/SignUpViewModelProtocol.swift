@@ -7,5 +7,6 @@
 
 protocol SignUpViewModelProtocol: ViewModelProtocol {
     var registrationAccountUseCase: any RegisterAccountUseCaseProtocol { get set }
+    var setStoreLoginAccountInLocalUseCase: any SetStoreLoginAccountInLocalUseCaseProtocol { get set }
     func register() async
 }

@@ -44,7 +44,7 @@ struct SignUpView: View {
         .alert("アカウント登録成功", isPresented: $viewModel.isShowNotificationDialog) {
             Button("OK") {
                 viewModel.isShowNotificationDialog = false
-                router.navigate(to: .emailVerification)
+                router.navigate(to: .login)
             }
         } message: {
             Text(viewModel.notificationDialogMessage)

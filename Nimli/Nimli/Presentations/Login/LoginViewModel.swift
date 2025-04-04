@@ -17,6 +17,7 @@ class LoginViewModel: LoginViewModelProtocol {
     @Published var email: String = ""
     @Published var password: String = ""
     @Published var isStoreLoginInformation: Bool = false
+    @Published var hasStoredLoginInfo: Bool = false
     
     init(
         loginUseCase: any AccountLoginUseCaseProtocol,
@@ -34,6 +35,9 @@ class LoginViewModel: LoginViewModelProtocol {
             email = storeData.email
             password = storeData.password
             isStoreLoginInformation = true
+            hasStoredLoginInfo = true
+        } else {
+            hasStoredLoginInfo = false
         }
     }
     

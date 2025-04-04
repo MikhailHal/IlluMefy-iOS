@@ -105,7 +105,12 @@ class DependencyContainer {
         // SignUp screen
         container.register(SignUpViewModel.self) { resolver in
             let registrationAccountUseCase = resolver.resolve((any RegisterAccountUseCaseProtocol).self)!
-            return SignUpViewModel(registrationAccountUseCase: registrationAccountUseCase)
+            let setStoreLoginAccountInLocalUseCase =
+            resolver.resolve((any SetStoreLoginAccountInLocalUseCaseProtocol).self)!
+            return SignUpViewModel(
+                registrationAccountUseCase: registrationAccountUseCase,
+                setStoreLoginAccountInLocalUseCase: setStoreLoginAccountInLocalUseCase
+            )
         }.inObjectScope(.transient)
         // VerificationEmail screen
         container.register(VerificationEmailAddressViewModel.self) { resolver in
@@ -115,12 +120,14 @@ class DependencyContainer {
         // Login screen
         container.register(LoginViewModel.self) { resolver in
             let accountLoginUseCase = resolver.resolve((any AccountLoginUseCaseProtocol).self)!
-            let setStoreLoginAccountUseCase = resolver.resolve((any SetStoreLoginAccountInLocalUseCaseProtocol).self)!
-            let getStoreLoginAccountUseCase = resolver.resolve((any GetStoreLoginAccountInLocalUseCaseProtocol).self)!
+            let setStoreLoginAccountInLocalUseCase =
+            resolver.resolve((any SetStoreLoginAccountInLocalUseCaseProtocol).self)!
+            let getStoreLoginAccountInLocalUseCase =
+            resolver.resolve((any GetStoreLoginAccountInLocalUseCaseProtocol).self)!
             return LoginViewModel(
                 loginUseCase: accountLoginUseCase,
-                setStoreLoginAccountInLocalUseCase: setStoreLoginAccountUseCase,
-                getStoreLoginAccountInLocalUseCase: getStoreLoginAccountUseCase)
+                setStoreLoginAccountInLocalUseCase: setStoreLoginAccountInLocalUseCase,
+                getStoreLoginAccountInLocalUseCase: getStoreLoginAccountInLocalUseCase)
         }.inObjectScope(.transient)
     }
     func resolve<T>(_ type: T.Type) -> T? {

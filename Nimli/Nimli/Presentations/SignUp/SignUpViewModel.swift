@@ -11,6 +11,7 @@ class SignUpViewModel: SignUpViewModelProtocol {
     var errorDialogMessage: String = ""
     var notificationDialogMessage: String = ""
     var registrationAccountUseCase: any RegisterAccountUseCaseProtocol
+    var setStoreLoginAccountInLocalUseCase: any SetStoreLoginAccountInLocalUseCaseProtocol
     @Published var isShowErrorDialog: Bool = false
     @Published var isShowNotificationDialog: Bool = false
     @Published var isEnableRegisterButton: Bool = false
@@ -24,8 +25,12 @@ class SignUpViewModel: SignUpViewModelProtocol {
     @Published var isShowPrivacyPolicyBottomSheet: Bool = false
     @Published var isAgreedTermsOfService: Bool = false
     let allowedPasswordMinLength = 6
-    init(registrationAccountUseCase: any RegisterAccountUseCaseProtocol) {
+    init(
+        registrationAccountUseCase: any RegisterAccountUseCaseProtocol,
+        setStoreLoginAccountInLocalUseCase: any SetStoreLoginAccountInLocalUseCaseProtocol
+    ) {
         self.registrationAccountUseCase = registrationAccountUseCase
+        self.setStoreLoginAccountInLocalUseCase = setStoreLoginAccountInLocalUseCase
     }
     var isEmailValid: Bool {
         return email.isValidEmail()
@@ -41,8 +46,18 @@ class SignUpViewModel: SignUpViewModelProtocol {
                     password: password
                 )
             )
+            
+            // アカウント登録成功後、ログイン情報を保存（空の情報を保存して次回起動時にログイン画面を表示）
+            _ = setStoreLoginAccountInLocalUseCase.setStoreData(
+                request: SetStoreLoginAccountInLocalUseCaseRequest(
+                    email: "",
+                    password: "",
+                    isStore: true
+                )
+            )
+            
             await MainActor.run {
-                notificationDialogMessage = "新規アカウントの仮登録に成功しました。\n次画面にてメールアドレスの認証をしてください。"
+                notificationDialogMessage = "アカウント登録が完了しました。"
                 isShowNotificationDialog = true
             }
         } catch {

@@ -11,23 +11,36 @@ import SwiftData
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @EnvironmentObject var router: NimliAppRouter
+    @StateObject private var loginViewModel = DependencyContainer.shared.resolve(LoginViewModel.self)!
+    
     var body: some View {
         ZStack {
             NavigationStack(path: $router.path) {
-                LoginView()
-                    .navigationDestination(for: NimliAppRouter.Destination.self) { destination in
-                        switch destination {
-                        case .signUp:
-                            SignUpView()
-                        case .emailVerification:
-                            VerificationEmailView()
-                        case .login:
-                            LoginView()
-                        }
+                Group {
+                    if loginViewModel.hasStoredLoginInfo {
+                        LoginView()
+                    } else {
+                        SignUpView()
                     }
+                }
+                .navigationDestination(for: NimliAppRouter.Destination.self) { destination in
+                    switch destination {
+                    case .signUp:
+                        SignUpView()
+                    case .emailVerification:
+                        VerificationEmailView()
+                    case .login:
+                        LoginView()
+                    }
+                }
             }.environmentObject(router)
             if router.isShowingLoadingIndicator {
                 NimliLoadingDialog(isLoading: true, message: router.loadingMessage)
+            }
+        }
+        .onAppear {
+            Task {
+                await loginViewModel.initializeStoedLoginAccountData()
             }
         }
     }
