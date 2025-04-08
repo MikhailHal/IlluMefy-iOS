@@ -32,7 +32,9 @@ struct ContentView: View {
                     case .login:
                         LoginView()
                     case .groupList:
-                        GroupListView()
+                        HomeBaseView {
+                            Text("Hello World")
+                        }
                     }
                 }
             }.environmentObject(router)
