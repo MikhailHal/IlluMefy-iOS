@@ -81,10 +81,11 @@ struct GroupDetailView: View {
                     if viewModel.isCurrentUserAdmin {
                         Button(action: {
                             viewModel.startEditingGroupName()
-                        }) {
+                        },
+                               label: {
                             Image(systemName: "pencil")
                                 .foregroundColor(.blue)
-                        }
+                        })
                     }
                 }
             }
@@ -159,7 +160,7 @@ struct GroupDetailView: View {
             if viewModel.isCurrentUserAdmin {
                 Button(action: {
                     viewModel.inviteMember()
-                }) {
+                }, label: {
                     HStack {
                         Image(systemName: "person.badge.plus")
                         Text("メンバーを招待")
@@ -169,12 +170,12 @@ struct GroupDetailView: View {
                     .background(Color.blue)
                     .foregroundColor(.white)
                     .cornerRadius(10)
-                }
+                })
             }
             
             Button(action: {
                 viewModel.leaveGroup()
-            }) {
+            }, label: {
                 HStack {
                     Image(systemName: "rectangle.portrait.and.arrow.right")
                     Text("グループから退出")
@@ -184,7 +185,7 @@ struct GroupDetailView: View {
                 .background(Color.red)
                 .foregroundColor(.white)
                 .cornerRadius(10)
-            }
+            })
         }
     }
 }
@@ -192,6 +193,6 @@ struct GroupDetailView: View {
 // Preview
 #Preview {
     NavigationStack {
-        GroupDetailView()
+        GroupDetailView(viewModel: GroupDetailViewModel())
     }
 }

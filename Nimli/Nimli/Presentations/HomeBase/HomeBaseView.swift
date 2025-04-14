@@ -50,7 +50,7 @@ private struct TabBarView: View {
     }
     var body: some View {
         TabView {
-            GroupListView()
+            SignUpView()
                 .tabItem {
                     Image(systemName: "fork.knife")
                     Text("食材一覧")
@@ -60,7 +60,7 @@ private struct TabBarView: View {
                     Image(systemName: "plus.app.fill")
                     Text("食材追加")
                 }
-            GroupDetailView()
+            GroupDetailView(viewModel: GroupDetailViewModel())
                 .tabItem {
                     Image(systemName: "person.crop.circle.fill.badge.plus")
                     Text("グループ")

@@ -65,4 +65,4 @@ protocol GroupDetailViewModelProtocol: ObservableObject {
     /// 現在のユーザーをグループから退出させる処理を実行します。
     /// 管理者の場合は、別の管理者がいる場合のみ退出可能です。
     func leaveGroup()
-} 
+}

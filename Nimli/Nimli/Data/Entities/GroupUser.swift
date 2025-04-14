@@ -47,4 +47,4 @@ extension GroupUser: Hashable {
         hasher.combine(joinedAt)
         hasher.combine(updatedAt)
     }
-} 
+}

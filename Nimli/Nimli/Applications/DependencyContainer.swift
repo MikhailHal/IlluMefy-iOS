@@ -130,10 +130,6 @@ class DependencyContainer {
                 setStoreLoginAccountInLocalUseCase: setStoreLoginAccountInLocalUseCase,
                 getStoreLoginAccountInLocalUseCase: getStoreLoginAccountInLocalUseCase)
         }.inObjectScope(.transient)
-        // Group list screen
-        container.register(GroupListViewModel.self) { _ in
-            GroupListViewModel()
-        }
     }
     func resolve<T>(_ type: T.Type) -> T? {
         return container.resolve(type)
