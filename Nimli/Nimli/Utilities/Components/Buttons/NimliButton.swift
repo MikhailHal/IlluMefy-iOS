@@ -21,10 +21,11 @@ struct NimliButton: View {
         Button(action: onClick) {
             HStack {
                 if let icon = leadingIcon {
-                    icon.foregroundColor(.imageForegroundOnButton)
+                    icon.foregroundColor(
+                        isEnabled ? .imageForegroundOnButtonPositive : .imageForegroundOnButtonNegative)
                 }
                 Text(text)
-                    .foregroundColor(Color.buttonForegroundPositive)
+                    .foregroundColor(isEnabled ? .buttonForegroundPositive : .buttonForegroundNegative)
             }
             .frame(maxWidth: .infinity, minHeight: 60)
             .background(isEnabled ?
@@ -47,6 +48,11 @@ struct NimliButtonPreviews: PreviewProvider {
             NimliButton(
                 text: "ログインする",
                 isEnabled: true) {
+                print("")
+            }
+            NimliButton(
+                text: "ログインする",
+                isEnabled: false) {
                 print("")
             }
         }
