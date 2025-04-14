@@ -1,167 +1,195 @@
+//
+//  GroupDetailView.swift
+//  Nimli
+//
+//  Created by Haruto Islay on 2024/04/14.
+//
+
 import SwiftUI
 
+/// View for the group detail screen
+///
+/// Displays basic group information, member list, and various action buttons.
+/// This view works in conjunction with `GroupDetailViewModel` to present
+/// detailed group information to the user.
+///
+/// - Note: This view requires a ViewModel that conforms to `GroupDetailViewModelProtocol`.
+///   Use mock objects for testing.
+///
+/// # Usage Example
+/// ```swift
+/// let viewModel = GroupDetailViewModel()
+/// GroupDetailView(viewModel: viewModel)
+/// ```
+///
+/// - Author: Haruto Islay
+/// - Version: 1.0.0
 struct GroupDetailView: View {
-    @StateObject private var viewModel = GroupDetailViewModel()
-    @Environment(\.dismiss) private var dismiss
+    /// ViewModel for the group detail screen
+    @StateObject private var viewModel: GroupDetailViewModel
+    
+    /// Initializes the group detail view
+    ///
+    /// - Parameter viewModel: ViewModel for the group detail screen
+    init(viewModel: GroupDetailViewModel) {
+        _viewModel = StateObject(wrappedValue: viewModel)
+    }
     
     var body: some View {
         ScrollView {
-            VStack(spacing: Spacing.unrelatedComponentDivider) {
-                // グループ情報セクション
+            VStack(spacing: 24) {
+                // Group information section
                 groupInfoSection
                 
-                // メンバーセクション
+                // Member list section
                 membersSection
                 
-                // アクションセクション
-                actionSection
+                // Action buttons section
+                actionButtonsSection
             }
-            .padding(Spacing.screenEdgePadding)
+            .padding()
         }
-        .background(Color("ScreenBackground"))
-        .navigationTitle("グループ")
+        .navigationTitle("グループ詳細")
         .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button {
-                    // 設定画面へ遷移
-                } label: {
-                    Image(systemName: "gearshape")
-                        .foregroundColor(Color("TextForeground"))
-                }
-            }
-        }
     }
     
-    // グループ情報セクション
+    /// Section displaying group information
+    ///
+    /// Shows group name, creation date, and administrator information.
+    /// The group name is editable, and the edit button is only visible
+    /// to users with administrator privileges.
     private var groupInfoSection: some View {
-        VStack(alignment: .leading, spacing: Spacing.componentGrouping) {
-            Text("グループ情報")
-                .font(.headline)
-                .foregroundColor(Color("TextForeground"))
-            
-            VStack(alignment: .leading, spacing: Spacing.relatedComponentDivider) {
-                HStack {
-                    Text("グループ名")
-                        .foregroundColor(Color("TextForeground"))
-                    Spacer()
-                    Text(viewModel.groupName)
-                        .foregroundColor(Color("TextForeground"))
-                    if viewModel.isCurrentUserAdmin {
-                        Button {
-                            viewModel.startEditingGroupName()
-                        } label: {
-                            Image(systemName: "pencil.circle")
-                                .foregroundColor(Color("Positive"))
-                        }
-                        .alert("グループ名を編集", isPresented: $viewModel.isEditingGroupName) {
-                            TextField("グループ名を入力", text: $viewModel.editingGroupName)
-                            Button {
-                                viewModel.saveGroupName()
-                            } label: {
-                                Text("OK")
-                            }
-                        }
-                    }
-                }
-                
-                HStack {
-                    Text("作成日")
-                        .foregroundColor(Color("TextForeground"))
-                    Spacer()
-                    Text(viewModel.createdAt)
-                        .foregroundColor(Color("TextForeground"))
-                }
-            }
-            .padding(Spacing.cardEdgePadding)
-            .background(Color("CardFillColorNormal"))
-            .cornerRadius(12)
-            .shadow(radius: 2)
-        }
-    }
-    
-    // メンバーセクション
-    private var membersSection: some View {
-        VStack(alignment: .leading, spacing: Spacing.componentGrouping) {
+        VStack(alignment: .leading, spacing: 16) {
+            // Group name
             HStack {
-                Text("メンバー")
-                    .font(.headline)
-                    .foregroundColor(Color("TextForeground"))
-                Spacer()
-                Button {
-                    // メンバー招待
-                } label: {
-                    Image(systemName: "person.badge.plus")
-                        .foregroundColor(Color("Positive"))
+                if viewModel.isEditingGroupName {
+                    TextField("グループ名", text: $viewModel.editingGroupName)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                    
+                    Button("保存") {
+                        viewModel.saveGroupName()
+                    }
+                    
+                    Button("キャンセル") {
+                        viewModel.cancelEditingGroupName()
+                    }
+                } else {
+                    Text(viewModel.groupName)
+                        .font(.title2)
+                        .fontWeight(.bold)
+                    
+                    if viewModel.isCurrentUserAdmin {
+                        Button(action: {
+                            viewModel.startEditingGroupName()
+                        }) {
+                            Image(systemName: "pencil")
+                                .foregroundColor(.blue)
+                        }
+                    }
                 }
             }
             
-            VStack(spacing: Spacing.relatedComponentDivider) {
-                ForEach(viewModel.members) { member in
-                    HStack {
-                        Image(systemName: "person.circle.fill")
-                            .font(.title2)
-                            .foregroundColor(Color("Positive"))
-                        
-                        VStack(alignment: .leading) {
-                            Text(member.name)
-                                .foregroundColor(Color("TextForeground"))
-                            Text(member.email)
-                                .font(.caption)
-                                .foregroundColor(Color("TextForeground"))
-                        }
-                        
-                        Spacer()
-                        
-                        if member.isAdmin {
-                            Text("管理者")
-                                .font(.caption)
-                                .padding(.horizontal, Spacing.componentGrouping)
-                                .padding(.vertical, 4)
-                                .background(Color("Positive").opacity(0.1))
-                                .foregroundColor(Color("Positive"))
-                                .cornerRadius(8)
-                        }
-                    }
-                    .padding(Spacing.cardEdgePadding)
-                    .background(Color("CardFillColorNormal"))
-                    .cornerRadius(12)
+            // Creation date
+            HStack {
+                Image(systemName: "calendar")
+                Text("作成日: \(viewModel.createdAt)")
+            }
+            .foregroundColor(.gray)
+            
+            // Administrator information
+            if viewModel.isCurrentUserAdmin {
+                HStack {
+                    Image(systemName: "star.fill")
+                        .foregroundColor(.yellow)
+                    Text("あなたは管理者です")
                 }
             }
         }
+        .padding()
+        .background(Color(.systemBackground))
+        .cornerRadius(12)
+        .shadow(radius: 2)
     }
     
-    // アクションセクション
-    private var actionSection: some View {
-        VStack(spacing: Spacing.relatedComponentDivider) {
+    /// Section displaying the member list
+    ///
+    /// Shows a list of group members.
+    /// Displays each member's name, email address, and administrator status.
+    private var membersSection: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text("メンバー")
+                .font(.headline)
+            
+            ForEach(viewModel.members) { member in
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text(member.name)
+                            .fontWeight(.medium)
+                        Text(member.email)
+                            .font(.caption)
+                            .foregroundColor(.gray)
+                    }
+                    
+                    Spacer()
+                    
+                    if member.isAdmin {
+                        Image(systemName: "star.fill")
+                            .foregroundColor(.yellow)
+                    }
+                }
+                .padding(.vertical, 8)
+                
+                if member.id != viewModel.members.last?.id {
+                    Divider()
+                }
+            }
+        }
+        .padding()
+        .background(Color(.systemBackground))
+        .cornerRadius(12)
+        .shadow(radius: 2)
+    }
+    
+    /// Section displaying action buttons
+    ///
+    /// Shows buttons for actions like inviting members and leaving the group.
+    /// The buttons displayed vary depending on administrator privileges.
+    private var actionButtonsSection: some View {
+        VStack(spacing: 16) {
             if viewModel.isCurrentUserAdmin {
-                NimliButton(
-                    text: "メンバーを招待する",
-                    isEnabled: true,
-                    onClick: {
-                        viewModel.inviteMember()
-                    },
-                    leadingIcon: AnyView(
+                Button(action: {
+                    viewModel.inviteMember()
+                }) {
+                    HStack {
                         Image(systemName: "person.badge.plus")
-                    )
-                )
+                        Text("メンバーを招待")
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+                }
             }
             
-            NimliButton(
-                text: "グループを退出する",
-                isEnabled: false,
-                onClick: {
-                    // グループ退出の処理
-                },
-                leadingIcon: AnyView(
-                    Image(systemName: "person.fill.xmark")
-                )
-            )
+            Button(action: {
+                viewModel.leaveGroup()
+            }) {
+                HStack {
+                    Image(systemName: "rectangle.portrait.and.arrow.right")
+                    Text("グループから退出")
+                }
+                .frame(maxWidth: .infinity)
+                .padding()
+                .background(Color.red)
+                .foregroundColor(.white)
+                .cornerRadius(10)
+            }
         }
     }
 }
 
-// プレビュー
+// Preview
 #Preview {
     NavigationStack {
         GroupDetailView()
