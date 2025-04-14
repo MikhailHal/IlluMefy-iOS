@@ -4,6 +4,8 @@ class GroupDetailViewModel: ObservableObject {
     @Published var groupName: String = "家族グループ"
     @Published var createdAt: String = "2024年4月1日"
     @Published var isCurrentUserAdmin: Bool = true
+    @Published var isEditingGroupName: Bool = false
+    @Published var editingGroupName: String = ""
     @Published var members: [Member] = [
         Member(id: "1", name: "山田太郎", email: "yamada@example.com", isAdmin: true),
         Member(id: "2", name: "山田花子", email: "hanako@example.com", isAdmin: false),
@@ -15,6 +17,23 @@ class GroupDetailViewModel: ObservableObject {
         let name: String
         let email: String
         let isAdmin: Bool
+    }
+    
+    func startEditingGroupName() {
+        editingGroupName = groupName
+        isEditingGroupName = true
+    }
+    
+    func saveGroupName() {
+        if !editingGroupName.isEmpty {
+            groupName = editingGroupName
+        }
+        isEditingGroupName = false
+    }
+    
+    func cancelEditingGroupName() {
+        editingGroupName = ""
+        isEditingGroupName = false
     }
     
     func inviteMember() {

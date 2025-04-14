@@ -47,6 +47,22 @@ struct GroupDetailView: View {
                     Spacer()
                     Text(viewModel.groupName)
                         .foregroundColor(Color("TextForeground"))
+                    if viewModel.isCurrentUserAdmin {
+                        Button {
+                            viewModel.startEditingGroupName()
+                        } label: {
+                            Image(systemName: "pencil.circle")
+                                .foregroundColor(Color("Positive"))
+                        }
+                        .alert("グループ名を編集", isPresented: $viewModel.isEditingGroupName) {
+                            TextField("グループ名を入力", text: $viewModel.editingGroupName)
+                            Button {
+                                viewModel.saveGroupName()
+                            } label: {
+                                Text("OK")
+                            }
+                        }
+                    }
                 }
                 
                 HStack {
