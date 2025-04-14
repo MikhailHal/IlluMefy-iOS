@@ -118,6 +118,19 @@ struct GroupDetailView: View {
     // アクションセクション
     private var actionSection: some View {
         VStack(spacing: Spacing.relatedComponentDivider) {
+            if viewModel.isCurrentUserAdmin {
+                NimliButton(
+                    text: "メンバーを招待する",
+                    isEnabled: true,
+                    onClick: {
+                        viewModel.inviteMember()
+                    },
+                    leadingIcon: AnyView(
+                        Image(systemName: "person.badge.plus")
+                    )
+                )
+            }
+            
             NimliButton(
                 text: "グループを退出する",
                 isEnabled: false,
