@@ -19,6 +19,10 @@ class LoginViewModel: LoginViewModelProtocol {
     @Published var isStoreLoginInformation: Bool = false
     @Published var hasStoredLoginInfo: Bool = false
     
+    var isValid: Bool {
+        !email.isEmpty && email.contains("@") && password.count >= 6
+    }
+    
     init(
         loginUseCase: any AccountLoginUseCaseProtocol,
         setStoreLoginAccountInLocalUseCase: any SetStoreLoginAccountInLocalUseCaseProtocol,
