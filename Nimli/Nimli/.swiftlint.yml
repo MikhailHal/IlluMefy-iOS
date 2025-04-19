@@ -16,3 +16,4 @@ identifier_name:
 disabled_rules:
   - trailing_whitespace
   - file_length
+  - identifier_name
