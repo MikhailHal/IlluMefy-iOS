@@ -134,8 +134,7 @@ struct GroupDetailView: View {
                     Spacer()
                     
                     if member.isAdmin {
-                        Image(systemName: "star.fill")
-                            .foregroundColor(.yellow)
+                        Image(systemName: "star.fill").foregroundColor(.yellow)
                     }
                 }
                 .padding(.vertical, 8)
