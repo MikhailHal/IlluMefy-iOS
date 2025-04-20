@@ -32,7 +32,11 @@ struct NimliButton: View {
                 .frame(height: 52)
                 .background(
                     ZStack {
-                        Color("Base/Main")
+                        if isEnabled {
+                            Color("Button/BackgroundForEnabled")
+                        } else {
+                            Color("Button/BackgroundForDisabled")
+                        }
                         Circle()
                             .fill(Color.white.opacity(0.3))
                             .scaleEffect(rippleSize)
@@ -40,7 +44,8 @@ struct NimliButton: View {
                             .opacity(rippleOpacity)
                     }
                 )
-                .foregroundColor(.white)
+                .foregroundColor(
+                    isEnabled ? Color("Button/ForegroundForEnabled") : Color("Button/ForegroundForDisabled"))
                 .cornerRadius(8)
                 .clipped()
         })
@@ -78,7 +83,7 @@ struct NimliButtonPreviews: PreviewProvider {
             )
             NimliButton(
                 title: "テスト",
-                isEnabled: true, action: {
+                isEnabled: false, action: {
                     print("")
                 }
             )
