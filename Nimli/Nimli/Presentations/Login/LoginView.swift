@@ -7,27 +7,6 @@
 
 import SwiftUI
 
-// カスタムテキストフィールドスタイル
-struct LoginTextFieldStyle: TextFieldStyle {
-    @FocusState private var isFocused: Bool
-    
-    func _body(configuration: TextField<Self._Label>) -> some View {
-        configuration
-            .focused($isFocused)
-            .padding(.vertical, 14)
-            .padding(.horizontal, 16)
-            .background(Color("Background/Card"))
-            .cornerRadius(8)
-            .overlay(
-                RoundedRectangle(cornerRadius: 8)
-                    .stroke(
-                        isFocused ? Color("Base/Main") : Color("TextBorderNoneFocused"),
-                        lineWidth: isFocused ? 1.5 : 0.5
-                    )
-            )
-    }
-}
-
 // ボタンスタイルの定義
 struct NimliLoginButtonStyle: ButtonStyle {
     let isValid: Bool
@@ -133,12 +112,11 @@ struct LoginForm: View {
                     .fontWeight(.medium)
                     .foregroundColor(Color("Text/OnCard"))
                 
-                TextField("メールアドレスを入力", text: $viewModel.email)
-                    .textFieldStyle(LoginTextFieldStyle())
-                    .autocapitalization(.none)
-                    .keyboardType(.emailAddress)
-                    .textContentType(.emailAddress)
-                    .foregroundColor(Color("Text/OnCard"))
+                NimliPlainTextField(
+                    text: $viewModel.email,
+                    title: "メールアドレス",
+                    placeHolder: "メールアドレスを入力する"
+                )
             }
             
             // Password field
@@ -149,7 +127,9 @@ struct LoginForm: View {
                     .foregroundColor(Color("Text/OnCard"))
                 
                 SecureField("パスワードを入力", text: $viewModel.password)
-                    .textFieldStyle(LoginTextFieldStyle())
+                    .textFieldStyle(
+                        LoginTextFieldStyle(isEnabled: true, text: $viewModel.password, placeholder: "aa")
+                    )
                     .textContentType(.password)
                     .foregroundColor(Color("Text/OnCard"))
             }
