@@ -24,6 +24,7 @@ struct NimliLoginButtonStyle: ButtonStyle {
     }
 }
 
+
 struct LoginView: View {
     @StateObject private var viewModel = DependencyContainer.shared.resolve(LoginViewModel.self)!
     @EnvironmentObject var router: NimliAppRouter
@@ -102,10 +103,12 @@ struct LoginView: View {
 
 struct LoginForm: View {
     @ObservedObject var viewModel: LoginViewModel
+    @State private var isEmailFocused = false
+    @State private var isPasswordFocused = false
     
     var body: some View {
         VStack(spacing: 20) {
-            // Email field
+            // Email Field
             VStack(alignment: .leading, spacing: 8) {
                 Text("メールアドレス")
                     .font(.subheadline)
@@ -114,26 +117,23 @@ struct LoginForm: View {
                 
                 NimliPlainTextField(
                     text: $viewModel.email,
-                    title: "メールアドレス",
-                    placeHolder: "メールアドレスを入力する"
+                    placeHolder: "メールアドレスを入力してください"
                 )
             }
             
-            // Password field
+            // Password Field
             VStack(alignment: .leading, spacing: 8) {
                 Text("パスワード")
-                    .font(.subheadline)
-                    .fontWeight(.medium)
-                    .foregroundColor(Color("Text/OnCard"))
+                    .font(.system(size: 14, weight: .medium))
+                    .foregroundColor(.gray)
                 
-                SecureField("パスワードを入力", text: $viewModel.password)
-                    .textFieldStyle(
-                        LoginTextFieldStyle(isEnabled: true, text: $viewModel.password, placeholder: "aa")
-                    )
-                    .textContentType(.password)
-                    .foregroundColor(Color("Text/OnCard"))
+                /*SecureField("", text: $viewModel.password)
+                    .textFieldStyle(TextFieldType.password.style)
+                    .focused($isPasswordFocused)
+                    .textContentType(.password)*/
             }
         }
+        .padding(.horizontal, 24)
     }
 }
 

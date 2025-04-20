@@ -178,7 +178,7 @@ struct InputFieldsView: View {
     var body: some View {
         VStack {
             // Email field
-            NimliPlainTextField(
+            /*NimliPlainTextField(
                 text: $viewModel.email,
                 title: "メールアドレス",
                 placeHolder: "メールアドレス",
@@ -207,7 +207,7 @@ struct InputFieldsView: View {
                     bottom: Spacing.none,
                     trailing: Spacing.none
                 )
-            )
+            )*/
         }
     }
 }

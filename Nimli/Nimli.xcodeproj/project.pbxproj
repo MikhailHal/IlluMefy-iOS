@@ -47,6 +47,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Utilities/Components/TextFields/NimliPlainTextField.swift,
+				Utilities/Components/TextFields/NimliTextFieldStyles.swift,
 			);
 			target = 645EBD0F2D58F9C800AC7BAC /* NimliTests */;
 		};
@@ -54,6 +55,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Utilities/Components/TextFields/NimliPlainTextField.swift,
+				Utilities/Components/TextFields/NimliTextFieldStyles.swift,
 			);
 			target = 645EBD192D58F9C800AC7BAC /* NimliUITests */;
 		};
