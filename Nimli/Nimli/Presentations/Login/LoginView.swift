@@ -34,7 +34,7 @@ struct LoginView: View {
                 // option for storing login
                 Toggle(isOn: $viewModel.isStoreLoginInformation) {
                     Text("ログイン情報を保存する")
-                        .font(.system(size: 14))
+                        .font(.footnote)
                         .foregroundColor(Color("Text/OnCard"))
                 }
                 .toggleStyle(SwitchToggleStyle(tint: Color("ToggleButton/Enabled")))
@@ -48,7 +48,7 @@ struct LoginView: View {
                 }
             }, label: {
                 Text("ログイン")
-                    .font(.system(size: 15, weight: .semibold))
+                    .font(.headline)
                     .frame(maxWidth: .infinity)
                     .frame(height: 48)
                     .foregroundColor(Color("Text/OnMain"))
@@ -85,7 +85,7 @@ private func Header() -> some View {
     HStack {
         Spacer()
         Text("LOG IN")
-            .font(.system(size: 17, weight: .regular))
+            .font(.title3)
             .foregroundColor(Color("Text/Foreground"))
         Spacer()
     }
@@ -99,7 +99,7 @@ struct LoginForm: View {
             // Email field
             VStack(alignment: .leading, spacing: Spacing.componentGrouping) {
                 Text("メールアドレス")
-                    .font(.system(size: 14, weight: .regular))
+                    .font(.subheadline)
                     .foregroundColor(Color("Text/OnCard"))
                 
                 TextField("メールアドレスを入力", text: $viewModel.email)
@@ -111,7 +111,7 @@ struct LoginForm: View {
             // Password field
             VStack(alignment: .leading, spacing: Spacing.componentGrouping) {
                 Text("パスワード")
-                    .font(.system(size: 14, weight: .regular))
+                    .font(.subheadline)
                     .foregroundColor(Color("Text/OnCard"))
                 
                 SecureField("パスワードを入力", text: $viewModel.password)
