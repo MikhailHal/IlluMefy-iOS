@@ -124,13 +124,14 @@ struct LoginForm: View {
             // Password Field
             VStack(alignment: .leading, spacing: 8) {
                 Text("パスワード")
-                    .font(.system(size: 14, weight: .medium))
-                    .foregroundColor(.gray)
+                    .font(.subheadline)
+                    .fontWeight(.medium)
+                    .foregroundColor(Color("Text/OnCard"))
                 
-                /*SecureField("", text: $viewModel.password)
-                    .textFieldStyle(TextFieldType.password.style)
-                    .focused($isPasswordFocused)
-                    .textContentType(.password)*/
+                NimliConfidentialTextField(
+                    text: $viewModel.password,
+                    placeHolder: "パスワードを入力してください"
+                )
             }
         }
         .padding(.horizontal, 24)

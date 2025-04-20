@@ -12,28 +12,18 @@ import SwiftUI
  This wasn't created for secure information(e.g. password, credit card and more!).
  */
 struct NimliPlainTextField: View {
-    let placeHolder: String
-    let isEnabled: Bool
     @Binding var text: String
-    @FocusState var isTyping: Bool
-    init(
-        text: Binding<String>,
-        placeHolder: String,
-        isEnabled: Bool = true,
-        onTextChange: ((String) -> Void)? = nil) {
-            self._text = text
-            self.placeHolder = placeHolder
-            self.isEnabled = isEnabled
-    }
+    let placeHolder: String
+    @FocusState private var isFocused: Bool
+    
     var body: some View {
-        TextField("", text: self.$text)
-            .textFieldStyle(
-                LoginTextFieldStyle(
-                    isEnabled: isEnabled,
-                    text: $text,
-                    placeholder: placeHolder
-                )
-            )
+        TextField(placeHolder, text: $text)
+            .textFieldStyle(LoginTextFieldStyle(isEnabled: true, text: $text, placeholder: placeHolder))
+            .focused($isFocused)
+            .contentShape(Rectangle())
+            .onTapGesture {
+                isFocused = true
+            }
     }
 }
 
@@ -42,7 +32,7 @@ struct NimliPlainTextFieldPreviews: PreviewProvider {
         Group {
             NimliPlainTextField(
                 text: .constant(""),
-                placeHolder: "プレースホルダー"
+                placeHolder: "メールアドレスを入力してください"
             ).previewDisplayName("Empty TextField")
         }
         .padding()
