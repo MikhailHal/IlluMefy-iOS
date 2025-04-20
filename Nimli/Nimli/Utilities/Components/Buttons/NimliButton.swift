@@ -11,34 +11,59 @@ import SwiftUI
  This was created for commonalizing button.
  */
 struct NimliButton: View {
-    var text: String
-    var isEnabled: Bool
-    var onClick: () -> Void
-    var leadingIcon: AnyView?
-    var endIcon: AnyView?
-
+    @State private var ripplePosition: CGPoint = .zero
+    @State private var rippleSize: CGFloat = 0
+    @State private var rippleOpacity: Double = 0
+    private let action: () -> Void
+    private let title: String
+    private let isEnabled: Bool
+    init(title: String, isEnabled: Bool, action: @escaping () -> Void) {
+        self.title = title
+        self.isEnabled = isEnabled
+        self.action = action
+    }
+    
     var body: some View {
-        Button(action: onClick) {
-            HStack {
-                if let icon = leadingIcon {
-                    icon.foregroundColor(
-                        isEnabled ? .imageForegroundOnButtonPositive : .imageForegroundOnButtonNegative)
+        Button(action: {
+            action()
+        }, label: {
+            Text(title)
+                .frame(maxWidth: .infinity)
+                .frame(height: 52)
+                .background(
+                    ZStack {
+                        Color("Base/Main")
+                        Circle()
+                            .fill(Color.white.opacity(0.3))
+                            .scaleEffect(rippleSize)
+                            .position(ripplePosition)
+                            .opacity(rippleOpacity)
+                    }
+                )
+                .foregroundColor(.white)
+                .cornerRadius(8)
+                .clipped()
+        })
+        .simultaneousGesture(
+            SpatialTapGesture()
+                .onEnded { value in
+                    let feedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
+                    ripplePosition = value.location
+                    withAnimation(.easeOut(duration: 0.15)) {
+                        rippleOpacity = 0.4
+                        rippleSize = 1.1
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                        withAnimation(.easeOut(duration: 0.75)) {
+                            rippleSize = 12.0
+                            rippleOpacity = 0
+                        }
+                    }
+                    feedbackGenerator.prepare()
+                    feedbackGenerator.impactOccurred(intensity: 0.5)
                 }
-                Text(text)
-                    .foregroundColor(isEnabled ? .buttonForegroundPositive : .buttonForegroundNegative)
-            }
-            .frame(maxWidth: .infinity, minHeight: 60)
-            .background(isEnabled ?
-                        Color.buttonBackgroundPositive : Color.buttonBackgroundNegative
-            )
-        }
-        .disabled(!isEnabled)
-        .cornerRadius(10)
-        .shadow(
-            color: isEnabled ? .buttonBackgroundPositive.opacity(0.3) : Color.clear,
-            radius: 5, x: 0, y: 2
         )
-        .padding(.top, 10)
+        .disabled(!isEnabled)
     }
 }
 
@@ -46,15 +71,17 @@ struct NimliButtonPreviews: PreviewProvider {
     static var previews: some View {
         Group {
             NimliButton(
-                text: "ログインする",
-                isEnabled: true) {
-                print("")
-            }
+                title: "テスト",
+                isEnabled: true, action: {
+                    print("")
+                }
+            )
             NimliButton(
-                text: "ログインする",
-                isEnabled: false) {
-                print("")
-            }
+                title: "テスト",
+                isEnabled: true, action: {
+                    print("")
+                }
+            )
         }
         .padding()
         .previewLayout(.sizeThatFits)

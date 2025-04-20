@@ -114,7 +114,7 @@ struct SignUpFormView: View {
                 )
                 
                 // Register button
-                NimliButton(
+                /*NimliButton(
                     text: "アカウントを登録する",
                     isEnabled: viewModel.isEnableRegisterButton,
                     onClick: {
@@ -127,7 +127,7 @@ struct SignUpFormView: View {
                     leadingIcon: AnyView(
                         Image(systemName: "person.crop.circle.badge.plus")
                     )
-                )
+                )*/
                 
                 // Login option
                 LoginOptionView(router: router)
@@ -401,13 +401,13 @@ struct TermsOfServiceBottomSheetContent: View {
                         .font(.body)
                 }
             }
-            NimliButton(
+            /*NimliButton(
                 text: "利用規約の詳細を確認する",
                 isEnabled: true,
                 onClick: {
                     openURL(URL(string: "https://github.com/aoi-stella/Nimli-iOS/blob/main/terms-of-service-full.md")!)
                 }
-            ).padding()
+            ).padding()*/
         }
         .padding()
     }
@@ -450,13 +450,13 @@ struct PrivacyPolicyBottomSheetContent: View {
                         .font(.body)
                 }
             }
-            NimliButton(
+            /*NimliButton(
                 text: "プライバシーポリシーの詳細を確認する",
                 isEnabled: true,
                 onClick: {
                     openURL(URL(string: "https://github.com/aoi-stella/Nimli-iOS/blob/main/privacy-policy.md")!)
                 }
-            ).padding()
+            ).padding()*/
         }
         .padding()
     }

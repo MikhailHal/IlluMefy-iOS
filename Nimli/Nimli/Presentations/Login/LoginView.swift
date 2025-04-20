@@ -9,15 +9,39 @@ import SwiftUI
 
 // カスタムテキストフィールドスタイル
 struct LoginTextFieldStyle: TextFieldStyle {
+    @FocusState private var isFocused: Bool
+    
     func _body(configuration: TextField<Self._Label>) -> some View {
         configuration
-            .padding(.vertical, 12)
+            .focused($isFocused)
+            .padding(.vertical, 14)
             .padding(.horizontal, 16)
             .background(Color("Background/Card"))
+            .cornerRadius(8)
             .overlay(
-                RoundedRectangle(cornerRadius: 6)
-                    .stroke(Color("TextBorderNoneFocused"), lineWidth: 0.5)
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(
+                        isFocused ? Color("Base/Main") : Color("TextBorderNoneFocused"),
+                        lineWidth: isFocused ? 1.5 : 0.5
+                    )
             )
+    }
+}
+
+// ボタンスタイルの定義
+struct NimliLoginButtonStyle: ButtonStyle {
+    let isValid: Bool
+    
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .scaleEffect(configuration.isPressed ? 0.98 : 1.0)
+            .opacity(isValid ? 1.0 : 0.6)
+            .shadow(
+                color: Color("Base/Main").opacity(configuration.isPressed ? 0.1 : 0.2),
+                radius: configuration.isPressed ? 4 : 8,
+                y: configuration.isPressed ? 2 : 4
+            )
+            .animation(.spring(response: 0.2), value: configuration.isPressed)
     }
 }
 
@@ -26,38 +50,54 @@ struct LoginView: View {
     @EnvironmentObject var router: NimliAppRouter
     
     var body: some View {
-        VStack {
-            Header()
-            NimliCardNomal(content: {
-                LoginForm(viewModel: viewModel)
+        ScrollView {
+            VStack {
+                // Welcome Section
+                VStack(spacing: Spacing.componentGrouping) {
+                    Image(systemName: "lock.shield.fill")
+                        .font(.system(size: 48))
+                        .foregroundColor(Color("Base/Main"))
+                    Text("おかえりなさい！")
+                        .font(.subheadline)
+                        .foregroundColor(Color("Text/Foreground"))
+                    Text("フードロスを減らしていきましょう！")
+                        .font(.subheadline)
+                        .foregroundColor(Color("Text/Foreground"))
+                }
+                .padding(.top, Spacing.screenEdgePadding)
+                .padding(.bottom, Spacing.unrelatedComponentDivider)
                 
-                // option for storing login
-                Toggle(isOn: $viewModel.isStoreLoginInformation) {
-                    Text("ログイン情報を保存する")
-                        .font(.footnote)
-                        .foregroundColor(Color("Text/OnCard"))
-                }
-                .toggleStyle(SwitchToggleStyle(tint: Color("ToggleButton/Enabled")))
-            })
-            .padding(Spacing.screenEdgePadding)
-            Button(action: {
-                Task {
-                    router.showLoading()
-                    await viewModel.login()
-                    router.hideLoading()
-                }
-            }, label: {
-                Text("ログイン")
-                    .font(.headline)
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 48)
-                    .foregroundColor(Color("Text/OnMain"))
-                    .background(viewModel.isValid ? Color("Base/Main") : Color("Base/Main").opacity(0.5))
-                    .cornerRadius(6)
-            })
-            .disabled(!viewModel.isValid)
-            .padding(.horizontal, Spacing.screenEdgePadding)
-            Spacer()
+                // Login Form Card
+                NimliCardNomal(content: {
+                    VStack(spacing: Spacing.unrelatedComponentDivider) {
+                        LoginForm(viewModel: viewModel)
+                        
+                        // Store login info
+                        Toggle(isOn: $viewModel.isStoreLoginInformation) {
+                            Text("ログイン情報を保存する")
+                                .font(.footnote)
+                                .foregroundColor(Color("Text/OnCard"))
+                        }
+                        .toggleStyle(SwitchToggleStyle(tint: Color("ToggleButton/Enabled")))
+                    }
+                    .padding(.vertical, 8)
+                })
+                .padding(.horizontal, Spacing.screenEdgePadding)
+                
+                // Login Button
+                NimliButton(
+                    title: "ログイン",
+                    isEnabled: viewModel.isValid,
+                    action: {
+                        Task {
+                            router.showLoading()
+                            await viewModel.login()
+                            router.hideLoading()
+                        }
+                    }
+                ).padding(.horizontal, Spacing.screenEdgePadding)
+                Spacer()
+            }
         }
         .background(Color("Background/Screen"))
         .alert("ログイン失敗", isPresented: $viewModel.isShowErrorDialog) {
@@ -81,41 +121,36 @@ struct LoginView: View {
     }
 }
 
-private func Header() -> some View {
-    HStack {
-        Spacer()
-        Text("LOG IN")
-            .font(.title3)
-            .foregroundColor(Color("Text/Foreground"))
-        Spacer()
-    }
-    .padding(Spacing.screenEdgePadding)
-}
-
 struct LoginForm: View {
     @ObservedObject var viewModel: LoginViewModel
+    
     var body: some View {
-        VStack {
+        VStack(spacing: 20) {
             // Email field
-            VStack(alignment: .leading, spacing: Spacing.componentGrouping) {
+            VStack(alignment: .leading, spacing: 8) {
                 Text("メールアドレス")
                     .font(.subheadline)
+                    .fontWeight(.medium)
                     .foregroundColor(Color("Text/OnCard"))
                 
                 TextField("メールアドレスを入力", text: $viewModel.email)
                     .textFieldStyle(LoginTextFieldStyle())
                     .autocapitalization(.none)
+                    .keyboardType(.emailAddress)
+                    .textContentType(.emailAddress)
                     .foregroundColor(Color("Text/OnCard"))
             }
             
             // Password field
-            VStack(alignment: .leading, spacing: Spacing.componentGrouping) {
+            VStack(alignment: .leading, spacing: 8) {
                 Text("パスワード")
                     .font(.subheadline)
+                    .fontWeight(.medium)
                     .foregroundColor(Color("Text/OnCard"))
                 
                 SecureField("パスワードを入力", text: $viewModel.password)
                     .textFieldStyle(LoginTextFieldStyle())
+                    .textContentType(.password)
                     .foregroundColor(Color("Text/OnCard"))
             }
         }
