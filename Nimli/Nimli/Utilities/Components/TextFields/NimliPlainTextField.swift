@@ -17,7 +17,7 @@ struct NimliPlainTextField: View {
     @FocusState private var isFocused: Bool
     
     var body: some View {
-        TextField(placeHolder, text: $text)
+        TextField("", text: $text)
             .textFieldStyle(LoginTextFieldStyle(isEnabled: true, text: $text, placeholder: placeHolder))
             .focused($isFocused)
             .contentShape(Rectangle())

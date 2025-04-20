@@ -117,7 +117,7 @@ struct LoginForm: View {
                 
                 NimliPlainTextField(
                     text: $viewModel.email,
-                    placeHolder: "メールアドレスを入力してください"
+                    placeHolder: "メールアドレスを入力"
                 )
             }
             
@@ -130,7 +130,7 @@ struct LoginForm: View {
                 
                 NimliConfidentialTextField(
                     text: $viewModel.password,
-                    placeHolder: "パスワードを入力してください"
+                    placeHolder: "パスワードを入力"
                 )
             }
         }

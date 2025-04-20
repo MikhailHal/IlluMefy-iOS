@@ -53,15 +53,17 @@ struct PasswordTextFieldStyle: TextFieldStyle {
     private var isEnabled: Bool
     @Binding var text: String
     private var placeholder: String
+    @Binding var showPassword: Bool
     
-    init (isEnabled: Bool, text: Binding<String>, placeholder: String) {
+    init (isEnabled: Bool, text: Binding<String>, placeholder: String, showPassword: Binding<Bool>) {
         self.isEnabled = isEnabled
         self._text = text
         self.placeholder = placeholder
+        self._showPassword = showPassword
     }
     
     func _body(configuration: TextField<Self._Label>) -> some View {
-        ZStack(alignment: .leading) {
+        ZStack(alignment: .trailing) {
             configuration
                 .focused($isFocused)
                 .padding(.vertical, 12)
@@ -78,13 +80,29 @@ struct PasswordTextFieldStyle: TextFieldStyle {
                             lineWidth: isFocused ? 1.5 : 0.5
                         )
                 )
-            if text.isEmpty {
-                Text(placeholder)
-                    .foregroundColor(getPlaceHolderColor(isEnabled))
-                    .padding(.horizontal, 20)
-                    .padding(.vertical, 12)
-            }
+            
+            Button(action: {
+                showPassword.toggle()
+            }, label: {
+                Image(systemName: showPassword ? "eye.slash.fill" : "eye.fill")
+                    .foregroundColor(Color("Text/OnCard"))
+                    .opacity(0.6)
+                    .frame(width: 24, height: 24)
+            })
+            .frame(width: 44, height: 44)
+            .padding(.trailing, 16)
         }
+        .overlay(
+            Group {
+                if text.isEmpty {
+                    Text(placeholder)
+                        .foregroundColor(getPlaceHolderColor(isEnabled))
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 12)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+            }
+        )
     }
 }
 
