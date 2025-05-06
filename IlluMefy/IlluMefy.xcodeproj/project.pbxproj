@@ -1,0 +1,768 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		648FF53E2D8C5A4800340F3E /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 648FF53D2D8C5A4800340F3E /* Swinject */; };
+		64C1AE242D919D32005182B5 /* SwiftfulLoadingIndicators in Frameworks */ = {isa = PBXBuildFile; productRef = 64C1AE232D919D32005182B5 /* SwiftfulLoadingIndicators */; };
+		64EF864C2D7601B900C9732A /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 64EF864B2D7601B900C9732A /* FirebaseAnalytics */; };
+		64EF864E2D7601B900C9732A /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 64EF864D2D7601B900C9732A /* FirebaseAuth */; };
+		64EF86502D7601B900C9732A /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 64EF864F2D7601B900C9732A /* FirebaseCrashlytics */; };
+		64EF86522D7601B900C9732A /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 64EF86512D7601B900C9732A /* FirebaseFirestore */; };
+		64EF86542D7601B900C9732A /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = 64EF86532D7601B900C9732A /* FirebaseFunctions */; };
+		64EF86562D7601B900C9732A /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 64EF86552D7601B900C9732A /* FirebaseMessaging */; };
+		64EF86582D7601B900C9732A /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 64EF86572D7601B900C9732A /* FirebaseStorage */; };
+		64EF865A2D7601B900C9732A /* FirebaseVertexAI in Frameworks */ = {isa = PBXBuildFile; productRef = 64EF86592D7601B900C9732A /* FirebaseVertexAI */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		645EBD112D58F9C800AC7BAC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 645EBCF62D58F9C600AC7BAC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 645EBCFD2D58F9C600AC7BAC;
+			remoteInfo = Pencula;
+		};
+		645EBD1B2D58F9C800AC7BAC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 645EBCF62D58F9C600AC7BAC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 645EBCFD2D58F9C600AC7BAC;
+			remoteInfo = Pencula;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		645EBCFE2D58F9C600AC7BAC /* IlluMefy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IlluMefy.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		645EBD102D58F9C800AC7BAC /* IlluMefyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IlluMefyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		645EBD1A2D58F9C800AC7BAC /* IlluMefyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IlluMefyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		642474C32DCA6B6600292C52 /* Exceptions for "IlluMefy" folder in "IlluMefy" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 645EBCFD2D58F9C600AC7BAC /* IlluMefy */;
+		};
+		64EF85B82D6E099F00C9732A /* Exceptions for "IlluMefy" folder in "IlluMefyTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Utilities/Components/TextFields/NimliPlainTextField.swift,
+				Utilities/Components/TextFields/NimliTextFieldStyles.swift,
+			);
+			target = 645EBD0F2D58F9C800AC7BAC /* IlluMefyTests */;
+		};
+		64EF85B92D6E099F00C9732A /* Exceptions for "IlluMefy" folder in "IlluMefyUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Utilities/Components/TextFields/NimliPlainTextField.swift,
+				Utilities/Components/TextFields/NimliTextFieldStyles.swift,
+			);
+			target = 645EBD192D58F9C800AC7BAC /* IlluMefyUITests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		645EBD002D58F9C600AC7BAC /* IlluMefy */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				642474C32DCA6B6600292C52 /* Exceptions for "IlluMefy" folder in "IlluMefy" target */,
+				64EF85B82D6E099F00C9732A /* Exceptions for "IlluMefy" folder in "IlluMefyTests" target */,
+				64EF85B92D6E099F00C9732A /* Exceptions for "IlluMefy" folder in "IlluMefyUITests" target */,
+			);
+			explicitFileTypes = {
+				.swiftlint.yml = text.yaml;
+			};
+			path = IlluMefy;
+			sourceTree = "<group>";
+		};
+		645EBD132D58F9C800AC7BAC /* IlluMefyTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = IlluMefyTests;
+			sourceTree = "<group>";
+		};
+		645EBD1D2D58F9C800AC7BAC /* IlluMefyUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = IlluMefyUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		645EBCFB2D58F9C600AC7BAC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				64EF86562D7601B900C9732A /* FirebaseMessaging in Frameworks */,
+				64EF865A2D7601B900C9732A /* FirebaseVertexAI in Frameworks */,
+				64EF86502D7601B900C9732A /* FirebaseCrashlytics in Frameworks */,
+				64EF86522D7601B900C9732A /* FirebaseFirestore in Frameworks */,
+				64EF86542D7601B900C9732A /* FirebaseFunctions in Frameworks */,
+				648FF53E2D8C5A4800340F3E /* Swinject in Frameworks */,
+				64EF86582D7601B900C9732A /* FirebaseStorage in Frameworks */,
+				64EF864C2D7601B900C9732A /* FirebaseAnalytics in Frameworks */,
+				64EF864E2D7601B900C9732A /* FirebaseAuth in Frameworks */,
+				64C1AE242D919D32005182B5 /* SwiftfulLoadingIndicators in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		645EBD0D2D58F9C800AC7BAC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		645EBD172D58F9C800AC7BAC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		645EBCF52D58F9C600AC7BAC = {
+			isa = PBXGroup;
+			children = (
+				645EBD002D58F9C600AC7BAC /* IlluMefy */,
+				645EBD132D58F9C800AC7BAC /* IlluMefyTests */,
+				645EBD1D2D58F9C800AC7BAC /* IlluMefyUITests */,
+				645EBCFF2D58F9C600AC7BAC /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		645EBCFF2D58F9C600AC7BAC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				645EBCFE2D58F9C600AC7BAC /* IlluMefy.app */,
+				645EBD102D58F9C800AC7BAC /* IlluMefyTests.xctest */,
+				645EBD1A2D58F9C800AC7BAC /* IlluMefyUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		645EBCFD2D58F9C600AC7BAC /* IlluMefy */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 645EBD242D58F9C800AC7BAC /* Build configuration list for PBXNativeTarget "IlluMefy" */;
+			buildPhases = (
+				645EBCFA2D58F9C600AC7BAC /* Sources */,
+				645EBCFB2D58F9C600AC7BAC /* Frameworks */,
+				645EBCFC2D58F9C600AC7BAC /* Resources */,
+				6492A80D2D60AC1C00AF6AFE /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				64EF85362D620B8400C9732A /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				645EBD002D58F9C600AC7BAC /* IlluMefy */,
+			);
+			name = IlluMefy;
+			packageProductDependencies = (
+				64EF864B2D7601B900C9732A /* FirebaseAnalytics */,
+				64EF864D2D7601B900C9732A /* FirebaseAuth */,
+				64EF864F2D7601B900C9732A /* FirebaseCrashlytics */,
+				64EF86512D7601B900C9732A /* FirebaseFirestore */,
+				64EF86532D7601B900C9732A /* FirebaseFunctions */,
+				64EF86552D7601B900C9732A /* FirebaseMessaging */,
+				64EF86572D7601B900C9732A /* FirebaseStorage */,
+				64EF86592D7601B900C9732A /* FirebaseVertexAI */,
+				648FF53D2D8C5A4800340F3E /* Swinject */,
+				64C1AE232D919D32005182B5 /* SwiftfulLoadingIndicators */,
+			);
+			productName = Pencula;
+			productReference = 645EBCFE2D58F9C600AC7BAC /* IlluMefy.app */;
+			productType = "com.apple.product-type.application";
+		};
+		645EBD0F2D58F9C800AC7BAC /* IlluMefyTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 645EBD272D58F9C800AC7BAC /* Build configuration list for PBXNativeTarget "IlluMefyTests" */;
+			buildPhases = (
+				645EBD0C2D58F9C800AC7BAC /* Sources */,
+				645EBD0D2D58F9C800AC7BAC /* Frameworks */,
+				645EBD0E2D58F9C800AC7BAC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				645EBD122D58F9C800AC7BAC /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				645EBD132D58F9C800AC7BAC /* IlluMefyTests */,
+			);
+			name = IlluMefyTests;
+			packageProductDependencies = (
+			);
+			productName = PenculaTests;
+			productReference = 645EBD102D58F9C800AC7BAC /* IlluMefyTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		645EBD192D58F9C800AC7BAC /* IlluMefyUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 645EBD2A2D58F9C800AC7BAC /* Build configuration list for PBXNativeTarget "IlluMefyUITests" */;
+			buildPhases = (
+				645EBD162D58F9C800AC7BAC /* Sources */,
+				645EBD172D58F9C800AC7BAC /* Frameworks */,
+				645EBD182D58F9C800AC7BAC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				645EBD1C2D58F9C800AC7BAC /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				645EBD1D2D58F9C800AC7BAC /* IlluMefyUITests */,
+			);
+			name = IlluMefyUITests;
+			packageProductDependencies = (
+			);
+			productName = PenculaUITests;
+			productReference = 645EBD1A2D58F9C800AC7BAC /* IlluMefyUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		645EBCF62D58F9C600AC7BAC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1620;
+				LastUpgradeCheck = 1620;
+				TargetAttributes = {
+					645EBCFD2D58F9C600AC7BAC = {
+						CreatedOnToolsVersion = 16.2;
+					};
+					645EBD0F2D58F9C800AC7BAC = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = 645EBCFD2D58F9C600AC7BAC;
+					};
+					645EBD192D58F9C800AC7BAC = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = 645EBCFD2D58F9C600AC7BAC;
+					};
+				};
+			};
+			buildConfigurationList = 645EBCF92D58F9C600AC7BAC /* Build configuration list for PBXProject "IlluMefy" */;
+			developmentRegion = ja;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				ja,
+			);
+			mainGroup = 645EBCF52D58F9C600AC7BAC;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				64CBBFD52D5BB55600993B1D /* XCRemoteSwiftPackageReference "RxSwift" */,
+				64EF851B2D620AD900C9732A /* XCRemoteSwiftPackageReference "SwiftLint" */,
+				64EF864A2D7601B900C9732A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				648FF53C2D8C5A4800340F3E /* XCRemoteSwiftPackageReference "Swinject" */,
+				64C1AE222D919D32005182B5 /* XCRemoteSwiftPackageReference "SwiftfulLoadingIndicators" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 645EBCFF2D58F9C600AC7BAC /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				645EBCFD2D58F9C600AC7BAC /* IlluMefy */,
+				645EBD0F2D58F9C800AC7BAC /* IlluMefyTests */,
+				645EBD192D58F9C800AC7BAC /* IlluMefyUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		645EBCFC2D58F9C600AC7BAC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		645EBD0E2D58F9C800AC7BAC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		645EBD182D58F9C800AC7BAC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6492A80D2D60AC1C00AF6AFE /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif command -v swiftlint >/dev/null 2>&1\nthen\n    swiftlint\nelse\n    echo \"warning: `swiftlint` command not found - See https://github.com/realm/SwiftLint#installation for installation instructions.\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		645EBCFA2D58F9C600AC7BAC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		645EBD0C2D58F9C800AC7BAC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		645EBD162D58F9C800AC7BAC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		645EBD122D58F9C800AC7BAC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 645EBCFD2D58F9C600AC7BAC /* IlluMefy */;
+			targetProxy = 645EBD112D58F9C800AC7BAC /* PBXContainerItemProxy */;
+		};
+		645EBD1C2D58F9C800AC7BAC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 645EBCFD2D58F9C600AC7BAC /* IlluMefy */;
+			targetProxy = 645EBD1B2D58F9C800AC7BAC /* PBXContainerItemProxy */;
+		};
+		64EF85362D620B8400C9732A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 64EF85352D620B8400C9732A /* SwiftLintBuildToolPlugin */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		645EBD222D58F9C800AC7BAC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		645EBD232D58F9C800AC7BAC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		645EBD252D58F9C800AC7BAC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"IlluMefy/Resources/Preview\"";
+				DEVELOPMENT_TEAM = T7S2NXSZLM;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = IlluMefy/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = mikhailhal.illumefy;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		645EBD262D58F9C800AC7BAC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"IlluMefy/Resources/Preview\"";
+				DEVELOPMENT_TEAM = T7S2NXSZLM;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = IlluMefy/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = mikhailhal.illumefy;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		645EBD282D58F9C800AC7BAC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = aoi.PenculaTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/IlluMefy.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/IlluMefy";
+			};
+			name = Debug;
+		};
+		645EBD292D58F9C800AC7BAC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = aoi.PenculaTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/IlluMefy.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/IlluMefy";
+			};
+			name = Release;
+		};
+		645EBD2B2D58F9C800AC7BAC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = aoi.PenculaUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Pencula;
+			};
+			name = Debug;
+		};
+		645EBD2C2D58F9C800AC7BAC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = aoi.PenculaUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Pencula;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		645EBCF92D58F9C600AC7BAC /* Build configuration list for PBXProject "IlluMefy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				645EBD222D58F9C800AC7BAC /* Debug */,
+				645EBD232D58F9C800AC7BAC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		645EBD242D58F9C800AC7BAC /* Build configuration list for PBXNativeTarget "IlluMefy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				645EBD252D58F9C800AC7BAC /* Debug */,
+				645EBD262D58F9C800AC7BAC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		645EBD272D58F9C800AC7BAC /* Build configuration list for PBXNativeTarget "IlluMefyTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				645EBD282D58F9C800AC7BAC /* Debug */,
+				645EBD292D58F9C800AC7BAC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		645EBD2A2D58F9C800AC7BAC /* Build configuration list for PBXNativeTarget "IlluMefyUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				645EBD2B2D58F9C800AC7BAC /* Debug */,
+				645EBD2C2D58F9C800AC7BAC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		648FF53C2D8C5A4800340F3E /* XCRemoteSwiftPackageReference "Swinject" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Swinject/Swinject.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.9.1;
+			};
+		};
+		64C1AE222D919D32005182B5 /* XCRemoteSwiftPackageReference "SwiftfulLoadingIndicators" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftfulThinking/SwiftfulLoadingIndicators.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.4;
+			};
+		};
+		64CBBFD52D5BB55600993B1D /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.8.0;
+			};
+		};
+		64EF851B2D620AD900C9732A /* XCRemoteSwiftPackageReference "SwiftLint" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/SwiftLint";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.58.2;
+			};
+		};
+		64EF864A2D7601B900C9732A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.9.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		648FF53D2D8C5A4800340F3E /* Swinject */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 648FF53C2D8C5A4800340F3E /* XCRemoteSwiftPackageReference "Swinject" */;
+			productName = Swinject;
+		};
+		64C1AE232D919D32005182B5 /* SwiftfulLoadingIndicators */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 64C1AE222D919D32005182B5 /* XCRemoteSwiftPackageReference "SwiftfulLoadingIndicators" */;
+			productName = SwiftfulLoadingIndicators;
+		};
+		64EF85352D620B8400C9732A /* SwiftLintBuildToolPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 64EF851B2D620AD900C9732A /* XCRemoteSwiftPackageReference "SwiftLint" */;
+			productName = "plugin:SwiftLintBuildToolPlugin";
+		};
+		64EF864B2D7601B900C9732A /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 64EF864A2D7601B900C9732A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		64EF864D2D7601B900C9732A /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 64EF864A2D7601B900C9732A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		64EF864F2D7601B900C9732A /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 64EF864A2D7601B900C9732A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
+		};
+		64EF86512D7601B900C9732A /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 64EF864A2D7601B900C9732A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		64EF86532D7601B900C9732A /* FirebaseFunctions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 64EF864A2D7601B900C9732A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFunctions;
+		};
+		64EF86552D7601B900C9732A /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 64EF864A2D7601B900C9732A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
+		64EF86572D7601B900C9732A /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 64EF864A2D7601B900C9732A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+		64EF86592D7601B900C9732A /* FirebaseVertexAI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 64EF864A2D7601B900C9732A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseVertexAI;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 645EBCF62D58F9C600AC7BAC /* Project object */;
+}
