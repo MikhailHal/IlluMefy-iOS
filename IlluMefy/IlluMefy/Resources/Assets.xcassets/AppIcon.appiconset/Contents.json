@@ -1,6 +1,7 @@
 {
   "images" : [
     {
+      "filename" : "IlluMefy.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -12,6 +13,7 @@
           "value" : "dark"
         }
       ],
+      "filename" : "IlluMefyDark.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -23,6 +25,7 @@
           "value" : "tinted"
         }
       ],
+      "filename" : "IlluMefyTint.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
