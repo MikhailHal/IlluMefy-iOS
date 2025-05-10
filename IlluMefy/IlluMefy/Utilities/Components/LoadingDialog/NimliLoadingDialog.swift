@@ -23,7 +23,7 @@ struct IlluMefyLoadingDialog: View {
                 VStack {
                     LoadingIndicator(
                         animation: .fiveLinesPulse,
-                        color: Color.indicator,
+                        color: Color("indicator/indicator"),
                         size: .medium,
                         speed: .normal
                     )

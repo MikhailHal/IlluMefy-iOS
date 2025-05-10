@@ -18,10 +18,10 @@ struct VerificationEmailView: View {
     init() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = UIColor.screenBackground
+        //appearance.backgroundColor = UIColor.screenBackground
         appearance.titleTextAttributes = [
             .font: UIFont.preferredFont(forTextStyle: .title3),
-            .foregroundColor: UIColor.textForeground
+            //.foregroundColor: UIColor.textForeground
         ]
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
@@ -30,19 +30,19 @@ struct VerificationEmailView: View {
         ZStack {
             VStack {
                 Text("STEP：2 / 3")
-                    .foregroundColor(Color.textForeground)
+                    //.foregroundColor(Color.textForeground)
                     .bold()
                     .font(.title)
                 Spacer()
                 Text("メール内のリンクを押下してアプリを開いてください。")
-                    .foregroundColor(Color.textForeground)
+                    //.foregroundColor(Color.textForeground)
                     .font(.title2)
                     .bold()
                 Spacer()
             }
             .padding(Spacing.screenEdgePadding)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color.screenBackground)
+            //.background(Color.screenBackground)
             .navigationTitle("会員登録")
             .navigationBarTitleDisplayMode(.inline)
             .ignoresSafeArea(.keyboard, edges: .all)

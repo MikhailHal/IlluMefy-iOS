@@ -12,7 +12,7 @@ struct IlluMefyCheckboxView: View {
     var body: some View {
         Toggle(isOn: $isChecked) {
             Text(title)
-                .foregroundColor(.textForeground)
+                .foregroundColor(Color("Checkbox/CheckboxForeground"))
         }
         .toggleStyle(CheckboxToggleStyle())
     }
@@ -24,7 +24,7 @@ struct CheckboxToggleStyle: ToggleStyle {
             Image(systemName: configuration.isOn ? "checkmark.square.fill" : "square")
                 .resizable()
                 .frame(width: 22, height: 22)
-                .foregroundColor(configuration.isOn ? .checkboxFillPositive : .gray)
+                .foregroundColor(configuration.isOn ? Color("Checkbox/CheckboxFilled") : .gray)
                 .onTapGesture {
                     configuration.isOn.toggle()
                 }

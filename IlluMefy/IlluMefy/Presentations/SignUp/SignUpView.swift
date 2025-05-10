@@ -17,10 +17,10 @@ struct SignUpView: View {
     private func configureNavigationBarAppearance() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = UIColor.screenBackground
+        //appearance.backgroundColor = UIColor.screenBackground
         appearance.titleTextAttributes = [
             .font: UIFont.preferredFont(forTextStyle: .title3),
-            .foregroundColor: UIColor.textForeground
+            //.foregroundColor: UIColor.textForeground
         ]
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
@@ -31,7 +31,7 @@ struct SignUpView: View {
             SignUpFormView(viewModel: viewModel, router: router)
                 .padding(Spacing.screenEdgePadding)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color.screenBackground)
+                //.background(Color.screenBackground)
                 .navigationTitle("会員登録")
                 .navigationBarTitleDisplayMode(.inline)
                 .ignoresSafeArea(.keyboard, edges: .all)
@@ -78,7 +78,7 @@ struct SignUpFormView: View {
                         .font(.headline)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.bottom, 5)
-                        .foregroundColor(.textForeground)
+                        //.foregroundColor(.textForeground)
                     
                     // Input fields
                     InputFieldsView(viewModel: viewModel)
@@ -89,7 +89,7 @@ struct SignUpFormView: View {
                 .padding(20)
                 .background(
                     RoundedRectangle(cornerRadius: 16)
-                        .fill(Color.cardFillColorNormal)
+                        //.fill(Color.cardFillColorNormal)
                         .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 2)
                 )
                 
@@ -97,10 +97,10 @@ struct SignUpFormView: View {
                 VStack(spacing: 10) {
                     HStack {
                         Image(systemName: "doc.text")
-                            .foregroundColor(Color.imageForegroundPositive)
+                            //.foregroundColor(Color.imageForegroundPositive)
                         Text("利用規約とプライバシー")
                             .font(.headline)
-                            .foregroundColor(Color.textForeground)
+                            //.foregroundColor(Color.textForeground)
                         Spacer()
                     }
                     
@@ -109,7 +109,7 @@ struct SignUpFormView: View {
                 .padding(20)
                 .background(
                     RoundedRectangle(cornerRadius: 16)
-                        .fill(Color.cardFillColorNormal)
+                        //.fill(Color.cardFillColorNormal)
                         .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 2)
                 )
                 
@@ -161,7 +161,7 @@ struct LogoHeaderView: View {
             }
 
             Text("Welcome to IlluMefy!!")
-                .foregroundColor(Color.textForeground)
+                //.foregroundColor(Color.textForeground)
                 .font(.title2)
                 .bold()
                 .padding(.bottom, 5)
@@ -220,7 +220,7 @@ struct PasswordValidationView: View {
         VStack(alignment: .leading, spacing: 8) {
             Text("パスワード要件:")
                 .font(.caption)
-                .foregroundColor(.textForeground)
+                //.foregroundColor(.textForeground)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.top, 5)
             
@@ -279,11 +279,11 @@ struct TermsAndPolicyView: View {
         HStack {
             RoundedRectangle(cornerRadius: 2)
                 .frame(width: 4, height: 40)
-                .foregroundColor(.viewForegroundPositive)
+                //.foregroundColor(.viewForegroundPositive)
                 .padding(.trailing, 8)
             
             Text("アカウントを作成することで、[利用規約](termsOfService)および[プライバシーポリシー](privacyPolicy)に同意し、ニムリーを使用することに同意したものとみなします。")
-                .foregroundColor(Color.textForeground)
+                //.foregroundColor(Color.textForeground)
                 .font(.caption)
                 .lineSpacing(4)
                 .environment(\.openURL, OpenURLAction { specifiedParam in
@@ -299,7 +299,7 @@ struct TermsAndPolicyView: View {
                 })
         }
         .padding(20)
-        .background(Color.cardFillColorNormal)
+        //.background(Color.cardFillColorNormal)
         .cornerRadius(10)
     }
 }
@@ -313,7 +313,7 @@ struct LoginOptionView: View {
     var body: some View {
         HStack(spacing: 4) {
             Text("すでにアカウントをお持ちですか？")
-                .foregroundColor(Color.textForeground.opacity(0.8))
+                //.foregroundColor(Color.textForeground.opacity(0.8))
                 .font(.caption)
 
             Button("ログイン") {

@@ -18,10 +18,10 @@ struct HomeBaseView<ContentView: View>: View {
     private func configureNavigationBarAppearance() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = UIColor.screenBackground
+        appearance.backgroundColor = UIColor.Application.applicationBackground
         appearance.titleTextAttributes = [
             .font: UIFont.preferredFont(forTextStyle: .title3),
-            .foregroundColor: UIColor.textForeground
+            //.foregroundColor: UIColor.textForeground
         ]
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
@@ -31,12 +31,12 @@ struct HomeBaseView<ContentView: View>: View {
         VStack {
             TabBarView()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color.screenBackground)
+                //.background(Color.screenBackground)
                 .navigationTitle("ホーム画面")
                 .navigationBarTitleDisplayMode(.inline)
                 .ignoresSafeArea(.keyboard, edges: .all)
                 .navigationBarBackButtonHidden()
-        }.background(.screenBackground)
+        }
     }
 }
 
@@ -44,7 +44,7 @@ private struct TabBarView: View {
     init() {
         let appearance: UITabBarAppearance = UITabBarAppearance()
         appearance.configureWithDefaultBackground()
-        appearance.backgroundColor = .tabBackground
+        //appearance.backgroundColor = .tabBackground
         UITabBar.appearance().scrollEdgeAppearance = appearance
         UITabBar.appearance().standardAppearance = appearance
     }
@@ -70,7 +70,7 @@ private struct TabBarView: View {
                     Image(systemName: "gearshape.fill")
                     Text("設定")
                 }
-        }.accentColor(.tabAccent)
+        }
     }
 }
 #Preview {
