@@ -153,10 +153,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 645EBD242D58F9C800AC7BAC /* Build configuration list for PBXNativeTarget "IlluMefy" */;
 			buildPhases = (
+				64B09B132DCFC0910063D00A /* ShellScript */,
 				645EBCFA2D58F9C600AC7BAC /* Sources */,
 				645EBCFB2D58F9C600AC7BAC /* Frameworks */,
 				645EBCFC2D58F9C600AC7BAC /* Resources */,
-				64B09B132DCFC0910063D00A /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -318,6 +318,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"$(SRCROOT)/IlluMefy/Generated/Resources.swift",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
