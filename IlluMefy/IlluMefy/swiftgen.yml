@@ -1,9 +1,7 @@
 xcassets:
-   inputs:
-     - Resources/Assets.xcassets
-     - Resources/Color.xcassets
-   outputs:
-     - templateName: swift5
-       params:
-         forceProvidesNamespaces: true
-       output: Generated/Resources.swift
+  inputs:
+    - Resources/Assets.xcassets
+    - Resources/Color.xcassets
+  outputs:
+    - templateName: swift5
+      output: Generated/Resources.swift

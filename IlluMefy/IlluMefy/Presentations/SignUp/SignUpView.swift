@@ -17,7 +17,7 @@ struct SignUpView: View {
     private func configureNavigationBarAppearance() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
-        //appearance.backgroundColor = UIColor.screenBackground
+        appearance.backgroundColor = Asset.Color.Application.applicationBackground.color
         appearance.titleTextAttributes = [
             .font: UIFont.preferredFont(forTextStyle: .title3),
             //.foregroundColor: UIColor.textForeground

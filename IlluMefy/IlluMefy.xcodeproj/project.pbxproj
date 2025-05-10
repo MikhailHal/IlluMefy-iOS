@@ -76,9 +76,6 @@
 				64EF85B82D6E099F00C9732A /* Exceptions for "IlluMefy" folder in "IlluMefyTests" target */,
 				64EF85B92D6E099F00C9732A /* Exceptions for "IlluMefy" folder in "IlluMefyUITests" target */,
 			);
-			explicitFileTypes = {
-				.swiftlint.yml = text.yaml;
-			};
 			path = IlluMefy;
 			sourceTree = "<group>";
 		};
@@ -159,7 +156,7 @@
 				645EBCFA2D58F9C600AC7BAC /* Sources */,
 				645EBCFB2D58F9C600AC7BAC /* Frameworks */,
 				645EBCFC2D58F9C600AC7BAC /* Resources */,
-				6492A80D2D60AC1C00AF6AFE /* ShellScript */,
+				64B09B132DCFC0910063D00A /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -309,7 +306,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		6492A80D2D60AC1C00AF6AFE /* ShellScript */ = {
+		64B09B132DCFC0910063D00A /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -324,7 +321,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif command -v swiftlint >/dev/null 2>&1\nthen\n    swiftlint\nelse\n    echo \"warning: `swiftlint` command not found - See https://github.com/realm/SwiftLint#installation for installation instructions.\"\nfi\n";
+			shellScript = "export PATH=\"/opt/homebrew/bin:$PATH\"\n\n# プロジェクトのルートディレクトリに移動\ncd \"${SRCROOT}\"\n\n# SwiftLint\nif command -v swiftlint >/dev/null 2>&1\nthen\n    # 権限を確認\n    echo \"SwiftLint version: $(swiftlint version)\"\n    swiftlint lint --config \"${SRCROOT}/IlluMefy/IlluMefy/.swiftlint.yml\" \"${SRCROOT}/IlluMefy/IlluMefy\"\nelse\n    echo \"warning: `swiftlint` command not found - See https://github.com/realm/SwiftLint#installation for installation instructions.\"\nfi\n\n# SwiftGen\nif command -v swiftgen >/dev/null 2>&1\nthen\n    # 権限を確認\n    echo \"SwiftGen version: $(swiftgen --version)\"\n    swiftgen config run --config \"${SRCROOT}/IlluMefy/swiftgen.yml\"\nelse\n    echo \"warning: `swiftgen` command not found - See https://github.com/SwiftGen/SwiftGen#installation for installation instructions.\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -407,7 +404,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -471,7 +468,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
