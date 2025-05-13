@@ -1,5 +1,5 @@
 //
-//  SignUpViewModel.swift
+//  PhoneNumberRegistrationViewModel.swift
 //  IlluMefy
 //
 //  Created by Haruto K. on 2025/03/03.
@@ -7,7 +7,7 @@
 import Combine
 import FirebaseAuth
 
-class SignUpViewModel: SignUpViewModelProtocol {
+class PhoneNumberRegistrationViewModel: PhoneNumberRegistrationViewModelProtocol {
     var errorDialogMessage: String = ""
     var notificationDialogMessage: String = ""
     var registrationAccountUseCase: any RegisterAccountUseCaseProtocol

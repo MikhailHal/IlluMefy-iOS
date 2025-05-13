@@ -103,12 +103,12 @@ class DependencyContainer {
     /// register all view-models
     ///
     private func registerViewModels() {
-        // SignUp screen
-        container.register(SignUpViewModel.self) { resolver in
+        // PhoneRegistration screen
+        container.register(PhoneNumberRegistrationViewModel.self) { resolver in
             let registrationAccountUseCase = resolver.resolve((any RegisterAccountUseCaseProtocol).self)!
             let setStoreLoginAccountInLocalUseCase =
             resolver.resolve((any SetStoreLoginAccountInLocalUseCaseProtocol).self)!
-            return SignUpViewModel(
+            return PhoneNumberRegistrationViewModel(
                 registrationAccountUseCase: registrationAccountUseCase,
                 setStoreLoginAccountInLocalUseCase: setStoreLoginAccountInLocalUseCase
             )

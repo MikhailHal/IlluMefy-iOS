@@ -13,7 +13,7 @@ class IlluMefyAppRouter: ObservableObject {
     @Published var isShowingLoadingIndicator = false
     @Published var loadingMessage: String?
     enum Destination: Hashable {
-        case signUp
+        case phoneNumberRegistration
         case login
         case groupList
     }

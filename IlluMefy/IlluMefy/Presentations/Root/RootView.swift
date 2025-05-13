@@ -20,13 +20,13 @@ struct ContentView: View {
                     if loginViewModel.hasStoredLoginInfo {
                         LoginView()
                     } else {
-                        SignUpView()
+                        PhoneNumberRegistrationView()
                     }
                 }
                 .navigationDestination(for: IlluMefyAppRouter.Destination.self) { destination in
                     switch destination {
-                    case .signUp:
-                        SignUpView()
+                    case .phoneNumberRegistration:
+                        PhoneNumberRegistrationView()
                     case .login:
                         LoginView()
                     case .groupList:

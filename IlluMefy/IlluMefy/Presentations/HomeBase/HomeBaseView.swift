@@ -50,12 +50,12 @@ private struct TabBarView: View {
     }
     var body: some View {
         TabView {
-            SignUpView()
+            PhoneNumberRegistrationView()
                 .tabItem {
                     Image(systemName: "fork.knife")
                     Text("食材一覧")
                 }
-            SignUpView()
+            PhoneNumberRegistrationView()
                 .tabItem {
                     Image(systemName: "plus.app.fill")
                     Text("食材追加")

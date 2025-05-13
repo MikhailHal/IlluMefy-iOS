@@ -1,13 +1,13 @@
 //
-//  SignUpView.swift
+//  PhoneNumberRegistrationView.swift
 //  IlluMefy
 //
 //  Created by Haruto K. on 2025/02/12.
 
 import SwiftUI
 
-struct SignUpView: View {
-    @StateObject private var viewModel = DependencyContainer.shared.resolve(SignUpViewModel.self)!
+struct PhoneNumberRegistrationView: View {
+    @StateObject private var viewModel = DependencyContainer.shared.resolve(PhoneNumberRegistrationViewModel.self)!
     @EnvironmentObject var router: IlluMefyAppRouter
 
     init() {
@@ -64,7 +64,7 @@ struct SignUpView: View {
 
 // Main form content view
 struct SignUpFormView: View {
-    @ObservedObject var viewModel: SignUpViewModel
+    @ObservedObject var viewModel: PhoneNumberRegistrationViewModel
     var router: IlluMefyAppRouter
 
     var body: some View {
@@ -173,7 +173,7 @@ struct LogoHeaderView: View {
 
 // Input fields section
 struct InputFieldsView: View {
-    @ObservedObject var viewModel: SignUpViewModel
+    @ObservedObject var viewModel: PhoneNumberRegistrationViewModel
 
     var body: some View {
         VStack {
@@ -214,7 +214,7 @@ struct InputFieldsView: View {
 
 // Password validation messages
 struct PasswordValidationView: View {
-    @ObservedObject var viewModel: SignUpViewModel
+    @ObservedObject var viewModel: PhoneNumberRegistrationViewModel
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -273,7 +273,7 @@ struct ValidationRow: View {
 /// Terms-of-service and Privacy-Policy
 ///
 struct TermsAndPolicyView: View {
-    @ObservedObject var viewModel: SignUpViewModel
+    @ObservedObject var viewModel: PhoneNumberRegistrationViewModel
 
     var body: some View {
         HStack {
@@ -463,5 +463,5 @@ struct PrivacyPolicyBottomSheetContent: View {
 }
 
 #Preview {
-    SignUpView().environmentObject(IlluMefyAppRouter())
+    PhoneNumberRegistrationView().environmentObject(IlluMefyAppRouter())
 }
