@@ -15,7 +15,6 @@ class IlluMefyAppRouter: ObservableObject {
     enum Destination: Hashable {
         case signUp
         case login
-        case emailVerification
         case groupList
     }
     func navigate(to destination: Destination) {

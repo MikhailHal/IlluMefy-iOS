@@ -113,11 +113,6 @@ class DependencyContainer {
                 setStoreLoginAccountInLocalUseCase: setStoreLoginAccountInLocalUseCase
             )
         }.inObjectScope(.transient)
-        // VerificationEmail screen
-        container.register(VerificationEmailAddressViewModel.self) { resolver in
-            let verificationEmailAddressUseCase = resolver.resolve((any VerificationEmailAddressUseCaseProtocol).self)!
-            return VerificationEmailAddressViewModel(verificationEmailAddressUseCase: verificationEmailAddressUseCase)
-        }.inObjectScope(.transient)
         // Login screen
         container.register(LoginViewModel.self) { resolver in
             let accountLoginUseCase = resolver.resolve((any AccountLoginUseCaseProtocol).self)!

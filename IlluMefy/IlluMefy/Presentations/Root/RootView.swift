@@ -27,8 +27,6 @@ struct ContentView: View {
                     switch destination {
                     case .signUp:
                         SignUpView()
-                    case .emailVerification:
-                        VerificationEmailView()
                     case .login:
                         LoginView()
                     case .groupList:
