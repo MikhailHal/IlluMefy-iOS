@@ -53,16 +53,16 @@
 		64EF85B82D6E099F00C9732A /* Exceptions for "IlluMefy" folder in "IlluMefyTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Utilities/Components/TextFields/NimliPlainTextField.swift,
-				Utilities/Components/TextFields/NimliTextFieldStyles.swift,
+				Utilities/Components/TextFields/IlluMefyPlainTextField.swift,
+				Utilities/Components/TextFields/IlluMefyTextFieldStyles.swift,
 			);
 			target = 645EBD0F2D58F9C800AC7BAC /* IlluMefyTests */;
 		};
 		64EF85B92D6E099F00C9732A /* Exceptions for "IlluMefy" folder in "IlluMefyUITests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Utilities/Components/TextFields/NimliPlainTextField.swift,
-				Utilities/Components/TextFields/NimliTextFieldStyles.swift,
+				Utilities/Components/TextFields/IlluMefyPlainTextField.swift,
+				Utilities/Components/TextFields/IlluMefyTextFieldStyles.swift,
 			);
 			target = 645EBD192D58F9C800AC7BAC /* IlluMefyUITests */;
 		};
@@ -308,6 +308,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		64B09B132DCFC0910063D00A /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);

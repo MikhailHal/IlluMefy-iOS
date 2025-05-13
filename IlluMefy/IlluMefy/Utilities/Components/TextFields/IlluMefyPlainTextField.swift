@@ -18,7 +18,7 @@ struct IlluMefyPlainTextField: View {
     
     var body: some View {
         TextField("", text: $text)
-            .textFieldStyle(LoginTextFieldStyle(isEnabled: true, text: $text, placeholder: placeHolder))
+            .textFieldStyle(NormalTextFieldStyle(isEnabled: true, text: $text, placeholder: placeHolder))
             .focused($isFocused)
             .contentShape(Rectangle())
             .onTapGesture {

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct LoginTextFieldStyle: TextFieldStyle {
+struct NormalTextFieldStyle: TextFieldStyle {
     @FocusState private var isFocused: Bool
     private var isEnabled: Bool
     @Binding var text: String
@@ -40,7 +40,7 @@ struct LoginTextFieldStyle: TextFieldStyle {
                 )
             if text.isEmpty {
                 Text(placeholder)
-                    .foregroundColor(getPlaceHolderColor(isEnabled))
+                    .foregroundColor(getPlaceHolderColor(isFocused: isEnabled, isEnabled: isFocused))
                     .padding(.horizontal, 20)
                     .padding(.vertical, 12)
             }
@@ -85,7 +85,7 @@ struct PasswordTextFieldStyle: TextFieldStyle {
                 showPassword.toggle()
             }, label: {
                 Image(systemName: showPassword ? "eye.slash.fill" : "eye.fill")
-                    .foregroundColor(Color("Text/OnCard"))
+                    .foregroundColor(getTrailingIconColor(isFocused: isFocused, isEnabled: isEnabled))
                     .opacity(0.6)
                     .frame(width: 24, height: 24)
             })
@@ -96,7 +96,7 @@ struct PasswordTextFieldStyle: TextFieldStyle {
             Group {
                 if text.isEmpty {
                     Text(placeholder)
-                        .foregroundColor(getPlaceHolderColor(isEnabled))
+                        .foregroundColor(getPlaceHolderColor(isFocused: isFocused, isEnabled: isEnabled))
                         .padding(.horizontal, 20)
                         .padding(.vertical, 12)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -108,32 +108,47 @@ struct PasswordTextFieldStyle: TextFieldStyle {
 
 private func getForegroundColor(_ isEnabled: Bool) -> Color {
     if !isEnabled {
-        return Color("TextField/ForegroundForDisabled")
+        return Color(asset: Asset.Color.TextField.foregroundDisabled)
     }
-    return Color("TextField/ForegroundForEnabled")
+    return Color(asset: Asset.Color.TextField.foreground)
 }
 
 private func getBackgroundColor(_ isEnabled: Bool) -> Color {
     if !isEnabled {
-        return Color("TextField/BackgroundForDisabled")
+        return Color(asset: Asset.Color.TextField.backgroundDisabled)
     }
-    return Color("TextField/BackgroundForEnabled")
+    return Color(asset: Asset.Color.TextField.background)
 }
 
 private func getBorderColor(isFocused: Bool, isEnabled: Bool) -> Color {
     if !isEnabled {
-        return Color("TextField/BorderForDisabled")
+        return Color(asset: Asset.Color.TextField.borderDisabled)
     }
     return if isFocused {
-        Color("TextField/BorderForFocusing")
+        Color(asset: Asset.Color.TextField.borderFocused)
     } else {
-        Color("TextField/BorderForEnabled")
+        Color(asset: Asset.Color.TextField.borderNoneFocused)
     }
 }
 
-private func getPlaceHolderColor(_ isEnabled: Bool) -> Color {
+private func getPlaceHolderColor(isFocused: Bool, isEnabled: Bool) -> Color {
     if !isEnabled {
-        return Color("TextField/PlaceholderForDisabled")
+        return Color(asset: Asset.Color.TextField.placeholderDisabled)
     }
-    return Color("TextField/PlaceholderForEnabled")
+    return if isFocused {
+        Color(asset: Asset.Color.TextField.placeholderFocused)
+    } else {
+        Color(asset: Asset.Color.TextField.placeholderNoneFocused)
+    }
+}
+
+private func getTrailingIconColor(isFocused: Bool, isEnabled: Bool) -> Color {
+    if !isEnabled {
+        return Color(asset: Asset.Color.TextField.trailingIconBackgroundDisabled)
+    }
+    return if isFocused {
+        Color(asset: Asset.Color.TextField.trailingIconBackgroundFocused)
+    } else {
+        Color(asset: Asset.Color.TextField.trailingIconBackgroundNoneFocused)
+    }
 }
