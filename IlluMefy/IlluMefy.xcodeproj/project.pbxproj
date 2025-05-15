@@ -320,6 +320,7 @@
 			);
 			outputPaths = (
 				"$(SRCROOT)/IlluMefy/Generated/Resources.swift",
+				"$(SRCROOT)/IlluMefy/Generated/Strings.swift",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

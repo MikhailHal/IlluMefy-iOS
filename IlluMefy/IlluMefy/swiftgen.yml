@@ -5,3 +5,13 @@ xcassets:
   outputs:
     - templateName: swift5
       output: Generated/Resources.swift
+
+strings:
+  inputs: Resources/Localizable.xcstrings
+  outputs:
+    - templateName: structured-swift5
+      output: Generated/Strings.swift
+      params:
+        publicAccess: true
+        enumName: L10n
+        lookupFunction: localized

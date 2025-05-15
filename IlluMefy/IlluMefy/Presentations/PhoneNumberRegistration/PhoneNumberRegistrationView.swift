@@ -10,30 +10,12 @@ struct PhoneNumberRegistrationView: View {
     @StateObject private var viewModel = DependencyContainer.shared.resolve(PhoneNumberRegistrationViewModel.self)!
     @EnvironmentObject var router: IlluMefyAppRouter
 
-    init() {
-        configureNavigationBarAppearance()
-    }
-
-    private func configureNavigationBarAppearance() {
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = Asset.Color.Application.applicationBackground.color
-        appearance.titleTextAttributes = [
-            .font: UIFont.preferredFont(forTextStyle: .title3),
-            //.foregroundColor: UIColor.textForeground
-        ]
-        UINavigationBar.appearance().standardAppearance = appearance
-        UINavigationBar.appearance().scrollEdgeAppearance = appearance
-    }
-
     var body: some View {
         ZStack {
             SignUpFormView(viewModel: viewModel, router: router)
                 .padding(Spacing.screenEdgePadding)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                //.background(Color.screenBackground)
-                .navigationTitle("会員登録")
-                .navigationBarTitleDisplayMode(.inline)
+                .background(Asset.Color.Application.background.swiftUIColor)
                 .ignoresSafeArea(.keyboard, edges: .all)
         }
         .alert("アカウント登録失敗", isPresented: $viewModel.isShowErrorDialog) {
@@ -70,201 +52,21 @@ struct SignUpFormView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
-                LogoHeaderView()
-                    .padding(.bottom, 10)
-                
-                VStack(spacing: 16) {
-                    Text("アカウント情報")
-                        .font(.headline)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.bottom, 5)
-                        //.foregroundColor(.textForeground)
-                    
-                    // Input fields
-                    InputFieldsView(viewModel: viewModel)
-                    
-                    // Password validation messages
-                    PasswordValidationView(viewModel: viewModel)
-                }
-                .padding(20)
-                .background(
-                    RoundedRectangle(cornerRadius: 16)
-                        //.fill(Color.cardFillColorNormal)
-                        .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 2)
-                )
-                
-                // Terms and policy card
-                VStack(spacing: 10) {
-                    HStack {
-                        Image(systemName: "doc.text")
-                            //.foregroundColor(Color.imageForegroundPositive)
-                        Text("利用規約とプライバシー")
-                            .font(.headline)
-                            //.foregroundColor(Color.textForeground)
-                        Spacer()
-                    }
-                    
-                    TermsAndPolicyView(viewModel: viewModel)
-                }
-                .padding(20)
-                .background(
-                    RoundedRectangle(cornerRadius: 16)
-                        //.fill(Color.cardFillColorNormal)
-                        .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 2)
-                )
-                
-                // Register button
-                /*IlluMefyButton(
-                    text: "アカウントを登録する",
-                    isEnabled: viewModel.isEnableRegisterButton,
-                    onClick: {
-                        Task {
-                            router.showLoading()
-                            await viewModel.register()
-                            router.hideLoading()
-                        }
-                    },
-                    leadingIcon: AnyView(
-                        Image(systemName: "person.crop.circle.badge.plus")
-                    )
-                )*/
-                
-                // Login option
-                LoginOptionView(router: router)
-                    .padding(.top, 10)
-                
+                Image(Asset.Assets.illuMefyIconMedium.name)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 150, height: 150)
                 Spacer()
+                IlluMefyPlainTextField(
+                    text: $viewModel.email,
+                    placeHolder: "",
+                )
+                .frame(height: 50)
+                .onChange(of: viewModel.email) {
+                    viewModel.onEmailDidChange()
+                }
             }
             .padding(.vertical, 20)
-        }
-    }
-}
-
-// Logo and welcome header
-struct LogoHeaderView: View {
-    var body: some View {
-        VStack {
-            if UIImage(named: "IlluMefy-logo") != nil {
-                Image("IlluMefy-logo")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 80, height: 80)
-                    .padding(.bottom, 10)
-            } else {
-                // Fallback icon if logo is not available
-                Image(systemName: "apps.iphone")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 60, height: 60)
-                    .foregroundColor(.blue)
-                    .padding(.bottom, 10)
-            }
-
-            Text("Welcome to IlluMefy!!")
-                //.foregroundColor(Color.textForeground)
-                .font(.title2)
-                .bold()
-                .padding(.bottom, 5)
-        }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 20)
-    }
-}
-
-// Input fields section
-struct InputFieldsView: View {
-    @ObservedObject var viewModel: PhoneNumberRegistrationViewModel
-
-    var body: some View {
-        VStack {
-            // Email field
-            /*IlluMefyPlainTextField(
-                text: $viewModel.email,
-                title: "メールアドレス",
-                placeHolder: "メールアドレス",
-                placeHolderColor: .cardFillColorNormal
-            )
-            .frame(height: 50)
-            .onChange(of: viewModel.email) {
-                viewModel.onEmailDidChange()
-            }
-
-            // Password field
-            IlluMefyPlainTextField(
-                text: $viewModel.password,
-                title: "パスワード",
-                placeHolder: "パスワード",
-                placeHolderColor: .cardFillColorNormal
-            )
-            .frame(height: 50)  // 明示的な高さを指定
-            .onChange(of: viewModel.password) {
-                viewModel.onPasswordDidChange()
-            }
-            .padding(
-                EdgeInsets(
-                    top: Spacing.relatedComponentDivider,
-                    leading: Spacing.none,
-                    bottom: Spacing.none,
-                    trailing: Spacing.none
-                )
-            )*/
-        }
-    }
-}
-
-// Password validation messages
-struct PasswordValidationView: View {
-    @ObservedObject var viewModel: PhoneNumberRegistrationViewModel
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("パスワード要件:")
-                .font(.caption)
-                //.foregroundColor(.textForeground)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.top, 5)
-            
-            Group {
-                ValidationRow(
-                    isValid: !viewModel.isErrorUpperCase,
-                    text: "大文字を含む"
-                )
-                
-                ValidationRow(
-                    isValid: !viewModel.isErrorLowerCase,
-                    text: "小文字を含む"
-                )
-                
-                ValidationRow(
-                    isValid: !viewModel.isErrorNumber,
-                    text: "数字を含む"
-                )
-                
-                ValidationRow(
-                    isValid: !viewModel.isErrorLength,
-                    text: "6文字以上"
-                )
-            }
-        }
-        .padding(.top, 5)
-    }
-}
-
-struct ValidationRow: View {
-    var isValid: Bool
-    var text: String
-    
-    var body: some View {
-        HStack(spacing: 8) {
-            Image(systemName: isValid ? "checkmark.circle.fill" : "circle")
-                .foregroundColor(isValid ? .green : .gray)
-                .font(.system(size: 14))
-            
-            Text(text)
-                .font(.caption)
-                .foregroundColor(isValid ? .green : .gray)
-            
-            Spacer()
         }
     }
 }
@@ -301,34 +103,6 @@ struct TermsAndPolicyView: View {
         .padding(20)
         //.background(Color.cardFillColorNormal)
         .cornerRadius(10)
-    }
-}
-
-///
-/// Navigate to login screen
-///
-struct LoginOptionView: View {
-    var router: IlluMefyAppRouter
-
-    var body: some View {
-        HStack(spacing: 4) {
-            Text("すでにアカウントをお持ちですか？")
-                //.foregroundColor(Color.textForeground.opacity(0.8))
-                .font(.caption)
-
-            Button("ログイン") {
-                // Navigate to login screen
-                // Uncomment if you have this route:
-                // router.navigate(to: .login)
-            }
-            .foregroundColor(Color.blue)
-            .font(.caption.bold())
-        }
-        .padding()
-        .background(
-            RoundedRectangle(cornerRadius: 8)
-                .stroke(Color.gray.opacity(0.2), lineWidth: 1)
-        )
     }
 }
 

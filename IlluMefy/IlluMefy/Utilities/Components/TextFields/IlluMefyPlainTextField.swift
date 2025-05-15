@@ -17,7 +17,7 @@ struct IlluMefyPlainTextField: View {
     @FocusState private var isFocused: Bool
     
     var body: some View {
-        TextField("", text: $text)
+        TextField("a", text: $text)
             .textFieldStyle(NormalTextFieldStyle(isEnabled: true, text: $text, placeholder: placeHolder))
             .focused($isFocused)
             .contentShape(Rectangle())

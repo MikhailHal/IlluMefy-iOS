@@ -18,7 +18,7 @@ struct HomeBaseView<ContentView: View>: View {
     private func configureNavigationBarAppearance() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = UIColor.Application.applicationBackground
+        appearance.backgroundColor = UIColor.Application.background
         appearance.titleTextAttributes = [
             .font: UIFont.preferredFont(forTextStyle: .title3),
             //.foregroundColor: UIColor.textForeground

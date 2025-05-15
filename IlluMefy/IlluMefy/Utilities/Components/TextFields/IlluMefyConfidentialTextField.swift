@@ -8,7 +8,7 @@ struct IlluMefyConfidentialTextField: View {
     
     var body: some View {
         if showPassword {
-            TextField("", text: $text)
+            TextField("a", text: $text)
                 .textFieldStyle(PasswordTextFieldStyle(
                     isEnabled: true,
                     text: $text,
@@ -17,7 +17,7 @@ struct IlluMefyConfidentialTextField: View {
                 ))
                 .focused($isFocused)
         } else {
-            SecureField("", text: $text)
+            SecureField("a", text: $text)
                 .textFieldStyle(PasswordTextFieldStyle(
                     isEnabled: true,
                     text: $text,
