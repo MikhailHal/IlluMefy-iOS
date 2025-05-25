@@ -83,23 +83,13 @@ struct SignUpFormView: View {
                 .frame(height: 60)
             
             // Phone number input section
-            VStack(alignment: .leading, spacing: 8) {
-                HStack(spacing: 4) {
-                    Text("電話番号")
-                        .font(.caption)
-                        .foregroundColor(Asset.Color.Application.foreground.swiftUIColor)
-                    Text("必須")
-                        .font(.caption)
-                        .foregroundColor(.red)
-                }
-                
-                IlluMefyPlainTextField(
-                    text: $phoneNumber,
-                    placeHolder: "電話番号を入力"
-                )
-                .keyboardType(.phonePad)
-                .frame(height: 56)
-            }
+            IlluMefyPlainTextField(
+                text: $phoneNumber,
+                placeHolder: "電話番号を入力",
+                label: "電話番号",
+                isRequired: true
+            )
+            .keyboardType(.phonePad)
             
             Spacer()
                 .frame(height: 40)
