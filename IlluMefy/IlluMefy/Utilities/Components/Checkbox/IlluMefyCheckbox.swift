@@ -39,10 +39,6 @@ struct IlluMefyCheckbox: View {
                         .fill(checkboxBackgroundColor)
                         .frame(width: Constants.checkboxSize, height: Constants.checkboxSize)
                     
-                    RoundedRectangle(cornerRadius: Constants.cornerRadius)
-                        .stroke(checkboxBorderColor, lineWidth: Constants.borderWidth)
-                        .frame(width: Constants.checkboxSize, height: Constants.checkboxSize)
-                    
                     if isChecked {
                         Image(systemName: "checkmark")
                             .font(.system(size: Constants.checkmarkFontSize, weight: .bold))
@@ -55,7 +51,6 @@ struct IlluMefyCheckbox: View {
                     .foregroundColor(textColor)
                     .multilineTextAlignment(.leading)
                 
-                Spacer()
             }
         })
         .buttonStyle(PlainButtonStyle())

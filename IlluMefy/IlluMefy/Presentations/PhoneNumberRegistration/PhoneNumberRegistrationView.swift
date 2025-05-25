@@ -49,6 +49,7 @@ struct SignUpFormView: View {
     @ObservedObject var viewModel: PhoneNumberRegistrationViewModel
     var router: IlluMefyAppRouter
     @State private var phoneNumber = ""
+    @State private var isPrivacyPolicyAgreed = false
 
     var body: some View {
         VStack(spacing: 0) {
@@ -92,12 +93,21 @@ struct SignUpFormView: View {
             .keyboardType(.phonePad)
             
             Spacer()
+                .frame(height: 20)
+            
+            // Privacy policy checkbox
+            IlluMefyCheckbox(
+                isChecked: $isPrivacyPolicyAgreed,
+                title: L10n.PhoneNumberRegistration.Checkbox.privacyPolicy
+            )
+            
+            Spacer()
                 .frame(height: 40)
             
             // Verification button
             IlluMefyButton(
                 title: L10n.PhoneNumberRegistration.Button.verification,
-                isEnabled: !phoneNumber.isEmpty,
+                isEnabled: !phoneNumber.isEmpty && isPrivacyPolicyAgreed,
                 action: {
                     // Handle verification
                 }
