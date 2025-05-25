@@ -22,6 +22,10 @@
 "IlluMefy(ニムリー)は食材管理と家族・グループ間での情報共有を目的としたアプリです。ユーザーは個人利用の範囲でサービスを利用することができます。" = "IlluMefy is an app designed for food management and information sharing between family/group members. Users can use the service for personal use.";
 "OK" = "OK";
 "phoneNumberRegistration.input.phoneNumber.textfield" = "Enter phone number";
+
+/* Login */
+"login.input.phoneNumber.label" = "Phone Number";
+"login.input.phoneNumber.textfield" = "Enter phone number";
 "アカウントを作成することで、[利用規約](termsOfService)および[プライバシーポリシー](privacyPolicy)に同意し、ニムリーを使用することに同意したものとみなします。" = "By creating an account, you agree to the [Terms of Service](termsOfService) and [Privacy Policy](privacyPolicy) and consent to use IlluMefy.";
 "アカウント登録失敗" = "Account Registration Failed";
 "アカウント登録成功" = "Account Registration Successful";

@@ -32,6 +32,10 @@
 "phoneNumberRegistration.link.login" = "ログインはこちら";
 "phoneNumberRegistration.checkbox.privacyPolicy" = "プライバシーポリシーに同意します";
 
+/* Login */
+"login.input.phoneNumber.label" = "電話番号";
+"login.input.phoneNumber.textfield" = "電話番号を入力";
+
 /* Common Components */
 "common.textField.required" = "必須";
 "アカウントを作成することで、[利用規約](termsOfService)および[プライバシーポリシー](privacyPolicy)に同意し、ニムリーを使用することに同意したものとみなします。" = "アカウントを作成することで、[利用規約](termsOfService)および[プライバシーポリシー](privacyPolicy)に同意し、ニムリーを使用することに同意したものとみなします。";

@@ -103,23 +103,19 @@ struct LoginView: View {
 
 struct LoginForm: View {
     @ObservedObject var viewModel: LoginViewModel
-    @State private var isEmailFocused = false
+    @State private var isPhoneNumberFocused = false
     @State private var isPasswordFocused = false
     
     var body: some View {
         VStack(spacing: 20) {
-            // Email Field
-            VStack(alignment: .leading, spacing: 8) {
-                Text("メールアドレス")
-                    .font(.subheadline)
-                    .fontWeight(.medium)
-                    .foregroundColor(Color("Text/OnCard"))
-                
-                IlluMefyPlainTextField(
-                    text: $viewModel.email,
-                    placeHolder: "メールアドレスを入力"
-                )
-            }
+            // Phone Number Field
+            IlluMefyPlainTextField(
+                text: $viewModel.phoneNumber,
+                placeHolder: NSLocalizedString("login.input.phoneNumber.textfield", comment: ""),
+                label: NSLocalizedString("login.input.phoneNumber.label", comment: ""),
+                isRequired: true
+            )
+            .keyboardType(.phonePad)
             
             // Password Field
             VStack(alignment: .leading, spacing: 8) {

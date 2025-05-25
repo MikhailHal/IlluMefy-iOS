@@ -14,13 +14,13 @@ class LoginViewModel: LoginViewModelProtocol {
     var notificationDialogMessage: String = ""
     @Published var isShowNotificationDialog: Bool = false
     @Published var isShowErrorDialog: Bool = false
-    @Published var email: String = ""
+    @Published var phoneNumber: String = ""
     @Published var password: String = ""
     @Published var isStoreLoginInformation: Bool = false
     @Published var hasStoredLoginInfo: Bool = false
     
     var isValid: Bool {
-        !email.isEmpty && email.contains("@") && password.count >= 6
+        !phoneNumber.isEmpty && password.count >= 6
     }
     
     init(
@@ -37,7 +37,7 @@ class LoginViewModel: LoginViewModelProtocol {
         let storeData = getStoreLoginAccountInLocalUseCase.getStoreData()
         if storeData.isStore == true {
             await MainActor.run {
-                email = storeData.email
+                phoneNumber = storeData.email // Note: Keeping email field for backward compatibility with stored data
                 password = storeData.password
                 isStoreLoginInformation = true
                 hasStoredLoginInfo = true
@@ -51,14 +51,14 @@ class LoginViewModel: LoginViewModelProtocol {
         do {
             _ = try await loginUseCase.execute(
                 request: AccountLoginUseCaseRequest(
-                    email: email,
+                    phoneNumber: phoneNumber,
                     password: password
                 )
             )
             if isStoreLoginInformation {
                 _ = setStoreLoginAccountInLocalUseCase.setStoreData(
                     request: SetStoreLoginAccountInLocalUseCaseRequest(
-                        email: email,
+                        email: phoneNumber, // Store phone number in email field for backward compatibility
                         password: password,
                         isStore: true
                     )
@@ -76,7 +76,7 @@ class LoginViewModel: LoginViewModelProtocol {
                 .wrongPassword,
                 .invalidCredential,
                 .userNotFound:
-                    errorDialogMessage = "メールアドレスまたはパスワードが間違っています。"
+                    errorDialogMessage = "電話番号またはパスワードが間違っています。"
                 
             case .userDisabled:
                 errorDialogMessage = "このアカウントからのアクセスは禁止されています。"
