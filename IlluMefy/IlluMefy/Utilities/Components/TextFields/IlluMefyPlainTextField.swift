@@ -33,7 +33,7 @@ struct IlluMefyPlainTextField: View {
                         .font(.caption)
                         .foregroundColor(Asset.Color.Application.foreground.swiftUIColor)
                     if isRequired {
-                        Text("必須")
+                        Text(L10n.Common.TextField.required)
                             .font(.caption)
                             .foregroundColor(.red)
                     }

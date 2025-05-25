@@ -62,17 +62,17 @@ struct SignUpFormView: View {
                     .padding(.top, 40)
                 
                 // Title with emoji
-                Text("IlluMefyに新規登録 🎉")
+                Text(L10n.PhoneNumberRegistration.title)
                     .font(.title2)
                     .fontWeight(.bold)
                     .foregroundColor(Asset.Color.Application.foreground.swiftUIColor)
                 
                 // Description
                 VStack(spacing: 4) {
-                    Text("連絡可能な電話番号を入力してください。")
+                    Text(L10n.PhoneNumberRegistration.Description.line1)
                         .font(.body)
                         .foregroundColor(Asset.Color.Application.foreground.swiftUIColor)
-                    Text("後ほど認証メッセージが送信されます。")
+                    Text(L10n.PhoneNumberRegistration.Description.line2)
                         .font(.body)
                         .foregroundColor(Asset.Color.Application.foreground.swiftUIColor)
                 }
@@ -85,8 +85,8 @@ struct SignUpFormView: View {
             // Phone number input section
             IlluMefyPlainTextField(
                 text: $phoneNumber,
-                placeHolder: "電話番号を入力",
-                label: "電話番号",
+                placeHolder: L10n.PhoneNumberRegistration.Input.PhoneNumber.textfield,
+                label: L10n.PhoneNumberRegistration.Input.PhoneNumber.label,
                 isRequired: true
             )
             .keyboardType(.phonePad)
@@ -96,7 +96,7 @@ struct SignUpFormView: View {
             
             // Verification button
             IlluMefyButton(
-                title: "認証番号入力画面へ進む",
+                title: L10n.PhoneNumberRegistration.Button.verification,
                 isEnabled: !phoneNumber.isEmpty,
                 action: {
                     // Handle verification
@@ -109,7 +109,7 @@ struct SignUpFormView: View {
             Button(action: {
                 router.navigate(to: .login)
             }) {
-                Text("ログインはこちら")
+                Text(L10n.PhoneNumberRegistration.Link.login)
                     .font(.body)
                     .foregroundColor(Asset.Color.Application.foreground.swiftUIColor)
                     .underline()
