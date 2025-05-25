@@ -45,7 +45,7 @@ Design: Figma
 * SwiftGen
 
 ### Architecture
-To know them, please check [architecure.md](https://github.com/HaluIslay/Nimli-iOS/blob/main/Nimli/docs/architecture.md)
+To know them, please check [architecure.md](https://github.com/MikhailHal/IlluMefy-iOS/blob/main/IlluMefy/docs/architecture.md)
 
 ## Related URL
 ・[Google Cloud](https://github.com/aoi-stella/Nimli-GoogleCloud)  
