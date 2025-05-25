@@ -7,11 +7,11 @@ xcassets:
       output: Generated/Resources.swift
 
 strings:
-  inputs: Resources/Localizable.xcstrings
+  inputs: Resources/Localizable.strings
   outputs:
     - templateName: structured-swift5
       output: Generated/Strings.swift
       params:
-        publicAccess: true
         enumName: L10n
-        lookupFunction: localized
+        tableName: Localizable
+        ignoreEmptyStrings: false
