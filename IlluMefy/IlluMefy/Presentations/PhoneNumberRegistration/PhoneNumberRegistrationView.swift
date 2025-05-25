@@ -108,12 +108,12 @@ struct SignUpFormView: View {
             // Login link
             Button(action: {
                 router.navigate(to: .login)
-            }) {
+            }, label: {
                 Text(L10n.PhoneNumberRegistration.Link.login)
                     .font(.body)
                     .foregroundColor(Asset.Color.Application.foreground.swiftUIColor)
                     .underline()
-            }
+            })
             .padding(.bottom, 40)
         }
         .padding(.horizontal, 20)
