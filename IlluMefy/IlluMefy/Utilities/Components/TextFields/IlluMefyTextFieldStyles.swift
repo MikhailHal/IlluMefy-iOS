@@ -108,47 +108,47 @@ struct PasswordTextFieldStyle: TextFieldStyle {
 
 private func getForegroundColor(_ isEnabled: Bool) -> Color {
     if !isEnabled {
-        return Color(asset: Asset.Color.TextField.foregroundDisabled)
+        return Asset.Color.TextField.foregroundDisabled.swiftUIColor
     }
-    return Color(asset: Asset.Color.TextField.foreground)
+    return Asset.Color.TextField.foreground.swiftUIColor
 }
 
 private func getBackgroundColor(_ isEnabled: Bool) -> Color {
     if !isEnabled {
-        return Color(asset: Asset.Color.TextField.backgroundDisabled)
+        return Asset.Color.TextField.backgroundDisabled.swiftUIColor
     }
-    return Color(asset: Asset.Color.TextField.background)
+    return Asset.Color.TextField.background.swiftUIColor
 }
 
 private func getBorderColor(isFocused: Bool, isEnabled: Bool) -> Color {
     if !isEnabled {
-        return Color(asset: Asset.Color.TextField.borderDisabled)
+        return Asset.Color.TextField.borderDisabled.swiftUIColor
     }
     return if isFocused {
-        Color(asset: Asset.Color.TextField.borderFocused)
+        Asset.Color.TextField.borderFocused.swiftUIColor
     } else {
-        Color(asset: Asset.Color.TextField.borderNoneFocused)
+        Asset.Color.TextField.borderNoneFocused.swiftUIColor
     }
 }
 
 private func getPlaceHolderColor(isFocused: Bool, isEnabled: Bool) -> Color {
     if !isEnabled {
-        return Color(asset: Asset.Color.TextField.placeholderDisabled)
+        return Asset.Color.TextField.placeholderDisabled.swiftUIColor
     }
     return if isFocused {
-        Color(asset: Asset.Color.TextField.placeholderFocused)
+        Asset.Color.TextField.placeholderFocused.swiftUIColor
     } else {
-        Color(asset: Asset.Color.TextField.placeholderNoneFocused)
+        Asset.Color.TextField.placeholderNoneFocused.swiftUIColor
     }
 }
 
 private func getTrailingIconColor(isFocused: Bool, isEnabled: Bool) -> Color {
     if !isEnabled {
-        return Color(asset: Asset.Color.TextField.trailingIconBackgroundDisabled)
+        return Asset.Color.TextField.trailingIconBackgroundDisabled.swiftUIColor
     }
     return if isFocused {
-        Color(asset: Asset.Color.TextField.trailingIconBackgroundFocused)
+        Asset.Color.TextField.trailingIconBackgroundFocused.swiftUIColor
     } else {
-        Color(asset: Asset.Color.TextField.trailingIconBackgroundNoneFocused)
+        Asset.Color.TextField.trailingIconBackgroundNoneFocused.swiftUIColor
     }
 }

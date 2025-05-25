@@ -48,26 +48,85 @@ struct PhoneNumberRegistrationView: View {
 struct SignUpFormView: View {
     @ObservedObject var viewModel: PhoneNumberRegistrationViewModel
     var router: IlluMefyAppRouter
+    @State private var phoneNumber = ""
 
     var body: some View {
-        ScrollView {
-            VStack(spacing: 20) {
+        VStack(spacing: 0) {
+            // Top section with icon and title
+            VStack(spacing: 24) {
+                // IlluMefy icon
                 Image(Asset.Assets.illuMefyIconMedium.name)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 150, height: 150)
-                Spacer()
-                IlluMefyPlainTextField(
-                    text: $viewModel.email,
-                    placeHolder: "",
-                )
-                .frame(height: 50)
-                .onChange(of: viewModel.email) {
-                    viewModel.onEmailDidChange()
+                    .frame(width: 80, height: 80)
+                    .padding(.top, 40)
+                
+                // Title with emoji
+                Text("IlluMefyに新規登録 🎉")
+                    .font(.title2)
+                    .fontWeight(.bold)
+                    .foregroundColor(Asset.Color.Application.foreground.swiftUIColor)
+                
+                // Description
+                VStack(spacing: 4) {
+                    Text("連絡可能な電話番号を入力してください。")
+                        .font(.body)
+                        .foregroundColor(Asset.Color.Application.foreground.swiftUIColor)
+                    Text("後ほど認証メッセージが送信されます。")
+                        .font(.body)
+                        .foregroundColor(Asset.Color.Application.foreground.swiftUIColor)
                 }
+                .multilineTextAlignment(.center)
             }
-            .padding(.vertical, 20)
+            
+            Spacer()
+                .frame(height: 60)
+            
+            // Phone number input section
+            VStack(alignment: .leading, spacing: 8) {
+                HStack(spacing: 4) {
+                    Text("電話番号")
+                        .font(.caption)
+                        .foregroundColor(Asset.Color.Application.foreground.swiftUIColor)
+                    Text("必須")
+                        .font(.caption)
+                        .foregroundColor(.red)
+                }
+                
+                IlluMefyPlainTextField(
+                    text: $phoneNumber,
+                    placeHolder: "電話番号を入力"
+                )
+                .keyboardType(.phonePad)
+                .frame(height: 56)
+            }
+            
+            Spacer()
+                .frame(height: 40)
+            
+            // Verification button
+            IlluMefyButton(
+                title: "認証番号入力画面へ進む",
+                isEnabled: !phoneNumber.isEmpty,
+                action: {
+                    // Handle verification
+                }
+            )
+            
+            Spacer()
+            
+            // Login link
+            Button(action: {
+                router.navigate(to: .login)
+            }) {
+                Text("ログインはこちら")
+                    .font(.body)
+                    .foregroundColor(Asset.Color.Application.foreground.swiftUIColor)
+                    .underline()
+            }
+            .padding(.bottom, 40)
         }
+        .padding(.horizontal, 20)
     }
 }
 

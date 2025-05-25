@@ -11,6 +11,20 @@ import SwiftUI
  This was created for commonalizing button.
  */
 struct IlluMefyButton: View {
+    // MARK: - Constants
+    private enum Constants {
+        static let buttonHeight: CGFloat = 52
+        static let cornerRadius: CGFloat = 8
+        static let rippleInitialScale: CGFloat = 1.1
+        static let rippleFinalScale: CGFloat = 12.0
+        static let rippleInitialOpacity: Double = 0.4
+        static let rippleColorOpacity: Double = 0.3
+        static let rippleInitialDuration: Double = 0.15
+        static let rippleFinalDuration: Double = 0.75
+        static let rippleDelay: Double = 0.05
+        static let feedbackIntensity: CGFloat = 0.5
+    }
+    
     @State private var ripplePosition: CGPoint = .zero
     @State private var rippleSize: CGFloat = 0
     @State private var rippleOpacity: Double = 0
@@ -29,24 +43,33 @@ struct IlluMefyButton: View {
         }, label: {
             Text(title)
                 .frame(maxWidth: .infinity)
-                .frame(height: 52)
+                .frame(height: Constants.buttonHeight)
                 .background(
                     ZStack {
                         if isEnabled {
-                            Color("Button/BackgroundForEnabled")
+                            LinearGradient(
+                                gradient: Gradient(colors: [
+                                    Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor,
+                                    Asset.Color.Button.buttonBackgroundGradationEnd.swiftUIColor
+                                ]),
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
                         } else {
-                            Color("Button/BackgroundForDisabled")
+                            Asset.Color.Button.buttonBackgroundDisable.swiftUIColor
                         }
                         Circle()
-                            .fill(Color.white.opacity(0.3))
+                            .fill(Color.white.opacity(Constants.rippleColorOpacity))
                             .scaleEffect(rippleSize)
                             .position(ripplePosition)
                             .opacity(rippleOpacity)
                     }
                 )
                 .foregroundColor(
-                    isEnabled ? Color("Button/ForegroundForEnabled") : Color("Button/ForegroundForDisabled"))
-                .cornerRadius(8)
+                    isEnabled ?
+                    Asset.Color.Button.buttonForeground.swiftUIColor
+                    : Asset.Color.Button.buttonForegroundForDisabled.swiftUIColor)
+                .cornerRadius(Constants.cornerRadius)
                 .clipped()
         })
         .simultaneousGesture(
@@ -54,18 +77,18 @@ struct IlluMefyButton: View {
                 .onEnded { value in
                     let feedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
                     ripplePosition = value.location
-                    withAnimation(.easeOut(duration: 0.15)) {
-                        rippleOpacity = 0.4
-                        rippleSize = 1.1
+                    withAnimation(.easeOut(duration: Constants.rippleInitialDuration)) {
+                        rippleOpacity = Constants.rippleInitialOpacity
+                        rippleSize = Constants.rippleInitialScale
                     }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-                        withAnimation(.easeOut(duration: 0.75)) {
-                            rippleSize = 12.0
+                    DispatchQueue.main.asyncAfter(deadline: .now() + Constants.rippleDelay) {
+                        withAnimation(.easeOut(duration: Constants.rippleFinalDuration)) {
+                            rippleSize = Constants.rippleFinalScale
                             rippleOpacity = 0
                         }
                     }
                     feedbackGenerator.prepare()
-                    feedbackGenerator.impactOccurred(intensity: 0.5)
+                    feedbackGenerator.impactOccurred(intensity: Constants.feedbackIntensity)
                 }
         )
         .disabled(!isEnabled)
