@@ -43,7 +43,9 @@ class LoginViewModel: LoginViewModelProtocol {
                 hasStoredLoginInfo = true
             }
         } else {
-            hasStoredLoginInfo = false
+            await MainActor.run {
+                hasStoredLoginInfo = false
+            }
         }
     }
     
