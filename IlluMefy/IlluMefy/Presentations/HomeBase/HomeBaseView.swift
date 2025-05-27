@@ -21,7 +21,7 @@ struct HomeBaseView<ContentView: View>: View {
         appearance.backgroundColor = UIColor.Application.background
         appearance.titleTextAttributes = [
             .font: UIFont.preferredFont(forTextStyle: .title3),
-            //.foregroundColor: UIColor.textForeground
+            .foregroundColor: Asset.Color.Application.foreground
         ]
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
@@ -31,7 +31,7 @@ struct HomeBaseView<ContentView: View>: View {
         VStack {
             TabBarView()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                //.background(Color.screenBackground)
+                .background(Asset.Color.Application.background.swiftUIColor)
                 .navigationTitle("ホーム画面")
                 .navigationBarTitleDisplayMode(.inline)
                 .ignoresSafeArea(.keyboard, edges: .all)
@@ -44,7 +44,6 @@ private struct TabBarView: View {
     init() {
         let appearance: UITabBarAppearance = UITabBarAppearance()
         appearance.configureWithDefaultBackground()
-        //appearance.backgroundColor = .tabBackground
         UITabBar.appearance().scrollEdgeAppearance = appearance
         UITabBar.appearance().standardAppearance = appearance
     }
@@ -74,6 +73,5 @@ private struct TabBarView: View {
     }
 }
 #Preview {
-    HomeBaseView {
-    }
+    HomeBaseView(content: {}).environmentObject(IlluMefyAppRouter())
 }
