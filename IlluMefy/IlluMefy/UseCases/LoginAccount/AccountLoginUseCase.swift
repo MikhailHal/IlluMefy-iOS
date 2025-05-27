@@ -24,6 +24,14 @@ class AccountLoginUseCase: AccountLoginUseCaseProtocol {
     }
     
     func checkParameterValidation(request: AccountLoginUseCaseRequest) throws -> AccountLoginUseCaseError {
+        if !isValidPhoneNumber(phoneNumber: request.phoneNumber) {
+            throw AccountLoginUseCaseError.invalidPhoneNumber
+        }
+        
+        if request.password.count < 6 {
+            throw AccountLoginUseCaseError.invalidPassword
+        }
+        
         return .success
     }
     

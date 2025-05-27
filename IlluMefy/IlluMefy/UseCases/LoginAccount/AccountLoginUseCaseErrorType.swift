@@ -9,6 +9,8 @@ enum AccountLoginUseCaseError: UseCaseErrorProtocol {
     case success
     case wrongPassword
     case invalidEmail
+    case invalidPhoneNumber
+    case invalidPassword
     case invalidCredential
     case userNotFound
     case userDisabled
@@ -21,12 +23,14 @@ enum AccountLoginUseCaseError: UseCaseErrorProtocol {
         case .success: return 0
         case .wrongPassword: return 2001
         case .invalidEmail: return 2002
-        case .invalidCredential: return 2003
-        case .userNotFound: return 2004
-        case .userDisabled: return 2005
-        case .tooManyRequests: return 2006
-        case .networkError: return 2007
-        case .unknown: return 2008
+        case .invalidPhoneNumber: return 2003
+        case .invalidPassword: return 2004
+        case .invalidCredential: return 2005
+        case .userNotFound: return 2006
+        case .userDisabled: return 2007
+        case .tooManyRequests: return 2008
+        case .networkError: return 2009
+        case .unknown: return 2010
         }
     }
     
@@ -35,6 +39,8 @@ enum AccountLoginUseCaseError: UseCaseErrorProtocol {
         case .success: return ""
         case .wrongPassword: return ErrorMessages.Auth.wrongPassword
         case .invalidEmail: return ErrorMessages.Auth.invalidEmail
+        case .invalidPhoneNumber: return "Invalid phone number format"
+        case .invalidPassword: return ErrorMessages.Auth.invalidPassword
         case .invalidCredential: return ErrorMessages.Auth.invalidCredential
         case .userNotFound: return ErrorMessages.Auth.userNotFound
         case .userDisabled: return ErrorMessages.Auth.userDisabled
