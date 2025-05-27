@@ -19,8 +19,8 @@ class AccountLoginUseCase: AccountLoginUseCaseProtocol {
         self.accountLoginRepository = accountLoginRepository
     }
     
-    func isValidEmail(email: String) -> Bool {
-        return email.isValidEmail()
+    func isValidPhoneNumber(phoneNumber: String) -> Bool {
+        return !phoneNumber.isEmpty && phoneNumber.count >= 10
     }
     
     func checkParameterValidation(request: AccountLoginUseCaseRequest) throws -> AccountLoginUseCaseError {
@@ -32,7 +32,7 @@ class AccountLoginUseCase: AccountLoginUseCaseProtocol {
             _ = try checkParameterValidation(request: request)
             return try await accountLoginRepository.login(
                 AccountLoginRequest(
-                    email: request.email,
+                    phoneNumber: request.phoneNumber,
                     password: request.password
                 )
             )

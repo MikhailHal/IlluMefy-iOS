@@ -7,5 +7,5 @@
 
 protocol AccountLoginUseCaseProtocol: UseCaseWithParametersAsyncProtocol where Request == AccountLoginUseCaseRequest {
     var accountLoginRepository: any AccountLoginRepositoryProtocol { get }
-    func isValidEmail(email: String) -> Bool
+    func isValidPhoneNumber(phoneNumber: String) -> Bool
 }

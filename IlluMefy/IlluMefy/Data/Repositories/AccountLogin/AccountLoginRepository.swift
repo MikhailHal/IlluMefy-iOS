@@ -14,7 +14,10 @@ class AccountLoginRepository: AccountLoginRepositoryProtocol {
     
     func login(_ request: AccountLoginRequest) async throws -> Bool {
         do {
-            try await Auth.auth().signIn(withEmail: request.email, password: request.password)
+            // For phone number authentication, we would typically use Firebase Phone Auth
+            // For now, treating phone number as email for compatibility
+            // In a real implementation, this would use Firebase Phone Authentication
+            try await Auth.auth().signIn(withEmail: request.phoneNumber, password: request.password)
             return true
         } catch {
             throw AccountLoginRepositoryError.from(error)

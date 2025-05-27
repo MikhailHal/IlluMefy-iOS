@@ -1,0 +1,34 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mv:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
+    ],
+    "deny": []
+  },
+  "projectGuidelines": {
+    "gitWorkflow": {
+      "branchStrategy": "各issueに対して1つのブランチのみを作成し、派生ブランチは作らない",
+      "description": "Issue #2 に対しては claude/issue-2-YYYYMMDD_HHMMSS 形式の1つのブランチで作業を完結させる"
+    },
+    "uiComponents": {
+      "policy": "共有UIコンポーネントを優先的に使用する",
+      "existingComponents": [
+        "IlluMefyButton - グラデーションボタン",
+        "IlluMefyCardNormal - カードコンテナ",
+        "IlluMefyCheckbox - チェックボックス",
+        "IlluMefyLoadingDialog - ローディング表示",
+        "IlluMefyPlainTextField - 通常テキストフィールド",
+        "IlluMefyConfidentialTextField - セキュアテキストフィールド"
+      ],
+      "namingConvention": "新規コンポーネントは必ずIlluMefyプレフィックスを付ける",
+      "location": "/Utilities/Components/[ComponentType]/"
+    },
+    "localization": {
+      "policy": "必ずSwiftGenで生成したアクセッサを使用する",
+      "example": "L10n.login.button.submit を使用 (直接文字列リテラルは禁止)",
+      "command": "cd IlluMefy/IlluMefy && swiftgen run strings Resources/Localizable.strings -t structured-swift5 -o Generated/Strings.swift"
+    }
+  }
+}

@@ -6,12 +6,12 @@
 //
 
 /// To login existed account.
-/// - parameter email: login email address
+/// - parameter phoneNumber: login phone number
 /// - parameter password: login password
 struct AccountLoginRequest {
-    var email: String
+    var phoneNumber: String
     var password: String
-    func makeMe(email: String, password: String) -> AccountLoginRequest {
-        return AccountLoginRequest(email: email, password: password)
+    func makeMe(phoneNumber: String, password: String) -> AccountLoginRequest {
+        return AccountLoginRequest(phoneNumber: phoneNumber, password: password)
     }
 }
