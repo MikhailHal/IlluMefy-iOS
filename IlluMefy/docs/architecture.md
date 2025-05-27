@@ -1,8 +1,8 @@
-# Nimli Architecture Documentation
+# IlluMefy Architecture Documentation
 
 ## Overview
 
-Nimli is an iOS application built using Clean Architecture principles. The application is structured to be maintainable, testable, and scalable, with clear separation of concerns and dependency management.
+IlluMefy is an iOS application built using Clean Architecture principles. The application is structured to be maintainable, testable, and scalable, with clear separation of concerns and dependency management.
 
 ## Architecture Layers
 
@@ -170,7 +170,7 @@ The application is divided into the following layers:
 ## Directory Structure
 
 ```
-Nimli/
+IlluMefy/
 ├── Applications/          # App configuration and DI
 ├── Bases/                # Protocols and base classes
 ├── Data/                 # Repository implementations
