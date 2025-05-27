@@ -24,7 +24,6 @@ struct IlluMefyLoginButtonStyle: ButtonStyle {
     }
 }
 
-
 struct LoginView: View {
     @StateObject private var viewModel = DependencyContainer.shared.resolve(LoginViewModel.self)!
     @EnvironmentObject var router: IlluMefyAppRouter
@@ -34,52 +33,67 @@ struct LoginView: View {
             VStack {
                 // Welcome Section
                 VStack(spacing: Spacing.componentGrouping) {
-                    Image(systemName: "lock.shield.fill")
-                        .font(.system(size: 48))
-                        .foregroundColor(Color("Base/Main"))
-                    Text("おかえりなさい！")
-                        .font(.subheadline)
-                        .foregroundColor(Color("Text/Foreground"))
-                    Text("フードロスを減らしていきましょう！")
-                        .font(.subheadline)
-                        .foregroundColor(Color("Text/Foreground"))
+                    Image("IlluMefyIconMedium")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 80, height: 80)
+                    
+                    Text(L10n.Login.title)
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .foregroundColor(Asset.Color.Application.foreground.swiftUIColor)
+                    
+                    VStack(spacing: 4) {
+                        Text(L10n.Login.Subtitle.line1)
+                            .font(.body)
+                            .foregroundColor(Asset.Color.Application.foreground.swiftUIColor)
+                        Text(L10n.Login.Subtitle.line2)
+                            .font(.body)
+                            .foregroundColor(Asset.Color.Application.foreground.swiftUIColor)
+                    }
                 }
                 .padding(.top, Spacing.screenEdgePadding)
                 .padding(.bottom, Spacing.unrelatedComponentDivider)
                 
-                // Login Form Card
-                IlluMefyCardNormal(content: {
-                    VStack(spacing: Spacing.unrelatedComponentDivider) {
-                        LoginForm(viewModel: viewModel)
-                        
-                        // Store login info
-                        Toggle(isOn: $viewModel.isStoreLoginInformation) {
-                            Text("ログイン情報を保存する")
-                                .font(.footnote)
-                                .foregroundColor(Color("Text/OnCard"))
-                        }
-                        .toggleStyle(SwitchToggleStyle(tint: Color("ToggleButton/Enabled")))
-                    }
-                    .padding(.vertical, 8)
-                })
-                .padding(.horizontal, Spacing.screenEdgePadding)
+                // Login Form
+                VStack(spacing: Spacing.relatedComponentDivider) {
+                    LoginForm(viewModel: viewModel)
+                        .padding(.horizontal, Spacing.screenEdgePadding)
                 
-                // Login Button
-                IlluMefyButton(
-                    title: "ログイン",
-                    isEnabled: viewModel.isValid,
-                    action: {
-                        Task {
-                            router.showLoading()
-                            await viewModel.login()
-                            router.hideLoading()
+                    // Login Button
+                    IlluMefyButton(
+                        title: L10n.Login.Button.login,
+                        isEnabled: viewModel.isValid,
+                        action: {
+                            Task {
+                                router.showLoading()
+                                await viewModel.login()
+                                router.hideLoading()
+                            }
                         }
-                    }
-                ).padding(.horizontal, Spacing.screenEdgePadding)
+                    )
+                    .padding(.horizontal, Spacing.screenEdgePadding)
+                    .padding(.vertical, Spacing.relatedComponentDivider)
+                    
+                    // Register Link
+                    Button(
+                        action: {
+                            router.navigate(to: .phoneNumberRegistration)
+                        },
+                        label: {
+                            Text(L10n.Login.Link.register)
+                                .font(.body)
+                                .foregroundColor(Asset.Color.Application.foreground.swiftUIColor)
+                                .underline()
+                        }
+                    )
+                    .padding(.top, Spacing.relatedComponentDivider)
+                }
+                
                 Spacer()
             }
         }
-        .background(Color("Background/Screen"))
+        .background(Asset.Color.Application.background.swiftUIColor)
         .alert("ログイン失敗", isPresented: $viewModel.isShowErrorDialog) {
             Button("OK") { viewModel.isShowErrorDialog = false }
         } message: {
@@ -107,30 +121,14 @@ struct LoginForm: View {
     @State private var isPasswordFocused = false
     
     var body: some View {
-        VStack(spacing: 20) {
-            // Phone Number Field
-            IlluMefyPlainTextField(
-                text: $viewModel.phoneNumber,
-                placeHolder: NSLocalizedString("login.input.phoneNumber.textfield", comment: ""),
-                label: NSLocalizedString("login.input.phoneNumber.label", comment: ""),
-                isRequired: true
-            )
-            .keyboardType(.phonePad)
-            
-            // Password Field
-            VStack(alignment: .leading, spacing: 8) {
-                Text("パスワード")
-                    .font(.subheadline)
-                    .fontWeight(.medium)
-                    .foregroundColor(Color("Text/OnCard"))
-                
-                IlluMefyConfidentialTextField(
-                    text: $viewModel.password,
-                    placeHolder: "パスワードを入力"
-                )
-            }
-        }
-        .padding(.horizontal, 24)
+        // Phone Number Field
+        IlluMefyPlainTextField(
+            text: $viewModel.phoneNumber,
+            placeHolder: L10n.Login.Input.PhoneNumber.textfield,
+            label: L10n.Login.Input.PhoneNumber.label,
+            isRequired: true
+        )
+        .keyboardType(.phonePad)
     }
 }
 
