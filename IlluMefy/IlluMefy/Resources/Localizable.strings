@@ -30,6 +30,7 @@
 "phoneNumberRegistration.input.phoneNumber.textfield" = "電話番号を入力";
 "phoneNumberRegistration.button.verification" = "認証番号入力画面へ進む";
 "phoneNumberRegistration.link.login" = "ログインはこちら";
+"phoneNumberRegistration.link.prefix" = "すでにアカウントをお持ちですか？";
 "phoneNumberRegistration.checkbox.privacyPolicy" = "プライバシーポリシーに同意します";
 
 /* Login */

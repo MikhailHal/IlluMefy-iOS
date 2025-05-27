@@ -106,5 +106,5 @@ struct IlluMefyCheckbox: View {
                          title: "これは複数行にわたる可能性がある長いチェックボックスラベルです")
     }
     .padding()
-    .background(Asset.Color.Application.background.swiftUIColor)
+    .background(Asset.Color.Application.Background.background.swiftUIColor)
 }

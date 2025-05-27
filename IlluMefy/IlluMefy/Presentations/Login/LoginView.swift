@@ -93,7 +93,7 @@ struct LoginView: View {
                 Spacer()
             }
         }
-        .background(Asset.Color.Application.background.swiftUIColor)
+        .background(Asset.Color.Application.Background.background.swiftUIColor)
         .alert("ログイン失敗", isPresented: $viewModel.isShowErrorDialog) {
             Button("OK") { viewModel.isShowErrorDialog = false }
         } message: {

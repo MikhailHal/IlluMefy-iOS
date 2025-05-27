@@ -83,6 +83,51 @@ IlluMefy is a food management iOS app built with SwiftUI and Clean Architecture.
 3. **SwiftLint trailing closure rule**: When Button has both action and label closures, use explicit `label:` parameter
    - ❌ `Button(action: { }) { Text("Label") }`
    - ✅ `Button(action: { }, label: { Text("Label") })`
+4. **iOS 17 onChange deprecation**: Use two-parameter closure for onChange
+   - ❌ `.onChange(of: value) { newValue in }`
+   - ✅ `.onChange(of: value) { oldValue, newValue in }`
+   - Note: If you don't need the values, use `{ _, _ in }`
+
+## Design Language & Visual Identity
+
+### Core Design Philosophy
+**"Playful Professionalism"** - モダンで洗練されているが、親しみやすく楽しい雰囲気
+
+### Visual Characteristics
+1. **グラデーション & 透明感**
+   - 背景：薄いグラデーション（opacity 0.05-0.08）で深みを演出
+   - アニメーション：ゆっくり動くアンビエントグラデーション
+   - 重要要素：グラデーションカラーを効果的に使用
+
+2. **シャドウ & デプス**
+   - 主要要素：`shadow(radius: 20, y: 10)` で浮遊感
+   - ボタン：有効時により強いシャドウで存在感強調
+   - カード：微細なシャドウで階層を表現
+
+3. **アニメーション原則**
+   - Spring animation：`spring(response: 0.8, dampingFraction: 0.6)`
+   - 段階的表示：0.3秒間隔でプログレッシブディスクロージャー
+   - マイクロインタラクション：フォーカス時やタップ時の微細な動き
+
+4. **スペーシング**
+   - 主要セクション間：`unrelatedComponentDivider`
+   - 関連要素間：`relatedComponentDivider`
+   - グループ内：`componentGrouping`
+
+5. **タイポグラフィ**
+   - タイトル：`.largeTitle` or `.system(size: 36, weight: .bold, design: .rounded)`
+   - 説明文：透明度で階層表現（0.85 → 0.65）
+   - フォントデザイン：`.rounded` で親しみやすさ
+
+6. **インタラクション**
+   - 重要アクション：触覚フィードバック（UIImpactFeedbackGenerator）
+   - 入力フィールド：フォーカス時にスケール拡大
+   - チェックボックス：選択時にボーダーハイライト
+
+### 実装時の注意
+- **パフォーマンス優先**：過剰なアニメーションは避ける
+- **一貫性**：全画面で同じアニメーション設定を使用
+- **アクセシビリティ**：Reduce Motion設定の考慮
 
 ## Feedback Reference
 **IMPORTANT**: Always check `.claude/FEEDBACK_LOG.md` for specific feedback and corrections before implementing features.

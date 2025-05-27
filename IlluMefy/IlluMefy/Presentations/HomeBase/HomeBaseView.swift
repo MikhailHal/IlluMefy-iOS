@@ -18,7 +18,7 @@ struct HomeBaseView<ContentView: View>: View {
     private func configureNavigationBarAppearance() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = UIColor.Application.background
+        appearance.backgroundColor = UIColor.Application.Background.background
         appearance.titleTextAttributes = [
             .font: UIFont.preferredFont(forTextStyle: .title3),
             .foregroundColor: Asset.Color.Application.foreground
@@ -31,7 +31,7 @@ struct HomeBaseView<ContentView: View>: View {
         VStack {
             TabBarView()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Asset.Color.Application.background.swiftUIColor)
+                .background(Asset.Color.Application.Background.background.swiftUIColor)
                 .navigationTitle("ホーム画面")
                 .navigationBarTitleDisplayMode(.inline)
                 .ignoresSafeArea(.keyboard, edges: .all)
