@@ -73,5 +73,16 @@ IlluMefy is a food management iOS app built with SwiftUI and Clean Architecture.
 - Always handle loading and error states
 - Follow existing patterns in the codebase
 
+## Common Mistakes to Avoid
+1. **Using non-existent constants**: Always check available constants in `Spacing.swift` before using
+   - Available: `none`, `componentGrouping`, `relatedComponentDivider`, `screenEdgePadding`, `cardEdgePadding`, `unrelatedComponentDivider`
+   - Do NOT use: `componentSeparation` (doesn't exist)
+2. **Router destinations**: Check `IlluMefyAppRouter.Destination` enum for available navigation targets
+   - Available: `phoneNumberRegistration`, `login`, `groupList`
+   - Do NOT use: `register` (use `phoneNumberRegistration` instead)
+3. **SwiftLint trailing closure rule**: When Button has both action and label closures, use explicit `label:` parameter
+   - ❌ `Button(action: { }) { Text("Label") }`
+   - ✅ `Button(action: { }, label: { Text("Label") })`
+
 ## Feedback Reference
 **IMPORTANT**: Always check `.claude/FEEDBACK_LOG.md` for specific feedback and corrections before implementing features.

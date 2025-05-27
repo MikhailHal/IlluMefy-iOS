@@ -33,8 +33,13 @@
 "phoneNumberRegistration.checkbox.privacyPolicy" = "プライバシーポリシーに同意します";
 
 /* Login */
+"login.title" = "おかえりなさい！🏠";
+"login.subtitle.line1" = "IlluMefyにログインして、";
+"login.subtitle.line2" = "お気に入りのインフルエンサーを探しましょう！";
 "login.input.phoneNumber.label" = "電話番号";
 "login.input.phoneNumber.textfield" = "電話番号を入力";
+"login.button.login" = "ログイン";
+"login.link.register" = "アカウント登録はこちら";
 
 /* Common Components */
 "common.textField.required" = "必須";
