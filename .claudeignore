@@ -1,0 +1,43 @@
+# Claude Code ignore file
+
+# Build outputs
+DerivedData/
+build/
+Build/
+*.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+*.xcodeproj/project.xcworkspace/xcuserdata/
+
+# Large files
+*.mp4
+*.mov
+*.zip
+*.ipa
+*.dSYM.zip
+
+# Temporary files
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Pods (if using CocoaPods)
+Pods/
+*.xcworkspace
+
+# SPM
+.swiftpm/
+.build/
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+
+# Code coverage
+*.xcresult
+*.coverage
+
+# Archives
+*.xcarchive
