@@ -165,7 +165,7 @@ struct AnimatedLogoIcon: View {
 // MARK: - Preview
 
 #Preview {
-    @State var isAppeared = true
+    @Previewable @State var isAppeared = true
     
     return AnimatedLogoIcon(isAppeared: $isAppeared)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
