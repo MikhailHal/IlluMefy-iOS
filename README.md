@@ -29,7 +29,6 @@ Language: Swift
 Architecture: Clean Architecture+Router  
 Package Manager: SPM(Swift Package Manager)  
 Static Analysis: SwiftLint  
-Design: Figma
 
 ### Libraries
 #### UI
