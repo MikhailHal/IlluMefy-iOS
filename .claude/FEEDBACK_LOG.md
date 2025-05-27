@@ -29,6 +29,11 @@ This file contains feedback and corrections received during development. Always 
 ## Architecture
 - **2025-05-26**: When updating screens, also update UseCase and Data layers, not just UI
 
+## Naming Conventions
+- **2025-05-26**: Replace all "Nimli" references with "IlluMefy" throughout the codebase
+- **2025-05-26**: Replace all "ニムリー" references with "IlluMefy" in Japanese text
+- **2025-05-26**: Fix typos in file names (e.g., "Nomal" → "Normal")
+
 ---
 
 *Last updated: 2025-05-26*

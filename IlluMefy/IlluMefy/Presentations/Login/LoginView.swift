@@ -48,7 +48,7 @@ struct LoginView: View {
                 .padding(.bottom, Spacing.unrelatedComponentDivider)
                 
                 // Login Form Card
-                IlluMefyCardNomal(content: {
+                IlluMefyCardNormal(content: {
                     VStack(spacing: Spacing.unrelatedComponentDivider) {
                         LoginForm(viewModel: viewModel)
                         
