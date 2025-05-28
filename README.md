@@ -42,6 +42,7 @@ Static Analysis: SwiftLint
 * Firebase Storage  
 * Combine
 * SwiftGen
+* Some capabilities(Background Modes / Push Notifications)
 
 ### Architecture
 To know them, please check [architecure.md](https://github.com/MikhailHal/IlluMefy-iOS/blob/main/IlluMefy/docs/architecture.md)
