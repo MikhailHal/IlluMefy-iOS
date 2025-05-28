@@ -33,13 +33,13 @@ struct PhoneNumberRegistrationView: View {
                 .ignoresSafeArea(.keyboard, edges: .bottom)
         }
         // エラーダイアログ
-        .alert("アカウント登録失敗", isPresented: $viewModel.isShowErrorDialog) {
+        .alert(L10n.Common.Dialog.Title.error, isPresented: $viewModel.isShowErrorDialog) {
             Button("OK") { viewModel.isShowErrorDialog = false }
         } message: {
             Text(viewModel.errorDialogMessage)
         }
         // 成功ダイアログ
-        .alert("アカウント登録成功", isPresented: $viewModel.isShowNotificationDialog) {
+        .alert(L10n.Common.Dialog.Title.success, isPresented: $viewModel.isShowNotificationDialog) {
             Button("OK") {
                 viewModel.isShowNotificationDialog = false
                 router.navigate(to: .login)
@@ -78,9 +78,6 @@ struct SignUpFormView: View {
     
     // MARK: - State
     
-    /// 電話番号入力値
-    @State private var phoneNumber = ""
-    
     /// プライバシーポリシー同意状態
     @State private var isPrivacyPolicyAgreed = false
     
@@ -112,7 +109,7 @@ struct SignUpFormView: View {
                 formAppeared = true
             }
         }
-        .onChange(of: phoneNumber) { _, _ in
+        .onChange(of: viewModel.phoneNumber) { _, _ in
             // 文字入力時の触覚フィードバック
             let selectionFeedback = UISelectionFeedbackGenerator()
             selectionFeedback.selectionChanged()
@@ -181,7 +178,7 @@ struct SignUpFormView: View {
     private var phoneNumberField: some View {
         VStack(alignment: .leading, spacing: Spacing.componentGrouping) {
             IlluMefyPlainTextField(
-                text: $phoneNumber,
+                text: $viewModel.phoneNumber,
                 placeHolder: L10n.PhoneNumberRegistration.Input.PhoneNumber.textfield,
                 label: L10n.PhoneNumberRegistration.Input.PhoneNumber.label,
                 isRequired: true
@@ -233,7 +230,7 @@ struct SignUpFormView: View {
     private var primaryActionButton: some View {
         ZStack {
             // ボタンが有効な時のパルスエフェクト
-            if !phoneNumber.isEmpty && isPrivacyPolicyAgreed {
+            if !viewModel.phoneNumber.isEmpty && isPrivacyPolicyAgreed {
                 RoundedRectangle(cornerRadius: 12)
                     .fill(Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor.opacity(0.3))
                     .frame(height: 56)
@@ -251,21 +248,22 @@ struct SignUpFormView: View {
             // メインボタン
             IlluMefyButton(
                 title: L10n.PhoneNumberRegistration.Button.verification,
-                isEnabled: !phoneNumber.isEmpty && isPrivacyPolicyAgreed,
+                isEnabled: !viewModel.phoneNumber.isEmpty && isPrivacyPolicyAgreed,
                 action: {
                     // 触覚フィードバック（中程度の強さ）
                     let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
                     impactFeedback.impactOccurred()
-                    
-                    // TODO: 認証処理を実装
+                    Task {
+                        await viewModel.sendAuthenticationCode()
+                    }
                 }
             )
             .padding(.horizontal, Spacing.screenEdgePadding)
             // 条件付きシャドウ（有効時はより強く）
             .shadow(
                 color: Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor.opacity(0.3),
-                radius: !phoneNumber.isEmpty && isPrivacyPolicyAgreed ? 15 : 10,
-                y: !phoneNumber.isEmpty && isPrivacyPolicyAgreed ? 8 : 5
+                radius: !viewModel.phoneNumber.isEmpty && isPrivacyPolicyAgreed ? 15 : 10,
+                y: !viewModel.phoneNumber.isEmpty && isPrivacyPolicyAgreed ? 8 : 5
             )
             .animation(.spring(response: 0.4, dampingFraction: 0.7), value: isPrivacyPolicyAgreed)
         }

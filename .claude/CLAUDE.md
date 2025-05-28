@@ -74,6 +74,12 @@ IlluMefy is a food management iOS app built with SwiftUI and Clean Architecture.
 - Follow existing patterns in the codebase
 
 ## Common Mistakes to Avoid
+**CRITICAL RULE**: ハードコードされた文字列は絶対に使用禁止
+- ❌ `errorMessage = "ネットワークエラー"`
+- ✅ `errorMessage = L10n.Error.network`
+- すべてのユーザー向け文字列は必ずLocalizable.strings → SwiftGen経由で使用
+
+## Common Mistakes to Avoid
 1. **Using non-existent constants**: Always check available constants in `Spacing.swift` before using
    - Available: `none`, `componentGrouping`, `relatedComponentDivider`, `screenEdgePadding`, `cardEdgePadding`, `unrelatedComponentDivider`
    - Do NOT use: `componentSeparation` (doesn't exist)

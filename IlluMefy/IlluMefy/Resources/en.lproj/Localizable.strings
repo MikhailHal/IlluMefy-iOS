@@ -27,8 +27,9 @@
 "login.input.phoneNumber.label" = "Phone Number";
 "login.input.phoneNumber.textfield" = "Enter phone number";
 "アカウントを作成することで、[利用規約](termsOfService)および[プライバシーポリシー](privacyPolicy)に同意し、IlluMefyを使用することに同意したものとみなします。" = "By creating an account, you agree to the [Terms of Service](termsOfService) and [Privacy Policy](privacyPolicy) and consent to use IlluMefy.";
-"アカウント登録失敗" = "Account Registration Failed";
-"アカウント登録成功" = "Account Registration Successful";
+/* Common */
+"common.dialog.title.error" = "Failed";
+"common.dialog.title.success" = "Success";
 "あなたは管理者です" = "You are an administrator";
 "おかえりなさい！" = "Welcome back!";
 "キャンセル" = "Cancel";

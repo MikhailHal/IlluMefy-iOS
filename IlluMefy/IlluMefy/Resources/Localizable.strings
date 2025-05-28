@@ -32,6 +32,7 @@
 "phoneNumberRegistration.link.login" = "ログインはこちら";
 "phoneNumberRegistration.link.prefix" = "すでにアカウントをお持ちですか？";
 "phoneNumberRegistration.checkbox.privacyPolicy" = "プライバシーポリシーに同意します";
+"phoneNumberRegistration.message.verificationCodeSent" = "認証コードを送信しました";
 
 /* Login */
 "login.title" = "おかえりなさい！🏠";
@@ -45,8 +46,9 @@
 /* Common Components */
 "common.textField.required" = "必須";
 "アカウントを作成することで、[利用規約](termsOfService)および[プライバシーポリシー](privacyPolicy)に同意し、IlluMefyを使用することに同意したものとみなします。" = "アカウントを作成することで、[利用規約](termsOfService)および[プライバシーポリシー](privacyPolicy)に同意し、IlluMefyを使用することに同意したものとみなします。";
-"アカウント登録失敗" = "アカウント登録失敗";
-"アカウント登録成功" = "アカウント登録成功";
+/* Common */
+"common.dialog.title.error" = "失敗";
+"common.dialog.title.success" = "成功";
 "あなたは管理者です" = "あなたは管理者です";
 "おかえりなさい！" = "おかえりなさい！";
 "キャンセル" = "キャンセル";
@@ -75,4 +77,14 @@
 "本規約は日本法に準拠し、解釈されるものとします。" = "本規約は日本法に準拠し、解釈されるものとします。";
 "設定" = "設定";
 "食材一覧" = "食材一覧";
-"食材追加" = "食材追加"; 
+"食材追加" = "食材追加";
+
+/* PhoneAuth Errors */
+"phoneAuth.error.networkError" = "ネットワーク接続を確認してください";
+"phoneAuth.error.failedToSendCode" = "認証コードの送信に失敗しました";
+"phoneAuth.error.invalidPhoneNumber" = "電話番号の形式が正しくありません";
+"phoneAuth.error.invalidVerificationCode" = "認証コードが正しくありません";
+"phoneAuth.error.verificationCodeExpired" = "認証コードの有効期限が切れています";
+"phoneAuth.error.quotaExceeded" = "送信制限に達しました。しばらく待ってから再試行してください";
+"phoneAuth.error.internalError" = "システムエラーが発生しました";
+"phoneAuth.error.unknownError" = "予期しないエラーが発生しました"; 

@@ -7,7 +7,11 @@
       "Bash(swiftgen run strings:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(xcodebuild:*)",
+      "Bash(grep:*)",
+      "Bash(swiftgen:*)",
+      "Bash(rm:*)"
     ],
     "deny": []
   },
