@@ -12,7 +12,9 @@
       "Bash(grep:*)",
       "Bash(swiftgen:*)",
       "Bash(rm:*)",
-      "Bash(rg:*)"
+      "Bash(rg:*)",
+      "Bash(git pull:*)",
+      "Bash(git stash:*)"
     ],
     "deny": []
   },
