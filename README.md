@@ -30,19 +30,29 @@ Architecture: Clean Architecture+Router
 Package Manager: SPM(Swift Package Manager)  
 Static Analysis: SwiftLint  
 
+### Capabilities
+* BackgroundModes
+* Push Notifications
 ### Libraries
 #### UI
 * SwiftUI  
 * SwiftfulLoadingIndicators  
 #### Logic
+##### Firebase
 * Firebase Authentication  
 * Fireabse Cloud Functions  
 * Firebase Clashlytics  
 * Firebase Analytics  
-* Firebase Storage  
-* Combine
+* Firebase Storage
+##### Resources
 * SwiftGen
-* Some capabilities(Background Modes / Push Notifications)
+##### Logic Test
+* Quick
+* Nimble
+##### UI Test
+* hogehoge
+##### Other
+* Combine
 
 ### Architecture
 To know them, please check [architecure.md](https://github.com/MikhailHal/IlluMefy-iOS/blob/main/IlluMefy/docs/architecture.md)
