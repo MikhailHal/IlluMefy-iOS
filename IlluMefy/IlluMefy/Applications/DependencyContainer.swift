@@ -31,7 +31,7 @@ class DependencyContainer {
         }.inObjectScope(.container)
         // the concrete type of PhoneAuthRepository
         container.register(PhoneAuthRepository.self) { _ in
-            PhoneAuthRepository()
+            PhoneAuthRepository() // デフォルトでFirebasePhoneAuthProvider()が使われる
         }.inObjectScope(.container)
     }
     ///

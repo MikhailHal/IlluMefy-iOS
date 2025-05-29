@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		64897F0E2DE8C00A00C10C85 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 64897F0D2DE8C00A00C10C85 /* FirebaseAuth */; };
+		64897F102DE8C00A00C10C85 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 64897F0F2DE8C00A00C10C85 /* FirebaseCore */; };
+		64897F122DE8C04E00C10C85 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 64897F112DE8C04E00C10C85 /* FirebaseAuth */; };
+		64897F142DE8C04E00C10C85 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 64897F132DE8C04E00C10C85 /* FirebaseCore */; };
 		648FF53E2D8C5A4800340F3E /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 648FF53D2D8C5A4800340F3E /* Swinject */; };
 		64C1AE242D919D32005182B5 /* SwiftfulLoadingIndicators in Frameworks */ = {isa = PBXBuildFile; productRef = 64C1AE232D919D32005182B5 /* SwiftfulLoadingIndicators */; };
 		64D8B0412DE89C2E0004566C /* Quick in Frameworks */ = {isa = PBXBuildFile; productRef = 64D8B0402DE89C2E0004566C /* Quick */; };
@@ -70,6 +74,20 @@
 		64EF85B82D6E099F00C9732A /* Exceptions for "IlluMefy" folder in "IlluMefyTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Bases/Repositories/RepositoryAsyncProtocol.swift,
+				Bases/Repositories/RepositoryErrorProtocol.swift,
+				Bases/Repositories/RepositorySyncProtocol.swift,
+				Bases/UseCase/UseCaseErrorProtocol.swift,
+				Bases/UseCase/UseCaseWithoutParametesProtocol.swift,
+				Bases/UseCase/UseCaseWithParametersAsyncProtocol.swift,
+				Bases/UseCase/UseCaseWithParametersSyncProtocol.swift,
+				Bases/ViewModel/ViewModelProtocol.swift,
+				Data/Repositories/PhoneAuth/FirebasePhoneAuthProviderProtocol.swift,
+				Data/Repositories/PhoneAuth/PhoneAuthRepository.swift,
+				Data/Repositories/PhoneAuth/PhoneAuthRepositoryError.swift,
+				Data/Repositories/PhoneAuth/PhoneAuthRepositoryProtocol.swift,
+				Data/Repositories/PhoneAuth/PhoneAuthRequest.swift,
+				Data/Repositories/PhoneAuth/PhoneAuthResponse.swift,
 				Generated/Resources.swift,
 				Generated/Strings.swift,
 				Utilities/Components/TextFields/IlluMefyPlainTextField.swift,
@@ -80,6 +98,20 @@
 		64EF85B92D6E099F00C9732A /* Exceptions for "IlluMefy" folder in "IlluMefyUITests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Bases/Repositories/RepositoryAsyncProtocol.swift,
+				Bases/Repositories/RepositoryErrorProtocol.swift,
+				Bases/Repositories/RepositorySyncProtocol.swift,
+				Bases/UseCase/UseCaseErrorProtocol.swift,
+				Bases/UseCase/UseCaseWithoutParametesProtocol.swift,
+				Bases/UseCase/UseCaseWithParametersAsyncProtocol.swift,
+				Bases/UseCase/UseCaseWithParametersSyncProtocol.swift,
+				Bases/ViewModel/ViewModelProtocol.swift,
+				Data/Repositories/PhoneAuth/FirebasePhoneAuthProviderProtocol.swift,
+				Data/Repositories/PhoneAuth/PhoneAuthRepository.swift,
+				Data/Repositories/PhoneAuth/PhoneAuthRepositoryError.swift,
+				Data/Repositories/PhoneAuth/PhoneAuthRepositoryProtocol.swift,
+				Data/Repositories/PhoneAuth/PhoneAuthRequest.swift,
+				Data/Repositories/PhoneAuth/PhoneAuthResponse.swift,
 				Generated/Resources.swift,
 				Generated/Strings.swift,
 				Utilities/Components/TextFields/IlluMefyPlainTextField.swift,
@@ -135,6 +167,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				64D8B0412DE89C2E0004566C /* Quick in Frameworks */,
+				64897F0E2DE8C00A00C10C85 /* FirebaseAuth in Frameworks */,
+				64897F102DE8C00A00C10C85 /* FirebaseCore in Frameworks */,
 				64D8B0482DE89D0A0004566C /* Nimble in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -143,6 +177,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				64897F142DE8C04E00C10C85 /* FirebaseCore in Frameworks */,
+				64897F122DE8C04E00C10C85 /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -237,6 +273,8 @@
 			packageProductDependencies = (
 				64D8B0402DE89C2E0004566C /* Quick */,
 				64D8B0472DE89D0A0004566C /* Nimble */,
+				64897F0D2DE8C00A00C10C85 /* FirebaseAuth */,
+				64897F0F2DE8C00A00C10C85 /* FirebaseCore */,
 			);
 			productName = PenculaTests;
 			productReference = 645EBD102D58F9C800AC7BAC /* IlluMefyTests.xctest */;
@@ -260,6 +298,8 @@
 			);
 			name = IlluMefyUITests;
 			packageProductDependencies = (
+				64897F112DE8C04E00C10C85 /* FirebaseAuth */,
+				64897F132DE8C04E00C10C85 /* FirebaseCore */,
 			);
 			productName = PenculaUITests;
 			productReference = 645EBD1A2D58F9C800AC7BAC /* IlluMefyUITests.xctest */;
@@ -782,6 +822,26 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		64897F0D2DE8C00A00C10C85 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 64EF864A2D7601B900C9732A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		64897F0F2DE8C00A00C10C85 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 64EF864A2D7601B900C9732A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		64897F112DE8C04E00C10C85 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 64EF864A2D7601B900C9732A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		64897F132DE8C04E00C10C85 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 64EF864A2D7601B900C9732A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
 		648FF53D2D8C5A4800340F3E /* Swinject */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 648FF53C2D8C5A4800340F3E /* XCRemoteSwiftPackageReference "Swinject" */;

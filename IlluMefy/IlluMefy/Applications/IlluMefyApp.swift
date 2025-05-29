@@ -37,6 +37,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
   
   // APNsトークンをFirebaseに登録
   func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+    // テスト実行中はFirebaseの呼び出しをスキップ
+    guard ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil else { return }
     Auth.auth().setAPNSToken(deviceToken, type: .unknown)
   }
   
@@ -44,6 +46,11 @@ class AppDelegate: NSObject, UIApplicationDelegate {
   func application(_ application: UIApplication,
                    didReceiveRemoteNotification userInfo: [AnyHashable: Any],
                    fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    // テスト実行中はFirebaseの呼び出しをスキップ
+    guard ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil else { 
+      completionHandler(.noData)
+      return 
+    }
     if Auth.auth().canHandleNotification(userInfo) {
       completionHandler(.noData)
       return
@@ -60,6 +67,12 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
                               withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
     let userInfo = notification.request.content.userInfo
     
+    // テスト実行中はFirebaseの呼び出しをスキップ
+    guard ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil else {
+      completionHandler([])
+      return
+    }
+    
     // Firebase Phone Authの通知かチェック
     if Auth.auth().canHandleNotification(userInfo) {
       completionHandler([])
@@ -74,6 +87,12 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
                               didReceive response: UNNotificationResponse,
                               withCompletionHandler completionHandler: @escaping () -> Void) {
     let userInfo = response.notification.request.content.userInfo
+    
+    // テスト実行中はFirebaseの呼び出しをスキップ
+    guard ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil else {
+      completionHandler()
+      return
+    }
     
     // Firebase Phone Authの通知かチェック
     if Auth.auth().canHandleNotification(userInfo) {

@@ -11,13 +11,23 @@ import FirebaseAuth
 /// 電話番号認証リポジトリの実装
 final class PhoneAuthRepository: PhoneAuthRepositoryProtocol {
     
+    // MARK: - Properties
+    
+    private let firebaseProvider: FirebasePhoneAuthProviderProtocol
+    
+    // MARK: - Initialization
+    
+    init(firebaseProvider: FirebasePhoneAuthProviderProtocol = FirebasePhoneAuthProvider()) {
+        self.firebaseProvider = firebaseProvider
+    }
+    
     // MARK: - PhoneAuthRepositoryProtocol
     
     /// 認証コードを送信
     func sendVerificationCode(request: SendVerificationCodeRequest) async throws -> SendVerificationCodeResponse {
         let verificationID =
         try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<String, Error>) in
-            PhoneAuthProvider.provider().verifyPhoneNumber(request.phoneNumber, uiDelegate: nil) { verificationID, error in
+            firebaseProvider.verifyPhoneNumber(request.phoneNumber, uiDelegate: nil) { verificationID, error in
                 if let error = error {
                     // Firebaseエラーをリポジトリエラーに変換
                     let repositoryError = self.mapFirebaseError(error)
@@ -35,14 +45,12 @@ final class PhoneAuthRepository: PhoneAuthRepositoryProtocol {
     
     /// 認証コードを検証してサインイン
     func verifyCode(request: VerifyCodeRequest) async throws -> VerifyCodeResponse {
-        let credential = PhoneAuthProvider.provider().credential(
-            withVerificationID: request.verificationID,
-            verificationCode: request.verificationCode
-        )
-        
         do {
-            let authResult = try await Auth.auth().signIn(with: credential)
-            return VerifyCodeResponse(userID: authResult.user.uid)
+            let userID = try await firebaseProvider.signInWithVerificationCode(
+                verificationID: request.verificationID,
+                verificationCode: request.verificationCode
+            )
+            return VerifyCodeResponse(userID: userID)
         } catch {
             throw mapFirebaseError(error)
         }
