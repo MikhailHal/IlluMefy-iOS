@@ -21,14 +21,6 @@ class DependencyContainer {
     /// make concrete type of objects
     ///
     private func makeConcreteObjects() {
-        // the concrete type of AccountRegistrationRepository
-        container.register(AccountRegistrationRepository.self) { _ in
-            AccountRegistrationRepository()
-        }.inObjectScope(.container)
-        // the concrete type of VerificationEmailAddressRepository
-        container.register(VerificationEmailAddressRepository.self) { _ in
-            VerificationEmailAddressRepository()
-        }.inObjectScope(.container)
         // the concrete type of AccountLoginRepository
         container.register(AccountLoginRepository.self) { _ in
             AccountLoginRepository()
@@ -46,14 +38,6 @@ class DependencyContainer {
     /// register all repositries
     ///
     private func registerRepositories() {
-        // AccountRegistration repository
-        container.register((any AccountRegistrationRepositoryProtocol).self) { resolver in
-            resolver.resolve(AccountRegistrationRepository.self)!
-        }.inObjectScope(.transient)
-        // VerificationEmailAddressRepository repository
-        container.register((any VerificationEmailAddressRepositoryProtocol).self) { resolver in
-            resolver.resolve(VerificationEmailAddressRepository.self)!
-        }.inObjectScope(.transient)
         // AccountLogin repository
         container.register((any AccountLoginRepositoryProtocol).self) { resolver in
             resolver.resolve(AccountLoginRepository.self)!
@@ -76,20 +60,6 @@ class DependencyContainer {
     /// register all usecases
     ///
     private func registerUseCases() {
-        // RegisterAccount usecase
-        container.register((any RegisterAccountUseCaseProtocol).self) { resolver in
-            let accountRegistrationRepositoryProtocol =
-            resolver.resolve((any AccountRegistrationRepositoryProtocol).self)!
-            return RegisterAccountUseCase(registerAccountRepository: accountRegistrationRepositoryProtocol)
-        }.inObjectScope(.transient)
-        // VerificationEmailAddress usecase
-        container.register((any VerificationEmailAddressUseCaseProtocol).self) { resolver in
-            let verificationEmailAddressRepositoryProtocol =
-            resolver.resolve((any VerificationEmailAddressRepositoryProtocol).self)!
-            return VerificationEmailAddressUseCase(
-                verificationEmailAddressRepository: verificationEmailAddressRepositoryProtocol
-            )
-        }.inObjectScope(.transient)
         // AccountLogin usecase
         container.register((any AccountLoginUseCaseProtocol).self) { resolver in
             let accountLoginRepositoryProtocol =
@@ -118,12 +88,10 @@ class DependencyContainer {
     private func registerViewModels() {
         // PhoneRegistration screen
         container.register(PhoneNumberRegistrationViewModel.self) { resolver in
-            let registrationAccountUseCase = resolver.resolve((any RegisterAccountUseCaseProtocol).self)!
             let setStoreLoginAccountInLocalUseCase =
             resolver.resolve((any SetStoreLoginAccountInLocalUseCaseProtocol).self)!
             let sendPhoneVerificationUseCase = resolver.resolve((any SendPhoneVerificationUseCaseProtocol).self)!
             return PhoneNumberRegistrationViewModel(
-                registrationAccountUseCase: registrationAccountUseCase,
                 setStoreLoginAccountInLocalUseCase: setStoreLoginAccountInLocalUseCase,
                 sendPhoneVerificationUseCase: sendPhoneVerificationUseCase
             )

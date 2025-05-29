@@ -15,7 +15,8 @@ final class PhoneAuthRepository: PhoneAuthRepositoryProtocol {
     
     /// 認証コードを送信
     func sendVerificationCode(request: SendVerificationCodeRequest) async throws -> SendVerificationCodeResponse {
-        let verificationID = try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<String, Error>) in
+        let verificationID =
+        try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<String, Error>) in
             PhoneAuthProvider.provider().verifyPhoneNumber(request.phoneNumber, uiDelegate: nil) { verificationID, error in
                 if let error = error {
                     // Firebaseエラーをリポジトリエラーに変換

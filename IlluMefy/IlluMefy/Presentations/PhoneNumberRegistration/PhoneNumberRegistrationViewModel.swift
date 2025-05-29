@@ -14,7 +14,6 @@ class PhoneNumberRegistrationViewModel: PhoneNumberRegistrationViewModelProtocol
     var verificationID: String?
     
     // UseCases
-    var registrationAccountUseCase: any RegisterAccountUseCaseProtocol
     var setStoreLoginAccountInLocalUseCase: any SetStoreLoginAccountInLocalUseCaseProtocol
     var sendPhoneVerificationUseCase: any SendPhoneVerificationUseCaseProtocol
     
@@ -34,11 +33,9 @@ class PhoneNumberRegistrationViewModel: PhoneNumberRegistrationViewModelProtocol
     // MARK: - Initialization
     
     init(
-        registrationAccountUseCase: any RegisterAccountUseCaseProtocol,
         setStoreLoginAccountInLocalUseCase: any SetStoreLoginAccountInLocalUseCaseProtocol,
         sendPhoneVerificationUseCase: any SendPhoneVerificationUseCaseProtocol
     ) {
-        self.registrationAccountUseCase = registrationAccountUseCase
         self.setStoreLoginAccountInLocalUseCase = setStoreLoginAccountInLocalUseCase
         self.sendPhoneVerificationUseCase = sendPhoneVerificationUseCase
     }

@@ -59,7 +59,7 @@ private struct TabBarView: View {
                     Image(systemName: "plus.app.fill")
                     Text("食材追加")
                 }
-            GroupDetailView(viewModel: GroupDetailViewModel())
+            Text("グループ")
                 .tabItem {
                     Image(systemName: "person.crop.circle.fill.badge.plus")
                     Text("グループ")

@@ -9,7 +9,6 @@ import Combine
 
 protocol PhoneNumberRegistrationViewModelProtocol: ViewModelProtocol {
     // UseCases
-    var registrationAccountUseCase: any RegisterAccountUseCaseProtocol { get set }
     var setStoreLoginAccountInLocalUseCase: any SetStoreLoginAccountInLocalUseCaseProtocol { get set }
     var sendPhoneVerificationUseCase: any SendPhoneVerificationUseCaseProtocol { get set }
     

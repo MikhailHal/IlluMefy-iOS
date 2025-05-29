@@ -11,7 +11,8 @@
       "Bash(xcodebuild:*)",
       "Bash(grep:*)",
       "Bash(swiftgen:*)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(rg:*)"
     ],
     "deny": []
   },

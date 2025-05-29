@@ -104,16 +104,6 @@
 			path = IlluMefyUITests;
 			sourceTree = "<group>";
 		};
-		64D8AFFF2DE756FD0004566C /* IlluMefya */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = IlluMefya;
-			sourceTree = "<group>";
-		};
-		64D8B0152DE758900004566C /* IlluMefya */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = IlluMefya;
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,8 +147,6 @@
 				645EBD002D58F9C600AC7BAC /* IlluMefy */,
 				645EBD132D58F9C800AC7BAC /* IlluMefyTests */,
 				645EBD1D2D58F9C800AC7BAC /* IlluMefyUITests */,
-				64D8AFFF2DE756FD0004566C /* IlluMefya */,
-				64D8B0152DE758900004566C /* IlluMefya */,
 				64D8B0102DE758900004566C /* Frameworks */,
 				645EBCFF2D58F9C600AC7BAC /* Products */,
 			);
