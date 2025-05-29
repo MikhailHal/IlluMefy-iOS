@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		648FF53E2D8C5A4800340F3E /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 648FF53D2D8C5A4800340F3E /* Swinject */; };
 		64C1AE242D919D32005182B5 /* SwiftfulLoadingIndicators in Frameworks */ = {isa = PBXBuildFile; productRef = 64C1AE232D919D32005182B5 /* SwiftfulLoadingIndicators */; };
+		64D8B0412DE89C2E0004566C /* Quick in Frameworks */ = {isa = PBXBuildFile; productRef = 64D8B0402DE89C2E0004566C /* Quick */; };
+		64D8B0482DE89D0A0004566C /* Nimble in Frameworks */ = {isa = PBXBuildFile; productRef = 64D8B0472DE89D0A0004566C /* Nimble */; };
 		64EF864C2D7601B900C9732A /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 64EF864B2D7601B900C9732A /* FirebaseAnalytics */; };
 		64EF864E2D7601B900C9732A /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 64EF864D2D7601B900C9732A /* FirebaseAuth */; };
 		64EF86502D7601B900C9732A /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 64EF864F2D7601B900C9732A /* FirebaseCrashlytics */; };
@@ -68,6 +70,8 @@
 		64EF85B82D6E099F00C9732A /* Exceptions for "IlluMefy" folder in "IlluMefyTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Generated/Resources.swift,
+				Generated/Strings.swift,
 				Utilities/Components/TextFields/IlluMefyPlainTextField.swift,
 				Utilities/Components/TextFields/IlluMefyTextFieldStyles.swift,
 			);
@@ -76,6 +80,8 @@
 		64EF85B92D6E099F00C9732A /* Exceptions for "IlluMefy" folder in "IlluMefyUITests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Generated/Resources.swift,
+				Generated/Strings.swift,
 				Utilities/Components/TextFields/IlluMefyPlainTextField.swift,
 				Utilities/Components/TextFields/IlluMefyTextFieldStyles.swift,
 			);
@@ -128,6 +134,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				64D8B0412DE89C2E0004566C /* Quick in Frameworks */,
+				64D8B0482DE89D0A0004566C /* Nimble in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -227,6 +235,8 @@
 			);
 			name = IlluMefyTests;
 			packageProductDependencies = (
+				64D8B0402DE89C2E0004566C /* Quick */,
+				64D8B0472DE89D0A0004566C /* Nimble */,
 			);
 			productName = PenculaTests;
 			productReference = 645EBD102D58F9C800AC7BAC /* IlluMefyTests.xctest */;
@@ -295,6 +305,8 @@
 				648FF53C2D8C5A4800340F3E /* XCRemoteSwiftPackageReference "Swinject" */,
 				64C1AE222D919D32005182B5 /* XCRemoteSwiftPackageReference "SwiftfulLoadingIndicators" */,
 				64B09AFE2DCFAFD20063D00A /* XCRemoteSwiftPackageReference "SwiftGenPlugin" */,
+				64D8B03F2DE89C2E0004566C /* XCRemoteSwiftPackageReference "Quick" */,
+				64D8B0462DE89D0A0004566C /* XCRemoteSwiftPackageReference "Nimble" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 645EBCFF2D58F9C600AC7BAC /* Products */;
@@ -595,6 +607,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = T7S2NXSZLM;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
 				MARKETING_VERSION = 1.0;
@@ -613,6 +626,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = T7S2NXSZLM;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
 				MARKETING_VERSION = 1.0;
@@ -630,6 +644,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = T7S2NXSZLM;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = aoi.PenculaUITests;
@@ -646,6 +661,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = T7S2NXSZLM;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = aoi.PenculaUITests;
@@ -731,6 +747,22 @@
 				minimumVersion = 6.8.0;
 			};
 		};
+		64D8B03F2DE89C2E0004566C /* XCRemoteSwiftPackageReference "Quick" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Quick/Quick.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		64D8B0462DE89D0A0004566C /* XCRemoteSwiftPackageReference "Nimble" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Quick/Nimble.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		64EF851B2D620AD900C9732A /* XCRemoteSwiftPackageReference "SwiftLint" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/SwiftLint";
@@ -759,6 +791,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 64C1AE222D919D32005182B5 /* XCRemoteSwiftPackageReference "SwiftfulLoadingIndicators" */;
 			productName = SwiftfulLoadingIndicators;
+		};
+		64D8B0402DE89C2E0004566C /* Quick */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 64D8B03F2DE89C2E0004566C /* XCRemoteSwiftPackageReference "Quick" */;
+			productName = Quick;
+		};
+		64D8B0472DE89D0A0004566C /* Nimble */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 64D8B0462DE89D0A0004566C /* XCRemoteSwiftPackageReference "Nimble" */;
+			productName = Nimble;
 		};
 		64EF85352D620B8400C9732A /* SwiftLintBuildToolPlugin */ = {
 			isa = XCSwiftPackageProductDependency;
