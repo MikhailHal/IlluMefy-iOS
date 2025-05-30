@@ -1,4 +1,7 @@
 # IlluMefy
+## Status
+[![CI](https://github.com/MikhailHal/IlluMefy-iOS/actions/workflows/ci.yml/badge.svg)](https://github.com/MikhailHal/IlluMefy-iOS/actions/workflows/ci.yml)
+
 ## What's this app?
 IlluMefy is a cross-platform mobile application (iOS/Android) developed by MikhailHal.  
 It helps users discover gaming influencers through community-driven tagging (folksonomy).  
