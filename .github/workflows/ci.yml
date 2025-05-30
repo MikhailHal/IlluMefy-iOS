@@ -38,6 +38,7 @@ jobs:
             -project  IlluMefy.xcodeproj \
             -scheme "$scheme" \
             -destination "platform=$platform,name=$destinationName" \
+            -skipPackagePluginValidation \
             -configuration Debug \
             build-for-testing
       - name: Test
