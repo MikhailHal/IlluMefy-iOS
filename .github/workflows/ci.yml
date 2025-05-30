@@ -20,6 +20,9 @@ jobs:
       ## 🏠チェックアウト処理🏠 ##
       - name: Checkout
         uses: actions/checkout@v4
+      ## 🥴Xcode設定🥴 ##
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode_16.0.app
       ## 🛠️ビルド🛠️ ##
       - name: Build
         env:
