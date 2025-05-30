@@ -32,6 +32,7 @@ Language: Swift
 Architecture: Clean Architecture+Router  
 Package Manager: SPM(Swift Package Manager)  
 Static Analysis: SwiftLint  
+CI/CD: GitHubActions
 
 ### Capabilities
 * BackgroundModes
