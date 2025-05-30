@@ -20,13 +20,18 @@ jobs:
       - uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: latest-stable
-      ## 🏠チェックアウト処理🏠 ##
+      
       - name: Checkout
         uses: actions/checkout@v4
-      ## 🥴Xcode設定🥴 ##
-      #- name: Select Xcode
-       # run: sudo xcode-select -s /Applications/Xcode_16.0.app
-      ## 🛠️ビルド🛠️ ##
+
+      - name: Setup SwiftGen
+        run: brew install swiftgen
+
+      - name: Generate Resources
+        run: |
+          cd IlluMefy
+          swiftgen config run --config swiftgen.yml
+
       - name: Build
         env:
           scheme: ${{ env.scheme }}
