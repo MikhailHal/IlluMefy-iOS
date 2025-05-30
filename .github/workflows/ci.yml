@@ -52,4 +52,8 @@ jobs:
           scheme: ${{ env.scheme }}
           platform: ${{ env.platform }}
         run: |
-          echo 'hello world!'
+          cd IlluMefy
+          xcodebuild test-without-building \
+            -project IlluMefy.xcodeproj \
+            -scheme "$scheme" \
+            -destination "platform=$platform,name=$destinationName"
