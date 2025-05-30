@@ -31,7 +31,7 @@ jobs:
           xcodebuild \
             -project  IlluMefy.xcodeproj \
             -scheme "$scheme" \
-            -destination 'platform=$platform, name=$destinationName' \
+            -destination "platform=$platform,name=$destinationName" \
             -configuration Debug \
             build-for-testing
       - name: Test
