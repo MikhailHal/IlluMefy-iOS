@@ -30,7 +30,8 @@ jobs:
       - name: Generate Resources
         run: |
           cd IlluMefy
-          swiftgen config run --config swiftgen.yml
+          ls -all
+          swiftgen config run --config IlluMefy/swiftgen.yml
 
       - name: Build
         env:
