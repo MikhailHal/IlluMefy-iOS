@@ -34,6 +34,7 @@ jobs:
           destinationName: ${{ env.destinationName }}
         run: |
           cd IlluMefy
+          swift run swiftgen
           xcodebuild \
             -project  IlluMefy.xcodeproj \
             -scheme "$scheme" \
