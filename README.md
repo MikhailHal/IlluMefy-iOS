@@ -2,6 +2,47 @@
 ## Status
 [![CI](https://github.com/MikhailHal/IlluMefy-iOS/actions/workflows/ci.yml/badge.svg)](https://github.com/MikhailHal/IlluMefy-iOS/actions/workflows/ci.yml)
 
+## 🛠️ Development Setup
+
+### Prerequisites
+- macOS 13.0 or later
+- Xcode 16.2 or later
+- Ruby (for CocoaPods if needed)
+- Homebrew (for SwiftGen installation)
+
+### Getting Started
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/MikhailHal/IlluMefy-iOS.git
+   cd IlluMefy-iOS
+   ```
+
+2. **Install SwiftGen**
+   ```bash
+   brew install swiftgen
+   ```
+
+3. **Open the project in Xcode**
+   ```bash
+   cd IlluMefy
+   open IlluMefy.xcodeproj
+   ```
+
+4. **Build and Run**
+   - Select your target device/simulator
+   - Press `Cmd + R` to build and run
+
+### Running Tests
+
+```bash
+# Run all tests
+xcodebuild test -scheme IlluMefy -destination 'platform=iOS Simulator,name=iPhone 15'
+
+# Run specific test suite
+xcodebuild test -scheme IlluMefy -destination 'platform=iOS Simulator,name=iPhone 15' -only-testing:IlluMefyTests/PhoneAuthRepositorySpec
+```
+
 ## What's this app?
 IlluMefy is a cross-platform mobile application (iOS/Android) developed by MikhailHal.  
 It helps users discover gaming influencers through community-driven tagging (folksonomy).  
@@ -22,7 +63,7 @@ IlluMefy harnesses the power of folksonomy - a collaborative tagging system wher
 IlluMefy is more than just an app - it's a movement toward more authentic, community-driven content discovery. We believe in offering continuous excellent experiences to people around the world through our own technologies.
 
 ## 🔍 Current Status
-IlluMefy has been developing by MikhaillHal.  
+IlluMefy has been developing by MikhailHal.  
 I will launch this app as beta version soon!!
 
 ## What are used in this app?
@@ -44,7 +85,7 @@ CI/CD: GitHubActions
 #### Logic
 ##### Firebase
 * Firebase Authentication  
-* Fireabse Cloud Functions  
+* Firebase Cloud Functions  
 * Firebase Clashlytics  
 * Firebase Analytics  
 * Firebase Storage
@@ -60,6 +101,61 @@ CI/CD: GitHubActions
 
 ### Architecture
 To know them, please check [architecure.md](https://github.com/MikhailHal/IlluMefy-iOS/blob/main/IlluMefy/docs/architecture.md)
+
+## 🤝 Contributing
+
+We welcome contributions to IlluMefy! Here's how you can help:
+
+### How to Contribute
+
+1. **Fork the repository**
+   - Click the "Fork" button at the top of this repository
+
+2. **Create a feature branch**
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+
+3. **Make your changes**
+   - Follow the existing code style and architecture patterns
+   - Add tests for new functionality
+   - Update documentation as needed
+
+4. **Run tests**
+   ```bash
+   xcodebuild test -scheme IlluMefy -destination 'platform=iOS Simulator,name=iPhone 15'
+   ```
+
+5. **Commit your changes**
+   ```bash
+   git commit -m "feat: Add your feature description"
+   ```
+
+6. **Push to your fork**
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+
+7. **Create a Pull Request**
+   - Go to the original repository
+   - Click "New Pull Request"
+   - Select your fork and branch
+   - Describe your changes in detail
+
+### Code Guidelines
+
+- Follow Clean Architecture principles
+- Use SwiftLint rules defined in the project
+- Write unit tests for new features
+- Keep commits atomic and well-described
+- Update documentation for API changes
+
+### Reporting Issues
+
+- Use GitHub Issues to report bugs
+- Include detailed steps to reproduce
+- Attach screenshots if applicable
+- Mention your iOS version and device
 
 ## Related URL
 ・[Google Cloud](https://github.com/aoi-stella/Nimli-GoogleCloud)  
