@@ -24,8 +24,32 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Cache SPM
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/Library/Developer/Xcode/DerivedData
+            ~/Library/Caches/org.swift.swiftpm
+          key: ${{ runner.os }}-spm-${{ hashFiles('**/Package.resolved') }}
+          restore-keys: |
+              ${{ runner.os }}-spm-
+
+      - name: Cache Homebrew
+        uses: actions/cache@v3
+        with:
+            path: |
+              ~/Library/Caches/Homebrew
+              /opt/homebrew
+            key: ${{ runner.os }}-brew-${{ hashFiles('.github/workflows/ci.yml') }}
+
       - name: Setup SwiftGen
-        run: brew install swiftgen
+        run: |
+          if ! command -v swiftgen &> /dev/null; then
+            echo "Installing SwiftGen..."
+            brew install swiftgen
+          else
+            echo "SwiftGen already cached"
+          fi
 
       - name: Generate Resources
         run: |
