@@ -55,10 +55,14 @@ final class SendPhoneVerificationUseCase: SendPhoneVerificationUseCaseProtocol {
     
     /// 電話番号の形式を検証
     private func isValidPhoneNumber(_ phoneNumber: String) -> Bool {
-        // 数字のみを抽出
-        let digitsOnly = phoneNumber.filter { $0.isNumber }
+        // 国際形式（+81で始まる）の場合
+        if phoneNumber.hasPrefix("+81") {
+            let digitsOnly = phoneNumber.dropFirst(3).filter { $0.isNumber }
+            return digitsOnly.count == 9 || digitsOnly.count == 10
+        }
         
-        // 日本の携帯電話番号（11桁）または固定電話（10桁）
+        // 国内形式の場合
+        let digitsOnly = phoneNumber.filter { $0.isNumber }
         return digitsOnly.count == 10 || digitsOnly.count == 11
     }
     
