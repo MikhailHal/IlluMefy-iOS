@@ -70,6 +70,10 @@ enum PhoneAuthRepositoryError: RepositoryErrorProtocol {
         }
     }
     
+    var underlyingError: Error? {
+        return nil
+    }
+    
     static func from(_ error: Error) -> PhoneAuthRepositoryError {
         // Firebaseのエラーコードに基づいてマッピング
         let nsError = error as NSError

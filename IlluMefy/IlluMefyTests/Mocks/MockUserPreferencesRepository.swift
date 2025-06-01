@@ -9,10 +9,6 @@ import Foundation
 @testable import IlluMefy
 
 class MockUserPreferencesRepository: UserPreferencesRepositoryProtocol {
-    // RepositorySyncProtocol要求
-    typealias Request = Void
-    typealias Response = Void
-    typealias Error = UserPreferencesRepositoryError
     
     // プロトコル要求
     var userLocalSettingsDataSource: any UserLocalSettingsDataSourceProtocol
@@ -44,10 +40,6 @@ class MockUserPreferencesRepository: UserPreferencesRepositoryProtocol {
         self.userLocalSettingsDataSource = MockUserLocalSettingsDataSource()
     }
     
-    // RepositorySyncProtocol要求
-    func execute(request: Request) throws -> Response {
-        // このメソッドはUserPreferencesRepositoryでは使用されない
-    }
     
     func save(key: String, value: any Codable) throws {
         saveWasCalled = true

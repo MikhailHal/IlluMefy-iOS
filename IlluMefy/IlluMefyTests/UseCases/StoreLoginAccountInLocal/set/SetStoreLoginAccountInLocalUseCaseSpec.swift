@@ -95,18 +95,18 @@ class SetStoreLoginAccountInLocalUseCaseSpec: QuickSpec {
                 }
             }
             
-            describe("checkParameterValidation") {
+            describe("validate") {
                 context("with valid parameters") {
-                    it("should return success") {
+                    it("should not throw error") {
                         let request = SetStoreLoginAccountInLocalUseCaseRequest(
                             email: "test@example.com",
                             password: "password123",
                             isStore: true
                         )
                         
-                        let result = try useCase.checkParameterValidation(request: request)
-                        
-                        expect(result.code).to(equal(StoreLoginAccountInLocalUseCaseError.success.code))
+                        expect {
+                            try useCase.validate(request: request)
+                        }.toNot(throwError())
                     }
                 }
                 
@@ -119,7 +119,7 @@ class SetStoreLoginAccountInLocalUseCaseSpec: QuickSpec {
                         )
                         
                         expect {
-                            try useCase.checkParameterValidation(request: request)
+                            try useCase.validate(request: request)
                         }.to(throwError(StoreLoginAccountInLocalUseCaseError.invalidFormat))
                     }
                 }
@@ -133,7 +133,7 @@ class SetStoreLoginAccountInLocalUseCaseSpec: QuickSpec {
                         )
                         
                         expect {
-                            try useCase.checkParameterValidation(request: request)
+                            try useCase.validate(request: request)
                         }.to(throwError(StoreLoginAccountInLocalUseCaseError.invalidFormat))
                     }
                 }
@@ -147,7 +147,7 @@ class SetStoreLoginAccountInLocalUseCaseSpec: QuickSpec {
                         )
                         
                         expect {
-                            try useCase.checkParameterValidation(request: request)
+                            try useCase.validate(request: request)
                         }.to(throwError(StoreLoginAccountInLocalUseCaseError.invalidFormat))
                     }
                 }

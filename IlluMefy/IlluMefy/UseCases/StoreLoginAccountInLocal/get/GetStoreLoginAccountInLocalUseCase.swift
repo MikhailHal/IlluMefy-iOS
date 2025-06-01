@@ -8,9 +8,6 @@
 import Foundation
 
 class GetStoreLoginAccountInLocalUseCase: GetStoreLoginAccountInLocalUseCaseProtocol {
-    typealias Response = StoreLoginAccount
-    typealias Error = StoreLoginAccountInLocalUseCaseError
-    
     var userPreferencesRepository: any UserPreferencesRepositoryProtocol
     
     init(userPreferencesRepository: any UserPreferencesRepositoryProtocol) {
@@ -19,20 +16,16 @@ class GetStoreLoginAccountInLocalUseCase: GetStoreLoginAccountInLocalUseCaseProt
     
     func getStoreData() -> StoreLoginAccount {
         do {
-            return try execute(request: ())
+            return try execute()
         } catch {
             return StoreLoginAccount(email: "", password: "", isStore: false)
         }
     }
     
-    func execute(request: Void) throws -> StoreLoginAccount {
+    func execute() throws -> StoreLoginAccount {
         let email = userPreferencesRepository.loginEmail
         let password = userPreferencesRepository.loginPassowrd
         let isStoreLoginInfo = userPreferencesRepository.isStoreLoginInfo
         return StoreLoginAccount(email: email, password: password, isStore: isStoreLoginInfo)
-    }
-    
-    func checkParameterValidation(request: Void) throws -> StoreLoginAccountInLocalUseCaseError {
-        return .success
     }
 }

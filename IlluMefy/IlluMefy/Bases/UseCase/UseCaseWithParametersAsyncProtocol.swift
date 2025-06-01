@@ -5,22 +5,29 @@
 //  Created by Haruto K. on 2025/03/12.
 //
 
-// All asynchronous usecases will be required to inherit this.
+import Foundation
+
+/// Base protocol for all asynchronous use cases with parameters
 protocol UseCaseWithParametersAsyncProtocol {
     associatedtype Request
     associatedtype Response
-    associatedtype Error: UseCaseErrorProtocol
-    /// To call the method of repository.
-    /// Restrict repository method calls to this function only.
-    ///
-    ///  - Parameters:
-    ///     - request: api-request
-    ///
-    ///  - Returns: result of api-call
+    
+    /// Executes the use case with the given request
+    /// - Parameter request: The request parameters
+    /// - Returns: The response from the use case
+    /// - Throws: An error if validation fails or the operation fails
     func execute(request: Request) async throws -> Response
-    /// Validates the parameters.
-    /// If the inherited class has no parameters, this function should be empty and return a successful status.
-    ///
-    ///  - Returns: Result of validation
-    func checkParameterValidation(request: Request) throws -> Error
+    
+    /// Validates the request parameters before execution
+    /// - Parameter request: The request to validate
+    /// - Throws: An error if validation fails
+    func validate(request: Request) throws
+}
+
+/// Default implementation for validation
+extension UseCaseWithParametersAsyncProtocol {
+    /// Default validation that does nothing (always passes)
+    func validate(request: Request) throws {
+        // Default implementation does nothing
+    }
 }

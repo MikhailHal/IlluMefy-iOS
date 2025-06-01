@@ -8,10 +8,6 @@
 import FirebaseAuth
 
 class AccountLoginRepository: AccountLoginRepositoryProtocol {
-    typealias Request = AccountLoginRequest
-    typealias Response = Bool
-    typealias Error = AccountLoginRepositoryError
-    
     func login(_ request: AccountLoginRequest) async throws -> Bool {
         do {
             // For phone number authentication, we would typically use Firebase Phone Auth
@@ -22,9 +18,5 @@ class AccountLoginRepository: AccountLoginRepositoryProtocol {
         } catch {
             throw AccountLoginRepositoryError.from(error)
         }
-    }
-    
-    func execute(request: AccountLoginRequest) async throws -> Bool {
-        return try await login(request)
     }
 }

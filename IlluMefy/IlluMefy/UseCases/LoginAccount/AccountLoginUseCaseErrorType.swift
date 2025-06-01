@@ -6,7 +6,6 @@
 //
 import FirebaseAuth
 enum AccountLoginUseCaseError: UseCaseErrorProtocol {
-    case success
     case wrongPassword
     case invalidEmail
     case invalidPhoneNumber
@@ -20,7 +19,6 @@ enum AccountLoginUseCaseError: UseCaseErrorProtocol {
     
     var code: Int {
         switch self {
-        case .success: return 0
         case .wrongPassword: return 2001
         case .invalidEmail: return 2002
         case .invalidPhoneNumber: return 2003
@@ -36,7 +34,6 @@ enum AccountLoginUseCaseError: UseCaseErrorProtocol {
     
     var message: String {
         switch self {
-        case .success: return ""
         case .wrongPassword: return ErrorMessages.Auth.wrongPassword
         case .invalidEmail: return ErrorMessages.Auth.invalidEmail
         case .invalidPhoneNumber: return "Invalid phone number format"

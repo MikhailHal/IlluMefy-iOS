@@ -9,8 +9,6 @@ import Foundation
 
 /// 電話番号認証コード送信ユースケースのエラー
 enum SendPhoneVerificationUseCaseError: UseCaseErrorProtocol {
-    /// 成功
-    case success
     /// 無効な電話番号形式
     case invalidPhoneNumber
     /// ネットワークエラー
@@ -24,8 +22,6 @@ enum SendPhoneVerificationUseCaseError: UseCaseErrorProtocol {
     
     var code: Int {
         switch self {
-        case .success:
-            return 0
         case .invalidPhoneNumber:
             return 2001
         case .networkError:
@@ -39,8 +35,6 @@ enum SendPhoneVerificationUseCaseError: UseCaseErrorProtocol {
     
     var message: String {
         switch self {
-        case .success:
-            return ""
         case .invalidPhoneNumber:
             return L10n.PhoneAuth.Error.invalidPhoneNumber
         case .networkError:
@@ -50,6 +44,10 @@ enum SendPhoneVerificationUseCaseError: UseCaseErrorProtocol {
         case .unknown:
             return L10n.PhoneAuth.Error.unknownError
         }
+    }
+    
+    var underlyingError: Error? {
+        return nil
     }
     
     static func from(_ error: Error) -> SendPhoneVerificationUseCaseError {
@@ -70,8 +68,6 @@ enum SendPhoneVerificationUseCaseError: UseCaseErrorProtocol {
     
     var errorDescription: String? {
         switch self {
-        case .success:
-            return nil
         case .invalidPhoneNumber:
             return L10n.PhoneAuth.Error.invalidPhoneNumber
         case .networkError:

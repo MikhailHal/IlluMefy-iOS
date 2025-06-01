@@ -9,10 +9,6 @@ import Foundation
 import FirebaseAuth
 
 class AccountLoginUseCase: AccountLoginUseCaseProtocol {
-    typealias Request = AccountLoginUseCaseRequest
-    typealias Response = Bool
-    typealias Error = AccountLoginUseCaseError
-    
     var accountLoginRepository: any AccountLoginRepositoryProtocol
     
     init(accountLoginRepository: any AccountLoginRepositoryProtocol) {
@@ -23,7 +19,7 @@ class AccountLoginUseCase: AccountLoginUseCaseProtocol {
         return !phoneNumber.isEmpty && phoneNumber.count >= 10
     }
     
-    func checkParameterValidation(request: AccountLoginUseCaseRequest) throws -> AccountLoginUseCaseError {
+    func validate(request: AccountLoginUseCaseRequest) throws {
         if !isValidPhoneNumber(phoneNumber: request.phoneNumber) {
             throw AccountLoginUseCaseError.invalidPhoneNumber
         }
@@ -31,13 +27,11 @@ class AccountLoginUseCase: AccountLoginUseCaseProtocol {
         if request.password.count < 6 {
             throw AccountLoginUseCaseError.invalidPassword
         }
-        
-        return .success
     }
     
-    func execute(request: AccountLoginUseCaseRequest) async throws -> Response {
+    func execute(request: AccountLoginUseCaseRequest) async throws -> Bool {
         do {
-            _ = try checkParameterValidation(request: request)
+            try validate(request: request)
             return try await accountLoginRepository.login(
                 AccountLoginRequest(
                     phoneNumber: request.phoneNumber,

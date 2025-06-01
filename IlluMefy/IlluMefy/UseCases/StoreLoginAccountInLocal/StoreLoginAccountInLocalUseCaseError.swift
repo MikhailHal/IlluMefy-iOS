@@ -6,14 +6,12 @@
 //
 
 enum StoreLoginAccountInLocalUseCaseError: UseCaseErrorProtocol {
-    case success
     case readError
     case invalidFormat
     case unknown(Error)
     
     var code: Int {
         switch self {
-        case .success: return 0
         case .readError: return 3001
         case .invalidFormat: return 3002
         case .unknown: return 3003
@@ -22,7 +20,6 @@ enum StoreLoginAccountInLocalUseCaseError: UseCaseErrorProtocol {
     
     var message: String {
         switch self {
-        case .success: return ""
         case .readError: return ErrorMessages.LocalStorage.readError
         case .invalidFormat: return ErrorMessages.LocalStorage.invalidFormat
         case .unknown: return ErrorMessages.Auth.unknownError

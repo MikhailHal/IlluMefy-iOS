@@ -24,7 +24,7 @@ final class SendPhoneVerificationUseCase: SendPhoneVerificationUseCaseProtocol {
     
     func execute(request: SendPhoneVerificationUseCaseRequest) async throws -> SendPhoneVerificationUseCaseResponse {
         // パラメータバリデーション
-        _ = try checkParameterValidation(request: request)
+        try validate(request: request)
         
         // 国内番号をE.164形式に変換
         let formattedNumber = formatToE164(request.phoneNumber)
@@ -41,14 +41,11 @@ final class SendPhoneVerificationUseCase: SendPhoneVerificationUseCaseProtocol {
         }
     }
     
-    func checkParameterValidation(request: SendPhoneVerificationUseCaseRequest) throws ->
-    SendPhoneVerificationUseCaseError {
+    func validate(request: SendPhoneVerificationUseCaseRequest) throws {
         // 電話番号のバリデーション
         guard isValidPhoneNumber(request.phoneNumber) else {
             throw SendPhoneVerificationUseCaseError.invalidPhoneNumber
         }
-        // バリデーション成功時はsuccessを返す
-        return .success
     }
     
     // MARK: - Private Methods

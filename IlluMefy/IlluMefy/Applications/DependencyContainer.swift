@@ -11,11 +11,16 @@ import Swinject
 class DependencyContainer {
     static let shared = DependencyContainer()
     let container = Container()
+    
     private init() {
         makeConcreteObjects()
         registerRepositories()
         registerUseCases()
         registerViewModels()
+    }
+    
+    func resolve<T>(_ serviceType: T.Type) -> T? {
+        return container.resolve(serviceType)
     }
     ///
     /// make concrete type of objects
@@ -33,26 +38,30 @@ class DependencyContainer {
         container.register(PhoneAuthRepository.self) { _ in
             PhoneAuthRepository() // デフォルトでFirebasePhoneAuthProvider()が使われる
         }.inObjectScope(.container)
+        // the concrete type of UserPreferencesRepository
+        container.register(UserPreferencesRepository.self) { resolver in
+            let userLocalSettingsDataSource = resolver.resolve(UserLocalSettingsDataSource.self)!
+            return UserPreferencesRepository(userLocalSettingsDataSource: userLocalSettingsDataSource)
+        }.inObjectScope(.container)
     }
     ///
-    /// register all repositries
+    /// register all repositories
     ///
     private func registerRepositories() {
         // AccountLogin repository
-        container.register((any AccountLoginRepositoryProtocol).self) { resolver in
+        container.register(AccountLoginRepositoryProtocol.self) { resolver in
             resolver.resolve(AccountLoginRepository.self)!
         }.inObjectScope(.transient)
         // UserLocalSettingsDataSource repository
-        container.register((any UserLocalSettingsDataSourceProtocol).self) { resolver in
+        container.register(UserLocalSettingsDataSourceProtocol.self) { resolver in
             resolver.resolve(UserLocalSettingsDataSource.self)!
         }.inObjectScope(.transient)
         // UserPreferences repository
-        container.register((any UserPreferencesRepositoryProtocol).self) { resolver in
-            let userLocalSettingsDataSource = resolver.resolve((any UserLocalSettingsDataSourceProtocol).self)!
-            return UserPreferencesRepository(userLocalSettingsDataSource: userLocalSettingsDataSource)
+        container.register(UserPreferencesRepositoryProtocol.self) { resolver in
+            resolver.resolve(UserPreferencesRepository.self)!
         }.inObjectScope(.transient)
         // PhoneAuth repository
-        container.register((any PhoneAuthRepositoryProtocol).self) { resolver in
+        container.register(PhoneAuthRepositoryProtocol.self) { resolver in
             resolver.resolve(PhoneAuthRepository.self)!
         }.inObjectScope(.transient)
     }
@@ -61,25 +70,41 @@ class DependencyContainer {
     ///
     private func registerUseCases() {
         // AccountLogin usecase
-        container.register((any AccountLoginUseCaseProtocol).self) { resolver in
-            let accountLoginRepositoryProtocol =
-            resolver.resolve((any AccountLoginRepositoryProtocol).self)!
-            return AccountLoginUseCase(accountLoginRepository: accountLoginRepositoryProtocol)
+        container.register(AccountLoginUseCase.self) { resolver in
+            let accountLoginRepository = resolver.resolve(AccountLoginRepositoryProtocol.self)!
+            return AccountLoginUseCase(accountLoginRepository: accountLoginRepository)
         }.inObjectScope(.transient)
         // SetStoreLoginAccountInLocal usecase
-        container.register((any SetStoreLoginAccountInLocalUseCaseProtocol).self) { resolver in
-            let userPreferencesRepository = resolver.resolve((any UserPreferencesRepositoryProtocol).self)!
+        container.register(SetStoreLoginAccountInLocalUseCase.self) { resolver in
+            let userPreferencesRepository = resolver.resolve(UserPreferencesRepositoryProtocol.self)!
             return SetStoreLoginAccountInLocalUseCase(userPreferencesRepository: userPreferencesRepository)
         }.inObjectScope(.transient)
         // GetStoreLoginAccountInLocal usecase
-        container.register((any GetStoreLoginAccountInLocalUseCaseProtocol).self) { resolver in
-            let userPreferencesRepository = resolver.resolve((any UserPreferencesRepositoryProtocol).self)!
+        container.register(GetStoreLoginAccountInLocalUseCase.self) { resolver in
+            let userPreferencesRepository = resolver.resolve(UserPreferencesRepositoryProtocol.self)!
             return GetStoreLoginAccountInLocalUseCase(userPreferencesRepository: userPreferencesRepository)
         }.inObjectScope(.transient)
         // SendPhoneVerification usecase
-        container.register((any SendPhoneVerificationUseCaseProtocol).self) { resolver in
-            let phoneAuthRepository = resolver.resolve((any PhoneAuthRepositoryProtocol).self)!
+        container.register(SendPhoneVerificationUseCase.self) { resolver in
+            let phoneAuthRepository = resolver.resolve(PhoneAuthRepositoryProtocol.self)!
             return SendPhoneVerificationUseCase(phoneAuthRepository: phoneAuthRepository)
+        }.inObjectScope(.transient)
+        
+        // Protocol registrations for use cases
+        container.register(AccountLoginUseCaseProtocol.self) { resolver in
+            resolver.resolve(AccountLoginUseCase.self)!
+        }.inObjectScope(.transient)
+        
+        container.register(SetStoreLoginAccountInLocalUseCaseProtocol.self) { resolver in
+            resolver.resolve(SetStoreLoginAccountInLocalUseCase.self)!
+        }.inObjectScope(.transient)
+        
+        container.register(GetStoreLoginAccountInLocalUseCaseProtocol.self) { resolver in
+            resolver.resolve(GetStoreLoginAccountInLocalUseCase.self)!
+        }.inObjectScope(.transient)
+        
+        container.register(SendPhoneVerificationUseCaseProtocol.self) { resolver in
+            resolver.resolve(SendPhoneVerificationUseCase.self)!
         }.inObjectScope(.transient)
     }
     ///
@@ -88,9 +113,8 @@ class DependencyContainer {
     private func registerViewModels() {
         // PhoneRegistration screen
         container.register(PhoneNumberRegistrationViewModel.self) { resolver in
-            let setStoreLoginAccountInLocalUseCase =
-            resolver.resolve((any SetStoreLoginAccountInLocalUseCaseProtocol).self)!
-            let sendPhoneVerificationUseCase = resolver.resolve((any SendPhoneVerificationUseCaseProtocol).self)!
+            let setStoreLoginAccountInLocalUseCase = resolver.resolve(SetStoreLoginAccountInLocalUseCaseProtocol.self)!
+            let sendPhoneVerificationUseCase = resolver.resolve(SendPhoneVerificationUseCaseProtocol.self)!
             return PhoneNumberRegistrationViewModel(
                 setStoreLoginAccountInLocalUseCase: setStoreLoginAccountInLocalUseCase,
                 sendPhoneVerificationUseCase: sendPhoneVerificationUseCase
@@ -98,18 +122,14 @@ class DependencyContainer {
         }.inObjectScope(.transient)
         // Login screen
         container.register(LoginViewModel.self) { resolver in
-            let accountLoginUseCase = resolver.resolve((any AccountLoginUseCaseProtocol).self)!
-            let setStoreLoginAccountInLocalUseCase =
-            resolver.resolve((any SetStoreLoginAccountInLocalUseCaseProtocol).self)!
-            let getStoreLoginAccountInLocalUseCase =
-            resolver.resolve((any GetStoreLoginAccountInLocalUseCaseProtocol).self)!
+            let loginUseCase = resolver.resolve(AccountLoginUseCaseProtocol.self)!
+            let setStoreLoginAccountInLocalUseCase = resolver.resolve(SetStoreLoginAccountInLocalUseCaseProtocol.self)!
+            let getStoreLoginAccountInLocalUseCase = resolver.resolve(GetStoreLoginAccountInLocalUseCaseProtocol.self)!
             return LoginViewModel(
-                loginUseCase: accountLoginUseCase,
+                loginUseCase: loginUseCase,
                 setStoreLoginAccountInLocalUseCase: setStoreLoginAccountInLocalUseCase,
-                getStoreLoginAccountInLocalUseCase: getStoreLoginAccountInLocalUseCase)
+                getStoreLoginAccountInLocalUseCase: getStoreLoginAccountInLocalUseCase
+            )
         }.inObjectScope(.transient)
-    }
-    func resolve<T>(_ type: T.Type) -> T? {
-        return container.resolve(type)
     }
 }

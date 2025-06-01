@@ -2,27 +2,32 @@
 //  UseCaseWithParametersSyncProtocol.swift
 //  IlluMefy
 //
-//  Created by Haruto K. on 2025/04/04.
+//  Created by Haruto K. on 2025/04/21.
 //
 
-// All synchronous usecases will be required to inherit this.
+import Foundation
+
+/// Base protocol for all synchronous use cases with parameters
 protocol UseCaseWithParametersSyncProtocol {
     associatedtype Request
     associatedtype Response
-    associatedtype Error: UseCaseErrorProtocol
     
-    /// To call the method of repository.
-    /// Restrict repository method calls to this function only.
-    ///
-    ///  - Parameters:
-    ///     - request: request parameters
-    ///
-    ///  - Returns: result of operation
+    /// Executes the use case with the given request
+    /// - Parameter request: The request parameters
+    /// - Returns: The response from the use case
+    /// - Throws: An error if validation fails or the operation fails
     func execute(request: Request) throws -> Response
     
-    /// Validates the parameters.
-    /// If the inherited class has no parameters, this function should be empty and return a successful status.
-    ///
-    ///  - Returns: Result of validation
-    func checkParameterValidation(request: Request) throws -> Error
+    /// Validates the request parameters before execution
+    /// - Parameter request: The request to validate
+    /// - Throws: An error if validation fails
+    func validate(request: Request) throws
+}
+
+/// Default implementation for validation
+extension UseCaseWithParametersSyncProtocol {
+    /// Default validation that does nothing (always passes)
+    func validate(request: Request) throws {
+        // Default implementation does nothing
+    }
 }

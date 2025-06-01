@@ -8,10 +8,6 @@
 import Foundation
 
 class SetStoreLoginAccountInLocalUseCase: SetStoreLoginAccountInLocalUseCaseProtocol {
-    typealias Request = SetStoreLoginAccountInLocalUseCaseRequest
-    typealias Response = Bool
-    typealias Error = StoreLoginAccountInLocalUseCaseError
-    
     var userPreferencesRepository: any UserPreferencesRepositoryProtocol
     
     init(userPreferencesRepository: any UserPreferencesRepositoryProtocol) {
@@ -26,18 +22,17 @@ class SetStoreLoginAccountInLocalUseCase: SetStoreLoginAccountInLocalUseCaseProt
         }
     }
     
-    func execute(request: SetStoreLoginAccountInLocalUseCaseRequest) throws -> Response {
+    func execute(request: SetStoreLoginAccountInLocalUseCaseRequest) throws -> Bool {
+        try validate(request: request)
         userPreferencesRepository.isStoreLoginInfo = request.isStore
         userPreferencesRepository.loginEmail = request.email
         userPreferencesRepository.loginPassowrd = request.password
         return true
     }
     
-    func checkParameterValidation(request: SetStoreLoginAccountInLocalUseCaseRequest)
-    throws -> StoreLoginAccountInLocalUseCaseError {
+    func validate(request: SetStoreLoginAccountInLocalUseCaseRequest) throws {
         if request.email.isEmpty || request.password.isEmpty {
             throw StoreLoginAccountInLocalUseCaseError.invalidFormat
         }
-        return .success
     }
 }

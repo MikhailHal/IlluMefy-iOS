@@ -2,21 +2,27 @@
 //  UseCaseWithoutParametesProtocol.swift
 //  IlluMefy
 //
-//  Created by Haruto K. on 2025/03/12.
+//  Created by Haruto K. on 2025/05/07.
 //
 
-// All usecases will be required to inherit this.
-protocol UseCaseWithoutParametesProtocol {
+import Foundation
+
+/// Base protocol for all asynchronous use cases without parameters
+protocol UseCaseWithoutParametersAsyncProtocol {
     associatedtype Response
-    associatedtype Error: UseCaseErrorProtocol
-    /// To call the method of repository.
-    /// Restrict repository method calls to this function only.
-    ///
-    ///  - Returns: result of api-call
+    
+    /// Executes the use case without parameters
+    /// - Returns: The response from the use case
+    /// - Throws: An error if the operation fails
     func execute() async throws -> Response
-    /// Validates the parameters.
-    /// If the inherited class has no parameters, this function should be empty and return a successful status.
-    ///
-    ///  - Returns: Result of validation
-    func checkParameterValidation() -> Error
+}
+
+/// Base protocol for all synchronous use cases without parameters
+protocol UseCaseWithoutParametersSyncProtocol {
+    associatedtype Response
+    
+    /// Executes the use case without parameters
+    /// - Returns: The response from the use case
+    /// - Throws: An error if the operation fails
+    func execute() throws -> Response
 }

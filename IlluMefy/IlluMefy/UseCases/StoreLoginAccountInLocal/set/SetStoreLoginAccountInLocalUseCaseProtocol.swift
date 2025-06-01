@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol SetStoreLoginAccountInLocalUseCaseProtocol: UseCaseWithParametersSyncProtocol {
+protocol SetStoreLoginAccountInLocalUseCaseProtocol: UseCaseWithParametersSyncProtocol where Request == SetStoreLoginAccountInLocalUseCaseRequest, Response == Bool {
     var userPreferencesRepository: any UserPreferencesRepositoryProtocol { get }
     
     func setStoreData(request: SetStoreLoginAccountInLocalUseCaseRequest) -> Bool

@@ -6,7 +6,7 @@
 //
 import Combine
 
-class PhoneNumberRegistrationViewModel: PhoneNumberRegistrationViewModelProtocol {
+class PhoneNumberRegistrationViewModel: PhoneNumberRegistrationViewModelProtocol, ViewModelProtocol {
     // MARK: - Properties
     
     var errorDialogMessage: String = ""
