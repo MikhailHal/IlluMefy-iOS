@@ -91,19 +91,19 @@ class DependencyContainer {
         }.inObjectScope(.transient)
         
         // Protocol registrations for use cases
-        container.register(AccountLoginUseCaseProtocol.self) { resolver in
+        container.register((any AccountLoginUseCaseProtocol).self) { resolver in
             resolver.resolve(AccountLoginUseCase.self)!
         }.inObjectScope(.transient)
         
-        container.register(SetStoreLoginAccountInLocalUseCaseProtocol.self) { resolver in
+        container.register((any SetStoreLoginAccountInLocalUseCaseProtocol).self) { resolver in
             resolver.resolve(SetStoreLoginAccountInLocalUseCase.self)!
         }.inObjectScope(.transient)
         
-        container.register(GetStoreLoginAccountInLocalUseCaseProtocol.self) { resolver in
+        container.register((any GetStoreLoginAccountInLocalUseCaseProtocol).self) { resolver in
             resolver.resolve(GetStoreLoginAccountInLocalUseCase.self)!
         }.inObjectScope(.transient)
         
-        container.register(SendPhoneVerificationUseCaseProtocol.self) { resolver in
+        container.register((any SendPhoneVerificationUseCaseProtocol).self) { resolver in
             resolver.resolve(SendPhoneVerificationUseCase.self)!
         }.inObjectScope(.transient)
     }
@@ -113,8 +113,8 @@ class DependencyContainer {
     private func registerViewModels() {
         // PhoneRegistration screen
         container.register(PhoneNumberRegistrationViewModel.self) { resolver in
-            let setStoreLoginAccountInLocalUseCase = resolver.resolve(SetStoreLoginAccountInLocalUseCaseProtocol.self)!
-            let sendPhoneVerificationUseCase = resolver.resolve(SendPhoneVerificationUseCaseProtocol.self)!
+            let setStoreLoginAccountInLocalUseCase = resolver.resolve((any SetStoreLoginAccountInLocalUseCaseProtocol).self)!
+            let sendPhoneVerificationUseCase = resolver.resolve((any SendPhoneVerificationUseCaseProtocol).self)!
             return PhoneNumberRegistrationViewModel(
                 setStoreLoginAccountInLocalUseCase: setStoreLoginAccountInLocalUseCase,
                 sendPhoneVerificationUseCase: sendPhoneVerificationUseCase
@@ -122,9 +122,9 @@ class DependencyContainer {
         }.inObjectScope(.transient)
         // Login screen
         container.register(LoginViewModel.self) { resolver in
-            let loginUseCase = resolver.resolve(AccountLoginUseCaseProtocol.self)!
-            let setStoreLoginAccountInLocalUseCase = resolver.resolve(SetStoreLoginAccountInLocalUseCaseProtocol.self)!
-            let getStoreLoginAccountInLocalUseCase = resolver.resolve(GetStoreLoginAccountInLocalUseCaseProtocol.self)!
+            let loginUseCase = resolver.resolve((any AccountLoginUseCaseProtocol).self)!
+            let setStoreLoginAccountInLocalUseCase = resolver.resolve((any SetStoreLoginAccountInLocalUseCaseProtocol).self)!
+            let getStoreLoginAccountInLocalUseCase = resolver.resolve((any GetStoreLoginAccountInLocalUseCaseProtocol).self)!
             return LoginViewModel(
                 loginUseCase: loginUseCase,
                 setStoreLoginAccountInLocalUseCase: setStoreLoginAccountInLocalUseCase,

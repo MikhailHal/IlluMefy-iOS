@@ -15,7 +15,10 @@
       "Bash(rg:*)",
       "Bash(git pull:*)",
       "Bash(git stash:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(swift build)",
+      "Bash(git restore:*)",
+      "Bash(ls:*)"
     ],
     "deny": []
   },
