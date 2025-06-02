@@ -74,9 +74,7 @@
 		64EF85B82D6E099F00C9732A /* Exceptions for "IlluMefy" folder in "IlluMefyTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Bases/Repositories/RepositoryAsyncProtocol.swift,
 				Bases/Repositories/RepositoryErrorProtocol.swift,
-				Bases/Repositories/RepositorySyncProtocol.swift,
 				Bases/UseCase/UseCaseErrorProtocol.swift,
 				Bases/ViewModel/ViewModelProtocol.swift,
 				Data/Repositories/PhoneAuth/FirebasePhoneAuthProviderProtocol.swift,
@@ -101,9 +99,7 @@
 		64EF85B92D6E099F00C9732A /* Exceptions for "IlluMefy" folder in "IlluMefyUITests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Bases/Repositories/RepositoryAsyncProtocol.swift,
 				Bases/Repositories/RepositoryErrorProtocol.swift,
-				Bases/Repositories/RepositorySyncProtocol.swift,
 				Bases/UseCase/UseCaseErrorProtocol.swift,
 				Bases/ViewModel/ViewModelProtocol.swift,
 				Data/Repositories/PhoneAuth/FirebasePhoneAuthProviderProtocol.swift,
