@@ -14,7 +14,7 @@ jobs:
     env:
       scheme: "IlluMefy"
       platform: "iOS Simulator"
-      destinationName: "iPhone 16"
+      destinationName: "iPhone 15"
 
     steps:
       - uses: maxim-lobanov/setup-xcode@v1
