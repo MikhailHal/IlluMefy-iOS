@@ -7,7 +7,7 @@
 
 import Combine
 
-protocol PhoneNumberRegistrationViewModelProtocol: ViewModelProtocol {
+protocol PhoneNumberRegistrationViewModelProtocol: ObservableObject {
     // UseCases
     var setStoreLoginAccountInLocalUseCase: any SetStoreLoginAccountInLocalUseCaseProtocol { get set }
     var sendPhoneVerificationUseCase: any SendPhoneVerificationUseCaseProtocol { get set }

@@ -76,7 +76,6 @@
 			membershipExceptions = (
 				Bases/Repositories/RepositoryErrorProtocol.swift,
 				Bases/UseCase/UseCaseErrorProtocol.swift,
-				Bases/ViewModel/ViewModelProtocol.swift,
 				Data/Repositories/PhoneAuth/FirebasePhoneAuthProviderProtocol.swift,
 				Data/Repositories/PhoneAuth/Format/PhoneAuthRequest.swift,
 				Data/Repositories/PhoneAuth/Format/PhoneAuthResponse.swift,
@@ -101,7 +100,6 @@
 			membershipExceptions = (
 				Bases/Repositories/RepositoryErrorProtocol.swift,
 				Bases/UseCase/UseCaseErrorProtocol.swift,
-				Bases/ViewModel/ViewModelProtocol.swift,
 				Data/Repositories/PhoneAuth/FirebasePhoneAuthProviderProtocol.swift,
 				Data/Repositories/PhoneAuth/Format/PhoneAuthRequest.swift,
 				Data/Repositories/PhoneAuth/Format/PhoneAuthResponse.swift,

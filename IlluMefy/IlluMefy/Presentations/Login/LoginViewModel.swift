@@ -7,7 +7,7 @@
 
 import Combine
 
-class LoginViewModel: LoginViewModelProtocol, ViewModelProtocol {
+class LoginViewModel: LoginViewModelProtocol {
     var setStoreLoginAccountInLocalUseCase: any SetStoreLoginAccountInLocalUseCaseProtocol
     var getStoreLoginAccountInLocalUseCase: any GetStoreLoginAccountInLocalUseCaseProtocol
     var loginUseCase: any AccountLoginUseCaseProtocol
