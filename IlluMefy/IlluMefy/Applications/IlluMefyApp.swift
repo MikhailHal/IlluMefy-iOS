@@ -9,6 +9,7 @@ import SwiftUI
 import SwiftData
 import FirebaseCore
 import FirebaseAuth
+import UserNotifications
 
 class AppDelegate: NSObject, UIApplicationDelegate {
   func application(_ application: UIApplication,
@@ -22,15 +23,14 @@ class AppDelegate: NSObject, UIApplicationDelegate {
       FirebaseApp.configure()
     #endif
     
-    // Push通知の登録
+    // Firebase Phone Auth用の最小限の通知設定
+    // テスト実行中は設定をスキップ
+    guard ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil else { 
+      return true 
+    }
+    
+    // Firebase Phone Auth用の通知設定
     UNUserNotificationCenter.current().delegate = self
-    
-    let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-    UNUserNotificationCenter.current().requestAuthorization(
-      options: authOptions,
-      completionHandler: { _, _ in }
-    )
-    
     application.registerForRemoteNotifications()
     
     return true
@@ -40,10 +40,12 @@ class AppDelegate: NSObject, UIApplicationDelegate {
   func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
     // テスト実行中はFirebaseの呼び出しをスキップ
     guard ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil else { return }
+    
+    // Firebase Phone Auth用にAPNsトークンを登録
     Auth.auth().setAPNSToken(deviceToken, type: .unknown)
   }
   
-  // リモート通知を受信（Firebase Phone Auth用）
+  // リモート通知を受信（Firebase Phone Auth専用）
   func application(_ application: UIApplication,
                    didReceiveRemoteNotification userInfo: [AnyHashable: Any],
                    fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
@@ -52,55 +54,31 @@ class AppDelegate: NSObject, UIApplicationDelegate {
       completionHandler(.noData)
       return 
     }
+    
+    // Firebase Phone Authの通知のみ処理
     if Auth.auth().canHandleNotification(userInfo) {
       completionHandler(.noData)
       return
     }
-    // その他の通知処理
+    
+    // その他の通知は処理しない
     completionHandler(.noData)
   }
 }
 
-// UNUserNotificationCenterDelegateの実装
-extension AppDelegate: UNUserNotificationCenterDelegate {
+// Firebase Phone Auth専用のUNUserNotificationCenterDelegate実装
+extension AppDelegate: @preconcurrency UNUserNotificationCenterDelegate {
   nonisolated func userNotificationCenter(_ center: UNUserNotificationCenter,
                               willPresent notification: UNNotification,
                               withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-    let userInfo = notification.request.content.userInfo
-    
-    // テスト実行中はFirebaseの呼び出しをスキップ
-    guard ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil else {
-      completionHandler([])
-      return
-    }
-    
-    // Firebase Phone Authの通知かチェック
-    if Auth.auth().canHandleNotification(userInfo) {
-      completionHandler([])
-      return
-    }
-    
-    // その他の通知は表示
-    completionHandler([[.banner, .badge, .sound]])
+    // Firebase Phone Auth以外の通知は表示しない
+    completionHandler([])
   }
   
   nonisolated func userNotificationCenter(_ center: UNUserNotificationCenter,
                               didReceive response: UNNotificationResponse,
                               withCompletionHandler completionHandler: @escaping () -> Void) {
-    let userInfo = response.notification.request.content.userInfo
-    
-    // テスト実行中はFirebaseの呼び出しをスキップ
-    guard ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil else {
-      completionHandler()
-      return
-    }
-    
-    // Firebase Phone Authの通知かチェック
-    if Auth.auth().canHandleNotification(userInfo) {
-      completionHandler()
-      return
-    }
-    
+    // 通知タップ時の処理（Firebase Phone Authでは不要）
     completionHandler()
   }
 }
