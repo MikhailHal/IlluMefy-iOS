@@ -7,8 +7,8 @@
 
 import Foundation
 
-protocol SetStoreLoginAccountInLocalUseCaseProtocol {
-    var userPreferencesRepository: any UserPreferencesRepositoryProtocol { get }
+protocol SetStoreLoginAccountInLocalUseCaseProtocol: Sendable {
+    var userPreferencesRepository: any UserPreferencesRepositoryProtocol { get set }
     
     func execute(request: SetStoreLoginAccountInLocalUseCaseRequest) throws -> Bool
     func validate(request: SetStoreLoginAccountInLocalUseCaseRequest) throws

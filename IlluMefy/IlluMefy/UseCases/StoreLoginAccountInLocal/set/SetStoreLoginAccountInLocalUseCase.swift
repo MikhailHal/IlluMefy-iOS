@@ -7,7 +7,7 @@
 
 import Foundation
 
-class SetStoreLoginAccountInLocalUseCase: SetStoreLoginAccountInLocalUseCaseProtocol {
+final class SetStoreLoginAccountInLocalUseCase: SetStoreLoginAccountInLocalUseCaseProtocol, @unchecked Sendable {
     var userPreferencesRepository: any UserPreferencesRepositoryProtocol
     
     init(userPreferencesRepository: any UserPreferencesRepositoryProtocol) {

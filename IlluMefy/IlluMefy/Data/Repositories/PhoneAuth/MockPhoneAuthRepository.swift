@@ -7,7 +7,7 @@
 
 import Foundation
 
-class MockPhoneAuthRepository: PhoneAuthRepositoryProtocol {
+final class MockPhoneAuthRepository: PhoneAuthRepositoryProtocol, @unchecked Sendable {
     // sendVerificationCodeが呼ばれたかどうか
     var isSendVerificationCodeCalled = false
     // 返却するverificationIDを設定

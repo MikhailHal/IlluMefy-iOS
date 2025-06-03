@@ -8,7 +8,7 @@
 import Foundation
 
 /// 電話番号認証リポジトリのプロトコル
-protocol PhoneAuthRepositoryProtocol {
+protocol PhoneAuthRepositoryProtocol: Sendable {
     /// 認証コードを送信
     /// - Parameter request: 送信リクエスト
     /// - Returns: 送信レスポンス

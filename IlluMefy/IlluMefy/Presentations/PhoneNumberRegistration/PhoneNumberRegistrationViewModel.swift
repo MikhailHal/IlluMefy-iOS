@@ -6,6 +6,7 @@
 //
 import Combine
 
+@MainActor
 class PhoneNumberRegistrationViewModel: PhoneNumberRegistrationViewModelProtocol {
     // MARK: - Properties
     
@@ -44,13 +45,13 @@ class PhoneNumberRegistrationViewModel: PhoneNumberRegistrationViewModelProtocol
     /// 認証コードを送信
     func sendVerificationCode() async {
         do {
+            let phoneNumber = await MainActor.run { self.phoneNumber }
             let request = SendPhoneVerificationUseCaseRequest(phoneNumber: phoneNumber)
             let response = try await sendPhoneVerificationUseCase.execute(request: request)
             
-            // verificationIDを保存
-            self.verificationID = response.verificationID
-            
             await MainActor.run {
+                // verificationIDを保存
+                self.verificationID = response.verificationID
                 notificationDialogMessage = L10n.PhoneNumberRegistration.Message.verificationCodeSent
                 isShowNotificationDialog = true
             }

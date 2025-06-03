@@ -7,6 +7,7 @@
 
 import Combine
 
+@MainActor
 class LoginViewModel: LoginViewModelProtocol {
     var setStoreLoginAccountInLocalUseCase: any SetStoreLoginAccountInLocalUseCaseProtocol
     var getStoreLoginAccountInLocalUseCase: any GetStoreLoginAccountInLocalUseCaseProtocol
@@ -52,6 +53,10 @@ class LoginViewModel: LoginViewModelProtocol {
     
     func login() async {
         do {
+            let (phoneNumber, password, isStoreLoginInformation) = await MainActor.run {
+                (self.phoneNumber, self.password, self.isStoreLoginInformation)
+            }
+            
             _ = try await loginUseCase.execute(
                 request: AccountLoginUseCaseRequest(
                     phoneNumber: phoneNumber,

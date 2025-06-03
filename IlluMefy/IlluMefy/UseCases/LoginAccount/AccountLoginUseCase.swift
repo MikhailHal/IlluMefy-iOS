@@ -8,8 +8,8 @@
 import Foundation
 import FirebaseAuth
 
-class AccountLoginUseCase: AccountLoginUseCaseProtocol {
-    var accountLoginRepository: any AccountLoginRepositoryProtocol
+final class AccountLoginUseCase: AccountLoginUseCaseProtocol {
+    let accountLoginRepository: any AccountLoginRepositoryProtocol
     
     init(accountLoginRepository: any AccountLoginRepositoryProtocol) {
         self.accountLoginRepository = accountLoginRepository

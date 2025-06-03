@@ -5,7 +5,7 @@
 //  Created by Haruto K. on 2025/04/03.
 //
 
-protocol AccountLoginUseCaseProtocol {
+protocol AccountLoginUseCaseProtocol: Sendable {
     var accountLoginRepository: any AccountLoginRepositoryProtocol { get }
     
     func execute(request: AccountLoginUseCaseRequest) async throws -> Bool

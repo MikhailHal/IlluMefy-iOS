@@ -7,7 +7,7 @@
 
 import FirebaseAuth
 
-class AccountLoginRepository: AccountLoginRepositoryProtocol {
+final class AccountLoginRepository: AccountLoginRepositoryProtocol {
     func login(_ request: AccountLoginRequest) async throws -> Bool {
         do {
             // For phone number authentication, we would typically use Firebase Phone Auth

@@ -7,6 +7,7 @@
 
 import Combine
 
+@MainActor
 protocol PhoneNumberRegistrationViewModelProtocol: ObservableObject {
     // UseCases
     var setStoreLoginAccountInLocalUseCase: any SetStoreLoginAccountInLocalUseCaseProtocol { get set }
@@ -21,5 +22,5 @@ protocol PhoneNumberRegistrationViewModelProtocol: ObservableObject {
     var verificationID: String? { get set }
     
     // Methods
-    func sendVerificationCode() async
+    nonisolated func sendVerificationCode() async
 }

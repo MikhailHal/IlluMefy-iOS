@@ -3,8 +3,10 @@ xcassets:
     - Resources/Assets.xcassets
     - Resources/Color.xcassets
   outputs:
-    - templateName: swift5
       output: Generated/Resources.swift
+      templatePath: swiftgen_sendable_template.stencil
+      params:
+        publicAccess: true
 
 strings:
   inputs: Resources/Localizable.strings

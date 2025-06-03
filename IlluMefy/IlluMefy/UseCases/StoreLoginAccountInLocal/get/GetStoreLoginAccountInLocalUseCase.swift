@@ -7,8 +7,8 @@
 
 import Foundation
 
-class GetStoreLoginAccountInLocalUseCase: GetStoreLoginAccountInLocalUseCaseProtocol {
-    var userPreferencesRepository: any UserPreferencesRepositoryProtocol
+final class GetStoreLoginAccountInLocalUseCase: GetStoreLoginAccountInLocalUseCaseProtocol {
+    let userPreferencesRepository: any UserPreferencesRepositoryProtocol
     
     init(userPreferencesRepository: any UserPreferencesRepositoryProtocol) {
         self.userPreferencesRepository = userPreferencesRepository

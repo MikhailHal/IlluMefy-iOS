@@ -7,8 +7,8 @@
 
 import Foundation
 
-class UserPreferencesRepository: UserPreferencesRepositoryProtocol {
-    var userLocalSettingsDataSource: any UserLocalSettingsDataSourceProtocol
+final class UserPreferencesRepository: UserPreferencesRepositoryProtocol {
+    let userLocalSettingsDataSource: any UserLocalSettingsDataSourceProtocol
     
     init(userLocalSettingsDataSource: UserLocalSettingsDataSourceProtocol) {
         self.userLocalSettingsDataSource = userLocalSettingsDataSource

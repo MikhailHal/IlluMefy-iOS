@@ -6,7 +6,7 @@
 //
 
 import Foundation
-class UserLocalSettingsDataSource: UserLocalSettingsDataSourceProtocol {
+final class UserLocalSettingsDataSource: UserLocalSettingsDataSourceProtocol, @unchecked Sendable {
     private let userDefaults = UserDefaults.standard
     func getString(forKey key: UserLocalSettingsDataSourceKey, default: String) -> String {
         return userDefaults.string(forKey: key.rawValue) ?? `default`

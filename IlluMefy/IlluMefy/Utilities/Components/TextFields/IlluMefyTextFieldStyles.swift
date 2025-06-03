@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct NormalTextFieldStyle: TextFieldStyle {
+struct NormalTextFieldStyle: TextFieldStyle, @unchecked Sendable {
     @FocusState private var isFocused: Bool
     private var isEnabled: Bool
     @Binding var text: String
@@ -48,7 +48,7 @@ struct NormalTextFieldStyle: TextFieldStyle {
     }
 }
 
-struct PasswordTextFieldStyle: TextFieldStyle {
+struct PasswordTextFieldStyle: TextFieldStyle, @unchecked Sendable {
     @FocusState private var isFocused: Bool
     private var isEnabled: Bool
     @Binding var text: String

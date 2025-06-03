@@ -63,7 +63,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
 // UNUserNotificationCenterDelegateの実装
 extension AppDelegate: UNUserNotificationCenterDelegate {
-  func userNotificationCenter(_ center: UNUserNotificationCenter,
+  nonisolated func userNotificationCenter(_ center: UNUserNotificationCenter,
                               willPresent notification: UNNotification,
                               withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
     let userInfo = notification.request.content.userInfo
@@ -84,7 +84,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     completionHandler([[.banner, .badge, .sound]])
   }
   
-  func userNotificationCenter(_ center: UNUserNotificationCenter,
+  nonisolated func userNotificationCenter(_ center: UNUserNotificationCenter,
                               didReceive response: UNNotificationResponse,
                               withCompletionHandler completionHandler: @escaping () -> Void) {
     let userInfo = response.notification.request.content.userInfo

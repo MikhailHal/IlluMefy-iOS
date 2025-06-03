@@ -68,6 +68,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
+				swiftgen_sendable_template.stencil,
 			);
 			target = 645EBCFD2D58F9C600AC7BAC /* IlluMefy */;
 		};
@@ -121,11 +122,22 @@
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		6489883C2DEF561000C10C85 /* Exceptions for "IlluMefy" folder in "Compile Sources" phase from "IlluMefy" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = 645EBCFA2D58F9C600AC7BAC /* Sources */;
+			membershipExceptions = (
+				swiftgen_sendable_template.stencil,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		645EBD002D58F9C600AC7BAC /* IlluMefy */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				642474C32DCA6B6600292C52 /* Exceptions for "IlluMefy" folder in "IlluMefy" target */,
+				6489883C2DEF561000C10C85 /* Exceptions for "IlluMefy" folder in "Compile Sources" phase from "IlluMefy" target */,
 				64EF85B82D6E099F00C9732A /* Exceptions for "IlluMefy" folder in "IlluMefyTests" target */,
 				64EF85B92D6E099F00C9732A /* Exceptions for "IlluMefy" folder in "IlluMefyUITests" target */,
 			);
@@ -512,7 +524,7 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 			};
 			name = Debug;
 		};
@@ -570,7 +582,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -604,7 +616,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = mikhailhal.illumefy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -638,7 +650,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = mikhailhal.illumefy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -656,7 +668,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = aoi.PenculaTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/IlluMefy.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/IlluMefy";
 			};
@@ -675,7 +687,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = aoi.PenculaTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/IlluMefy.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/IlluMefy";
 			};
@@ -692,7 +704,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = aoi.PenculaUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = Pencula;
 			};
@@ -709,7 +721,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = aoi.PenculaUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = Pencula;
 			};

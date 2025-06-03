@@ -9,7 +9,7 @@ import Foundation
 import FirebaseAuth
 
 /// Firebase Phone Authenticationの機能を抽象化するプロトコル
-protocol FirebasePhoneAuthProviderProtocol {
+protocol FirebasePhoneAuthProviderProtocol: Sendable {
     /// 電話番号認証のコードを送信
     func verifyPhoneNumber(_ phoneNumber: String, uiDelegate: AuthUIDelegate?, completion: @escaping (String?, Error?) -> Void)
     
@@ -18,7 +18,7 @@ protocol FirebasePhoneAuthProviderProtocol {
 }
 
 /// Firebase実装
-class FirebasePhoneAuthProvider: FirebasePhoneAuthProviderProtocol {
+final class FirebasePhoneAuthProvider: FirebasePhoneAuthProviderProtocol {
     func verifyPhoneNumber(_ phoneNumber: String, uiDelegate: AuthUIDelegate?, completion: @escaping (String?, Error?) -> Void) {
         PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber, uiDelegate: uiDelegate, completion: completion)
     }
@@ -31,7 +31,7 @@ class FirebasePhoneAuthProvider: FirebasePhoneAuthProviderProtocol {
 }
 
 /// テスト用モック
-class MockFirebasePhoneAuthProvider: FirebasePhoneAuthProviderProtocol {
+final class MockFirebasePhoneAuthProvider: FirebasePhoneAuthProviderProtocol, @unchecked Sendable {
     // テスト制御用プロパティ
     var shouldSucceed = true
     var mockVerificationID = "mock-verification-id-123"

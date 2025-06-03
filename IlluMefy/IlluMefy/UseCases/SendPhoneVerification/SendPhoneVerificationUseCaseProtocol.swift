@@ -8,7 +8,7 @@
 import Foundation
 
 /// 電話番号認証コード送信ユースケースのプロトコル
-protocol SendPhoneVerificationUseCaseProtocol {
+protocol SendPhoneVerificationUseCaseProtocol: Sendable {
     func execute(request: SendPhoneVerificationUseCaseRequest) async throws -> SendPhoneVerificationUseCaseResponse
     func validate(request: SendPhoneVerificationUseCaseRequest) throws
 }

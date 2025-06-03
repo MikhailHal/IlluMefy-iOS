@@ -7,6 +7,7 @@
 
 import Combine
 
+@MainActor
 protocol LoginViewModelProtocol: ObservableObject {
     var loginUseCase: any AccountLoginUseCaseProtocol { get set }
     var setStoreLoginAccountInLocalUseCase: any SetStoreLoginAccountInLocalUseCaseProtocol { get set }
