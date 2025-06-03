@@ -8,7 +8,7 @@
 import Quick
 import Nimble
 
-class SendPhoneVerificationUseCaseSpec: QuickSpec {
+final class SendPhoneVerificationUseCaseSpec: QuickSpec, @unchecked Sendable {
     override class func spec() {
         var mockRepository: MockPhoneAuthRepository!
         var usecase: SendPhoneVerificationUseCase!

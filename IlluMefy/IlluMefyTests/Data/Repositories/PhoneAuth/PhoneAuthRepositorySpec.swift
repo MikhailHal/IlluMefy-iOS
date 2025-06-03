@@ -8,8 +8,9 @@
 import Nimble
 import Quick
 import Foundation
+@testable import IlluMefy
 
-class PhoneAuthRepositorySpec: QuickSpec {
+final class PhoneAuthRepositorySpec: QuickSpec, @unchecked Sendable {
     override class func spec() {
         var repository: PhoneAuthRepository!
         var mockFirebaseProvider: MockFirebasePhoneAuthProvider!

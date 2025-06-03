@@ -8,10 +8,10 @@
 import Foundation
 @testable import IlluMefy
 
-class MockUserPreferencesRepository: UserPreferencesRepositoryProtocol {
+final class MockUserPreferencesRepository: UserPreferencesRepositoryProtocol, @unchecked Sendable {
     
     // プロトコル要求
-    var userLocalSettingsDataSource: any UserLocalSettingsDataSourceProtocol
+    let userLocalSettingsDataSource: any UserLocalSettingsDataSourceProtocol
     var isStoreLoginInfo: Bool = false
     var loginEmail: String = ""
     var loginPassowrd: String = ""
@@ -81,7 +81,7 @@ class MockUserPreferencesRepository: UserPreferencesRepositoryProtocol {
 }
 
 // MockUserLocalSettingsDataSourceも必要
-class MockUserLocalSettingsDataSource: UserLocalSettingsDataSourceProtocol {
+final class MockUserLocalSettingsDataSource: UserLocalSettingsDataSourceProtocol, @unchecked Sendable {
     private var storage: [String: Any] = [:]
     
     func getString(forKey key: UserLocalSettingsDataSourceKey, default defaultValue: String) -> String {

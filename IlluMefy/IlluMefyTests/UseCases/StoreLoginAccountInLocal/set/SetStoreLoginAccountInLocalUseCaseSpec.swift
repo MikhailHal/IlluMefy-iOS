@@ -9,7 +9,7 @@ import Quick
 import Nimble
 @testable import IlluMefy
 
-class SetStoreLoginAccountInLocalUseCaseSpec: QuickSpec {
+final class SetStoreLoginAccountInLocalUseCaseSpec: QuickSpec, @unchecked Sendable {
     override class func spec() {
         var mockRepository: MockUserPreferencesRepository!
         var useCase: SetStoreLoginAccountInLocalUseCase!
