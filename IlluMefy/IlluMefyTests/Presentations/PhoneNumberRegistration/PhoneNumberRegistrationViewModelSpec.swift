@@ -9,6 +9,7 @@ import Quick
 import Nimble
 @testable import IlluMefy
 
+@MainActor
 final class PhoneNumberRegistrationViewModelSpec: QuickSpec, @unchecked Sendable {
     override class func spec() {
         var viewModel: PhoneNumberRegistrationViewModel!
@@ -64,16 +65,13 @@ final class PhoneNumberRegistrationViewModelSpec: QuickSpec, @unchecked Sendable
                         waitUntil(timeout: .seconds(3)) { done in
                             Task {
                                 await viewModel.sendVerificationCode()
-                                
-                                await MainActor.run {
-                                    expect(viewModel.verificationID).to(equal(expectedVerificationID))
-                                    expect(viewModel.isShowNotificationDialog).to(beTrue())
-                                    expect(viewModel.notificationDialogMessage).toNot(beEmpty())
-                                    expect(viewModel.isShowErrorDialog).to(beFalse())
-                                    expect(mockSendPhoneVerificationUseCase.executeCallCount).to(equal(1))
-                                    
-                                    done()
-                                }
+                                expect(viewModel.verificationID).to(equal(expectedVerificationID))
+                                expect(viewModel.isShowNotificationDialog).to(beTrue())
+                                expect(viewModel.notificationDialogMessage).to(equal(L10n.PhoneNumberRegistration.Message.verificationCodeSent))
+                                expect(viewModel.isShowErrorDialog).to(beFalse())
+                                expect(mockSendPhoneVerificationUseCase.executeCallCount).to(equal(1))
+                                expect(mockSendPhoneVerificationUseCase.lastExecutedRequest?.phoneNumber).to(equal(testPhoneNumber))
+                                done()
                             }
                         }
                     }
@@ -90,15 +88,12 @@ final class PhoneNumberRegistrationViewModelSpec: QuickSpec, @unchecked Sendable
                         waitUntil(timeout: .seconds(3)) { done in
                             Task {
                                 await viewModel.sendVerificationCode()
-                                
-                                await MainActor.run {
-                                    expect(viewModel.isShowErrorDialog).to(beTrue())
-                                    expect(viewModel.errorDialogMessage).toNot(beEmpty())
-                                    expect(viewModel.isShowNotificationDialog).to(beFalse())
-                                    expect(viewModel.verificationID).to(beNil())
-                                    
-                                    done()
-                                }
+                                expect(viewModel.isShowErrorDialog).to(beTrue())
+                                expect(viewModel.errorDialogMessage).to(equal(SendPhoneVerificationUseCaseError.networkError.errorDescription))
+                                expect(viewModel.isShowNotificationDialog).to(beFalse())
+                                expect(viewModel.verificationID).to(beNil())
+                                expect(viewModel.notificationDialogMessage).to(equal(""))
+                                done()
                             }
                         }
                     }
@@ -115,15 +110,33 @@ final class PhoneNumberRegistrationViewModelSpec: QuickSpec, @unchecked Sendable
                         waitUntil(timeout: .seconds(3)) { done in
                             Task {
                                 await viewModel.sendVerificationCode()
-                                
-                                await MainActor.run {
-                                    expect(viewModel.isShowErrorDialog).to(beTrue())
-                                    expect(viewModel.errorDialogMessage).toNot(beEmpty())
-                                    expect(viewModel.isShowNotificationDialog).to(beFalse())
-                                    expect(viewModel.verificationID).to(beNil())
-                                    
-                                    done()
-                                }
+                                expect(viewModel.isShowErrorDialog).to(beTrue())
+                                expect(viewModel.errorDialogMessage).to(equal(L10n.PhoneAuth.Error.unknownError))
+                                expect(viewModel.isShowNotificationDialog).to(beFalse())
+                                expect(viewModel.verificationID).to(beNil())
+                                expect(viewModel.notificationDialogMessage).to(equal(""))
+                                done()
+                            }
+                        }
+                    }
+                }
+                
+                context("with invalid phone number") {
+                    beforeEach {
+                        mockSendPhoneVerificationUseCase.shouldSucceed = false
+                        mockSendPhoneVerificationUseCase.mockError = .invalidPhoneNumber
+                        viewModel.phoneNumber = ""
+                    }
+                    
+                    it("should show invalid phone number error") {
+                        waitUntil(timeout: .seconds(3)) { done in
+                            Task {
+                                await viewModel.sendVerificationCode()
+                                expect(viewModel.isShowErrorDialog).to(beTrue())
+                                expect(viewModel.errorDialogMessage).to(equal(SendPhoneVerificationUseCaseError.invalidPhoneNumber.errorDescription))
+                                expect(viewModel.isShowNotificationDialog).to(beFalse())
+                                expect(viewModel.verificationID).to(beNil())
+                                done()
                             }
                         }
                     }
@@ -131,7 +144,7 @@ final class PhoneNumberRegistrationViewModelSpec: QuickSpec, @unchecked Sendable
             }
             
             context("sendAuthenticationCode") {
-                it("should call sendVerificationCode") {
+                it("should call sendVerificationCode internally") {
                     let testPhoneNumber = "09012345678"
                     let expectedVerificationID = "test-verification-id-456"
                     
@@ -142,16 +155,39 @@ final class PhoneNumberRegistrationViewModelSpec: QuickSpec, @unchecked Sendable
                     waitUntil(timeout: .seconds(3)) { done in
                         Task {
                             await viewModel.sendAuthenticationCode()
-                            
-                            await MainActor.run {
-                                expect(viewModel.verificationID).to(equal(expectedVerificationID))
-                                expect(viewModel.isShowNotificationDialog).to(beTrue())
-                                expect(mockSendPhoneVerificationUseCase.executeCallCount).to(equal(1))
-                                
-                                done()
-                            }
+                            expect(viewModel.verificationID).to(equal(expectedVerificationID))
+                            expect(viewModel.isShowNotificationDialog).to(beTrue())
+                            expect(viewModel.notificationDialogMessage).to(equal(L10n.PhoneNumberRegistration.Message.verificationCodeSent))
+                            expect(mockSendPhoneVerificationUseCase.executeCallCount).to(equal(1))
+                            expect(mockSendPhoneVerificationUseCase.lastExecutedRequest?.phoneNumber).to(equal(testPhoneNumber))
+                            done()
                         }
                     }
+                }
+            }
+            
+            context("property updates") {
+                it("should properly update phoneNumber property") {
+                    let testPhoneNumber = "09087654321"
+                    viewModel.phoneNumber = testPhoneNumber
+                    expect(viewModel.phoneNumber).to(equal(testPhoneNumber))
+                }
+                
+                it("should properly update email property") {
+                    let testEmail = "test@example.com"
+                    viewModel.email = testEmail
+                    expect(viewModel.email).to(equal(testEmail))
+                }
+                
+                it("should properly update password property") {
+                    let testPassword = "password123"
+                    viewModel.password = testPassword
+                    expect(viewModel.password).to(equal(testPassword))
+                }
+                
+                it("should properly update agreement flags") {
+                    viewModel.isAgreedTermsOfService = true
+                    expect(viewModel.isAgreedTermsOfService).to(beTrue())
                 }
             }
         }
