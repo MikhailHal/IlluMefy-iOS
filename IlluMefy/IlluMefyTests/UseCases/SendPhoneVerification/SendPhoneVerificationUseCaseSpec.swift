@@ -7,12 +7,12 @@
 
 import Quick
 import Nimble
-
+@testable import IlluMefy
 final class SendPhoneVerificationUseCaseSpec: QuickSpec, @unchecked Sendable {
     override class func spec() {
         var mockRepository: MockPhoneAuthRepository!
         var usecase: SendPhoneVerificationUseCase!
-        var request: SendPhoneVerificationUseCaseRequest!
+        var request: IlluMefy.SendPhoneVerificationUseCaseRequest!
         
         describe("send verification code") {
             beforeEach {
@@ -28,7 +28,7 @@ final class SendPhoneVerificationUseCaseSpec: QuickSpec, @unchecked Sendable {
                 beforeEach {
                     mockRepository.expectedVerificationID = expectVerificationId
                     mockRepository.sendVerificationCodeError = nil
-                    request = SendPhoneVerificationUseCaseRequest(phoneNumber: givePhoneNumber)
+                    request = IlluMefy.SendPhoneVerificationUseCaseRequest(phoneNumber: givePhoneNumber)
                 }
                 
                 it("should return the SendPhoneVerificationUseCaseResponse data") {
@@ -85,7 +85,7 @@ final class SendPhoneVerificationUseCaseSpec: QuickSpec, @unchecked Sendable {
                 it("should throw invalid phone number error for empty string") {
                     waitUntil { done in
                         Task {
-                            request = SendPhoneVerificationUseCaseRequest(phoneNumber: "")
+                            request = IlluMefy.SendPhoneVerificationUseCaseRequest(phoneNumber: "")
                             
                             do {
                                 _ = try await usecase.execute(request: request)
@@ -104,7 +104,7 @@ final class SendPhoneVerificationUseCaseSpec: QuickSpec, @unchecked Sendable {
                 it("should throw invalid phone number error for too short number") {
                     waitUntil { done in
                         Task {
-                            request = SendPhoneVerificationUseCaseRequest(phoneNumber: "090123")
+                            request = IlluMefy.SendPhoneVerificationUseCaseRequest(phoneNumber: "090123")
                             
                             do {
                                 _ = try await usecase.execute(request: request)
@@ -123,7 +123,7 @@ final class SendPhoneVerificationUseCaseSpec: QuickSpec, @unchecked Sendable {
                 it("should throw invalid phone number error for too long number") {
                     waitUntil { done in
                         Task {
-                            request = SendPhoneVerificationUseCaseRequest(phoneNumber: "090123456789")
+                            request = IlluMefy.SendPhoneVerificationUseCaseRequest(phoneNumber: "090123456789")
                             
                             do {
                                 _ = try await usecase.execute(request: request)
@@ -144,7 +144,7 @@ final class SendPhoneVerificationUseCaseSpec: QuickSpec, @unchecked Sendable {
                 it("should format phone number with hyphens to E.164") {
                     waitUntil { done in
                         Task {
-                            request = SendPhoneVerificationUseCaseRequest(phoneNumber: "090-1234-5678")
+                            request = IlluMefy.SendPhoneVerificationUseCaseRequest(phoneNumber: "090-1234-5678")
                             mockRepository.expectedVerificationID = "test-id"
                             
                             let response = try await usecase.execute(request: request)
@@ -158,7 +158,7 @@ final class SendPhoneVerificationUseCaseSpec: QuickSpec, @unchecked Sendable {
                 it("should handle already formatted international number") {
                     waitUntil { done in
                         Task {
-                            request = SendPhoneVerificationUseCaseRequest(phoneNumber: "+819012345678")
+                            request = IlluMefy.SendPhoneVerificationUseCaseRequest(phoneNumber: "+819012345678")
                             mockRepository.expectedVerificationID = "test-id"
                             
                             let response = try await usecase.execute(request: request)
@@ -172,7 +172,7 @@ final class SendPhoneVerificationUseCaseSpec: QuickSpec, @unchecked Sendable {
                 it("should format landline number (10 digits) to E.164") {
                     waitUntil { done in
                         Task {
-                            request = SendPhoneVerificationUseCaseRequest(phoneNumber: "0312345678")
+                            request = IlluMefy.SendPhoneVerificationUseCaseRequest(phoneNumber: "0312345678")
                             mockRepository.expectedVerificationID = "test-id"
                             
                             let response = try await usecase.execute(request: request)

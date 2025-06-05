@@ -1,0 +1,159 @@
+//
+//  PhoneNumberRegistrationViewModelSpec.swift
+//  IlluMefy
+//
+//  Created by Haruto K. on 2025/06/04.
+//
+
+import Quick
+import Nimble
+@testable import IlluMefy
+
+final class PhoneNumberRegistrationViewModelSpec: QuickSpec, @unchecked Sendable {
+    override class func spec() {
+        var viewModel: PhoneNumberRegistrationViewModel!
+        var mockSetStoreLoginAccountUseCase: MockSetStoreLoginAccountInLocalUseCase!
+        var mockSendPhoneVerificationUseCase: MockSendPhoneVerificationUseCase!
+        
+        describe("PhoneNumberRegistrationViewModel") {
+            beforeEach {
+                mockSetStoreLoginAccountUseCase = MockSetStoreLoginAccountInLocalUseCase()
+                mockSendPhoneVerificationUseCase = MockSendPhoneVerificationUseCase()
+                
+                viewModel = PhoneNumberRegistrationViewModel(
+                    setStoreLoginAccountInLocalUseCase: mockSetStoreLoginAccountUseCase,
+                    sendPhoneVerificationUseCase: mockSendPhoneVerificationUseCase
+                )
+            }
+            
+            context("initialization") {
+                it("should initialize with default values") {
+                    expect(viewModel.errorDialogMessage).to(equal(""))
+                    expect(viewModel.notificationDialogMessage).to(equal(""))
+                    expect(viewModel.verificationID).to(beNil())
+                    expect(viewModel.isShowErrorDialog).to(beFalse())
+                    expect(viewModel.isShowNotificationDialog).to(beFalse())
+                    expect(viewModel.isEnableRegisterButton).to(beFalse())
+                    expect(viewModel.email).to(equal(""))
+                    expect(viewModel.password).to(equal(""))
+                    expect(viewModel.phoneNumber).to(equal(""))
+                    expect(viewModel.isShowTermsOfServiceBottomSheet).to(beFalse())
+                    expect(viewModel.isShowPrivacyPolicyBottomSheet).to(beFalse())
+                    expect(viewModel.isAgreedTermsOfService).to(beFalse())
+                    expect(viewModel.allowedPasswordMinLength).to(equal(6))
+                }
+                
+                it("should have correct use case dependencies") {
+                    expect(viewModel.setStoreLoginAccountInLocalUseCase).toNot(beNil())
+                    expect(viewModel.sendPhoneVerificationUseCase).toNot(beNil())
+                }
+            }
+            
+            context("sendVerificationCode") {
+                context("with valid phone number") {
+                    let testPhoneNumber = "09012345678"
+                    let expectedVerificationID = "test-verification-id-123"
+                    
+                    beforeEach {
+                        mockSendPhoneVerificationUseCase.shouldSucceed = true
+                        mockSendPhoneVerificationUseCase.mockVerificationID = expectedVerificationID
+                        viewModel.phoneNumber = testPhoneNumber
+                    }
+                    
+                    it("should set verificationID and show notification dialog on success") {
+                        waitUntil(timeout: .seconds(3)) { done in
+                            Task {
+                                await viewModel.sendVerificationCode()
+                                
+                                await MainActor.run {
+                                    expect(viewModel.verificationID).to(equal(expectedVerificationID))
+                                    expect(viewModel.isShowNotificationDialog).to(beTrue())
+                                    expect(viewModel.notificationDialogMessage).toNot(beEmpty())
+                                    expect(viewModel.isShowErrorDialog).to(beFalse())
+                                    expect(mockSendPhoneVerificationUseCase.executeCallCount).to(equal(1))
+                                    
+                                    done()
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                context("with use case error") {
+                    beforeEach {
+                        mockSendPhoneVerificationUseCase.shouldSucceed = false
+                        mockSendPhoneVerificationUseCase.mockError = .networkError
+                        viewModel.phoneNumber = "09012345678"
+                    }
+                    
+                    it("should show error dialog when use case fails") {
+                        waitUntil(timeout: .seconds(3)) { done in
+                            Task {
+                                await viewModel.sendVerificationCode()
+                                
+                                await MainActor.run {
+                                    expect(viewModel.isShowErrorDialog).to(beTrue())
+                                    expect(viewModel.errorDialogMessage).toNot(beEmpty())
+                                    expect(viewModel.isShowNotificationDialog).to(beFalse())
+                                    expect(viewModel.verificationID).to(beNil())
+                                    
+                                    done()
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                context("with unexpected error") {
+                    beforeEach {
+                        mockSendPhoneVerificationUseCase.shouldSucceed = false
+                        mockSendPhoneVerificationUseCase.shouldThrowUnexpectedError = true
+                        viewModel.phoneNumber = "09012345678"
+                    }
+                    
+                    it("should show generic error dialog for unexpected errors") {
+                        waitUntil(timeout: .seconds(3)) { done in
+                            Task {
+                                await viewModel.sendVerificationCode()
+                                
+                                await MainActor.run {
+                                    expect(viewModel.isShowErrorDialog).to(beTrue())
+                                    expect(viewModel.errorDialogMessage).toNot(beEmpty())
+                                    expect(viewModel.isShowNotificationDialog).to(beFalse())
+                                    expect(viewModel.verificationID).to(beNil())
+                                    
+                                    done()
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+            context("sendAuthenticationCode") {
+                it("should call sendVerificationCode") {
+                    let testPhoneNumber = "09012345678"
+                    let expectedVerificationID = "test-verification-id-456"
+                    
+                    mockSendPhoneVerificationUseCase.shouldSucceed = true
+                    mockSendPhoneVerificationUseCase.mockVerificationID = expectedVerificationID
+                    viewModel.phoneNumber = testPhoneNumber
+                    
+                    waitUntil(timeout: .seconds(3)) { done in
+                        Task {
+                            await viewModel.sendAuthenticationCode()
+                            
+                            await MainActor.run {
+                                expect(viewModel.verificationID).to(equal(expectedVerificationID))
+                                expect(viewModel.isShowNotificationDialog).to(beTrue())
+                                expect(mockSendPhoneVerificationUseCase.executeCallCount).to(equal(1))
+                                
+                                done()
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

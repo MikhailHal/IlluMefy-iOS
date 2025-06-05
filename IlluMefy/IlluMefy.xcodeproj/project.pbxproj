@@ -77,20 +77,10 @@
 			membershipExceptions = (
 				Bases/Repositories/RepositoryErrorProtocol.swift,
 				Bases/UseCase/UseCaseErrorProtocol.swift,
-				Data/Repositories/PhoneAuth/FirebasePhoneAuthProviderProtocol.swift,
-				Data/Repositories/PhoneAuth/Format/PhoneAuthRequest.swift,
-				Data/Repositories/PhoneAuth/Format/PhoneAuthResponse.swift,
-				Data/Repositories/PhoneAuth/MockPhoneAuthRepository.swift,
-				Data/Repositories/PhoneAuth/PhoneAuthRepository.swift,
-				Data/Repositories/PhoneAuth/PhoneAuthRepositoryError.swift,
-				Data/Repositories/PhoneAuth/PhoneAuthRepositoryProtocol.swift,
 				Generated/Resources.swift,
 				Generated/Strings.swift,
 				UseCases/SendPhoneVerification/Format/SendPhoneVerificationUseCaseRequest.swift,
 				UseCases/SendPhoneVerification/Format/SendPhoneVerificationUseCaseResponse.swift,
-				UseCases/SendPhoneVerification/SendPhoneVerificationUseCase.swift,
-				UseCases/SendPhoneVerification/SendPhoneVerificationUseCaseError.swift,
-				UseCases/SendPhoneVerification/SendPhoneVerificationUseCaseProtocol.swift,
 				Utilities/Components/TextFields/IlluMefyPlainTextField.swift,
 				Utilities/Components/TextFields/IlluMefyTextFieldStyles.swift,
 			);
@@ -101,20 +91,10 @@
 			membershipExceptions = (
 				Bases/Repositories/RepositoryErrorProtocol.swift,
 				Bases/UseCase/UseCaseErrorProtocol.swift,
-				Data/Repositories/PhoneAuth/FirebasePhoneAuthProviderProtocol.swift,
-				Data/Repositories/PhoneAuth/Format/PhoneAuthRequest.swift,
-				Data/Repositories/PhoneAuth/Format/PhoneAuthResponse.swift,
-				Data/Repositories/PhoneAuth/MockPhoneAuthRepository.swift,
-				Data/Repositories/PhoneAuth/PhoneAuthRepository.swift,
-				Data/Repositories/PhoneAuth/PhoneAuthRepositoryError.swift,
-				Data/Repositories/PhoneAuth/PhoneAuthRepositoryProtocol.swift,
 				Generated/Resources.swift,
 				Generated/Strings.swift,
 				UseCases/SendPhoneVerification/Format/SendPhoneVerificationUseCaseRequest.swift,
 				UseCases/SendPhoneVerification/Format/SendPhoneVerificationUseCaseResponse.swift,
-				UseCases/SendPhoneVerification/SendPhoneVerificationUseCase.swift,
-				UseCases/SendPhoneVerification/SendPhoneVerificationUseCaseError.swift,
-				UseCases/SendPhoneVerification/SendPhoneVerificationUseCaseProtocol.swift,
 				Utilities/Components/TextFields/IlluMefyPlainTextField.swift,
 				Utilities/Components/TextFields/IlluMefyTextFieldStyles.swift,
 			);
@@ -524,7 +504,7 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 6.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -582,7 +562,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 6.0;
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -616,7 +596,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = mikhailhal.illumefy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 6.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -650,7 +630,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = mikhailhal.illumefy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 6.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
