@@ -69,7 +69,7 @@ I will launch this app as beta version soon!!
 ## What are used in this app?
 ### Basic Information
 IDE: Xcode(Ver 16.2)  
-Language: Swift  
+Language: Swift 5(I wouldn't update to Swift 6 unless I can work around SwiftGen's compatibility issues.)  
 Architecture: Clean Architecture+Router  
 Package Manager: SPM(Swift Package Manager)  
 Static Analysis: SwiftLint  
