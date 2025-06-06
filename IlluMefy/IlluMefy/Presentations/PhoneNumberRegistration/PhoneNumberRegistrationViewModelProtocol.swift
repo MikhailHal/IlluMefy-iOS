@@ -23,4 +23,5 @@ protocol PhoneNumberRegistrationViewModelProtocol: ObservableObject {
     
     // Methods
     nonisolated func sendVerificationCode() async
+    nonisolated func sendAuthenticationCode() async
 }

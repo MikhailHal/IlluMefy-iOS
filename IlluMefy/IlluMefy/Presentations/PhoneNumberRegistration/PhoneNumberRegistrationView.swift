@@ -200,10 +200,31 @@ struct SignUpFormView: View {
     /// プライバシーポリシー同意チェックボックス
     private var privacyPolicyCheckbox: some View {
         IlluMefyCardNormal {
-            IlluMefyCheckbox(
-                isChecked: $isPrivacyPolicyAgreed,
-                title: L10n.PhoneNumberRegistration.Checkbox.privacyPolicy
-            )
+            HStack(spacing: Spacing.componentGrouping) {
+                // チェックボックス部分
+                Button(action: {
+                    isPrivacyPolicyAgreed.toggle()
+                }, label: {
+                    Image(systemName: isPrivacyPolicyAgreed ? "checkmark.square.fill" : "square")
+                        .foregroundColor(isPrivacyPolicyAgreed ?
+                            Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor :
+                            Asset.Color.Application.foreground.swiftUIColor.opacity(0.3))
+                        .font(.title2)
+                })
+                
+                // プライバシーポリシーテキスト（タップでWebページを開く）
+                Button(action: {
+                    openPrivacyPolicy()
+                }, label: {
+                    Text(L10n.PhoneNumberRegistration.Checkbox.privacyPolicy)
+                        .font(.system(.body, design: .rounded))
+                        .foregroundColor(Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor)
+                        .underline()
+                        .multilineTextAlignment(.leading)
+                })
+                
+                Spacer()
+            }
             .padding(.vertical, Spacing.componentGrouping)
         }
         // チェック時の拡大とボーダーハイライト
@@ -298,11 +319,13 @@ struct SignUpFormView: View {
         }
         .padding(.top, Spacing.componentGrouping)
     }
-}
-
-// MARK: - Preview
-
-#Preview {
-    PhoneNumberRegistrationView()
-        .environmentObject(IlluMefyAppRouter())
+    
+    // MARK: - Private Methods
+    
+    /// プライバシーポリシーページを開く
+    private func openPrivacyPolicy() {
+        if let url = URL(string: "https://lying-rate-213.notion.site/IlluMefy-1fee5e0485cb80208497c1f1cca7e10b") {
+            UIApplication.shared.open(url)
+        }
+    }
 }
