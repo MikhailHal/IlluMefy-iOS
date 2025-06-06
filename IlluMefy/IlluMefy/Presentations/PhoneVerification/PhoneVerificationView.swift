@@ -1,24 +1,50 @@
 //
-//  PhoneNumberRegistrationView.swift
+//  PhoneVerificationView.swift
 //  IlluMefy
 //
-//  Created by Haruto K. on 2025/02/12.
+//  Created by Haruto K. on 2025/06/06.
 //
-//  電話番号登録画面
-//  新規ユーザーが電話番号を入力してアカウント登録を開始する画面
+//  電話番号認証画面
+//  送信された認証番号を入力してアカウント登録を完了する画面
 //
 
 import SwiftUI
 
-/// 電話番号登録画面のメインビュー
-struct PhoneNumberRegistrationView: View {
+/// 電話番号認証画面のメインビュー
+struct PhoneVerificationView: View {
     // MARK: - Properties
     
     /// ビューモデル（依存性注入で取得）
-    @StateObject private var viewModel = DependencyContainer.shared.resolve(PhoneNumberRegistrationViewModel.self)!
+    @StateObject private var viewModel: PhoneVerificationViewModel
     
     /// アプリ全体のルーター
     @EnvironmentObject var router: IlluMefyAppRouter
+    
+    /// Firebase認証用のverificationID
+    private let verificationID: String
+    
+    /// 電話番号
+    private let phoneNumber: String
+    
+    // MARK: - Initialization
+    
+    init(verificationID: String, phoneNumber: String) {
+        self.verificationID = verificationID
+        self.phoneNumber = phoneNumber
+        
+        // ViewModelの初期化
+        let verifyUseCase = DependencyContainer.shared.resolve(VerifyPhoneAuthCodeUseCase.self)!
+        let registerUseCase = DependencyContainer.shared.resolve(RegisterAccountUseCase.self)!
+        let sendPhoneUseCase = DependencyContainer.shared.resolve(SendPhoneVerificationUseCase.self)!
+        
+        _viewModel = StateObject(wrappedValue: PhoneVerificationViewModel(
+            verificationID: verificationID,
+            phoneNumber: phoneNumber,
+            verifyPhoneAuthCodeUseCase: verifyUseCase,
+            registerAccountUseCase: registerUseCase,
+            sendPhoneVerificationUseCase: sendPhoneUseCase
+        ))
+    }
     
     // MARK: - Body
     
@@ -28,9 +54,14 @@ struct PhoneNumberRegistrationView: View {
             backgroundLayer
             
             // メインコンテンツ
-            SignUpFormView(viewModel: viewModel, router: router)
+            VerificationFormView(viewModel: viewModel, router: router)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .ignoresSafeArea(.keyboard, edges: .bottom)
+            
+            // ローディングインジケータ
+            if viewModel.isLoading {
+                IlluMefyLoadingDialog(isLoading: true, message: nil)
+            }
         }
         // エラーダイアログ
         .alert(L10n.Common.Dialog.Title.error, isPresented: $viewModel.isShowErrorDialog) {
@@ -42,13 +73,7 @@ struct PhoneNumberRegistrationView: View {
         .alert(L10n.Common.Dialog.Title.success, isPresented: $viewModel.isShowNotificationDialog) {
             Button("OK") {
                 viewModel.isShowNotificationDialog = false
-                // 認証番号入力画面へ遷移
-                if let verificationID = viewModel.verificationID {
-                    router.navigate(to: .phoneVerification(
-                        verificationID: verificationID,
-                        phoneNumber: viewModel.phoneNumber
-                    ))
-                }
+                router.navigate(to: .groupList)
             }
         } message: {
             Text(viewModel.notificationDialogMessage)
@@ -69,30 +94,27 @@ struct PhoneNumberRegistrationView: View {
     }
 }
 
-// MARK: - SignUpFormView
+// MARK: - VerificationFormView
 
-/// 登録フォームのコンテンツビュー
-/// アイコン、タイトル、入力フィールド、ボタンなどを含む
-struct SignUpFormView: View {
+/// 認証フォームのコンテンツビュー
+struct VerificationFormView: View {
     // MARK: - Properties
     
     /// 親ビューから渡されるビューモデル
-    @ObservedObject var viewModel: PhoneNumberRegistrationViewModel
+    @ObservedObject var viewModel: PhoneVerificationViewModel
     
     /// アプリルーター
     var router: IlluMefyAppRouter
     
     // MARK: - State
     
-    /// プライバシーポリシー同意状態
-    @State private var isPrivacyPolicyAgreed = false
-    
     /// フォーム表示アニメーション状態
     @State private var formAppeared = false
     
-    /// 電話番号フィールドのフォーカス状態
-    @FocusState private var isPhoneFocused: Bool
-
+    /// 認証番号フィールドのフォーカス状態
+    @FocusState private var isCodeFocused: Bool
+    
+    
     // MARK: - Body
     
     var body: some View {
@@ -101,7 +123,7 @@ struct SignUpFormView: View {
                 // ヘッダーセクション（アイコン + タイトル + 説明）
                 headerSection
                 
-                // フォームセクション（入力フィールド + チェックボックス）
+                // フォームセクション（入力フィールド）
                 formSection
                 
                 // アクションセクション（ボタン + リンク）
@@ -114,8 +136,12 @@ struct SignUpFormView: View {
             withAnimation {
                 formAppeared = true
             }
+            // 認証番号フィールドに自動フォーカス
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                isCodeFocused = true
+            }
         }
-        .onChange(of: viewModel.phoneNumber) { _, _ in
+        .onChange(of: viewModel.verificationCode) { _, _ in
             // 文字入力時の触覚フィードバック
             let selectionFeedback = UISelectionFeedbackGenerator()
             selectionFeedback.selectionChanged()
@@ -129,10 +155,10 @@ struct SignUpFormView: View {
         VStack(spacing: Spacing.componentGrouping) {
             // アニメーション付きロゴアイコン
             AnimatedLogoIcon(isAppeared: $formAppeared)
-                    
+            
             // タイトル（段階的フェードイン）
-            Text(L10n.PhoneNumberRegistration.title)
-                .font(.system(size: 36, weight: .bold, design: .rounded))
+            Text(L10n.PhoneVerification.title)
+                .font(.system(size: 32, weight: .bold, design: .rounded))
                 .foregroundColor(Asset.Color.Application.foreground.swiftUIColor)
                 .padding(.top, Spacing.componentGrouping)
                 .offset(y: formAppeared ? 0 : 20)
@@ -142,7 +168,7 @@ struct SignUpFormView: View {
             // 説明文（2段階のフェードイン）
             VStack(spacing: 6) {
                 // 1行目の説明
-                Text(L10n.PhoneNumberRegistration.Description.line1)
+                Text(L10n.PhoneVerification.Description.line1)
                     .font(.system(.body, design: .rounded))
                     .foregroundColor(Asset.Color.Application.foreground.swiftUIColor.opacity(0.85))
                     .offset(y: formAppeared ? 0 : 10)
@@ -150,7 +176,7 @@ struct SignUpFormView: View {
                     .animation(.easeOut(duration: 0.6).delay(0.5), value: formAppeared)
                 
                 // 2行目の説明
-                Text(L10n.PhoneNumberRegistration.Description.line2)
+                Text(L10n.PhoneVerification.Description.line2)
                     .font(.system(.callout, design: .rounded))
                     .foregroundColor(Asset.Color.Application.foreground.swiftUIColor.opacity(0.65))
                     .offset(y: formAppeared ? 0 : 10)
@@ -158,7 +184,7 @@ struct SignUpFormView: View {
                     .animation(.easeOut(duration: 0.6).delay(0.7), value: formAppeared)
             }
             .multilineTextAlignment(.center)
-            .padding(.horizontal, Spacing.screenEdgePadding)
+            .padding(.horizontal, Spacing.screenEdgePadding * 1.5)
         }
         .padding(.top, Spacing.screenEdgePadding * 2)
     }
@@ -166,11 +192,8 @@ struct SignUpFormView: View {
     /// フォームセクション（入力フィールド）
     private var formSection: some View {
         VStack(spacing: Spacing.relatedComponentDivider) {
-            // 電話番号入力フィールド
-            phoneNumberField
-            
-            // プライバシーポリシー同意チェックボックス
-            privacyPolicyCheckbox
+            // 認証番号入力フィールド
+            verificationCodeField
         }
         .padding(.top, Spacing.unrelatedComponentDivider)
         .padding(.horizontal, Spacing.screenEdgePadding)
@@ -180,53 +203,41 @@ struct SignUpFormView: View {
         .animation(.spring(response: 0.8, dampingFraction: 0.8).delay(0.9), value: formAppeared)
     }
     
-    /// 電話番号入力フィールド
-    private var phoneNumberField: some View {
+    /// 認証番号入力フィールド
+    private var verificationCodeField: some View {
         VStack(alignment: .leading, spacing: Spacing.componentGrouping) {
             IlluMefyPlainTextField(
-                text: $viewModel.phoneNumber,
-                placeHolder: L10n.PhoneNumberRegistration.Input.PhoneNumber.textfield,
-                label: L10n.PhoneNumberRegistration.Input.PhoneNumber.label,
+                text: $viewModel.verificationCode,
+                placeHolder: L10n.PhoneVerification.Input.VerificationCode.textfield,
+                label: L10n.PhoneVerification.Input.VerificationCode.label,
                 isRequired: true
             )
-            .keyboardType(.phonePad)
-            .focused($isPhoneFocused)
+            .keyboardType(.numberPad)
+            .focused($isCodeFocused)
             // フォーカス時の拡大エフェクト
-            .scaleEffect(isPhoneFocused ? 1.02 : 1.0)
-            .animation(.spring(response: 0.3, dampingFraction: 0.7), value: isPhoneFocused)
+            .scaleEffect(isCodeFocused ? 1.02 : 1.0)
+            .animation(.spring(response: 0.3, dampingFraction: 0.7), value: isCodeFocused)
+            .onChange(of: viewModel.verificationCode) { _, newValue in
+                // 6桁制限
+                if newValue.count > 6 {
+                    viewModel.verificationCode = String(newValue.prefix(6))
+                }
+            }
         }
     }
     
-    /// プライバシーポリシー同意チェックボックス
-    private var privacyPolicyCheckbox: some View {
-        IlluMefyCardNormal {
-            IlluMefyCheckbox(
-                isChecked: $isPrivacyPolicyAgreed,
-                title: L10n.PhoneNumberRegistration.Checkbox.privacyPolicy
-            )
-            .padding(.vertical, Spacing.componentGrouping)
-        }
-        // チェック時の拡大とボーダーハイライト
-        .scaleEffect(isPrivacyPolicyAgreed ? 1.02 : 1.0)
-        .overlay(
-            RoundedRectangle(cornerRadius: 12)
-                .stroke(
-                    isPrivacyPolicyAgreed ? 
-                    Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor : Color.clear,
-                    lineWidth: 2
-                )
-                .animation(.easeInOut(duration: 0.3), value: isPrivacyPolicyAgreed)
-        )
-    }
-                
+    
     /// アクションセクション（ボタンとリンク）
     private var actionSection: some View {
         VStack(spacing: Spacing.relatedComponentDivider) {
-            // メインアクションボタン（認証へ進む）
+            // メインアクションボタン（アカウント登録完了）
             primaryActionButton
-                    
-            // ログインリンク
-            loginLink
+            
+            // 認証番号再送信ボタン
+            resendCodeButton
+            
+            // 戻るリンク
+            backLink
         }
         .padding(.top, Spacing.unrelatedComponentDivider)
         .padding(.bottom, Spacing.screenEdgePadding * 2)
@@ -236,7 +247,7 @@ struct SignUpFormView: View {
     private var primaryActionButton: some View {
         ZStack {
             // ボタンが有効な時のパルスエフェクト
-            if !viewModel.phoneNumber.isEmpty && isPrivacyPolicyAgreed {
+            if viewModel.isRegisterButtonEnabled {
                 RoundedRectangle(cornerRadius: 12)
                     .fill(Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor.opacity(0.3))
                     .frame(height: 56)
@@ -247,20 +258,20 @@ struct SignUpFormView: View {
                     .animation(
                         .easeInOut(duration: 1.5)
                             .repeatForever(autoreverses: true),
-                        value: isPrivacyPolicyAgreed
+                        value: viewModel.isRegisterButtonEnabled
                     )
             }
             
             // メインボタン
             IlluMefyButton(
-                title: L10n.PhoneNumberRegistration.Button.verification,
-                isEnabled: !viewModel.phoneNumber.isEmpty && isPrivacyPolicyAgreed,
+                title: L10n.PhoneVerification.Button.register,
+                isEnabled: viewModel.isRegisterButtonEnabled,
                 action: {
                     // 触覚フィードバック（中程度の強さ）
                     let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
                     impactFeedback.impactOccurred()
                     Task {
-                        await viewModel.sendAuthenticationCode()
+                        await viewModel.registerAccount()
                     }
                 }
             )
@@ -268,41 +279,62 @@ struct SignUpFormView: View {
             // 条件付きシャドウ（有効時はより強く）
             .shadow(
                 color: Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor.opacity(0.3),
-                radius: !viewModel.phoneNumber.isEmpty && isPrivacyPolicyAgreed ? 15 : 10,
-                y: !viewModel.phoneNumber.isEmpty && isPrivacyPolicyAgreed ? 8 : 5
+                radius: viewModel.isRegisterButtonEnabled ? 15 : 10,
+                y: viewModel.isRegisterButtonEnabled ? 8 : 5
             )
-            .animation(.spring(response: 0.4, dampingFraction: 0.7), value: isPrivacyPolicyAgreed)
+            .animation(.spring(response: 0.4, dampingFraction: 0.7), value: viewModel.isRegisterButtonEnabled)
         }
     }
     
-    /// ログインリンクセクション
-    private var loginLink: some View {
-        HStack {
-            // プレフィックステキスト
-            Text(L10n.PhoneNumberRegistration.Link.prefix)
-                .font(.footnote)
-                .foregroundColor(Asset.Color.Application.foreground.swiftUIColor.opacity(0.6))
-            
-            // ログインリンクボタン
-            Button(
-                action: {
-                    router.navigate(to: .login)
-                },
-                label: {
-                    Text(L10n.PhoneNumberRegistration.Link.login)
+    /// 認証番号再送信ボタン
+    private var resendCodeButton: some View {
+        Button(
+            action: {
+                Task {
+                    await viewModel.resendVerificationCode()
+                }
+            },
+            label: {
+                if viewModel.resendCooldownSeconds > 0 {
+                    Text("\(L10n.PhoneVerification.Button.resendCode) (\(viewModel.resendCooldownSeconds)秒)")
+                        .font(.footnote)
+                        .fontWeight(.semibold)
+                        .foregroundColor(Asset.Color.Application.foreground.swiftUIColor.opacity(0.5))
+                } else {
+                    Text(L10n.PhoneVerification.Button.resendCode)
                         .font(.footnote)
                         .fontWeight(.semibold)
                         .foregroundColor(Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor)
                 }
-            )
-        }
+            }
+        )
+        .disabled(!viewModel.isResendButtonEnabled)
         .padding(.top, Spacing.componentGrouping)
+    }
+    
+    /// 戻るリンク
+    private var backLink: some View {
+        Button(
+            action: {
+                router.navigateBack()
+            },
+            label: {
+                Text(L10n.PhoneVerification.Link.back)
+                    .font(.footnote)
+                    .fontWeight(.semibold)
+                    .foregroundColor(Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor)
+            }
+        )
+        .padding(.top, Spacing.componentGrouping / 2)
     }
 }
 
 // MARK: - Preview
 
 #Preview {
-    PhoneNumberRegistrationView()
-        .environmentObject(IlluMefyAppRouter())
+    PhoneVerificationView(
+        verificationID: "test-verification-id",
+        phoneNumber: "09012345678"
+    )
+    .environmentObject(IlluMefyAppRouter())
 }

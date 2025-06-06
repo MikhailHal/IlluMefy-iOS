@@ -87,4 +87,21 @@
 "phoneAuth.error.verificationCodeExpired" = "認証コードの有効期限が切れています";
 "phoneAuth.error.quotaExceeded" = "送信制限に達しました。しばらく待ってから再試行してください";
 "phoneAuth.error.internalError" = "システムエラーが発生しました";
-"phoneAuth.error.unknownError" = "予期しないエラーが発生しました"; 
+"phoneAuth.error.unknownError" = "予期しないエラーが発生しました";
+
+/* PhoneVerification */
+"phoneVerification.title" = "認証番号を入力してください ";
+"phoneVerification.description.line1" = "送られた6桁の認証番号を入力してください。";
+"phoneVerification.description.line2" = "届かない場合は迷惑メールフォルダをご確認ください。";
+"phoneVerification.input.verificationCode.label" = "認証番号";
+"phoneVerification.input.verificationCode.textfield" = "6桁の認証番号";
+"phoneVerification.button.register" = "アカウント登録完了";
+"phoneVerification.button.resendCode" = "認証番号を再送信";
+"phoneVerification.link.back" = "戻る";
+"phoneVerification.message.accountCreated" = "アカウントが作成されました";
+
+/* PhoneVerification Errors */
+"phoneVerification.error.invalidVerificationCode" = "認証番号が正しくありません";
+"phoneVerification.error.verificationCodeExpired" = "認証番号の有効期限が切れています";
+"phoneVerification.error.resendCooldown" = "しばらく待ってから再送信してください";
+ 

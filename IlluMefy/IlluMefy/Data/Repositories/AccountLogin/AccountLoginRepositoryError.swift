@@ -8,38 +8,89 @@
 import Foundation
 import FirebaseAuth
 
-struct AccountLoginRepositoryError: RepositoryErrorProtocol {
-    let code: Int
-    let message: String
-    let underlyingError: Error?
+enum AccountLoginRepositoryError: RepositoryErrorProtocol {
+    case wrongPassword
+    case invalidCredential
+    case invalidEmail
+    case userNotFound
+    case userDisabled
+    case tooManyRequests
+    case networkError
+    case userAlreadyExists
+    case unknownError
+    
+    var code: Int {
+        switch self {
+        case .wrongPassword:
+            return AuthErrorCode.wrongPassword.rawValue
+        case .invalidCredential:
+            return AuthErrorCode.invalidCredential.rawValue
+        case .invalidEmail:
+            return AuthErrorCode.invalidEmail.rawValue
+        case .userNotFound:
+            return AuthErrorCode.userNotFound.rawValue
+        case .userDisabled:
+            return AuthErrorCode.userDisabled.rawValue
+        case .tooManyRequests:
+            return AuthErrorCode.tooManyRequests.rawValue
+        case .networkError:
+            return AuthErrorCode.networkError.rawValue
+        case .userAlreadyExists:
+            return AuthErrorCode.emailAlreadyInUse.rawValue
+        case .unknownError:
+            return 99999
+        }
+    }
+    
+    var message: String {
+        switch self {
+        case .wrongPassword:
+            return ErrorMessages.Auth.wrongPassword
+        case .invalidCredential:
+            return ErrorMessages.Auth.invalidCredential
+        case .invalidEmail:
+            return ErrorMessages.Auth.invalidEmail
+        case .userNotFound:
+            return ErrorMessages.Auth.userNotFound
+        case .userDisabled:
+            return ErrorMessages.Auth.userDisabled
+        case .tooManyRequests:
+            return ErrorMessages.Auth.tooManyRequests
+        case .networkError:
+            return ErrorMessages.Auth.networkError
+        case .userAlreadyExists:
+            return L10n.PhoneAuth.Error.unknownError
+        case .unknownError:
+            return ErrorMessages.Auth.unknownError
+        }
+    }
+    
+    var underlyingError: Error? {
+        return nil
+    }
     
     static func from(_ error: Error) -> AccountLoginRepositoryError {
         let nsError = error as NSError
-        return AccountLoginRepositoryError(
-            code: nsError.code,
-            message: getErrorMessage(for: nsError.code),
-            underlyingError: error
-        )
-    }
-    
-    private static func getErrorMessage(for code: Int) -> String {
-        switch code {
+        
+        switch nsError.code {
         case AuthErrorCode.wrongPassword.rawValue:
-            return ErrorMessages.Auth.wrongPassword
+            return .wrongPassword
         case AuthErrorCode.invalidCredential.rawValue:
-            return ErrorMessages.Auth.invalidCredential
+            return .invalidCredential
         case AuthErrorCode.invalidEmail.rawValue:
-            return ErrorMessages.Auth.invalidEmail
+            return .invalidEmail
         case AuthErrorCode.userNotFound.rawValue:
-            return ErrorMessages.Auth.userNotFound
+            return .userNotFound
         case AuthErrorCode.userDisabled.rawValue:
-            return ErrorMessages.Auth.userDisabled
+            return .userDisabled
         case AuthErrorCode.tooManyRequests.rawValue:
-            return ErrorMessages.Auth.tooManyRequests
+            return .tooManyRequests
         case AuthErrorCode.networkError.rawValue:
-            return ErrorMessages.Auth.networkError
+            return .networkError
+        case AuthErrorCode.emailAlreadyInUse.rawValue:
+            return .userAlreadyExists
         default:
-            return ErrorMessages.Auth.unknownError
+            return .unknownError
         }
     }
 }

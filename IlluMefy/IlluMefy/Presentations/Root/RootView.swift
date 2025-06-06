@@ -33,6 +33,8 @@ struct ContentView: View {
                         HomeBaseView {
                             Text("Hello World")
                         }
+                    case .phoneVerification(let verificationID, let phoneNumber):
+                        PhoneVerificationView(verificationID: verificationID, phoneNumber: phoneNumber)
                     }
                 }
             }.environmentObject(router)

@@ -90,6 +90,18 @@ final class DependencyContainer: @unchecked Sendable {
             return SendPhoneVerificationUseCase(phoneAuthRepository: phoneAuthRepository)
         }.inObjectScope(.transient)
         
+        // VerifyPhoneAuthCode usecase
+        container.register(VerifyPhoneAuthCodeUseCase.self) { resolver in
+            let phoneAuthRepository = resolver.resolve(PhoneAuthRepositoryProtocol.self)!
+            return VerifyPhoneAuthCodeUseCase(phoneAuthRepository: phoneAuthRepository)
+        }.inObjectScope(.transient)
+        
+        // RegisterAccount usecase
+        container.register(RegisterAccountUseCase.self) { resolver in
+            let accountLoginRepository = resolver.resolve(AccountLoginRepositoryProtocol.self)!
+            return RegisterAccountUseCase(accountLoginRepository: accountLoginRepository)
+        }.inObjectScope(.transient)
+        
         // Protocol registrations for use cases
         container.register((any AccountLoginUseCaseProtocol).self) { resolver in
             resolver.resolve(AccountLoginUseCase.self)!
@@ -105,6 +117,14 @@ final class DependencyContainer: @unchecked Sendable {
         
         container.register((any SendPhoneVerificationUseCaseProtocol).self) { resolver in
             resolver.resolve(SendPhoneVerificationUseCase.self)!
+        }.inObjectScope(.transient)
+        
+        container.register((any VerifyPhoneAuthCodeUseCaseProtocol).self) { resolver in
+            resolver.resolve(VerifyPhoneAuthCodeUseCase.self)!
+        }.inObjectScope(.transient)
+        
+        container.register((any RegisterAccountUseCaseProtocol).self) { resolver in
+            resolver.resolve(RegisterAccountUseCase.self)!
         }.inObjectScope(.transient)
     }
     ///

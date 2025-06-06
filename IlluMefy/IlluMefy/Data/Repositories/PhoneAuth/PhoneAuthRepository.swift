@@ -56,6 +56,28 @@ final class PhoneAuthRepository: PhoneAuthRepositoryProtocol {
         }
     }
     
+    /// 認証コードを検証（サインインなし）
+    func verifyPhoneAuthCode(request: VerifyPhoneAuthCodeRequest) async throws -> VerifyPhoneAuthCodeResponse {
+        do {
+            // Firebase認証のCredentialを生成
+            let credential = PhoneAuthProvider.provider().credential(
+                withVerificationID: request.verificationID,
+                verificationCode: request.verificationCode
+            )
+            
+            // Credentialの妥当性をテストするために一時的にサインインを試みる
+            // ただし、実際のサインインはアカウント作成時に行う
+            let authResult = try await Auth.auth().signIn(with: credential)
+            
+            // 即座にサインアウトして、アカウント作成処理で使えるようにする
+            try Auth.auth().signOut()
+            
+            return VerifyPhoneAuthCodeResponse(credential: credential)
+        } catch {
+            throw mapFirebaseError(error)
+        }
+    }
+    
     // MARK: - Private Methods
     
     /// Firebaseエラーをリポジトリエラーにマッピング

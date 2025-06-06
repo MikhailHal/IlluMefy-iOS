@@ -19,4 +19,26 @@ final class AccountLoginRepository: AccountLoginRepositoryProtocol {
             throw AccountLoginRepositoryError.from(error)
         }
     }
+    
+    func createAccount(request: CreateAccountRequest) async throws -> CreateAccountResponse {
+        do {
+            // Firebase Phone Auth credentialを使用してサインイン
+            guard let credential = request.credential as? PhoneAuthCredential else {
+                throw AccountLoginRepositoryError.invalidCredential
+            }
+            
+            let authResult = try await Auth.auth().signIn(with: credential)
+            let user = authResult.user
+            
+            // 追加のユーザー情報をFirestoreなどに保存する場合はここで実行
+            // 例: Firestore.firestore().collection("users").document(user.uid).setData(...)
+            
+            return CreateAccountResponse(
+                userID: user.uid,
+                phoneNumber: request.phoneNumber
+            )
+        } catch {
+            throw AccountLoginRepositoryError.from(error)
+        }
+    }
 }

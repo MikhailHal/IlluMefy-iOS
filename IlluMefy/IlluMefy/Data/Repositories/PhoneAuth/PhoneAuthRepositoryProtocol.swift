@@ -20,4 +20,10 @@ protocol PhoneAuthRepositoryProtocol: Sendable {
     /// - Returns: 検証レスポンス
     /// - Throws: PhoneAuthRepositoryError
     func verifyCode(request: VerifyCodeRequest) async throws -> VerifyCodeResponse
+    
+    /// 認証コードを検証（サインインなし）
+    /// - Parameter request: 検証リクエスト
+    /// - Returns: 検証レスポンス（credential含む）
+    /// - Throws: PhoneAuthRepositoryError
+    func verifyPhoneAuthCode(request: VerifyPhoneAuthCodeRequest) async throws -> VerifyPhoneAuthCodeResponse
 }

@@ -50,4 +50,13 @@ final class MockPhoneAuthRepository: PhoneAuthRepositoryProtocol, @unchecked Sen
         
         return VerifyCodeResponse(userID: expectedUserID)
     }
+    
+    /// 認証コードを検証（サインインなし）
+    func verifyPhoneAuthCode(request: VerifyPhoneAuthCodeRequest) async throws -> VerifyPhoneAuthCodeResponse {
+        if let error = verifyCodeError {
+            throw error
+        }
+        
+        return VerifyPhoneAuthCodeResponse(credential: "mock-credential")
+    }
 }
