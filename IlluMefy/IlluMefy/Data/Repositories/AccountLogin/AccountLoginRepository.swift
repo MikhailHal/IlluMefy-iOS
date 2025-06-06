@@ -22,10 +22,11 @@ final class AccountLoginRepository: AccountLoginRepositoryProtocol {
     
     func createAccount(request: CreateAccountRequest) async throws -> CreateAccountResponse {
         do {
-            // Firebase Phone Auth credentialを使用してサインイン
-            guard let credential = request.credential as? PhoneAuthCredential else {
-                throw AccountLoginRepositoryError.invalidCredential
-            }
+            // Firebase Phone Auth credentialを生成してサインイン
+            let credential = PhoneAuthProvider.provider().credential(
+                withVerificationID: request.verificationID,
+                verificationCode: request.verificationCode
+            )
             
             let authResult = try await Auth.auth().signIn(with: credential)
             let user = authResult.user

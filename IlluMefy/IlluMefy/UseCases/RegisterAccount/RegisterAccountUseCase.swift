@@ -32,7 +32,8 @@ final class RegisterAccountUseCase: RegisterAccountUseCaseProtocol {
             // リポジトリ用のリクエストを作成
             let repositoryRequest = CreateAccountRequest(
                 phoneNumber: request.phoneNumber,
-                credential: request.credential
+                verificationID: request.verificationID,
+                verificationCode: request.verificationCode
             )
             
             // アカウント作成

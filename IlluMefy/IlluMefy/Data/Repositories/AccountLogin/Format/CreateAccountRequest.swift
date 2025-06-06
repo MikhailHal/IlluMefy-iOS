@@ -14,6 +14,9 @@ struct CreateAccountRequest {
     /// 電話番号
     let phoneNumber: String
     
-    /// Firebase認証のcredential
-    let credential: Any
+    /// Firebase認証のverificationID
+    let verificationID: String
+    
+    /// 認証番号
+    let verificationCode: String
 }

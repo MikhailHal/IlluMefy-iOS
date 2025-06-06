@@ -21,13 +21,11 @@ final class PhoneVerificationViewModel: PhoneVerificationViewModelProtocol {
     @Published var resendCooldownSeconds: Int = 0
     
     /// Firebase認証用のverificationID
-    private let verificationID: String
+    private var verificationID: String
     
     /// 電話番号
     private let phoneNumber: String
     
-    /// 認証番号検証ユースケース
-    private let verifyPhoneAuthCodeUseCase: any VerifyPhoneAuthCodeUseCaseProtocol
     
     /// アカウント登録ユースケース
     private let registerAccountUseCase: any RegisterAccountUseCaseProtocol
@@ -55,13 +53,11 @@ final class PhoneVerificationViewModel: PhoneVerificationViewModelProtocol {
     init(
         verificationID: String,
         phoneNumber: String,
-        verifyPhoneAuthCodeUseCase: any VerifyPhoneAuthCodeUseCaseProtocol,
         registerAccountUseCase: any RegisterAccountUseCaseProtocol,
         sendPhoneVerificationUseCase: any SendPhoneVerificationUseCaseProtocol
     ) {
         self.verificationID = verificationID
         self.phoneNumber = phoneNumber
-        self.verifyPhoneAuthCodeUseCase = verifyPhoneAuthCodeUseCase
         self.registerAccountUseCase = registerAccountUseCase
         self.sendPhoneVerificationUseCase = sendPhoneVerificationUseCase
     }
@@ -72,17 +68,11 @@ final class PhoneVerificationViewModel: PhoneVerificationViewModelProtocol {
         isLoading = true
         
         do {
-            // 認証番号の検証
-            let verifyRequest = VerifyPhoneAuthCodeUseCaseRequest(
-                verificationID: verificationID,
-                verificationCode: verificationCode
-            )
-            let verifyResponse = try await verifyPhoneAuthCodeUseCase.execute(request: verifyRequest)
-            
-            // アカウント登録
+            // アカウント登録（認証番号検証も含む）
             let registerRequest = RegisterAccountUseCaseRequest(
                 phoneNumber: phoneNumber,
-                credential: verifyResponse.credential
+                verificationID: verificationID,
+                verificationCode: verificationCode
             )
             _ = try await registerAccountUseCase.execute(request: registerRequest)
             
@@ -90,9 +80,6 @@ final class PhoneVerificationViewModel: PhoneVerificationViewModelProtocol {
             notificationDialogMessage = L10n.PhoneVerification.Message.accountCreated
             isShowNotificationDialog = true
             
-        } catch let error as VerifyPhoneAuthCodeUseCaseError {
-            errorDialogMessage = error.errorDescription ?? L10n.PhoneAuth.Error.unknownError
-            isShowErrorDialog = true
         } catch let error as RegisterAccountUseCaseError {
             errorDialogMessage = error.errorDescription ?? L10n.PhoneAuth.Error.unknownError
             isShowErrorDialog = true
@@ -109,7 +96,13 @@ final class PhoneVerificationViewModel: PhoneVerificationViewModelProtocol {
         
         do {
             let request = SendPhoneVerificationUseCaseRequest(phoneNumber: phoneNumber)
-            _ = try await sendPhoneVerificationUseCase.execute(request: request)
+            let response = try await sendPhoneVerificationUseCase.execute(request: request)
+            
+            // 新しいverificationIDを更新
+            verificationID = response.verificationID
+            
+            // 入力済みの認証番号をクリア（新しいコードを入力してもらうため）
+            verificationCode = ""
             
             // クールダウン開始
             startResendCooldown()

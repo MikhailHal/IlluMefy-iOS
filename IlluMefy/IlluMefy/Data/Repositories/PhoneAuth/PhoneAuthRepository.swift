@@ -65,13 +65,7 @@ final class PhoneAuthRepository: PhoneAuthRepositoryProtocol {
                 verificationCode: request.verificationCode
             )
             
-            // Credentialの妥当性をテストするために一時的にサインインを試みる
-            // ただし、実際のサインインはアカウント作成時に行う
-            let authResult = try await Auth.auth().signIn(with: credential)
-            
-            // 即座にサインアウトして、アカウント作成処理で使えるようにする
-            try Auth.auth().signOut()
-            
+            // Credentialをそのまま返す（実際のサインインはAccountLoginRepositoryで行う）
             return VerifyPhoneAuthCodeResponse(credential: credential)
         } catch {
             throw mapFirebaseError(error)
