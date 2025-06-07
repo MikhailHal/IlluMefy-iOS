@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  ParentView.swift
 //  IlluMefy
 //
 //  Created by Haruto K. on 2025/02/09.
@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 
-struct ContentView: View {
+struct ParentView: View {
     @Environment(\.modelContext) private var modelContext
     @EnvironmentObject var router: IlluMefyAppRouter
     

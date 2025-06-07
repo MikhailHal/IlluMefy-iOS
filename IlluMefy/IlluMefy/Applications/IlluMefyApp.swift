@@ -94,7 +94,7 @@ struct IlluMefyApp: App {
     @StateObject private var router = IlluMefyAppRouter()
     var body: some Scene {
         WindowGroup {
-            ContentView().environmentObject(router)
+            ParentView().environmentObject(router)
         }
     }
 }
