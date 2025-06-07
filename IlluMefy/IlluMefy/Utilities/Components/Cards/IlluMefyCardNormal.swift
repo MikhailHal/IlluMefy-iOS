@@ -18,7 +18,7 @@ struct IlluMefyCardNormal<Content: View>: View {
             content
         }
         .padding(Spacing.cardEdgePadding)
-        .background(Color("Background/Card"))
+        .background(Asset.Color.Application.Background.background.swiftUIColor)
         .cornerRadius(8)
         .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 2)
     }

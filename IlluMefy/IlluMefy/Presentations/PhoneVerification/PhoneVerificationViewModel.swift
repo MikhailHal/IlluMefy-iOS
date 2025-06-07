@@ -25,8 +25,7 @@ final class PhoneVerificationViewModel: PhoneVerificationViewModelProtocol {
     
     /// 電話番号
     private let phoneNumber: String
-    
-    
+
     /// アカウント登録ユースケース
     private let registerAccountUseCase: any RegisterAccountUseCaseProtocol
     
@@ -116,8 +115,6 @@ final class PhoneVerificationViewModel: PhoneVerificationViewModelProtocol {
     }
     
     // MARK: - Private Methods
-    
-    
     private func startResendCooldown() {
         resendCooldownSeconds = 60
         

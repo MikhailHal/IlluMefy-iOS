@@ -44,7 +44,7 @@ struct ContentView: View {
         }
         .onAppear {
             Task {
-                await loginViewModel.initializeStoedLoginAccountData()
+                await loginViewModel.initializeStoredLoginAccountData()
             }
         }
     }

@@ -9,6 +9,22 @@ import Combine
 
 @MainActor
 class LoginViewModel: LoginViewModelProtocol {
+    func initializeStoredLoginAccountData() async {
+        let storeData = getStoreLoginAccountInLocalUseCase.getStoreData()
+        if storeData.isStore == true {
+            await MainActor.run {
+                phoneNumber = storeData.email // Note: Keeping email field for backward compatibility with stored data
+                password = storeData.password
+                isStoreLoginInformation = true
+                hasStoredLoginInfo = true
+            }
+        } else {
+            await MainActor.run {
+                hasStoredLoginInfo = false
+            }
+        }
+    }
+    
     var setStoreLoginAccountInLocalUseCase: any SetStoreLoginAccountInLocalUseCaseProtocol
     var getStoreLoginAccountInLocalUseCase: any GetStoreLoginAccountInLocalUseCaseProtocol
     var loginUseCase: any AccountLoginUseCaseProtocol
@@ -34,23 +50,7 @@ class LoginViewModel: LoginViewModelProtocol {
         self.setStoreLoginAccountInLocalUseCase = setStoreLoginAccountInLocalUseCase
         self.getStoreLoginAccountInLocalUseCase = getStoreLoginAccountInLocalUseCase
     }
-    
-    func initializeStoedLoginAccountData() async {
-        let storeData = getStoreLoginAccountInLocalUseCase.getStoreData()
-        if storeData.isStore == true {
-            await MainActor.run {
-                phoneNumber = storeData.email // Note: Keeping email field for backward compatibility with stored data
-                password = storeData.password
-                isStoreLoginInformation = true
-                hasStoredLoginInfo = true
-            }
-        } else {
-            await MainActor.run {
-                hasStoredLoginInfo = false
-            }
-        }
-    }
-    
+
     func login() async {
         do {
             let (phoneNumber, password, isStoreLoginInformation) = await MainActor.run {

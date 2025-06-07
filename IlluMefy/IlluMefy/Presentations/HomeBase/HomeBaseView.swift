@@ -18,10 +18,10 @@ struct HomeBaseView<ContentView: View>: View {
     private func configureNavigationBarAppearance() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = UIColor.Application.Background.background
+        appearance.backgroundColor = Asset.Color.Application.Background.background.color
         appearance.titleTextAttributes = [
             .font: UIFont.preferredFont(forTextStyle: .title3),
-            .foregroundColor: Asset.Color.Application.foreground
+            .foregroundColor: Asset.Color.Application.foreground.color
         ]
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
@@ -73,5 +73,8 @@ private struct TabBarView: View {
     }
 }
 #Preview {
-    HomeBaseView(content: {}).environmentObject(IlluMefyAppRouter())
+    HomeBaseView {
+        Text("Preview Content")
+    }
+    .environmentObject(IlluMefyAppRouter())
 }

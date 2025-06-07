@@ -16,5 +16,11 @@ protocol LoginViewModelProtocol: ObservableObject {
     var errorDialogMessage: String { get set }
     var isShowNotificationDialog: Bool { get set }
     var notificationDialogMessage: String { get set }
+    var phoneNumber: String { get set }
+    var password: String { get set }
+    var isStoreLoginInformation: Bool { get set }
+    var hasStoredLoginInfo: Bool { get set }
+    var isValid: Bool { get }
     func login() async
+    func initializeStoredLoginAccountData() async
 }

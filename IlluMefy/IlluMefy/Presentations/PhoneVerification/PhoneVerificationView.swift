@@ -111,8 +111,7 @@ struct VerificationFormView: View {
     
     /// 認証番号フィールドのフォーカス状態
     @FocusState private var isCodeFocused: Bool
-    
-    
+
     // MARK: - Body
     
     var body: some View {
@@ -223,8 +222,7 @@ struct VerificationFormView: View {
             }
         }
     }
-    
-    
+
     /// アクションセクション（ボタンとリンク）
     private var actionSection: some View {
         VStack(spacing: Spacing.relatedComponentDivider) {

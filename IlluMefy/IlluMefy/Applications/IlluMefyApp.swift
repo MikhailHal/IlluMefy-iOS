@@ -24,8 +24,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     #endif
     
     // Firebase Phone Auth用の最小限の通知設定
-    // テスト実行中は設定をスキップ
-    guard ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil else { 
+    // テスト実行中またはプレビュー実行中は設定をスキップ
+    guard ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil &&
+          ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] != "1" else { 
       return true 
     }
     
@@ -38,8 +39,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
   
   // APNsトークンをFirebaseに登録
   func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-    // テスト実行中はFirebaseの呼び出しをスキップ
-    guard ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil else { return }
+    // テスト実行中またはプレビュー実行中はFirebaseの呼び出しをスキップ
+    guard ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil &&
+          ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] != "1" else { return }
     
     // Firebase Phone Auth用にAPNsトークンを登録
     Auth.auth().setAPNSToken(deviceToken, type: .unknown)
@@ -49,8 +51,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
   func application(_ application: UIApplication,
                    didReceiveRemoteNotification userInfo: [AnyHashable: Any],
                    fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-    // テスト実行中はFirebaseの呼び出しをスキップ
-    guard ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil else { 
+    // テスト実行中またはプレビュー実行中はFirebaseの呼び出しをスキップ
+    guard ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil &&
+          ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] != "1" else { 
       completionHandler(.noData)
       return 
     }
@@ -67,17 +70,19 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 }
 
 // Firebase Phone Auth専用のUNUserNotificationCenterDelegate実装
-extension AppDelegate: @preconcurrency UNUserNotificationCenterDelegate {
-  nonisolated func userNotificationCenter(_ center: UNUserNotificationCenter,
-                              willPresent notification: UNNotification,
-                              withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+extension AppDelegate: UNUserNotificationCenterDelegate {
+  nonisolated func userNotificationCenter(
+    _ center: UNUserNotificationCenter,
+    willPresent notification: UNNotification,
+    withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
     // Firebase Phone Auth以外の通知は表示しない
     completionHandler([])
   }
   
-  nonisolated func userNotificationCenter(_ center: UNUserNotificationCenter,
-                              didReceive response: UNNotificationResponse,
-                              withCompletionHandler completionHandler: @escaping () -> Void) {
+  nonisolated func userNotificationCenter(
+    _ center: UNUserNotificationCenter,
+    didReceive response: UNNotificationResponse,
+    withCompletionHandler completionHandler: @escaping () -> Void) {
     // 通知タップ時の処理（Firebase Phone Authでは不要）
     completionHandler()
   }

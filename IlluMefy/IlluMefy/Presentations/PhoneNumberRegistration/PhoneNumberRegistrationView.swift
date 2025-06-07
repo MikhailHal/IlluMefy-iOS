@@ -329,3 +329,10 @@ struct SignUpFormView: View {
         }
     }
 }
+
+// MARK: - Previews
+
+#Preview {
+    PhoneNumberRegistrationView()
+        .environmentObject(IlluMefyAppRouter())
+}

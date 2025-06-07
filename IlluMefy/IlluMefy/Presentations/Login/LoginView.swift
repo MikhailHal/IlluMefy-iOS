@@ -109,7 +109,7 @@ struct LoginView: View {
         }
         .onAppear {
             Task {
-                await viewModel.initializeStoedLoginAccountData()
+                await viewModel.initializeStoredLoginAccountData()
             }
         }
     }

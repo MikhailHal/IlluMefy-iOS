@@ -68,7 +68,6 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
-				swiftgen_sendable_template.stencil,
 			);
 			target = 645EBCFD2D58F9C600AC7BAC /* IlluMefy */;
 		};
@@ -102,22 +101,11 @@
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
-/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-		6489883C2DEF561000C10C85 /* Exceptions for "IlluMefy" folder in "Compile Sources" phase from "IlluMefy" target */ = {
-			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
-			buildPhase = 645EBCFA2D58F9C600AC7BAC /* Sources */;
-			membershipExceptions = (
-				swiftgen_sendable_template.stencil,
-			);
-		};
-/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		645EBD002D58F9C600AC7BAC /* IlluMefy */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				642474C32DCA6B6600292C52 /* Exceptions for "IlluMefy" folder in "IlluMefy" target */,
-				6489883C2DEF561000C10C85 /* Exceptions for "IlluMefy" folder in "Compile Sources" phase from "IlluMefy" target */,
 				64EF85B82D6E099F00C9732A /* Exceptions for "IlluMefy" folder in "IlluMefyTests" target */,
 				64EF85B92D6E099F00C9732A /* Exceptions for "IlluMefy" folder in "IlluMefyUITests" target */,
 			);
