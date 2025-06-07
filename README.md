@@ -45,18 +45,18 @@ xcodebuild test -scheme IlluMefy -destination 'platform=iOS Simulator,name=iPhon
 
 ## What's this app?
 IlluMefy is a cross-platform mobile application (iOS/Android) developed by MikhailHal.  
-It helps users discover gaming influencers through community-driven tagging (folksonomy).  
-Its key feature is allowing users to add tags to influencers, creating a collective intelligence system for finding content creators.  
-The reason for developing it is to offer more authentic, personalized ways to discover influencers beyond algorithmic recommendations.  
+It helps users discover gaming creators through community-driven tagging (folksonomy).  
+Its key feature is allowing users to add tags to creators, creating a collective intelligence system for finding content creators.  
+The reason for developing it is to offer more authentic, personalized ways to discover creators beyond algorithmic recommendations.  
 Discovery Through Community Wisdom
 IlluMefy harnesses the power of folksonomy - a collaborative tagging system where users collectively categorize content. The name "IlluMefy" combines "Illuminate" (to shed light on) with "Me" and "-fy" (to extend to others), reflecting our mission to illuminate both your preferences and the wider community's wisdom.
 
 ## 🌟 Key Features
 
-* Folksonomy-Based Discovery: Find gaming influencers based on community tags, not algorithms or paid promotions
+* Folksonomy-Based Discovery: Find gaming creators based on community tags, not algorithms or paid promotions
 * Personalized Recommendations: Discover content creators who match your specific interests and play style
-* Community-Driven Tags: Add meaningful tags to influencers and help others find exactly what they're looking for
-* Tag Exploration: Browse popular tags to discover new influencers across different games, styles, and content types
+* Community-Driven Tags: Add meaningful tags to creators and help others find exactly what they're looking for
+* Tag Exploration: Browse popular tags to discover new creators across different games, styles, and content types
 * Intuitive Interface: Navigate seamlessly through our clean, modern design in both light and dark modes
 
 ## 🚀 Our Vision
