@@ -64,7 +64,7 @@ private struct TabBarView: View {
                     Image(systemName: "person.crop.circle.fill.badge.plus")
                     Text("グループ")
                 }
-            LoginView()
+            PhoneNumberRegistrationView()
                 .tabItem {
                     Image(systemName: "gearshape.fill")
                     Text("設定")

@@ -142,18 +142,5 @@ final class DependencyContainer: @unchecked Sendable {
                 )
             }
         }.inObjectScope(.transient)
-        // Login screen
-        container.register(LoginViewModel.self) { resolver in
-            let loginUseCase = resolver.resolve((any AccountLoginUseCaseProtocol).self)!
-            let setStoreLoginAccountInLocalUseCase = resolver.resolve((any SetStoreLoginAccountInLocalUseCaseProtocol).self)!
-            let getStoreLoginAccountInLocalUseCase = resolver.resolve((any GetStoreLoginAccountInLocalUseCaseProtocol).self)!
-            return MainActor.assumeIsolated {
-                return LoginViewModel(
-                    loginUseCase: loginUseCase,
-                    setStoreLoginAccountInLocalUseCase: setStoreLoginAccountInLocalUseCase,
-                    getStoreLoginAccountInLocalUseCase: getStoreLoginAccountInLocalUseCase
-                )
-            }
-        }.inObjectScope(.transient)
     }
 }

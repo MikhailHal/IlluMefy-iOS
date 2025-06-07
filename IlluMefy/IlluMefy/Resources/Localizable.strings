@@ -22,26 +22,15 @@
 "IlluMefyは食材管理と家族・グループ間での情報共有を目的としたアプリです。ユーザーは個人利用の範囲でサービスを利用することができます。" = "IlluMefyは食材管理と家族・グループ間での情報共有を目的としたアプリです。ユーザーは個人利用の範囲でサービスを利用することができます。";
 "OK" = "OK";
 /* PhoneNumberRegistration */
-"phoneNumberRegistration.title" = "IlluMefyに新規登録 🎉";
-"phoneNumberRegistration.description.line1" = "連絡可能な電話番号を入力してください。";
-"phoneNumberRegistration.description.line2" = "後ほど認証メッセージが送信されます。";
+"phoneNumberRegistration.title" = "電話番号で続行";
+"phoneNumberRegistration.description.line1" = "SMS認証コードをお送りします。";
 "phoneNumberRegistration.input.phoneNumber.label" = "電話番号";
 "phoneNumberRegistration.input.phoneNumber.required" = "必須";
 "phoneNumberRegistration.input.phoneNumber.textfield" = "電話番号を入力";
-"phoneNumberRegistration.button.verification" = "認証番号入力画面へ進む";
-"phoneNumberRegistration.link.login" = "ログインはこちら";
-"phoneNumberRegistration.link.prefix" = "すでにアカウントをお持ちですか？";
+"phoneNumberRegistration.button.verification" = "認証コードを送信";
 "phoneNumberRegistration.checkbox.privacyPolicy" = "プライバシーポリシーに同意します";
 "phoneNumberRegistration.message.verificationCodeSent" = "認証コードを送信しました";
 
-/* Login */
-"login.title" = "おかえりなさい！🏠";
-"login.subtitle.line1" = "IlluMefyにログインして、";
-"login.subtitle.line2" = "お気に入りのインフルエンサーを探しましょう！";
-"login.input.phoneNumber.label" = "電話番号";
-"login.input.phoneNumber.textfield" = "電話番号を入力";
-"login.button.login" = "ログイン";
-"login.link.register" = "アカウント登録はこちら";
 
 /* Common Components */
 "common.textField.required" = "必須";
@@ -95,10 +84,10 @@
 "phoneVerification.description.line2" = "届かない場合は迷惑メールフォルダをご確認ください。";
 "phoneVerification.input.verificationCode.label" = "認証番号";
 "phoneVerification.input.verificationCode.textfield" = "6桁の認証番号";
-"phoneVerification.button.register" = "アカウント登録完了";
+"phoneVerification.button.register" = "認証を完了";
 "phoneVerification.button.resendCode" = "認証番号を再送信";
 "phoneVerification.link.back" = "戻る";
-"phoneVerification.message.accountCreated" = "アカウントが作成されました";
+"phoneVerification.message.accountCreated" = "認証が完了しました";
 
 /* PhoneVerification Errors */
 "phoneVerification.error.invalidVerificationCode" = "認証番号が正しくありません";

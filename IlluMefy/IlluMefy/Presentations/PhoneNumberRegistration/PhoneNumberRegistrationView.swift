@@ -139,24 +139,13 @@ struct SignUpFormView: View {
                 .opacity(formAppeared ? 1 : 0)
                 .animation(.easeOut(duration: 0.6).delay(0.3), value: formAppeared)
             
-            // 説明文（2段階のフェードイン）
-            VStack(spacing: 6) {
-                // 1行目の説明
-                Text(L10n.PhoneNumberRegistration.Description.line1)
-                    .font(.system(.body, design: .rounded))
-                    .foregroundColor(Asset.Color.Application.foreground.swiftUIColor.opacity(0.85))
-                    .offset(y: formAppeared ? 0 : 10)
-                    .opacity(formAppeared ? 1 : 0)
-                    .animation(.easeOut(duration: 0.6).delay(0.5), value: formAppeared)
-                
-                // 2行目の説明
-                Text(L10n.PhoneNumberRegistration.Description.line2)
-                    .font(.system(.callout, design: .rounded))
-                    .foregroundColor(Asset.Color.Application.foreground.swiftUIColor.opacity(0.65))
-                    .offset(y: formAppeared ? 0 : 10)
-                    .opacity(formAppeared ? 1 : 0)
-                    .animation(.easeOut(duration: 0.6).delay(0.7), value: formAppeared)
-            }
+            // 説明文
+            Text(L10n.PhoneNumberRegistration.Description.line1)
+                .font(.system(.body, design: .rounded))
+                .foregroundColor(Asset.Color.Application.foreground.swiftUIColor.opacity(0.85))
+                .offset(y: formAppeared ? 0 : 10)
+                .opacity(formAppeared ? 1 : 0)
+                .animation(.easeOut(duration: 0.6).delay(0.5), value: formAppeared)
             .multilineTextAlignment(.center)
             .padding(.horizontal, Spacing.screenEdgePadding)
         }
@@ -245,9 +234,6 @@ struct SignUpFormView: View {
         VStack(spacing: Spacing.relatedComponentDivider) {
             // メインアクションボタン（認証へ進む）
             primaryActionButton
-                    
-            // ログインリンク
-            loginLink
         }
         .padding(.top, Spacing.unrelatedComponentDivider)
         .padding(.bottom, Spacing.screenEdgePadding * 2)
@@ -296,29 +282,6 @@ struct SignUpFormView: View {
         }
     }
     
-    /// ログインリンクセクション
-    private var loginLink: some View {
-        HStack {
-            // プレフィックステキスト
-            Text(L10n.PhoneNumberRegistration.Link.prefix)
-                .font(.footnote)
-                .foregroundColor(Asset.Color.Application.foreground.swiftUIColor.opacity(0.6))
-            
-            // ログインリンクボタン
-            Button(
-                action: {
-                    router.navigate(to: .login)
-                },
-                label: {
-                    Text(L10n.PhoneNumberRegistration.Link.login)
-                        .font(.footnote)
-                        .fontWeight(.semibold)
-                        .foregroundColor(Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor)
-                }
-            )
-        }
-        .padding(.top, Spacing.componentGrouping)
-    }
     
     // MARK: - Private Methods
     
