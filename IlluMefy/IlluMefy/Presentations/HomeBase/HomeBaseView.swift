@@ -49,22 +49,27 @@ private struct TabBarView: View {
     }
     var body: some View {
         TabView {
-            PhoneNumberRegistrationView()
+            HomeView()
                 .tabItem {
-                    Image(systemName: "fork.knife")
-                    Text("食材一覧")
+                    Image(systemName: "house.fill")
+                    Text("ホーム")
                 }
-            PhoneNumberRegistrationView()
+            FavoriteView()
                 .tabItem {
-                    Image(systemName: "plus.app.fill")
-                    Text("食材追加")
+                    Image(systemName: "star.fill")
+                    Text("お気に入り")
                 }
-            Text("グループ")
+            SearchView()
                 .tabItem {
-                    Image(systemName: "person.crop.circle.fill.badge.plus")
-                    Text("グループ")
+                    Image(systemName: "sparkle.magnifyingglass")
+                    Text("検索")
                 }
-            PhoneNumberRegistrationView()
+            AccountView()
+                .tabItem {
+                    Image(systemName: "person.fill")
+                    Text("アカウント")
+                }
+            SettingView()
                 .tabItem {
                     Image(systemName: "gearshape.fill")
                     Text("設定")
