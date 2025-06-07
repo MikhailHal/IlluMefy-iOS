@@ -26,8 +26,8 @@ final class PhoneVerificationViewModel: PhoneVerificationViewModelProtocol {
     /// 電話番号
     private let phoneNumber: String
 
-    /// アカウント登録ユースケース
-    private let registerAccountUseCase: any RegisterAccountUseCaseProtocol
+    /// 電話番号認証コード検証ユースケース
+    private let verifyPhoneAuthCodeUseCase: any VerifyPhoneAuthCodeUseCaseProtocol
     
     /// 電話番号認証送信ユースケース（再送信用）
     private let sendPhoneVerificationUseCase: any SendPhoneVerificationUseCaseProtocol
@@ -52,12 +52,12 @@ final class PhoneVerificationViewModel: PhoneVerificationViewModelProtocol {
     init(
         verificationID: String,
         phoneNumber: String,
-        registerAccountUseCase: any RegisterAccountUseCaseProtocol,
+        verifyPhoneAuthCodeUseCase: any VerifyPhoneAuthCodeUseCaseProtocol,
         sendPhoneVerificationUseCase: any SendPhoneVerificationUseCaseProtocol
     ) {
         self.verificationID = verificationID
         self.phoneNumber = phoneNumber
-        self.registerAccountUseCase = registerAccountUseCase
+        self.verifyPhoneAuthCodeUseCase = verifyPhoneAuthCodeUseCase
         self.sendPhoneVerificationUseCase = sendPhoneVerificationUseCase
     }
     
@@ -67,19 +67,18 @@ final class PhoneVerificationViewModel: PhoneVerificationViewModelProtocol {
         isLoading = true
         
         do {
-            // アカウント登録（認証番号検証も含む）
-            let registerRequest = RegisterAccountUseCaseRequest(
-                phoneNumber: phoneNumber,
+            // 認証番号検証（Firebase SMS認証では自動でアカウント作成/サインイン）
+            let verifyRequest = VerifyPhoneAuthCodeUseCaseRequest(
                 verificationID: verificationID,
                 verificationCode: verificationCode
             )
-            _ = try await registerAccountUseCase.execute(request: registerRequest)
+            _ = try await verifyPhoneAuthCodeUseCase.execute(request: verifyRequest)
             
             // 成功通知
             notificationDialogMessage = L10n.PhoneVerification.Message.accountCreated
             isShowNotificationDialog = true
             
-        } catch let error as RegisterAccountUseCaseError {
+        } catch let error as VerifyPhoneAuthCodeUseCaseError {
             errorDialogMessage = error.errorDescription ?? L10n.PhoneAuth.Error.unknownError
             isShowErrorDialog = true
         } catch {

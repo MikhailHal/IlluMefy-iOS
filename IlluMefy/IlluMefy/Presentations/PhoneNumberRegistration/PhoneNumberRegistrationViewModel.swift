@@ -15,7 +15,6 @@ class PhoneNumberRegistrationViewModel: PhoneNumberRegistrationViewModelProtocol
     var verificationID: String?
     
     // UseCases
-    var setStoreLoginAccountInLocalUseCase: any SetStoreLoginAccountInLocalUseCaseProtocol
     var sendPhoneVerificationUseCase: any SendPhoneVerificationUseCaseProtocol
     
     // Published properties
@@ -34,10 +33,8 @@ class PhoneNumberRegistrationViewModel: PhoneNumberRegistrationViewModelProtocol
     // MARK: - Initialization
     
     init(
-        setStoreLoginAccountInLocalUseCase: any SetStoreLoginAccountInLocalUseCaseProtocol,
         sendPhoneVerificationUseCase: any SendPhoneVerificationUseCaseProtocol
     ) {
-        self.setStoreLoginAccountInLocalUseCase = setStoreLoginAccountInLocalUseCase
         self.sendPhoneVerificationUseCase = sendPhoneVerificationUseCase
     }
     // MARK: - Methods

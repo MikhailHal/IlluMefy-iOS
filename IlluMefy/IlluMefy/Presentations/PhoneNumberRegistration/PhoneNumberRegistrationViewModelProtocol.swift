@@ -10,7 +10,6 @@ import Combine
 @MainActor
 protocol PhoneNumberRegistrationViewModelProtocol: ObservableObject {
     // UseCases
-    var setStoreLoginAccountInLocalUseCase: any SetStoreLoginAccountInLocalUseCaseProtocol { get set }
     var sendPhoneVerificationUseCase: any SendPhoneVerificationUseCaseProtocol { get set }
     
     // Published properties

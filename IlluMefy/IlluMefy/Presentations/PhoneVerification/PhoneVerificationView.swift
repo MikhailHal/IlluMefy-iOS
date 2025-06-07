@@ -33,13 +33,13 @@ struct PhoneVerificationView: View {
         self.phoneNumber = phoneNumber
         
         // ViewModelの初期化
-        let registerUseCase = DependencyContainer.shared.resolve(RegisterAccountUseCase.self)!
+        let verifyPhoneAuthCodeUseCase = DependencyContainer.shared.resolve(VerifyPhoneAuthCodeUseCase.self)!
         let sendPhoneUseCase = DependencyContainer.shared.resolve(SendPhoneVerificationUseCase.self)!
         
         _viewModel = StateObject(wrappedValue: PhoneVerificationViewModel(
             verificationID: verificationID,
             phoneNumber: phoneNumber,
-            registerAccountUseCase: registerUseCase,
+            verifyPhoneAuthCodeUseCase: verifyPhoneAuthCodeUseCase,
             sendPhoneVerificationUseCase: sendPhoneUseCase
         ))
     }

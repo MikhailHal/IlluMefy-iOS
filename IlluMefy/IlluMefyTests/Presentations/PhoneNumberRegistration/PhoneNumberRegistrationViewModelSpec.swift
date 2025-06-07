@@ -13,16 +13,13 @@ import Nimble
 final class PhoneNumberRegistrationViewModelSpec: QuickSpec, @unchecked Sendable {
     override class func spec() {
         var viewModel: PhoneNumberRegistrationViewModel!
-        var mockSetStoreLoginAccountUseCase: MockSetStoreLoginAccountInLocalUseCase!
         var mockSendPhoneVerificationUseCase: MockSendPhoneVerificationUseCase!
         
         describe("PhoneNumberRegistrationViewModel") {
             beforeEach {
-                mockSetStoreLoginAccountUseCase = MockSetStoreLoginAccountInLocalUseCase()
                 mockSendPhoneVerificationUseCase = MockSendPhoneVerificationUseCase()
                 
                 viewModel = PhoneNumberRegistrationViewModel(
-                    setStoreLoginAccountInLocalUseCase: mockSetStoreLoginAccountUseCase,
                     sendPhoneVerificationUseCase: mockSendPhoneVerificationUseCase
                 )
             }
@@ -45,7 +42,6 @@ final class PhoneNumberRegistrationViewModelSpec: QuickSpec, @unchecked Sendable
                 }
                 
                 it("should have correct use case dependencies") {
-                    expect(viewModel.setStoreLoginAccountInLocalUseCase).toNot(beNil())
                     expect(viewModel.sendPhoneVerificationUseCase).toNot(beNil())
                 }
             }

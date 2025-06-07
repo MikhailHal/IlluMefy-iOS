@@ -14,20 +14,17 @@ final class PhoneVerificationViewModelSpec: QuickSpec, @unchecked Sendable {
     override class func spec() {
         var viewModel: PhoneVerificationViewModel!
         var mockVerifyPhoneAuthCodeUseCase: MockVerifyPhoneAuthCodeUseCase!
-        var mockRegisterAccountUseCase: MockRegisterAccountUseCase!
         var mockSendPhoneVerificationUseCase: MockSendPhoneVerificationUseCase!
         
         describe("PhoneVerificationViewModel") {
             beforeEach {
                 mockVerifyPhoneAuthCodeUseCase = MockVerifyPhoneAuthCodeUseCase()
-                mockRegisterAccountUseCase = MockRegisterAccountUseCase()
                 mockSendPhoneVerificationUseCase = MockSendPhoneVerificationUseCase()
                 
                 viewModel = PhoneVerificationViewModel(
                     verificationID: "test-verification-id",
                     phoneNumber: "09012345678",
                     verifyPhoneAuthCodeUseCase: mockVerifyPhoneAuthCodeUseCase,
-                    registerAccountUseCase: mockRegisterAccountUseCase,
                     sendPhoneVerificationUseCase: mockSendPhoneVerificationUseCase
                 )
             }
@@ -97,10 +94,9 @@ final class PhoneVerificationViewModelSpec: QuickSpec, @unchecked Sendable {
                     viewModel.verificationCode = "123456"
                 }
                 
-                context("when both verification and registration succeed") {
+                context("when verification succeeds") {
                     beforeEach {
                         mockVerifyPhoneAuthCodeUseCase.shouldSucceed = true
-                        mockRegisterAccountUseCase.shouldSucceed = true
                     }
                     
                     it("should complete successfully and show success dialog") {
@@ -114,16 +110,11 @@ final class PhoneVerificationViewModelSpec: QuickSpec, @unchecked Sendable {
                                 expect(viewModel.isLoading).to(beFalse())
                                 
                                 expect(mockVerifyPhoneAuthCodeUseCase.executeCallCount).to(equal(1))
-                                expect(mockRegisterAccountUseCase.executeCallCount).to(equal(1))
                                 
                                 // Verify the verification request
                                 let verifyRequest = mockVerifyPhoneAuthCodeUseCase.lastExecutedRequest
                                 expect(verifyRequest?.verificationID).to(equal("test-verification-id"))
                                 expect(verifyRequest?.verificationCode).to(equal("123456"))
-                                
-                                // Verify the register request
-                                let registerRequest = mockRegisterAccountUseCase.lastExecutedRequest
-                                expect(registerRequest?.phoneNumber).to(equal("09012345678"))
                                 
                                 done()
                             }
@@ -148,7 +139,6 @@ final class PhoneVerificationViewModelSpec: QuickSpec, @unchecked Sendable {
                                 expect(viewModel.isLoading).to(beFalse())
                                 
                                 expect(mockVerifyPhoneAuthCodeUseCase.executeCallCount).to(equal(1))
-                                expect(mockRegisterAccountUseCase.executeCallCount).to(equal(0))
                                 
                                 done()
                             }
@@ -156,31 +146,6 @@ final class PhoneVerificationViewModelSpec: QuickSpec, @unchecked Sendable {
                     }
                 }
                 
-                context("when registration fails") {
-                    beforeEach {
-                        mockVerifyPhoneAuthCodeUseCase.shouldSucceed = true
-                        mockRegisterAccountUseCase.shouldSucceed = false
-                        mockRegisterAccountUseCase.mockError = .networkError
-                    }
-                    
-                    it("should show error dialog") {
-                        waitUntil(timeout: .seconds(3)) { done in
-                            Task {
-                                await viewModel.registerAccount()
-                                
-                                expect(viewModel.isShowErrorDialog).to(beTrue())
-                                expect(viewModel.errorDialogMessage).to(equal(RegisterAccountUseCaseError.networkError.errorDescription))
-                                expect(viewModel.isShowNotificationDialog).to(beFalse())
-                                expect(viewModel.isLoading).to(beFalse())
-                                
-                                expect(mockVerifyPhoneAuthCodeUseCase.executeCallCount).to(equal(1))
-                                expect(mockRegisterAccountUseCase.executeCallCount).to(equal(1))
-                                
-                                done()
-                            }
-                        }
-                    }
-                }
                 
                 context("when unexpected error occurs") {
                     beforeEach {
