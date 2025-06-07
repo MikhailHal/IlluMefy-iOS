@@ -76,12 +76,12 @@
 			membershipExceptions = (
 				Bases/Repositories/RepositoryErrorProtocol.swift,
 				Bases/UseCase/UseCaseErrorProtocol.swift,
+				Domain/UseCases/SendPhoneVerification/Format/SendPhoneVerificationUseCaseRequest.swift,
+				Domain/UseCases/SendPhoneVerification/Format/SendPhoneVerificationUseCaseResponse.swift,
 				Generated/Resources.swift,
 				Generated/Strings.swift,
 				Resources/DesignConstants.swift,
 				Resources/Spacing.swift,
-				UseCases/SendPhoneVerification/Format/SendPhoneVerificationUseCaseRequest.swift,
-				UseCases/SendPhoneVerification/Format/SendPhoneVerificationUseCaseResponse.swift,
 				Utilities/Components/TextFields/IlluMefyPlainTextField.swift,
 				Utilities/Components/TextFields/IlluMefyTextFieldStyles.swift,
 			);
@@ -92,12 +92,12 @@
 			membershipExceptions = (
 				Bases/Repositories/RepositoryErrorProtocol.swift,
 				Bases/UseCase/UseCaseErrorProtocol.swift,
+				Domain/UseCases/SendPhoneVerification/Format/SendPhoneVerificationUseCaseRequest.swift,
+				Domain/UseCases/SendPhoneVerification/Format/SendPhoneVerificationUseCaseResponse.swift,
 				Generated/Resources.swift,
 				Generated/Strings.swift,
 				Resources/DesignConstants.swift,
 				Resources/Spacing.swift,
-				UseCases/SendPhoneVerification/Format/SendPhoneVerificationUseCaseRequest.swift,
-				UseCases/SendPhoneVerification/Format/SendPhoneVerificationUseCaseResponse.swift,
 				Utilities/Components/TextFields/IlluMefyPlainTextField.swift,
 				Utilities/Components/TextFields/IlluMefyTextFieldStyles.swift,
 			);
