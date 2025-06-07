@@ -134,7 +134,7 @@ struct VerificationFormView: View {
                 formAppeared = true
             }
             // 認証番号フィールドに自動フォーカス
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + AnimationParameters.autoFocusDelay) {
                 isCodeFocused = true
             }
         }
@@ -155,30 +155,30 @@ struct VerificationFormView: View {
             
             // タイトル（段階的フェードイン）
             Text(L10n.PhoneVerification.title)
-                .font(.system(size: 32, weight: .bold, design: .rounded))
+                .font(.system(size: Typography.titleMedium, weight: .bold, design: .rounded))
                 .foregroundColor(Asset.Color.Application.foreground.swiftUIColor)
                 .padding(.top, Spacing.componentGrouping)
-                .offset(y: formAppeared ? 0 : 20)
+                .offset(y: formAppeared ? 0 : Layout.titleOffsetY)
                 .opacity(formAppeared ? 1 : 0)
-                .animation(.easeOut(duration: 0.6).delay(0.3), value: formAppeared)
+                .animation(.easeOut(duration: AnimationDuration.medium).delay(AnimationParameters.delayMedium), value: formAppeared)
             
             // 説明文（2段階のフェードイン）
-            VStack(spacing: 6) {
+            VStack(spacing: Layout.descriptionSpacing) {
                 // 1行目の説明
                 Text(L10n.PhoneVerification.Description.line1)
                     .font(.system(.body, design: .rounded))
-                    .foregroundColor(Asset.Color.Application.foreground.swiftUIColor.opacity(0.85))
-                    .offset(y: formAppeared ? 0 : 10)
+                    .foregroundColor(Asset.Color.Application.foreground.swiftUIColor.opacity(Opacity.secondaryText))
+                    .offset(y: formAppeared ? 0 : Layout.subtitleOffsetY)
                     .opacity(formAppeared ? 1 : 0)
-                    .animation(.easeOut(duration: 0.6).delay(0.5), value: formAppeared)
+                    .animation(.easeOut(duration: AnimationDuration.medium).delay(AnimationParameters.delayLong), value: formAppeared)
                 
                 // 2行目の説明
                 Text(L10n.PhoneVerification.Description.line2)
                     .font(.system(.callout, design: .rounded))
-                    .foregroundColor(Asset.Color.Application.foreground.swiftUIColor.opacity(0.65))
-                    .offset(y: formAppeared ? 0 : 10)
+                    .foregroundColor(Asset.Color.Application.foreground.swiftUIColor.opacity(Opacity.tertiaryText))
+                    .offset(y: formAppeared ? 0 : Layout.subtitleOffsetY)
                     .opacity(formAppeared ? 1 : 0)
-                    .animation(.easeOut(duration: 0.6).delay(0.7), value: formAppeared)
+                    .animation(.easeOut(duration: AnimationDuration.medium).delay(AnimationParameters.delayExtraLong), value: formAppeared)
             }
             .multilineTextAlignment(.center)
             .padding(.horizontal, Spacing.screenEdgePadding * 1.5)
@@ -195,9 +195,14 @@ struct VerificationFormView: View {
         .padding(.top, Spacing.unrelatedComponentDivider)
         .padding(.horizontal, Spacing.screenEdgePadding)
         // 横からスライドインするアニメーション
-        .offset(x: formAppeared ? 0 : -50)
+        .offset(x: formAppeared ? 0 : Layout.formOffset)
         .opacity(formAppeared ? 1 : 0)
-        .animation(.spring(response: 0.8, dampingFraction: 0.8).delay(0.9), value: formAppeared)
+        .animation(
+            .spring(
+                response: AnimationParameters.springResponseSlow,
+                dampingFraction: AnimationParameters.springDampingHigh).delay(AnimationParameters.delayVeryLong),
+            value: formAppeared
+        )
     }
     
     /// 認証番号入力フィールド
@@ -212,12 +217,17 @@ struct VerificationFormView: View {
             .keyboardType(.numberPad)
             .focused($isCodeFocused)
             // フォーカス時の拡大エフェクト
-            .scaleEffect(isCodeFocused ? 1.02 : 1.0)
-            .animation(.spring(response: 0.3, dampingFraction: 0.7), value: isCodeFocused)
+            .scaleEffect(isCodeFocused ? Effects.focusScale : 1.0)
+            .animation(
+                .spring(
+                    response: AnimationParameters.springResponse,
+                    dampingFraction: AnimationParameters.springDampingMedium),
+                value: isCodeFocused
+            )
             .onChange(of: viewModel.verificationCode) { _, newValue in
                 // 6桁制限
-                if newValue.count > 6 {
-                    viewModel.verificationCode = String(newValue.prefix(6))
+                if newValue.count > Layout.verificationCodeMaxLength {
+                    viewModel.verificationCode = String(newValue.prefix(Layout.verificationCodeMaxLength))
                 }
             }
         }
@@ -244,15 +254,15 @@ struct VerificationFormView: View {
         ZStack {
             // ボタンが有効な時のパルスエフェクト
             if viewModel.isRegisterButtonEnabled {
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor.opacity(0.3))
-                    .frame(height: 56)
+                RoundedRectangle(cornerRadius: CornerRadius.large)
+                    .fill(Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor.opacity(Opacity.glow))
+                    .frame(height: Layout.buttonFrameHeight)
                     .padding(.horizontal, Spacing.screenEdgePadding)
-                    .blur(radius: 20)
-                    .scaleEffect(1.1)
-                    .opacity(0.5)
+                    .blur(radius: Effects.blurRadiusLarge)
+                    .scaleEffect(Effects.glowScale)
+                    .opacity(Opacity.pulseEffect)
                     .animation(
-                        .easeInOut(duration: 1.5)
+                        .easeInOut(duration: AnimationDuration.verySlow)
                             .repeatForever(autoreverses: true),
                         value: viewModel.isRegisterButtonEnabled
                     )
@@ -274,11 +284,14 @@ struct VerificationFormView: View {
             .padding(.horizontal, Spacing.screenEdgePadding)
             // 条件付きシャドウ（有効時はより強く）
             .shadow(
-                color: Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor.opacity(0.3),
-                radius: viewModel.isRegisterButtonEnabled ? 15 : 10,
-                y: viewModel.isRegisterButtonEnabled ? 8 : 5
+                color: Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor.opacity(Opacity.buttonShadow),
+                radius: viewModel.isRegisterButtonEnabled ? Shadow.radiusLarge : Shadow.radiusMedium,
+                y: viewModel.isRegisterButtonEnabled ? Shadow.offsetYLarge : Shadow.offsetYMedium
             )
-            .animation(.spring(response: 0.4, dampingFraction: 0.7), value: viewModel.isRegisterButtonEnabled)
+            .animation(
+                .spring(response: AnimationParameters.springResponseMedium, dampingFraction: AnimationParameters.springDampingMedium),
+                value: viewModel.isRegisterButtonEnabled
+            )
         }
     }
     
@@ -295,7 +308,7 @@ struct VerificationFormView: View {
                     Text("\(L10n.PhoneVerification.Button.resendCode) (\(viewModel.resendCooldownSeconds)秒)")
                         .font(.footnote)
                         .fontWeight(.semibold)
-                        .foregroundColor(Asset.Color.Application.foreground.swiftUIColor.opacity(0.5))
+                        .foregroundColor(Asset.Color.Application.foreground.swiftUIColor.opacity(Opacity.disabledText))
                 } else {
                     Text(L10n.PhoneVerification.Button.resendCode)
                         .font(.footnote)

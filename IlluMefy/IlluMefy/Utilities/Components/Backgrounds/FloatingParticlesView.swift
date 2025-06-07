@@ -19,25 +19,25 @@ struct FloatingParticlesView: View {
     
     private enum Constants {
         /// パーティクルの数
-        static let particleCount = 15
+        static let particleCount = Layout.particleCount
         
         /// パーティクルの最小サイズ
-        static let minSize: CGFloat = 4
+        static let minSize: CGFloat = Size.particleMin
         
         /// パーティクルの最大サイズ
-        static let maxSize: CGFloat = 8
+        static let maxSize: CGFloat = Size.particleMax
         
         /// パーティクルの透明度
-        static let opacity: Double = 0.3
+        static let opacity: Double = Opacity.particle
         
         /// アニメーションの最小時間（秒）
-        static let minDuration: Double = 15
+        static let minDuration: Double = AnimationDuration.particleMin
         
         /// アニメーションの最大時間（秒）
-        static let maxDuration: Double = 25
+        static let maxDuration: Double = AnimationDuration.particleMax
         
         /// アニメーションの最大遅延（秒）
-        static let maxDelay: Double = 5
+        static let maxDelay: Double = AnimationParameters.particleMaxDelay
     }
     
     // MARK: - Body
@@ -80,7 +80,7 @@ struct FloatingParticlesView: View {
                 // X座標：画面幅内でランダム
                 x: CGFloat.random(in: 0...geometrySize.width),
                 // Y座標：アニメーション前は画面下、アニメーション後は画面上
-                y: isAnimating ? -20 : geometrySize.height + 20
+                y: isAnimating ? -Layout.particleOffsetY : geometrySize.height + Layout.particleOffsetY
             )
             .animation(
                 // 各パーティクルに異なる速度と遅延を設定

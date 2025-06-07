@@ -23,26 +23,26 @@ struct NormalTextFieldStyle: TextFieldStyle, @unchecked Sendable {
         ZStack(alignment: .leading) {
             configuration
                 .focused($isFocused)
-                .padding(.vertical, 12)
-                .padding(.horizontal, 20)
+                .padding(.vertical, Size.textFieldPaddingVertical)
+                .padding(.horizontal, Size.textFieldPaddingHorizontal)
                 .keyboardType(.emailAddress)
                 .textContentType(.emailAddress)
                 .foregroundColor(getForegroundColor(isEnabled))
                 .background(getBackgroundColor(isEnabled))
                 .autocapitalization(.none)
-                .cornerRadius(8)
+                .cornerRadius(CornerRadius.textField)
                 .overlay(
-                    RoundedRectangle(cornerRadius: 8)
+                    RoundedRectangle(cornerRadius: CornerRadius.textField)
                         .stroke(
                             getBorderColor(isFocused: isFocused, isEnabled: isEnabled),
-                            lineWidth: isFocused ? 1.5 : 0.5
+                            lineWidth: isFocused ? BorderWidth.textFieldFocused : BorderWidth.textFieldDefault
                         )
                 )
             if text.isEmpty {
                 Text(placeholder)
                     .foregroundColor(getPlaceHolderColor(isFocused: isEnabled, isEnabled: isFocused))
-                    .padding(.horizontal, 20)
-                    .padding(.vertical, 12)
+                    .padding(.horizontal, Size.textFieldPaddingHorizontal)
+                    .padding(.vertical, Size.textFieldPaddingVertical)
             }
         }
     }
@@ -66,18 +66,18 @@ struct PasswordTextFieldStyle: TextFieldStyle, @unchecked Sendable {
         ZStack(alignment: .trailing) {
             configuration
                 .focused($isFocused)
-                .padding(.vertical, 12)
-                .padding(.horizontal, 20)
+                .padding(.vertical, Size.textFieldPaddingVertical)
+                .padding(.horizontal, Size.textFieldPaddingHorizontal)
                 .textContentType(.password)
                 .foregroundColor(getForegroundColor(isEnabled))
                 .background(getBackgroundColor(isEnabled))
                 .autocapitalization(.none)
-                .cornerRadius(8)
+                .cornerRadius(CornerRadius.textField)
                 .overlay(
-                    RoundedRectangle(cornerRadius: 8)
+                    RoundedRectangle(cornerRadius: CornerRadius.textField)
                         .stroke(
                             getBorderColor(isFocused: isFocused, isEnabled: isEnabled),
-                            lineWidth: isFocused ? 1.5 : 0.5
+                            lineWidth: isFocused ? BorderWidth.textFieldFocused : BorderWidth.textFieldDefault
                         )
                 )
             
@@ -86,19 +86,19 @@ struct PasswordTextFieldStyle: TextFieldStyle, @unchecked Sendable {
             }, label: {
                 Image(systemName: showPassword ? "eye.slash.fill" : "eye.fill")
                     .foregroundColor(getTrailingIconColor(isFocused: isFocused, isEnabled: isEnabled))
-                    .opacity(0.6)
-                    .frame(width: 24, height: 24)
+                    .opacity(Opacity.placeholder)
+                    .frame(width: Size.iconMedium, height: Size.iconMedium)
             })
-            .frame(width: 44, height: 44)
-            .padding(.trailing, 16)
+            .frame(width: Size.tapAreaMinimum, height: Size.tapAreaMinimum)
+            .padding(.trailing, Layout.textFieldTrailingPadding)
         }
         .overlay(
             Group {
                 if text.isEmpty {
                     Text(placeholder)
                         .foregroundColor(getPlaceHolderColor(isFocused: isFocused, isEnabled: isEnabled))
-                        .padding(.horizontal, 20)
-                        .padding(.vertical, 12)
+                        .padding(.horizontal, Size.textFieldPaddingHorizontal)
+                        .padding(.vertical, Size.textFieldPaddingVertical)
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
             }

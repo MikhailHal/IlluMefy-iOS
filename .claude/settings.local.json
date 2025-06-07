@@ -18,10 +18,20 @@
       "Bash(find:*)",
       "Bash(swift build)",
       "Bash(git restore:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "mcp__ide__getDiagnostics",
+      "Bash(swift test:*)",
+      "Bash(cat:*)",
+      "WebFetch(domain:stackoverflow.com)",
+      "WebFetch(domain:github.com)",
+      "Bash(swift --version)",
+      "Bash(mkdir:*)",
+      "Bash(swiftc:*)",
+      "Bash(/Users/haruto/.claude/local/node_modules/@anthropic-ai/claude-code/vendor/ripgrep/arm64-darwin/rg \"L10n\\.PhoneNumberRegistration\" \"/Users/haruto/Desktop/dev/mobile-app/illumefy/IlluMefy-iOS/IlluMefy/IlluMefy/Presentations/PhoneNumberRegistration/PhoneNumberRegistrationView.swift\" -n)"
     ],
     "deny": []
   },
+  "enableAllProjectMcpServers": false,
   "projectGuidelines": {
     "gitWorkflow": {
       "branchStrategy": "各issueに対して1つのブランチのみを作成し、派生ブランチは作らない",

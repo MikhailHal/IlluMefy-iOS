@@ -26,9 +26,9 @@ struct IlluMefyPlainTextField: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: Spacing.componentGrouping) {
             if let label = label {
-                HStack(spacing: 4) {
+                HStack(spacing: Spacing.componentGrouping / 2) {
                     Text(label)
                         .font(.caption)
                         .foregroundColor(Asset.Color.Application.foreground.swiftUIColor)

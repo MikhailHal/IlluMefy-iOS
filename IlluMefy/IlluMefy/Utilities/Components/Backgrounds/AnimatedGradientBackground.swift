@@ -19,13 +19,13 @@ struct AnimatedGradientBackground: View {
     
     private enum Constants {
         /// アニメーションの継続時間（秒）
-        static let animationDuration: Double = 8.0
+        static let animationDuration: Double = AnimationDuration.gradient
         
         /// グラデーションの開始色の透明度
-        static let startColorOpacity: Double = 0.05
+        static let startColorOpacity: Double = Opacity.gradientStart
         
         /// グラデーションの終了色の透明度
-        static let endColorOpacity: Double = 0.45
+        static let endColorOpacity: Double = Opacity.gradientEnd
     }
     
     // MARK: - Body

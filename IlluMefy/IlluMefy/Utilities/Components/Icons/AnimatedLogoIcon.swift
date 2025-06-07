@@ -25,37 +25,37 @@ struct AnimatedLogoIcon: View {
     
     private enum Constants {
         /// アイコンのサイズ
-        static let iconSize: CGFloat = 100
+        static let iconSize: CGFloat = Size.iconLarge
         
         /// グロー効果のサイズ
-        static let glowSize: CGFloat = 120
+        static let glowSize: CGFloat = Size.iconGlow
         
         /// グロー効果のぼかし半径
-        static let glowBlurRadius: CGFloat = 10
+        static let glowBlurRadius: CGFloat = Effects.blurRadius
         
         /// シャドウの半径
-        static let shadowRadius: CGFloat = 20
+        static let shadowRadius: CGFloat = Shadow.radiusXLarge
         
         /// シャドウのY方向オフセット
-        static let shadowYOffset: CGFloat = 10
+        static let shadowYOffset: CGFloat = Shadow.offsetYXLarge
         
         /// シャドウの透明度
-        static let shadowOpacity: Double = 0.4
+        static let shadowOpacity: Double = Opacity.shadow
         
         /// グロー効果の透明度
-        static let glowOpacity: Double = 0.3
+        static let glowOpacity: Double = Opacity.glow
         
         /// 回転アニメーションの継続時間
-        static let rotationDuration: Double = 0.5
+        static let rotationDuration: Double = AnimationDuration.normal
         
         /// グローアニメーションの継続時間
-        static let glowDuration: Double = 2.0
+        static let glowDuration: Double = AnimationDuration.glow
         
         /// 初期スケール（表示前）
-        static let initialScale: CGFloat = 0.5
+        static let initialScale: CGFloat = Effects.initialScale
         
         /// 表示アニメーションの継続時間
-        static let appearDuration: Double = 0.8
+        static let appearDuration: Double = AnimationDuration.slow
     }
     
     // MARK: - Body
@@ -74,7 +74,7 @@ struct AnimatedLogoIcon: View {
         .animation(
             .spring(
                 response: Constants.appearDuration,
-                dampingFraction: 0.6
+                dampingFraction: AnimationParameters.springDamping
             ),
             value: isAppeared
         )
@@ -97,8 +97,8 @@ struct AnimatedLogoIcon: View {
                         Color.clear
                     ]),
                     center: .center,
-                    startRadius: 20,
-                    endRadius: 60
+                    startRadius: Layout.gradientStartRadius,
+                    endRadius: Layout.gradientEndRadius
                 )
             )
             .frame(
@@ -127,7 +127,7 @@ struct AnimatedLogoIcon: View {
             .rotation3DEffect(
                 .degrees(rotation),
                 axis: (x: 0, y: 1, z: 0),
-                perspective: 0.5
+                perspective: Effects.perspective
             )
             // シャドウ効果
             .shadow(
@@ -146,7 +146,7 @@ struct AnimatedLogoIcon: View {
     
     /// グローアニメーションを開始
     private func startGlowAnimation() {
-        glowScale = 1.1
+        glowScale = Effects.glowScale
     }
     
     /// タップ時の処理
@@ -154,10 +154,10 @@ struct AnimatedLogoIcon: View {
         withAnimation(
             .spring(
                 response: Constants.rotationDuration,
-                dampingFraction: 0.6
+                dampingFraction: AnimationParameters.springDamping
             )
         ) {
-            rotation += 360
+            rotation += Effects.rotation360
         }
     }
 }

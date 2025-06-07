@@ -19,7 +19,7 @@ struct IlluMefyLoadingDialog: View {
     var body: some View {
         ZStack {
             if isLoading {
-                Color.black.opacity(0.4).ignoresSafeArea()
+                Color.black.opacity(Opacity.backgroundOverlay).ignoresSafeArea()
                 VStack {
                     LoadingIndicator(
                         animation: .fiveLinesPulse,
@@ -30,7 +30,7 @@ struct IlluMefyLoadingDialog: View {
                     if let message = message {
                         Text(message)
                             .foregroundColor(.white)
-                            .padding(.top, 8)
+                            .padding(.top, Spacing.componentGrouping)
                     }
                 }
             }

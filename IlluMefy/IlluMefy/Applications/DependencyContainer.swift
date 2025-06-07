@@ -74,8 +74,6 @@ final class DependencyContainer: @unchecked Sendable {
         }.inObjectScope(.transient)
         
         // Protocol registrations for use cases
-        
-        
         container.register((any SendPhoneVerificationUseCaseProtocol).self) { resolver in
             resolver.resolve(SendPhoneVerificationUseCase.self)!
         }.inObjectScope(.transient)

@@ -132,20 +132,20 @@ struct SignUpFormView: View {
                     
             // タイトル（段階的フェードイン）
             Text(L10n.PhoneNumberRegistration.title)
-                .font(.system(size: 36, weight: .bold, design: .rounded))
+                .font(.system(size: Typography.titleLarge, weight: .bold, design: .rounded))
                 .foregroundColor(Asset.Color.Application.foreground.swiftUIColor)
                 .padding(.top, Spacing.componentGrouping)
-                .offset(y: formAppeared ? 0 : 20)
+                .offset(y: formAppeared ? 0 : Layout.titleOffsetY)
                 .opacity(formAppeared ? 1 : 0)
-                .animation(.easeOut(duration: 0.6).delay(0.3), value: formAppeared)
+                .animation(.easeOut(duration: AnimationDuration.medium).delay(AnimationParameters.delayMedium), value: formAppeared)
             
             // 説明文
             Text(L10n.PhoneNumberRegistration.Description.line1)
                 .font(.system(.body, design: .rounded))
-                .foregroundColor(Asset.Color.Application.foreground.swiftUIColor.opacity(0.85))
-                .offset(y: formAppeared ? 0 : 10)
+                .foregroundColor(Asset.Color.Application.foreground.swiftUIColor.opacity(Opacity.secondaryText))
+                .offset(y: formAppeared ? 0 : Layout.subtitleOffsetY)
                 .opacity(formAppeared ? 1 : 0)
-                .animation(.easeOut(duration: 0.6).delay(0.5), value: formAppeared)
+                .animation(.easeOut(duration: AnimationDuration.medium).delay(AnimationParameters.delayLong), value: formAppeared)
             .multilineTextAlignment(.center)
             .padding(.horizontal, Spacing.screenEdgePadding)
         }
@@ -164,9 +164,14 @@ struct SignUpFormView: View {
         .padding(.top, Spacing.unrelatedComponentDivider)
         .padding(.horizontal, Spacing.screenEdgePadding)
         // 横からスライドインするアニメーション
-        .offset(x: formAppeared ? 0 : -50)
+        .offset(x: formAppeared ? 0 : Layout.formOffset)
         .opacity(formAppeared ? 1 : 0)
-        .animation(.spring(response: 0.8, dampingFraction: 0.8).delay(0.9), value: formAppeared)
+        .animation(
+            .spring(
+                response: AnimationParameters.springResponseSlow,
+                dampingFraction: AnimationParameters.springDampingHigh).delay(AnimationParameters.delayVeryLong),
+            value: formAppeared
+        )
     }
     
     /// 電話番号入力フィールド
@@ -181,8 +186,12 @@ struct SignUpFormView: View {
             .keyboardType(.phonePad)
             .focused($isPhoneFocused)
             // フォーカス時の拡大エフェクト
-            .scaleEffect(isPhoneFocused ? 1.02 : 1.0)
-            .animation(.spring(response: 0.3, dampingFraction: 0.7), value: isPhoneFocused)
+            .scaleEffect(isPhoneFocused ? Effects.focusScale : 1.0)
+            .animation(.spring(
+                response: AnimationParameters.springResponse,
+                dampingFraction: AnimationParameters.springDampingMedium),
+                       value: isPhoneFocused
+            )
         }
     }
     
@@ -197,7 +206,7 @@ struct SignUpFormView: View {
                 Image(systemName: isPrivacyPolicyAgreed ? "checkmark.square.fill" : "square")
                     .foregroundColor(isPrivacyPolicyAgreed ?
                         Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor :
-                        Asset.Color.Application.foreground.swiftUIColor.opacity(0.3))
+                        Asset.Color.Application.foreground.swiftUIColor.opacity(Opacity.disabledText))
                     .font(.title2)
             })
             
@@ -217,15 +226,15 @@ struct SignUpFormView: View {
         .padding(.vertical, Spacing.componentGrouping)
         .background(Color.clear)
         // チェック時の拡大とボーダーハイライト
-        .scaleEffect(isPrivacyPolicyAgreed ? 1.02 : 1.0)
+        .scaleEffect(isPrivacyPolicyAgreed ? Effects.focusScale : 1.0)
         .overlay(
-            RoundedRectangle(cornerRadius: 12)
+            RoundedRectangle(cornerRadius: CornerRadius.large)
                 .stroke(
                     isPrivacyPolicyAgreed ? 
                     Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor : Color.clear,
-                    lineWidth: 2
+                    lineWidth: BorderWidth.extraThick
                 )
-                .animation(.easeInOut(duration: 0.3), value: isPrivacyPolicyAgreed)
+                .animation(.easeInOut(duration: AnimationDuration.fast), value: isPrivacyPolicyAgreed)
         )
     }
                 
@@ -244,15 +253,15 @@ struct SignUpFormView: View {
         ZStack {
             // ボタンが有効な時のパルスエフェクト
             if !viewModel.phoneNumber.isEmpty && isPrivacyPolicyAgreed {
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor.opacity(0.3))
-                    .frame(height: 56)
+                RoundedRectangle(cornerRadius: CornerRadius.large)
+                    .fill(Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor.opacity(Opacity.disabledText))
+                    .frame(height: Layout.pulseFrameHeight)
                     .padding(.horizontal, Spacing.screenEdgePadding)
-                    .blur(radius: 20)
-                    .scaleEffect(1.1)
-                    .opacity(0.5)
+                    .blur(radius: Effects.blurRadiusLarge)
+                    .scaleEffect(Effects.glowScale)
+                    .opacity(Opacity.pulseEffect)
                     .animation(
-                        .easeInOut(duration: 1.5)
+                        .easeInOut(duration: AnimationDuration.verySlow)
                             .repeatForever(autoreverses: true),
                         value: isPrivacyPolicyAgreed
                     )
@@ -274,14 +283,18 @@ struct SignUpFormView: View {
             .padding(.horizontal, Spacing.screenEdgePadding)
             // 条件付きシャドウ（有効時はより強く）
             .shadow(
-                color: Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor.opacity(0.3),
-                radius: !viewModel.phoneNumber.isEmpty && isPrivacyPolicyAgreed ? 15 : 10,
-                y: !viewModel.phoneNumber.isEmpty && isPrivacyPolicyAgreed ? 8 : 5
+                color: Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor.opacity(Opacity.buttonShadow),
+                radius: !viewModel.phoneNumber.isEmpty && isPrivacyPolicyAgreed ? Shadow.radiusLarge : Shadow.radiusMedium,
+                y: !viewModel.phoneNumber.isEmpty && isPrivacyPolicyAgreed ? Shadow.offsetYLarge : Shadow.offsetYMedium
             )
-            .animation(.spring(response: 0.4, dampingFraction: 0.7), value: isPrivacyPolicyAgreed)
+            .animation(
+                .spring(
+                    response: AnimationParameters.springResponseMedium,
+                    dampingFraction: AnimationParameters.springDampingMedium),
+                value: isPrivacyPolicyAgreed
+            )
         }
     }
-    
     
     // MARK: - Private Methods
     

@@ -13,16 +13,16 @@ import SwiftUI
 struct IlluMefyButton: View {
     // MARK: - Constants
     private enum Constants {
-        static let buttonHeight: CGFloat = 52
-        static let cornerRadius: CGFloat = 8
-        static let rippleInitialScale: CGFloat = 1.1
-        static let rippleFinalScale: CGFloat = 12.0
-        static let rippleInitialOpacity: Double = 0.4
-        static let rippleColorOpacity: Double = 0.3
-        static let rippleInitialDuration: Double = 0.15
-        static let rippleFinalDuration: Double = 0.75
-        static let rippleDelay: Double = 0.05
-        static let feedbackIntensity: CGFloat = 0.5
+        static let buttonHeight: CGFloat = Size.buttonHeight
+        static let cornerRadius: CGFloat = CornerRadius.button
+        static let rippleInitialScale: CGFloat = Effects.rippleInitialScale
+        static let rippleFinalScale: CGFloat = Effects.rippleFinalScale
+        static let rippleInitialOpacity: Double = Opacity.rippleInitial
+        static let rippleColorOpacity: Double = Opacity.rippleColor
+        static let rippleInitialDuration: Double = AnimationDuration.rippleInitial
+        static let rippleFinalDuration: Double = AnimationDuration.rippleFinal
+        static let rippleDelay: Double = AnimationParameters.delayShort
+        static let feedbackIntensity: CGFloat = Effects.feedbackIntensity
     }
     
     @State private var ripplePosition: CGPoint = .zero

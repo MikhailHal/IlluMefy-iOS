@@ -10,11 +10,11 @@ import SwiftUI
 struct IlluMefyCheckbox: View {
     // MARK: - Constants
     private enum Constants {
-        static let checkboxSize: CGFloat = 20
-        static let cornerRadius: CGFloat = 4
-        static let borderWidth: CGFloat = 1.5
-        static let spacing: CGFloat = 12
-        static let checkmarkFontSize: CGFloat = 14
+        static let checkboxSize: CGFloat = Size.iconSmall
+        static let cornerRadius: CGFloat = CornerRadius.small
+        static let borderWidth: CGFloat = BorderWidth.checkbox
+        static let spacing: CGFloat = Spacing.relatedComponentDivider
+        static let checkmarkFontSize: CGFloat = Typography.checkmark
     }
     
     @Binding var isChecked: Bool
