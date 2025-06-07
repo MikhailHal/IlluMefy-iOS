@@ -199,34 +199,34 @@ struct SignUpFormView: View {
     
     /// プライバシーポリシー同意チェックボックス
     private var privacyPolicyCheckbox: some View {
-        IlluMefyCardNormal {
-            HStack(spacing: Spacing.componentGrouping) {
-                // チェックボックス部分
-                Button(action: {
-                    isPrivacyPolicyAgreed.toggle()
-                }, label: {
-                    Image(systemName: isPrivacyPolicyAgreed ? "checkmark.square.fill" : "square")
-                        .foregroundColor(isPrivacyPolicyAgreed ?
-                            Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor :
-                            Asset.Color.Application.foreground.swiftUIColor.opacity(0.3))
-                        .font(.title2)
-                })
-                
-                // プライバシーポリシーテキスト（タップでWebページを開く）
-                Button(action: {
-                    openPrivacyPolicy()
-                }, label: {
-                    Text(L10n.PhoneNumberRegistration.Checkbox.privacyPolicy)
-                        .font(.system(.body, design: .rounded))
-                        .foregroundColor(Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor)
-                        .underline()
-                        .multilineTextAlignment(.leading)
-                })
-                
-                Spacer()
-            }
-            .padding(.vertical, Spacing.componentGrouping)
+        HStack(spacing: Spacing.componentGrouping) {
+            Spacer()
+            // チェックボックス部分
+            Button(action: {
+                isPrivacyPolicyAgreed.toggle()
+            }, label: {
+                Image(systemName: isPrivacyPolicyAgreed ? "checkmark.square.fill" : "square")
+                    .foregroundColor(isPrivacyPolicyAgreed ?
+                        Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor :
+                        Asset.Color.Application.foreground.swiftUIColor.opacity(0.3))
+                    .font(.title2)
+            })
+            
+            // プライバシーポリシーテキスト（タップでWebページを開く）
+            Button(action: {
+                openPrivacyPolicy()
+            }, label: {
+                Text(L10n.PhoneNumberRegistration.Checkbox.privacyPolicy)
+                    .font(.system(.body, design: .rounded))
+                    .foregroundColor(Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor)
+                    .underline()
+                    .multilineTextAlignment(.leading)
+            })
+            
+            Spacer()
         }
+        .padding(.vertical, Spacing.componentGrouping)
+        .background(Color.clear)
         // チェック時の拡大とボーダーハイライト
         .scaleEffect(isPrivacyPolicyAgreed ? 1.02 : 1.0)
         .overlay(
