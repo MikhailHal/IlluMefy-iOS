@@ -43,10 +43,12 @@ struct HomeView: View {
                 endRadius: 250
             ).ignoresSafeArea()
             ScrollView {
-                popularTags.padding(.vertical, Spacing.unrelatedComponentDivider)
-                popularCreators.padding(.vertical, Spacing.unrelatedComponentDivider)
-                recommendedCreators.padding(.vertical, Spacing.unrelatedComponentDivider)
-                newArrivalCreators.padding(.vertical, Spacing.unrelatedComponentDivider)
+                LazyVStack(spacing: Spacing.unrelatedComponentDivider) {
+                    popularTags.sectionScrollTransition()
+                    popularCreators.sectionScrollTransition()
+                    recommendedCreators.sectionScrollTransition()
+                    newArrivalCreators.sectionScrollTransition()
+                }
             }.padding(Spacing.screenEdgePadding)
         }.background(Asset.Color.Application.Background.background.swiftUIColor)
     }
@@ -124,6 +126,17 @@ struct HomeView: View {
                     }
                 }
             }
+        }
+    }
+}
+
+extension View {
+    func sectionScrollTransition() -> some View {
+        self.scrollTransition { content, phase in
+            content
+                .opacity(phase.isIdentity ? 1.0 : 0.7)
+                .scaleEffect(phase.isIdentity ? 1.0 : 0.95)
+                .blur(radius: phase.isIdentity ? 0 : 3)
         }
     }
 }
