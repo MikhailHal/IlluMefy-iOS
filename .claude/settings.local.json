@@ -27,7 +27,15 @@
       "Bash(swift --version)",
       "Bash(mkdir:*)",
       "Bash(swiftc:*)",
-      "Bash(/Users/haruto/.claude/local/node_modules/@anthropic-ai/claude-code/vendor/ripgrep/arm64-darwin/rg \"L10n\\.PhoneNumberRegistration\" \"/Users/haruto/Desktop/dev/mobile-app/illumefy/IlluMefy-iOS/IlluMefy/IlluMefy/Presentations/PhoneNumberRegistration/PhoneNumberRegistrationView.swift\" -n)"
+      "Bash(/Users/haruto/.claude/local/node_modules/@anthropic-ai/claude-code/vendor/ripgrep/arm64-darwin/rg \"L10n\\.PhoneNumberRegistration\" \"/Users/haruto/Desktop/dev/mobile-app/illumefy/IlluMefy-iOS/IlluMefy/IlluMefy/Presentations/PhoneNumberRegistration/PhoneNumberRegistrationView.swift\" -n)",
+      "Bash(__NEW_LINE__ - Add CreatorRepositoryProtocol with read-only operations)",
+      "Bash(- Implement MockCreatorRepository with sample data)",
+      "Bash(- Add CreatorRepositoryError with proper protocol conformance)",
+      "Bash(- Support getAllCreators, getCreatorsUpdatedAfter, searchCreatorsByTags, getPopularCreators)",
+      "Bash(- Include 5 sample creators with various platform configurations\"\")",
+      "Bash(__NEW_LINE__ - Register MockCreatorRepository and CreatorRepositoryProtocol)",
+      "Bash(- Register GetPopularCreatorsUseCase and SearchCreatorsByTagsUseCase)",
+      "Bash(- Include protocol registrations for dependency injection\"\")"
     ],
     "deny": []
   },
