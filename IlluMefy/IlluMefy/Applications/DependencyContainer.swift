@@ -39,6 +39,10 @@ final class DependencyContainer: @unchecked Sendable {
             let userLocalSettingsDataSource = resolver.resolve(UserLocalSettingsDataSource.self)!
             return UserPreferencesRepository(userLocalSettingsDataSource: userLocalSettingsDataSource)
         }.inObjectScope(.container)
+        // the concrete type of MockCreatorRepository
+        container.register(MockCreatorRepository.self) { _ in
+            MockCreatorRepository()
+        }.inObjectScope(.container)
     }
     ///
     /// register all repositories
@@ -55,6 +59,10 @@ final class DependencyContainer: @unchecked Sendable {
         // PhoneAuth repository
         container.register(PhoneAuthRepositoryProtocol.self) { resolver in
             resolver.resolve(PhoneAuthRepository.self)!
+        }.inObjectScope(.transient)
+        // Creator repository
+        container.register(CreatorRepositoryProtocol.self) { resolver in
+            resolver.resolve(MockCreatorRepository.self)!
         }.inObjectScope(.transient)
     }
     ///
@@ -80,6 +88,26 @@ final class DependencyContainer: @unchecked Sendable {
         
         container.register((any VerifyPhoneAuthCodeUseCaseProtocol).self) { resolver in
             resolver.resolve(VerifyPhoneAuthCodeUseCase.self)!
+        }.inObjectScope(.transient)
+        
+        // GetPopularCreators usecase
+        container.register(GetPopularCreatorsUseCase.self) { resolver in
+            let creatorRepository = resolver.resolve(CreatorRepositoryProtocol.self)!
+            return GetPopularCreatorsUseCase(creatorRepository: creatorRepository)
+        }.inObjectScope(.transient)
+        
+        container.register((any GetPopularCreatorsUseCaseProtocol).self) { resolver in
+            resolver.resolve(GetPopularCreatorsUseCase.self)!
+        }.inObjectScope(.transient)
+        
+        // SearchCreatorsByTags usecase
+        container.register(SearchCreatorsByTagsUseCase.self) { resolver in
+            let creatorRepository = resolver.resolve(CreatorRepositoryProtocol.self)!
+            return SearchCreatorsByTagsUseCase(creatorRepository: creatorRepository)
+        }.inObjectScope(.transient)
+        
+        container.register((any SearchCreatorsByTagsUseCaseProtocol).self) { resolver in
+            resolver.resolve(SearchCreatorsByTagsUseCase.self)!
         }.inObjectScope(.transient)
         
     }
