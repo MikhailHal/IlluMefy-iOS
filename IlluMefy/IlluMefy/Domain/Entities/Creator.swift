@@ -140,7 +140,9 @@ struct Creator: Equatable, Codable, Identifiable {
     /// - Returns: (プラットフォーム, URL)のタプル配列（人気順）
     func sortedPlatformListByPriority() -> [(Platform, String)] {
         // 全プラットフォームの比率が同一であればデフォルト順を返却
-        let isAllPratformRatioEqual = Set(self.platformClickRatio.values).count <= 1
+        let activePlatforms = platform.keys
+        let ratios = activePlatforms.compactMap { platformClickRatio[$0] }
+        let isAllPratformRatioEqual = Set(ratios).count <= 1
         if isAllPratformRatioEqual {
             return sortedPlatformListByDefaultPriority()
         }
@@ -151,6 +153,15 @@ struct Creator: Equatable, Codable, Identifiable {
                 guard let url = self.platform[platform] else { return nil }
                 return (platform, url)
             }
+    }
+    
+    /// メインプラットフォーム情報をを取得
+    /// 人気順のトップをメインプラットフォームとして扱います。
+    ///
+    /// - Returns: (プラットフォーム, URL)のタプル配列（人気順）
+    func mainPlatform() -> (Platform, String) {
+        let platformList = sortedPlatformListByPriority()
+        return platformList.first ?? (.youtube, "")
     }
     
     // MARK: private functions
