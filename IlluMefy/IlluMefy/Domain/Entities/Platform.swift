@@ -37,4 +37,25 @@ enum Platform: String, CaseIterable, Codable {
             return "Mildom"
         }
     }
+    
+    var icon: String {
+        switch self {
+        case .youtube:
+            return Asset.Assets.PlatformIcons.Twitch.twitchIconSmall.name
+        case .twitch:
+            return Asset.Assets.PlatformIcons.Twitch.twitchIconSmall.name
+        case .tiktok:
+            return Asset.Assets.PlatformIcons.TikTok.tikTokIconSmall.name
+        case .instagram:
+            return Asset.Assets.PlatformIcons.Twitch.twitchIconSmall.name
+        case .twitter:
+            return Asset.Assets.PlatformIcons.Twitch.twitchIconSmall.name
+        case .discord:
+            return Asset.Assets.PlatformIcons.Twitch.twitchIconSmall.name
+        case .niconico:
+            return Asset.Assets.PlatformIcons.Twitch.twitchIconSmall.name
+        case .mildom:
+            return Asset.Assets.PlatformIcons.Twitch.twitchIconSmall.name
+        }
+    }
 }
