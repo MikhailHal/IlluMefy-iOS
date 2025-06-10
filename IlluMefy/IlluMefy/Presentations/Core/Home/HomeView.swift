@@ -117,9 +117,8 @@ extension View {
     func sectionScrollTransition() -> some View {
         self.scrollTransition { content, phase in
             content
-                .opacity(phase.isIdentity ? 1.0 : 0.7)
-                .scaleEffect(phase.isIdentity ? 1.0 : 0.95)
-                .blur(radius: phase.isIdentity ? 0 : 3)
+                .opacity(phase.isIdentity ? 1.0 : 0.4)
+                .scaleEffect(phase.isIdentity ? 1.0 : 0.8)
         }
     }
 }
