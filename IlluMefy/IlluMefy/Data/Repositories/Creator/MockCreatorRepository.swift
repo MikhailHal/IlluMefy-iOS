@@ -42,11 +42,11 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
             id: "creator_002", 
             name: "VTuber B",
             thumbnailUrl: "https://picsum.photos/200/200?random=2",
-            viewCount: 8000,
+            viewCount: 9000,
             socialLinkClickCount: 2000,
             platformClickRatio: [
-                .youtube: 0.9,
-                .x: 0.1
+                .x: 0.6,
+                .youtube: 0.4
             ],
             relatedTag: ["vtuber", "fps", "minecraft", "singing"],
             description: "歌ってゲームして楽しく配信してます♪",
@@ -62,12 +62,12 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
             id: "creator_003",
             name: "プロゲーマーC",
             thumbnailUrl: "https://picsum.photos/200/200?random=3",
-            viewCount: 12000,
+            viewCount: 11000,
             socialLinkClickCount: 4000,
             platformClickRatio: [
-                .twitch: 0.6,
-                .youtube: 0.3,
-                .x: 0.1
+                .instagram: 0.5,
+                .twitch: 0.3,
+                .youtube: 0.2
             ],
             relatedTag: ["fps", "valorant", "professional", "tournament"],
             description: "プロゲーマーとして活動中。大会実績多数。",
@@ -103,11 +103,11 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
             id: "creator_005",
             name: "レトロゲーム愛好家E",
             thumbnailUrl: "https://picsum.photos/200/200?random=5",
-            viewCount: 4500,
+            viewCount: 10000,
             socialLinkClickCount: 800,
             platformClickRatio: [
-                .youtube: 0.6,
-                .niconico: 0.4
+                .niconico: 0.7,
+                .youtube: 0.3
             ],
             relatedTag: ["retro", "speedrun", "classic-games"],
             description: "レトロゲームのRTAやってます。週末配信。",
@@ -117,6 +117,46 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
             ],
             createdAt: Date().addingTimeInterval(-86400 * 120),
             updatedAt: Date().addingTimeInterval(-86400 * 2),
+            isActive: true
+        ),
+        Creator(
+            id: "creator_006",
+            name: "TikTokダンサーF",
+            thumbnailUrl: "https://picsum.photos/200/200?random=6",
+            viewCount: 7500,
+            socialLinkClickCount: 2500,
+            platformClickRatio: [
+                .tiktok: 0.8,
+                .instagram: 0.2
+            ],
+            relatedTag: ["dance", "trending", "entertainment"],
+            description: "バズるダンス動画を毎日投稿！フォロー待ってます！",
+            platform: [
+                .tiktok: "https://tiktok.com/@dancerF",
+                .instagram: "https://instagram.com/dancerF"
+            ],
+            createdAt: Date().addingTimeInterval(-86400 * 15),
+            updatedAt: Date().addingTimeInterval(-1800),
+            isActive: true
+        ),
+        Creator(
+            id: "creator_007",
+            name: "Discord司会者G",
+            thumbnailUrl: "https://picsum.photos/200/200?random=7",
+            viewCount: 8000,
+            socialLinkClickCount: 400,
+            platformClickRatio: [
+                .discord: 0.7,
+                .youtube: 0.3
+            ],
+            relatedTag: ["community", "events", "discussion"],
+            description: "ゲームコミュニティの運営とイベント司会をしています。",
+            platform: [
+                .discord: "https://discord.gg/communityG",
+                .youtube: "https://youtube.com/@hostG"
+            ],
+            createdAt: Date().addingTimeInterval(-86400 * 75),
+            updatedAt: Date().addingTimeInterval(-86400 * 3),
             isActive: true
         )
     ]
