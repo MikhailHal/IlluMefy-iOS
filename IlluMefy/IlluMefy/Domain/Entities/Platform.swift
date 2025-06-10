@@ -12,10 +12,9 @@ enum Platform: String, CaseIterable, Codable {
     case twitch
     case tiktok
     case instagram
-    case twitter
+    case x
     case discord
     case niconico
-    case mildom
     
     var displayName: String {
         switch self {
@@ -27,35 +26,32 @@ enum Platform: String, CaseIterable, Codable {
             return "TikTok"
         case .instagram:
             return "Instagram"
-        case .twitter:
-            return "Twitter"
+        case .x:
+            return "X"
         case .discord:
             return "Discord"
         case .niconico:
             return "ニコニコ動画"
-        case .mildom:
-            return "Mildom"
         }
     }
     
     var icon: String {
         switch self {
+        // YouTubeだけロゴ使用許可申請欲しくてしたけどrejectされた...
         case .youtube:
-            return Asset.Assets.PlatformIcons.Twitch.twitchIconSmall.name
+            return "play.rectangle.fill"
         case .twitch:
-            return Asset.Assets.PlatformIcons.Twitch.twitchIconSmall.name
+            return Asset.Assets.PlatformIcons.Twitch.icon.name
         case .tiktok:
-            return Asset.Assets.PlatformIcons.TikTok.tikTokIconSmall.name
+            return Asset.Assets.PlatformIcons.TikTok.icon.name
         case .instagram:
-            return Asset.Assets.PlatformIcons.Twitch.twitchIconSmall.name
-        case .twitter:
-            return Asset.Assets.PlatformIcons.Twitch.twitchIconSmall.name
+            return Asset.Assets.PlatformIcons.Instagram.icon.name
+        case .x:
+            return Asset.Assets.PlatformIcons.X.icon.name
         case .discord:
-            return Asset.Assets.PlatformIcons.Twitch.twitchIconSmall.name
+            return Asset.Assets.PlatformIcons.Discord.icon.name
         case .niconico:
-            return Asset.Assets.PlatformIcons.Twitch.twitchIconSmall.name
-        case .mildom:
-            return Asset.Assets.PlatformIcons.Twitch.twitchIconSmall.name
+            return Asset.Assets.PlatformIcons.Niconico.icon.name
         }
     }
 }

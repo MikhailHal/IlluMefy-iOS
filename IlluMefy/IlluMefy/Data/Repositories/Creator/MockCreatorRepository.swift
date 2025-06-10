@@ -32,7 +32,7 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
             platform: [
                 .youtube: "https://youtube.com/@gameplayerA",
                 .twitch: "https://twitch.tv/gameplayerA",
-                .twitter: "https://twitter.com/gameplayerA"
+                .x: "https://twitter.com/gameplayerA"
             ],
             createdAt: Date().addingTimeInterval(-86400 * 30),
             updatedAt: Date().addingTimeInterval(-3600),
@@ -46,13 +46,13 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
             socialLinkClickCount: 2000,
             platformClickRatio: [
                 .youtube: 0.9,
-                .twitter: 0.1
+                .x: 0.1
             ],
             relatedTag: ["vtuber", "fps", "minecraft", "singing"],
             description: "歌ってゲームして楽しく配信してます♪",
             platform: [
                 .youtube: "https://youtube.com/@vtuberB",
-                .twitter: "https://twitter.com/vtuberB"
+                .x: "https://twitter.com/vtuberB"
             ],
             createdAt: Date().addingTimeInterval(-86400 * 60),
             updatedAt: Date().addingTimeInterval(-7200),
@@ -67,14 +67,14 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
             platformClickRatio: [
                 .twitch: 0.6,
                 .youtube: 0.3,
-                .twitter: 0.1
+                .x: 0.1
             ],
             relatedTag: ["fps", "valorant", "professional", "tournament"],
             description: "プロゲーマーとして活動中。大会実績多数。",
             platform: [
                 .twitch: "https://twitch.tv/progamerC",
                 .youtube: "https://youtube.com/@progamerC",
-                .twitter: "https://twitter.com/progamerC",
+                .x: "https://twitter.com/progamerC",
                 .instagram: "https://instagram.com/progamerC"
             ],
             createdAt: Date().addingTimeInterval(-86400 * 90),

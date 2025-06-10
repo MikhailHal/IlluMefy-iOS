@@ -169,8 +169,8 @@ struct Creator: Equatable, Codable, Identifiable {
     /// デフォルトの優先順位でプラットフォームをソート
     /// 
     /// 一般的な人気度に基づく固定の優先順位でソートします。
-    /// YouTube > Twitch > TikTok > Instagram > Twitter > Discord > ニコニコ動画 > Mildom
-    /// 
+    /// YouTube > Twitch > TikTok > Instagram > X > Discord > ニコニコ動画
+    ///
     /// - Returns: (プラットフォーム, URL)のタプル配列（デフォルト優先順）
     private func sortedPlatformListByDefaultPriority() -> [(Platform, String)] {
         let defaultOrder: [Platform] = [
@@ -178,10 +178,9 @@ struct Creator: Equatable, Codable, Identifiable {
             .twitch,
             .tiktok,
             .instagram,
-            .twitter,
+            .x,
             .discord,
-            .niconico,
-            .mildom
+            .niconico
         ]
         
         var tuple: [(Platform, String)] = []
