@@ -7,29 +7,8 @@
 import SwiftUI
 
 struct HomeView: View {
-    let mockCreator = Creator(
-        id: "creator_001",
-        name: "ゲーム実況者A",
-        thumbnailUrl: "https://picsum.photos/200/200?random=1",
-        viewCount: 5000,
-        socialLinkClickCount: 1500,
-        platformClickRatio: [
-            .youtube: 0.7,
-            .twitch: 0.3,
-            .niconico: 0.2
-        ],
-        relatedTag: ["fps", "apex-legends", "valorant"],
-        description: "FPSゲームをメインに実況しています。毎日20時から配信！",
-        platform: [
-            .youtube: "https://youtube.com/@gameplayerA",
-            .twitch: "https://twitch.tv/gameplayerA",
-            .niconico: "https://tiktok.com/gameplayerA"
-        ],
-        createdAt: Date().addingTimeInterval(-86400 * 30),
-        updatedAt: Date().addingTimeInterval(-3600),
-        isActive: true
-    )
-    
+    @StateObject private var viewModel =
+    DependencyContainer.shared.resolve(HomeViewModel.self)!
     var body: some View {
         ZStack {
             RadialGradient(
@@ -50,7 +29,11 @@ struct HomeView: View {
                     newArrivalCreators.sectionScrollTransition()
                 }
             }.padding(Spacing.screenEdgePadding)
-        }.background(Asset.Color.Application.Background.background.swiftUIColor)
+        }
+        .background(Asset.Color.Application.Background.background.swiftUIColor)
+        .onAppear {
+            viewModel.onAppear()
+        }
     }
 
     ///
@@ -64,8 +47,8 @@ struct HomeView: View {
                 .bold()
             ScrollView(.horizontal) {
                 HStack {
-                    ForEach(1..<15) { _ in
-                        CreatorTile(creator: mockCreator)
+                    ForEach(viewModel.popularCreators) { creator in
+                        CreatorTile(creator: creator)
                     }
                 }
             }
@@ -83,8 +66,8 @@ struct HomeView: View {
                 .bold()
             ScrollView(.horizontal) {
                 HStack {
-                    ForEach(1..<15) { _ in
-                        CreatorTile(creator: mockCreator)
+                    ForEach(viewModel.recommendedCreators) { creator in
+                        CreatorTile(creator: creator)
                     }
                 }
             }
@@ -102,8 +85,8 @@ struct HomeView: View {
                 .bold()
             ScrollView(.horizontal) {
                 HStack {
-                    ForEach(1..<15) { _ in
-                        CreatorTile(creator: mockCreator)
+                    ForEach(viewModel.recommendedCreators) { creator in
+                        CreatorTile(creator: creator)
                     }
                 }
             }
@@ -121,8 +104,8 @@ struct HomeView: View {
                 .bold()
             ScrollView(.horizontal) {
                 HStack {
-                    ForEach(1..<15) { _ in
-                        CreatorTile(creator: mockCreator)
+                    ForEach(viewModel.newArrivalCreators) { creator in
+                        CreatorTile(creator: creator)
                     }
                 }
             }
