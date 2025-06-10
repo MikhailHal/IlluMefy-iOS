@@ -47,12 +47,26 @@ struct CreatorTile: View {
                         bottomTrailingRadius: 8,
                         topTrailingRadius: 0)
                     )
-                Image(creator.mainPlatform().0.icon)
-                    .resizable()
-                    .frame(width: 25, height: 25)
+                // YouTubeだけシステムアイコン使用
+                let platform = creator.mainPlatform().0
+                if platform == .youtube {
+                    Image(systemName: platform.icon)
+                        .platformIconStyle()
+                        .foregroundColor(.red)
+                } else {
+                    Image(platform.icon).platformIconStyle()
+                }
 
             }.frame(width: 50, height: 35)
         }
+    }
+}
+
+extension Image {
+    func platformIconStyle() -> some View {
+        self
+            .resizable()
+            .frame(width: 25, height: 25)
     }
 }
 
