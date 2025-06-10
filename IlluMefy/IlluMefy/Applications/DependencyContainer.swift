@@ -124,5 +124,21 @@ final class DependencyContainer: @unchecked Sendable {
                 )
             }
         }.inObjectScope(.transient)
+        
+        // Home screen
+        container.register(HomeViewModel.self) { resolver in
+            let getPopularCreatorsUseCase = resolver.resolve((any GetPopularCreatorsUseCaseProtocol).self)!
+            let searchCreatorsByTagsUseCase = resolver.resolve((any SearchCreatorsByTagsUseCaseProtocol).self)!
+            return MainActor.assumeIsolated {
+                return HomeViewModel(
+                    getPopularCreatorsUseCase: getPopularCreatorsUseCase,
+                    searchCreatorsByTagsUseCase: searchCreatorsByTagsUseCase
+                )
+            }
+        }.inObjectScope(.transient)
+        
+        container.register((any HomeViewModelProtocol).self) { resolver in
+            resolver.resolve(HomeViewModel.self)!
+        }.inObjectScope(.transient)
     }
 }
