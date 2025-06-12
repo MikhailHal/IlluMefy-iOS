@@ -9,6 +9,7 @@ import SwiftUI
 struct CreatorTile: View {
     let creator: Creator
     @State private var isPressed = false
+    @State private var showingDetail = false
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -51,7 +52,7 @@ struct CreatorTile: View {
             multiplePlatformIndicator
         }
         .onTapGesture {
-            // タップアクション用のプレースホルダー
+            showingDetail = true
         }
         .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity) { pressing in
             withAnimation(.easeInOut(duration: 0.1)) {
@@ -59,6 +60,9 @@ struct CreatorTile: View {
             }
         } perform: {
             // 長押しアクション
+        }
+        .fullScreenCover(isPresented: $showingDetail) {
+            CreatorDetailView(creator: creator)
         }
     }
     
