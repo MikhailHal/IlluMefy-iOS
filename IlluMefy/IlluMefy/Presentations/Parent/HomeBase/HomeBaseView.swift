@@ -52,34 +52,34 @@ private struct TabBarView: View {
             HomeView()
                 .tabItem {
                     Image(systemName: "house.fill")
-                    Text("ホーム")
+                    Text(L10n.Navigation.home)
                 }
             FavoriteView()
                 .tabItem {
                     Image(systemName: "star.fill")
-                    Text("お気に入り")
+                    Text(L10n.Navigation.favorite)
                 }
             SearchView()
                 .tabItem {
                     Image(systemName: "sparkle.magnifyingglass")
-                    Text("検索")
+                    Text(L10n.Navigation.search)
                 }
             AccountView()
                 .tabItem {
                     Image(systemName: "person.fill")
-                    Text("アカウント")
+                    Text(L10n.Navigation.account)
                 }
             SettingView()
                 .tabItem {
                     Image(systemName: "gearshape.fill")
-                    Text("設定")
+                    Text(L10n.Navigation.settings)
                 }
         }
     }
 }
 #Preview {
     HomeBaseView {
-        Text("Preview Content")
+        Text(L10n.Common.previewContent)
     }
     .environmentObject(IlluMefyAppRouter())
 }

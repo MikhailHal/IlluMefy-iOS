@@ -26,6 +26,6 @@ struct IlluMefyCardNormal<Content: View>: View {
 
 #Preview {
     IlluMefyCardNormal(content: {
-            Text("IlluMefyCardNormal")
+            Text(L10n.Common.hello)
     })
 }

@@ -41,7 +41,7 @@ struct HomeView: View {
     ///
     private var popularCreators: some View {
         VStack {
-            Text("人気クリエイター")
+            Text(L10n.Home.popularCreators)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .font(.title2)
                 .bold()
@@ -60,7 +60,7 @@ struct HomeView: View {
     ///
     private var popularTags: some View {
         VStack {
-            Text("人気タグ")
+            Text(L10n.Home.popularTags)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .font(.title2)
                 .bold()
@@ -80,7 +80,7 @@ struct HomeView: View {
     ///
     private var recommendedCreators: some View {
         VStack {
-            Text("おすすめクリエイター")
+            Text(L10n.Home.recommendedCreators)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .font(.title2)
                 .bold()
@@ -99,7 +99,7 @@ struct HomeView: View {
     ///
     private var newArrivalCreators: some View {
         VStack {
-            Text("最近追加されたクリエイター")
+            Text(L10n.Home.recentlyAddedCreators)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .font(.title2)
                 .bold()

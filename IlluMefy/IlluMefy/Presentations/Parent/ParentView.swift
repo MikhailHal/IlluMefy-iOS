@@ -23,7 +23,7 @@ struct ParentView: View {
                         PhoneNumberRegistrationView()
                     case .groupList:
                         HomeBaseView {
-                            Text("Hello World")
+                            Text(L10n.Common.hello)
                         }
                     case .phoneVerification(let verificationID, let phoneNumber):
                         PhoneVerificationView(verificationID: verificationID, phoneNumber: phoneNumber)

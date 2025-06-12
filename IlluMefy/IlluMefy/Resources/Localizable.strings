@@ -93,4 +93,56 @@
 "phoneVerification.error.invalidVerificationCode" = "認証番号が正しくありません";
 "phoneVerification.error.verificationCodeExpired" = "認証番号の有効期限が切れています";
 "phoneVerification.error.resendCooldown" = "しばらく待ってから再送信してください";
+
+/* Navigation */
+"navigation.home" = "ホーム";
+"navigation.favorite" = "お気に入り";
+"navigation.search" = "検索";
+"navigation.account" = "アカウント";
+"navigation.settings" = "設定";
+
+/* Home Screen */
+"home.popularCreators" = "人気クリエイター";
+"home.popularTags" = "人気タグ";
+"home.recommendedCreators" = "おすすめクリエイター";
+"home.recentlyAddedCreators" = "最近追加されたクリエイター";
+
+/* Creator Detail */
+"creatorDetail.mainPlatform" = "メインプラットフォーム";
+"creatorDetail.snsLinks" = "SNSリンク";
+"creatorDetail.relatedTags" = "関連タグ";
+"creatorDetail.tagApplication" = "タグ申請";
+"creatorDetail.tagApplicationDescription" = "このクリエイターに新しいタグを提案したり、不適切なタグを報告できます";
+"creatorDetail.tagDeleteApplication" = "タグ削除申請";
+"creatorDetail.tagAddApplication" = "タグ追加申請";
+"creatorDetail.informationCorrection" = "情報修正";
+"creatorDetail.informationCorrectionDescription" = "クリエイター情報に間違いや古い情報がある場合は修正依頼を送信できます";
+"creatorDetail.statistics" = "統計情報";
+"creatorDetail.similarCreators" = "類似クリエイター";
+"creatorDetail.similarCreatorsDescription" = "同じタグを持つクリエイターをチェック";
+"creatorDetail.totalViews" = "総視聴数";
+"creatorDetail.snsClicks" = "SNSクリック";
+"creatorDetail.platforms" = "プラットフォーム";
+"creatorDetail.edit" = "編集";
+
+/* Platform Names */
+"platform.youtube" = "YouTube";
+"platform.twitch" = "Twitch";
+"platform.niconico" = "ニコニコ動画";
+"platform.x" = "X (Twitter)";
+"platform.instagram" = "Instagram";
+"platform.tiktok" = "TikTok";
+"platform.discord" = "Discord";
+
+/* Information Correction */
+"informationCorrection.profileCorrection" = "プロフィール情報の修正";
+"informationCorrection.profileCorrectionDescription" = "名前、説明文、プロフィール画像など";
+"informationCorrection.snsLinksCorrection" = "SNSリンクの修正";
+"informationCorrection.snsLinksCorrectionDescription" = "URL変更、アカウント削除など";
+"informationCorrection.activityStatusReport" = "活動状況の報告";
+"informationCorrection.activityStatusReportDescription" = "引退、活動休止、復帰など";
+
+/* Common */
+"common.hello" = "Hello, World!";
+"common.previewContent" = "Preview Content";
  

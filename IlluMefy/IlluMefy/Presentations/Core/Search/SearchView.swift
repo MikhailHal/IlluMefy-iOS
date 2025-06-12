@@ -8,7 +8,7 @@ import SwiftUI
 
 struct SearchView: View {
     var body: some View {
-        Text("Hello, World!")
+        Text(L10n.Common.hello)
     }
 }
 
