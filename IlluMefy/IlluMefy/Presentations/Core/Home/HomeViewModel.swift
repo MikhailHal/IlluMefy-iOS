@@ -73,104 +73,40 @@ final class HomeViewModel: HomeViewModelProtocol {
     }
     
     private func loadPopularTags() async {
-        // TODO: Implement when tag use case is available
+        // Note: Implement when tag use case is available
         // For now, using mock data
-        popularTags = [
-            Tag(
-                id: "1",
-                displayName: "FPS",
-                tagName: "fps",
-                clickedCount: 1250,
-                createdAt: Date(),
-                updatedAt: Date(),
-                parentTagId: nil,
-                childTagIds: []
-            ),
-            Tag(
-                id: "2",
-                displayName: "VTuber",
-                tagName: "vtuber",
-                clickedCount: 890,
-                createdAt: Date(),
-                updatedAt: Date(),
-                parentTagId: nil,
-                childTagIds: []
-            ),
-            Tag(
-                id: "3",
-                displayName: "Minecraft",
-                tagName: "minecraft",
-                clickedCount: 720,
-                createdAt: Date(),
-                updatedAt: Date(),
-                parentTagId: nil,
-                childTagIds: []
-            ),
-            Tag(
-                id: "4",
-                displayName: "APEX",
-                tagName: "apex-legends",
-                clickedCount: 650,
-                createdAt: Date(),
-                updatedAt: Date(),
-                parentTagId: nil,
-                childTagIds: []
-            ),
-            Tag(
-                id: "5",
-                displayName: "Valorant",
-                tagName: "valorant",
-                clickedCount: 580,
-                createdAt: Date(),
-                updatedAt: Date(),
-                parentTagId: nil,
-                childTagIds: []
-            ),
-            Tag(
-                id: "6",
-                displayName: "歌ってみた",
-                tagName: "singing",
-                clickedCount: 420,
-                createdAt: Date(),
-                updatedAt: Date(),
-                parentTagId: nil,
-                childTagIds: []
-            ),
-            Tag(
-                id: "7",
-                displayName: "踊ってみた",
-                tagName: "dance",
-                clickedCount: 380,
-                createdAt: Date(),
-                updatedAt: Date(),
-                parentTagId: nil,
-                childTagIds: []
-            ),
-            Tag(
-                id: "8",
-                displayName: "プロゲーマー",
-                tagName: "professional",
-                clickedCount: 320,
-                createdAt: Date(),
-                updatedAt: Date(),
-                parentTagId: nil,
-                childTagIds: []
-            ),
-            Tag(
-                id: "9",
-                displayName: "レトロゲーム",
-                tagName: "retro",
-                clickedCount: 280,
-                createdAt: Date(),
-                updatedAt: Date(),
-                parentTagId: nil,
-                childTagIds: []
-            ),
+        popularTags = createMockTags()
+    }
+    
+    private func createMockTags() -> [Tag] {
+        return [
+            createTag(id: "1", display: "FPS", name: "fps", count: 1250),
+            createTag(id: "2", display: "VTuber", name: "vtuber", count: 890),
+            createTag(id: "3", display: "Minecraft", name: "minecraft", count: 720),
+            createTag(id: "4", display: "APEX", name: "apex-legends", count: 650),
+            createTag(id: "5", display: "Valorant", name: "valorant", count: 580),
+            createTag(id: "6", display: "歌ってみた", name: "singing", count: 420),
+            createTag(id: "7", display: "踊ってみた", name: "dance", count: 380),
+            createTag(id: "8", display: "プロゲーマー", name: "professional", count: 320),
+            createTag(id: "9", display: "レトロゲーム", name: "retro", count: 280)
         ]
     }
     
+    private func createTag(id: String, display: String, name: String, count: Int) -> Tag {
+        return Tag(
+            id: id,
+            displayName: display,
+            tagName: name,
+            clickedCount: count,
+            createdAt: Date(),
+            updatedAt: Date(),
+            parentTagId: nil,
+            childTagIds: []
+        )
+    }
+    
     private func loadRecommendedCreators() async {
-        // TODO: Implement recommendation logic
+        // Note: Implement recommendation logic
         // For now, reusing popular creators logic
         let request = GetPopularCreatorsUseCaseRequest(limit: 20)
         let response = try? await getPopularCreatorsUseCase.execute(request: request)
@@ -178,7 +114,7 @@ final class HomeViewModel: HomeViewModelProtocol {
     }
     
     private func loadNewArrivalCreators() async {
-        // TODO: Implement new arrivals logic
+        // Note: Implement new arrivals logic
         // For now, reusing popular creators logic
         let request = GetPopularCreatorsUseCaseRequest(limit: 20)
         let response = try? await getPopularCreatorsUseCase.execute(request: request)
