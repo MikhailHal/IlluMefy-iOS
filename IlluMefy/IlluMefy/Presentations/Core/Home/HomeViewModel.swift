@@ -80,7 +80,7 @@ final class HomeViewModel: HomeViewModelProtocol {
                 id: "1",
                 displayName: "FPS",
                 tagName: "fps",
-                clickedCount: 150,
+                clickedCount: 1250,
                 createdAt: Date(),
                 updatedAt: Date(),
                 parentTagId: nil,
@@ -90,7 +90,7 @@ final class HomeViewModel: HomeViewModelProtocol {
                 id: "2",
                 displayName: "VTuber",
                 tagName: "vtuber",
-                clickedCount: 120,
+                clickedCount: 890,
                 createdAt: Date(),
                 updatedAt: Date(),
                 parentTagId: nil,
@@ -100,12 +100,72 @@ final class HomeViewModel: HomeViewModelProtocol {
                 id: "3",
                 displayName: "Minecraft",
                 tagName: "minecraft",
-                clickedCount: 100,
+                clickedCount: 720,
                 createdAt: Date(),
                 updatedAt: Date(),
                 parentTagId: nil,
                 childTagIds: []
-            )
+            ),
+            Tag(
+                id: "4",
+                displayName: "APEX",
+                tagName: "apex-legends",
+                clickedCount: 650,
+                createdAt: Date(),
+                updatedAt: Date(),
+                parentTagId: nil,
+                childTagIds: []
+            ),
+            Tag(
+                id: "5",
+                displayName: "Valorant",
+                tagName: "valorant",
+                clickedCount: 580,
+                createdAt: Date(),
+                updatedAt: Date(),
+                parentTagId: nil,
+                childTagIds: []
+            ),
+            Tag(
+                id: "6",
+                displayName: "歌ってみた",
+                tagName: "singing",
+                clickedCount: 420,
+                createdAt: Date(),
+                updatedAt: Date(),
+                parentTagId: nil,
+                childTagIds: []
+            ),
+            Tag(
+                id: "7",
+                displayName: "踊ってみた",
+                tagName: "dance",
+                clickedCount: 380,
+                createdAt: Date(),
+                updatedAt: Date(),
+                parentTagId: nil,
+                childTagIds: []
+            ),
+            Tag(
+                id: "8",
+                displayName: "プロゲーマー",
+                tagName: "professional",
+                clickedCount: 320,
+                createdAt: Date(),
+                updatedAt: Date(),
+                parentTagId: nil,
+                childTagIds: []
+            ),
+            Tag(
+                id: "9",
+                displayName: "レトロゲーム",
+                tagName: "retro",
+                clickedCount: 280,
+                createdAt: Date(),
+                updatedAt: Date(),
+                parentTagId: nil,
+                childTagIds: []
+            ),
         ]
     }
     

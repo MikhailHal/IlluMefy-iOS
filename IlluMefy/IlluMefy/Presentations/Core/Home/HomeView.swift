@@ -64,12 +64,13 @@ struct HomeView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .font(.title2)
                 .bold()
-            ScrollView(.horizontal) {
-                HStack {
-                    ForEach(viewModel.recommendedCreators) { creator in
-                        CreatorTile(creator: creator)
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: Spacing.relatedComponentDivider) {
+                    ForEach(viewModel.popularTags) { tag in
+                        TagTile(tag: tag)
                     }
                 }
+                .padding(.trailing, Spacing.screenEdgePadding)
             }
         }
     }
