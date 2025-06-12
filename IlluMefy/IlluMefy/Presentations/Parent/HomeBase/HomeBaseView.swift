@@ -12,19 +12,6 @@ struct HomeBaseView<ContentView: View>: View {
     
     init(@ViewBuilder content: () -> ContentView) {
         self.content = content()
-        configureNavigationBarAppearance()
-    }
-    
-    private func configureNavigationBarAppearance() {
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = Asset.Color.Application.Background.background.color
-        appearance.titleTextAttributes = [
-            .font: UIFont.preferredFont(forTextStyle: .title3),
-            .foregroundColor: Asset.Color.Application.foreground.color
-        ]
-        UINavigationBar.appearance().standardAppearance = appearance
-        UINavigationBar.appearance().scrollEdgeAppearance = appearance
     }
     
     var body: some View {
@@ -32,8 +19,6 @@ struct HomeBaseView<ContentView: View>: View {
             TabBarView()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(Asset.Color.Application.Background.background.swiftUIColor)
-                .navigationTitle("ホーム画面")
-                .navigationBarTitleDisplayMode(.inline)
                 .ignoresSafeArea(.keyboard, edges: .all)
                 .navigationBarBackButtonHidden()
         }
