@@ -10,6 +10,7 @@ import SwiftUI
 struct CreatorDetailView: View {
     let creator: Creator
     @Environment(\.dismiss) private var dismiss
+    @State private var isFavorite = false
     
     var body: some View {
         ScrollView {
@@ -34,6 +35,9 @@ struct CreatorDetailView: View {
                 
                 // Stats section
                 statsSection
+                
+                // Similar creators section
+                similarCreatorsSection
             }
             .padding(Spacing.screenEdgePadding)
         }
@@ -85,11 +89,25 @@ struct CreatorDetailView: View {
             )
             .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 5)
             
-            // Creator name
-            Text(creator.name)
-                .font(.title)
-                .bold()
-                .multilineTextAlignment(.center)
+            // Creator name with favorite button
+            HStack(spacing: 12) {
+                Text(creator.name)
+                    .font(.title)
+                    .bold()
+                    .multilineTextAlignment(.center)
+                
+                Button(action: {
+                    withAnimation(.easeInOut(duration: 0.2)) {
+                        isFavorite.toggle()
+                    }
+                }) {
+                    Image(systemName: isFavorite ? "heart.fill" : "heart")
+                        .font(.title2)
+                        .foregroundColor(isFavorite ? .red : .primary.opacity(0.7))
+                        .scaleEffect(isFavorite ? 1.1 : 1.0)
+                        .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isFavorite)
+                }
+            }
             
             // Main platform indicator
             HStack {
@@ -286,6 +304,28 @@ struct CreatorDetailView: View {
         }
     }
     
+    private var similarCreatorsSection: some View {
+        VStack(alignment: .leading, spacing: Spacing.relatedComponentDivider) {
+            Text("類似クリエイター")
+                .font(.headline)
+                .bold()
+                .frame(maxWidth: .infinity, alignment: .leading)
+            
+            Text("同じタグを持つクリエイターをチェック")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+            
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: Spacing.relatedComponentDivider) {
+                    ForEach(getSimilarCreators()) { similarCreator in
+                        SimilarCreatorCard(creator: similarCreator)
+                    }
+                }
+                .padding(.trailing, Spacing.screenEdgePadding)
+            }
+        }
+    }
+    
     // MARK: - Helper Functions
     
     private func formatViewCount(_ count: Int) -> String {
@@ -296,6 +336,65 @@ struct CreatorDetailView: View {
         } else {
             return "\(count)"
         }
+    }
+    
+    private func getSimilarCreators() -> [Creator] {
+        // Mock similar creators based on common tags
+        let mockSimilarCreators: [Creator] = [
+            Creator(
+                id: "similar_001",
+                name: "類似ゲーマーA",
+                thumbnailUrl: "https://picsum.photos/200/200?random=10",
+                viewCount: 8500,
+                socialLinkClickCount: 1200,
+                platformClickRatio: [.youtube: 0.6, .twitch: 0.4],
+                relatedTag: creator.relatedTag.prefix(2) + ["gaming"],
+                description: "同じジャンルで活動中",
+                platform: [
+                    .youtube: "https://youtube.com/@similarA",
+                    .twitch: "https://twitch.tv/similarA"
+                ],
+                createdAt: Date().addingTimeInterval(-86400 * 20),
+                updatedAt: Date().addingTimeInterval(-3600 * 2),
+                isActive: true
+            ),
+            Creator(
+                id: "similar_002",
+                name: "類似配信者B",
+                thumbnailUrl: "https://picsum.photos/200/200?random=11",
+                viewCount: 6200,
+                socialLinkClickCount: 900,
+                platformClickRatio: [.twitch: 0.7, .youtube: 0.3],
+                relatedTag: creator.relatedTag.suffix(2) + ["streaming"],
+                description: "人気配信者",
+                platform: [
+                    .twitch: "https://twitch.tv/similarB",
+                    .youtube: "https://youtube.com/@similarB"
+                ],
+                createdAt: Date().addingTimeInterval(-86400 * 40),
+                updatedAt: Date().addingTimeInterval(-3600 * 5),
+                isActive: true
+            ),
+            Creator(
+                id: "similar_003",
+                name: "類似VTuberC",
+                thumbnailUrl: "https://picsum.photos/200/200?random=12",
+                viewCount: 9800,
+                socialLinkClickCount: 1800,
+                platformClickRatio: [.youtube: 0.8, .x: 0.2],
+                relatedTag: creator.relatedTag.randomElement().map { [$0, "entertainment"] } ?? ["entertainment"],
+                description: "エンターテイメント系",
+                platform: [
+                    .youtube: "https://youtube.com/@similarC",
+                    .x: "https://twitter.com/similarC"
+                ],
+                createdAt: Date().addingTimeInterval(-86400 * 25),
+                updatedAt: Date().addingTimeInterval(-3600 * 1),
+                isActive: true
+            )
+        ]
+        
+        return mockSimilarCreators
     }
 }
 
@@ -503,6 +602,84 @@ struct InfoCorrectionButton: View {
                 isPressed = pressing
             }
         } perform: {}
+    }
+}
+
+// MARK: - SimilarCreatorCard Component
+
+struct SimilarCreatorCard: View {
+    let creator: Creator
+    @State private var isPressed = false
+    
+    var body: some View {
+        VStack(spacing: 8) {
+            // Creator image
+            AsyncImage(url: URL(string: creator.thumbnailUrl)) { image in
+                image
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+            } placeholder: {
+                Rectangle()
+                    .fill(Color.gray.opacity(0.3))
+                    .overlay(
+                        ProgressView()
+                    )
+            }
+            .frame(width: 80, height: 80)
+            .clipShape(Circle())
+            .overlay(
+                Circle()
+                    .stroke(.white.opacity(0.3), lineWidth: 2)
+            )
+            
+            // Creator info
+            VStack(spacing: 4) {
+                Text(creator.name)
+                    .font(.caption)
+                    .bold()
+                    .lineLimit(1)
+                    .multilineTextAlignment(.center)
+                
+                HStack(spacing: 4) {
+                    Image(systemName: "eye.fill")
+                        .font(.system(size: 8))
+                        .foregroundColor(.secondary)
+                    Text(formatViewCount(creator.viewCount))
+                        .font(.system(size: 8))
+                        .foregroundColor(.secondary)
+                }
+            }
+        }
+        .frame(width: 100)
+        .padding(.vertical, 8)
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(.ultraThinMaterial)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(.primary.opacity(0.1), lineWidth: 1)
+        )
+        .scaleEffect(isPressed ? 0.95 : 1.0)
+        .animation(.easeInOut(duration: 0.1), value: isPressed)
+        .onTapGesture {
+            // Navigate to similar creator detail
+        }
+        .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity) { pressing in
+            withAnimation(.easeInOut(duration: 0.1)) {
+                isPressed = pressing
+            }
+        } perform: {}
+    }
+    
+    private func formatViewCount(_ count: Int) -> String {
+        if count >= 1000000 {
+            return String(format: "%.1fM", Double(count) / 1000000)
+        } else if count >= 1000 {
+            return String(format: "%.1fK", Double(count) / 1000)
+        } else {
+            return "\(count)"
+        }
     }
 }
 
