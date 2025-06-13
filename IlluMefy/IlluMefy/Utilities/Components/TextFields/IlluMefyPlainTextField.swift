@@ -16,14 +16,24 @@ struct IlluMefyPlainTextField: View {
     let placeHolder: String
     let label: String?
     let isRequired: Bool
+    let keyboardType: UIKeyboardType
+    let textContentType: UITextContentType?
     @FocusState private var isFocused: Bool
     
-    init(text: Binding<String>, placeHolder: String, label: String? = nil, isRequired: Bool = false) {
-        self._text = text
-        self.placeHolder = placeHolder
-        self.label = label
-        self.isRequired = isRequired
-    }
+    init(
+        text: Binding<String>,
+        placeHolder: String,
+        label: String? = nil,
+        isRequired: Bool = false,
+        keyboardType: UIKeyboardType = .default,
+        textContentType: UITextContentType? = nil) {
+            self._text = text
+            self.placeHolder = placeHolder
+            self.label = label
+            self.isRequired = isRequired
+            self.keyboardType = keyboardType
+            self.textContentType = textContentType
+        }
     
     var body: some View {
         VStack(alignment: .leading, spacing: Spacing.componentGrouping) {
@@ -41,7 +51,14 @@ struct IlluMefyPlainTextField: View {
             }
             
             TextField("a", text: $text)
-                .textFieldStyle(NormalTextFieldStyle(isEnabled: true, text: $text, placeholder: placeHolder))
+                .textFieldStyle(
+                    NormalTextFieldStyle(
+                        isEnabled: true,
+                        text: $text,
+                        placeholder: placeHolder,
+                        keyboardType: keyboardType,
+                        textContentType: textContentType)
+                )
                 .focused($isFocused)
                 .contentShape(Rectangle())
                 .onTapGesture {

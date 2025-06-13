@@ -12,12 +12,21 @@ struct NormalTextFieldStyle: TextFieldStyle, @unchecked Sendable {
     private var isEnabled: Bool
     @Binding var text: String
     private var placeholder: String
+    private var keyboardType: UIKeyboardType
+    private var textContentType: UITextContentType?
     
-    init (isEnabled: Bool, text: Binding<String>, placeholder: String) {
-        self.isEnabled = isEnabled
-        self._text = text
-        self.placeholder = placeholder
-    }
+    init (
+        isEnabled: Bool,
+        text: Binding<String>,
+        placeholder: String,
+        keyboardType: UIKeyboardType = .default,
+        textContentType: UITextContentType? = nil) {
+            self.isEnabled = isEnabled
+            self._text = text
+            self.placeholder = placeholder
+            self.keyboardType = keyboardType
+            self.textContentType = textContentType
+        }
     
     func _body(configuration: TextField<Self._Label>) -> some View {
         ZStack(alignment: .leading) {
@@ -25,8 +34,8 @@ struct NormalTextFieldStyle: TextFieldStyle, @unchecked Sendable {
                 .focused($isFocused)
                 .padding(.vertical, Size.textFieldPaddingVertical)
                 .padding(.horizontal, Size.textFieldPaddingHorizontal)
-                .keyboardType(.emailAddress)
-                .textContentType(.emailAddress)
+                .keyboardType(keyboardType)
+                .textContentType(textContentType)
                 .foregroundColor(getForegroundColor(isEnabled))
                 .background(getBackgroundColor(isEnabled))
                 .autocapitalization(.none)
