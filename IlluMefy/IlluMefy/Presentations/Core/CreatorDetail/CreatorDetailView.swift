@@ -8,24 +8,88 @@
 import SwiftUI
 
 struct CreatorDetailView: View {
-    let creator: Creator
+    @StateObject private var viewModel: CreatorDetailViewModel
     @Environment(\.dismiss) private var dismiss
-    @State private var isFavorite = false
+    
+    init(creatorId: String) {
+        let container = DependencyContainer.shared
+        let viewModel = container.container.resolve(CreatorDetailViewModel.self, argument: creatorId)!
+        self._viewModel = StateObject(wrappedValue: viewModel)
+    }
     
     var body: some View {
+        Group {
+            switch viewModel.state {
+            case .idle, .loading:
+                loadingView
+            case .loaded(let creator, let similarCreators):
+                contentView(creator: creator, similarCreators: similarCreators)
+            case .error(let title, let message):
+                errorView(title: title, message: message)
+            }
+        }
+        .background(Asset.Color.Application.Background.background.swiftUIColor)
+        .navigationBarHidden(true)
+        .task {
+            await viewModel.loadCreatorDetail()
+        }
+    }
+    
+    // MARK: - State Views
+    
+    private var loadingView: some View {
+        VStack(spacing: Spacing.unrelatedComponentDivider) {
+            headerSection
+            Spacer()
+            ProgressView()
+                .scaleEffect(1.5)
+            Text("読み込み中...")
+                .font(.headline)
+                .foregroundColor(.secondary)
+            Spacer()
+        }
+        .padding(Spacing.screenEdgePadding)
+    }
+    
+    private func errorView(title: String, message: String) -> some View {
+        VStack(spacing: Spacing.unrelatedComponentDivider) {
+            headerSection
+            Spacer()
+            Image(systemName: "exclamationmark.triangle")
+                .font(.system(size: 60))
+                .foregroundColor(.red)
+            Text(title)
+                .font(.title2)
+                .bold()
+            Text(message)
+                .font(.body)
+                .foregroundColor(.secondary)
+                .multilineTextAlignment(.center)
+            Button("再試行") {
+                Task {
+                    await viewModel.loadCreatorDetail()
+                }
+            }
+            .buttonStyle(.borderedProminent)
+            Spacer()
+        }
+        .padding(Spacing.screenEdgePadding)
+    }
+    
+    private func contentView(creator: Creator, similarCreators: [Creator]) -> some View {
         ScrollView {
             VStack(spacing: Spacing.unrelatedComponentDivider) {
                 // Header section with close button
                 headerSection
                 
                 // Creator profile section
-                creatorProfileSection
+                creatorProfileSection(creator: creator)
                 
                 // Platform buttons section
-                platformButtonsSection
+                platformButtonsSection(creator: creator)
                 
                 // Tags section
-                tagsSection
+                tagsSection(creator: creator)
                 
                 // Tag registration section
                 tagRegistrationSection
@@ -34,15 +98,13 @@ struct CreatorDetailView: View {
                 informationCorrectionSection
                 
                 // Stats section
-                statsSection
+                statsSection(creator: creator)
                 
                 // Similar creators section
-                similarCreatorsSection
+                similarCreatorsSection(similarCreators: similarCreators)
             }
             .padding(Spacing.screenEdgePadding)
         }
-        .background(Asset.Color.Application.Background.background.swiftUIColor)
-        .navigationBarHidden(true)
     }
     
     // MARK: - View Components
@@ -60,7 +122,7 @@ struct CreatorDetailView: View {
         }
     }
     
-    private var creatorProfileSection: some View {
+    private func creatorProfileSection(creator: Creator) -> some View {
         VStack(spacing: Spacing.relatedComponentDivider) {
             // Creator image
             AsyncImage(url: URL(string: creator.thumbnailUrl)) { image in
@@ -98,14 +160,14 @@ struct CreatorDetailView: View {
                 
                 Button(action: {
                     withAnimation(.easeInOut(duration: 0.2)) {
-                        isFavorite.toggle()
+                        viewModel.toggleFavorite()
                     }
                 }, label: {
-                    Image(systemName: isFavorite ? "heart.fill" : "heart")
+                    Image(systemName: viewModel.isFavorite ? "heart.fill" : "heart")
                         .font(.title2)
-                        .foregroundColor(isFavorite ? .red : .primary.opacity(0.7))
-                        .scaleEffect(isFavorite ? 1.1 : 1.0)
-                        .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isFavorite)
+                        .foregroundColor(viewModel.isFavorite ? .red : .primary.opacity(0.7))
+                        .scaleEffect(viewModel.isFavorite ? 1.1 : 1.0)
+                        .animation(.spring(response: 0.3, dampingFraction: 0.6), value: viewModel.isFavorite)
                 })
             }
             
@@ -129,7 +191,7 @@ struct CreatorDetailView: View {
         }
     }
     
-    private var platformButtonsSection: some View {
+    private func platformButtonsSection(creator: Creator) -> some View {
         VStack(alignment: .leading, spacing: Spacing.relatedComponentDivider) {
             Text(L10n.CreatorDetail.snsLinks)
                 .font(.headline)
@@ -149,7 +211,7 @@ struct CreatorDetailView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
     }
     
-    private var tagsSection: some View {
+    private func tagsSection(creator: Creator) -> some View {
         VStack(alignment: .leading, spacing: Spacing.relatedComponentDivider) {
             Text(L10n.CreatorDetail.relatedTags)
                 .font(.headline)
@@ -275,7 +337,7 @@ struct CreatorDetailView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
     }
     
-    private var statsSection: some View {
+    private func statsSection(creator: Creator) -> some View {
         VStack(spacing: Spacing.relatedComponentDivider) {
             Text(L10n.CreatorDetail.statistics)
                 .font(.headline)
@@ -304,7 +366,7 @@ struct CreatorDetailView: View {
         }
     }
     
-    private var similarCreatorsSection: some View {
+    private func similarCreatorsSection(similarCreators: [Creator]) -> some View {
         VStack(alignment: .leading, spacing: Spacing.relatedComponentDivider) {
             Text(L10n.CreatorDetail.similarCreators)
                 .font(.headline)
@@ -317,7 +379,7 @@ struct CreatorDetailView: View {
             
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: Spacing.relatedComponentDivider) {
-                    ForEach(getSimilarCreators()) { similarCreator in
+                    ForEach(similarCreators) { similarCreator in
                         SimilarCreatorCard(creator: similarCreator)
                     }
                 }
@@ -337,101 +399,69 @@ struct CreatorDetailView: View {
             return "\(count)"
         }
     }
-    
-    private func getSimilarCreators() -> [Creator] {
-        // Mock similar creators based on common tags
-        return [
-            createSimilarCreator1(),
-            createSimilarCreator2(),
-            createSimilarCreator3()
-        ]
-    }
-    
-    private func createSimilarCreator1() -> Creator {
-        return Creator(
-            id: "similar_001",
-            name: "類似ゲーマーA",
-            thumbnailUrl: "https://picsum.photos/200/200?random=10",
-            viewCount: 8500,
-            socialLinkClickCount: 1200,
-            platformClickRatio: [.youtube: 0.6, .twitch: 0.4],
-            relatedTag: creator.relatedTag.prefix(2) + ["gaming"],
-            description: "同じジャンルで活動中",
-            platform: [
-                .youtube: "https://youtube.com/@similarA",
-                .twitch: "https://twitch.tv/similarA"
-            ],
-            createdAt: Date().addingTimeInterval(-86400 * 20),
-            updatedAt: Date().addingTimeInterval(-3600 * 2),
-            isActive: true
-        )
-    }
-    
-    private func createSimilarCreator2() -> Creator {
-        return Creator(
-            id: "similar_002",
-            name: "類似配信者B",
-            thumbnailUrl: "https://picsum.photos/200/200?random=11",
-            viewCount: 6200,
-            socialLinkClickCount: 900,
-            platformClickRatio: [.twitch: 0.7, .youtube: 0.3],
-            relatedTag: creator.relatedTag.suffix(2) + ["streaming"],
-            description: "人気配信者",
-            platform: [
-                .twitch: "https://twitch.tv/similarB",
-                .youtube: "https://youtube.com/@similarB"
-            ],
-            createdAt: Date().addingTimeInterval(-86400 * 40),
-            updatedAt: Date().addingTimeInterval(-3600 * 5),
-            isActive: true
-        )
-    }
-    
-    private func createSimilarCreator3() -> Creator {
-        return Creator(
-            id: "similar_003",
-            name: "類似VTuberC",
-            thumbnailUrl: "https://picsum.photos/200/200?random=12",
-            viewCount: 9800,
-            socialLinkClickCount: 1800,
-            platformClickRatio: [.youtube: 0.8, .x: 0.2],
-            relatedTag: creator.relatedTag.randomElement().map { [$0, "entertainment"] } ?? ["entertainment"],
-            description: "エンターテイメント系",
-            platform: [
-                .youtube: "https://youtube.com/@similarC",
-                .x: "https://twitter.com/similarC"
-            ],
-            createdAt: Date().addingTimeInterval(-86400 * 25),
-            updatedAt: Date().addingTimeInterval(-3600 * 1),
-            isActive: true
-        )
-    }
 }
 
-#Preview {
-    CreatorDetailView(creator: Creator(
-        id: "creator_001",
-        name: "ゲーム実況者A",
-        thumbnailUrl: "https://picsum.photos/200/200?random=1",
-        viewCount: 5000,
-        socialLinkClickCount: 1500,
-        platformClickRatio: [
-            .niconico: 0.6,
-            .youtube: 0.3,
-            .x: 0.1
-        ],
-        relatedTag: ["fps", "apex-legends", "valorant", "gaming", "gaming", "gaming", "gaming", "gaming"],
-        description: "FPSゲームをメインに実況しています。毎日20時から配信！初心者から上級者まで楽しめるコンテンツを心がけています。",
-        platform: [
-            .niconico: "https://www.nicovideo.jp/user/12345678",
-            .youtube: "https://youtube.com/@gameplayerA",
-            .twitch: "https://twitch.tv/gameplayerA",
-            .x: "https://twitter.com/gameplayerA",
-            .instagram: "https://instagram.com/gameplayerA",
-            .tiktok: "https://tiktok.com/@gameplayerA"
-        ],
-        createdAt: Date().addingTimeInterval(-86400 * 30),
-        updatedAt: Date().addingTimeInterval(-3600),
-        isActive: true
-    ))
+#Preview("正常表示") {
+    CreatorDetailView(creatorId: "creator_001")
+}
+
+#Preview("ローディング中") {
+    struct MockLoadingView: View {
+        @StateObject private var viewModel = MockCreatorDetailViewModel()
+        
+        var body: some View {
+            Group {
+                switch viewModel.state {
+                case .loading:
+                    Text("ローディング中...")
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(Asset.Color.Application.Background.background.swiftUIColor)
+                default:
+                    Text("ローディング状態")
+                }
+            }
+            .onAppear {
+                viewModel.state = .loading
+            }
+        }
+    }
+    
+    return MockLoadingView()
+}
+
+#Preview("エラー表示") {
+    struct MockErrorView: View {
+        @StateObject private var viewModel = MockCreatorDetailViewModel.mockError()
+        
+        var body: some View {
+            Group {
+                switch viewModel.state {
+                case .error(let title, let message):
+                    VStack(spacing: 16) {
+                        Image(systemName: "exclamationmark.triangle")
+                            .font(.system(size: 60))
+                            .foregroundColor(.red)
+                        Text(title)
+                            .font(.title2)
+                            .bold()
+                        Text(message)
+                            .font(.body)
+                            .foregroundColor(.secondary)
+                            .multilineTextAlignment(.center)
+                        Button("再試行") {
+                            // Dummy action
+                        }
+                        .buttonStyle(.borderedProminent)
+                    }
+                    .padding()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(Asset.Color.Application.Background.background.swiftUIColor)
+                default:
+                    Text("エラー状態")
+                }
+            }
+        }
+    }
+    
+    return MockErrorView()
 }

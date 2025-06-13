@@ -62,7 +62,7 @@ struct CreatorTile: View {
             // 長押しアクション
         }
         .fullScreenCover(isPresented: $showingDetail) {
-            CreatorDetailView(creator: creator)
+            CreatorDetailView(creatorId: creator.id)
         }
     }
     
