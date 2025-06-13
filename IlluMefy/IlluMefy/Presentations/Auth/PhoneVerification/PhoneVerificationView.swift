@@ -212,9 +212,9 @@ struct VerificationFormView: View {
                 text: $viewModel.verificationCode,
                 placeHolder: L10n.PhoneVerification.Input.VerificationCode.textfield,
                 label: L10n.PhoneVerification.Input.VerificationCode.label,
-                isRequired: true
+                isRequired: true,
+                keyboardType: .numberPad
             )
-            .keyboardType(.numberPad)
             .focused($isCodeFocused)
             // フォーカス時の拡大エフェクト
             .scaleEffect(isCodeFocused ? Effects.focusScale : 1.0)

@@ -181,9 +181,9 @@ struct SignUpFormView: View {
                 text: $viewModel.phoneNumber,
                 placeHolder: L10n.PhoneNumberRegistration.Input.PhoneNumber.textfield,
                 label: L10n.PhoneNumberRegistration.Input.PhoneNumber.label,
-                isRequired: true
+                isRequired: true,
+                keyboardType: .phonePad
             )
-            .keyboardType(.phonePad)
             .focused($isPhoneFocused)
             // フォーカス時の拡大エフェクト
             .scaleEffect(isPhoneFocused ? Effects.focusScale : 1.0)
