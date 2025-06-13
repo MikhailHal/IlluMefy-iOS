@@ -29,19 +29,19 @@ struct CreatorTile: View {
             // Bottom info section
             bottomInfoSection
         }
-        .frame(width: 120, height: 180)
-        .cornerRadius(16)
+        .frame(width: Size.creatorTileWidth, height: Size.creatorTileHeight)
+        .cornerRadius(CornerRadius.tile)
         .overlay(
-            RoundedRectangle(cornerRadius: 16)
+            RoundedRectangle(cornerRadius: CornerRadius.tile)
                 .stroke(LinearGradient(
-                    colors: [.white.opacity(0.3), .clear],
+                    colors: [.white.opacity(Opacity.backgroundOverlay), .clear],
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
-                ), lineWidth: 1)
+                ), lineWidth: BorderWidth.medium)
         )
-        .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
-        .scaleEffect(isPressed ? 0.95 : 1.0)
-        .animation(.easeInOut(duration: 0.1), value: isPressed)
+        .shadow(color: .black.opacity(Opacity.shadow), radius: Shadow.radiusSmall, x: 0, y: Shadow.offsetYSmall)
+        .scaleEffect(isPressed ? Effects.initialScale : 1.0)
+        .animation(.easeInOut(duration: AnimationDuration.instant), value: isPressed)
         .overlay(alignment: .topLeading) {
             platformIconOverlay
         }
@@ -55,7 +55,7 @@ struct CreatorTile: View {
             showingDetail = true
         }
         .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity) { pressing in
-            withAnimation(.easeInOut(duration: 0.1)) {
+            withAnimation(.easeInOut(duration: AnimationDuration.instant)) {
                 isPressed = pressing
             }
         } perform: {
@@ -71,7 +71,7 @@ struct CreatorTile: View {
     // MARK: - View Components
     
     private var bottomInfoSection: some View {
-        VStack(spacing: 4) {
+        VStack(spacing: Spacing.small) {
             // Creator name
             Text(creator.name)
                 .font(.caption)
@@ -84,38 +84,38 @@ struct CreatorTile: View {
                 contentTagsView
             }
         }
-        .padding(.horizontal, 8)
-        .padding(.vertical, 6)
+        .padding(.horizontal, Spacing.componentGrouping)
+        .padding(.vertical, Spacing.smallMedium)
         .frame(maxWidth: .infinity)
         .background(
             Rectangle()
                 .fill(.ultraThinMaterial)
                 .clipShape(.rect(
                     topLeadingRadius: 0,
-                    bottomLeadingRadius: 16,
-                    bottomTrailingRadius: 16,
+                    bottomLeadingRadius: CornerRadius.tile,
+                    bottomTrailingRadius: CornerRadius.tile,
                     topTrailingRadius: 0)
                 )
         )
     }
     
     private var contentTagsView: some View {
-        HStack(spacing: 4) {
+        HStack(spacing: Spacing.small) {
             ForEach(Array(creator.relatedTag.prefix(2)), id: \.self) { tag in
                 Text("#\(tag)")
-                    .font(.system(size: 9))
-                    .foregroundColor(.white.opacity(0.8))
-                    .padding(.horizontal, 4)
-                    .padding(.vertical, 2)
+                    .font(.system(size: Typography.captionMini))
+                    .foregroundColor(.white.opacity(Opacity.secondaryText))
+                    .padding(.horizontal, Spacing.small)
+                    .padding(.vertical, Spacing.extraSmall)
                     .background(
                         Capsule()
-                            .fill(.white.opacity(0.2))
+                            .fill(.white.opacity(Opacity.shadow))
                     )
             }
             if creator.relatedTag.count > 2 {
-                Text("...")
-                    .font(.system(size: 9))
-                    .foregroundColor(.white.opacity(0.6))
+                Text(L10n.Common.more)
+                    .font(.system(size: Typography.captionMini))
+                    .foregroundColor(.white.opacity(Opacity.placeholder))
             }
         }
     }
@@ -125,9 +125,9 @@ struct CreatorTile: View {
             Rectangle()
                 .fill(Asset.Color.Application.Background.background.swiftUIColor.opacity(0.8))
                 .clipShape(.rect(
-                    topLeadingRadius: 16,
+                    topLeadingRadius: CornerRadius.tile,
                     bottomLeadingRadius: 0,
-                    bottomTrailingRadius: 8,
+                    bottomTrailingRadius: CornerRadius.medium,
                     topTrailingRadius: 0)
                 )
             
@@ -141,22 +141,22 @@ struct CreatorTile: View {
                 Image(platform.icon).platformIconStyle()
             }
         }
-        .frame(width: 50, height: 35)
+        .frame(width: Size.platformOverlayWidth, height: Size.platformOverlayHeight)
     }
     
     private var viewCountOverlay: some View {
         VStack {
             Text(formatViewCount(creator.viewCount))
-                .font(.system(size: 10, weight: .semibold))
+                .font(.system(size: Typography.captionExtraSmall, weight: .semibold))
                 .foregroundColor(.white)
-                .padding(.horizontal, 6)
-                .padding(.vertical, 3)
+                .padding(.horizontal, Spacing.smallMedium)
+                .padding(.vertical, Spacing.extraSmall)
                 .background(
                     Capsule()
-                        .fill(.black.opacity(0.6))
+                        .fill(.black.opacity(Opacity.placeholder))
                 )
-                .padding(.top, 8)
-                .padding(.trailing, 8)
+                .padding(.top, Spacing.componentGrouping)
+                .padding(.trailing, Spacing.componentGrouping)
             Spacer()
         }
     }
@@ -167,17 +167,17 @@ struct CreatorTile: View {
             return AnyView(
                 VStack {
                     Spacer()
-                    Text("+\(platformCount - 1)")
-                        .font(.system(size: 9, weight: .medium))
+                    Text(L10n.Common.platformCount(platformCount - 1))
+                        .font(.system(size: Typography.captionMini, weight: .medium))
                         .foregroundColor(.white)
-                        .padding(.horizontal, 4)
-                        .padding(.vertical, 2)
+                        .padding(.horizontal, Spacing.small)
+                        .padding(.vertical, Spacing.extraSmall)
                         .background(
                             Capsule()
-                                .fill(.orange.opacity(0.8))
+                                .fill(.orange.opacity(Opacity.secondaryText))
                         )
-                        .padding(.bottom, 45)
-                        .padding(.trailing, 6)
+                        .padding(.bottom, Layout.platformIndicatorBottomOffset)
+                        .padding(.trailing, Spacing.smallMedium)
                 }
             )
         } else {
@@ -202,7 +202,7 @@ extension Image {
     func platformIconStyle() -> some View {
         self
             .resizable()
-            .frame(width: 25, height: 25)
+            .frame(width: Size.platformIconSize, height: Size.platformIconSize)
     }
 }
 

@@ -142,6 +142,17 @@
 "informationCorrection.activityStatusReport" = "活動状況の報告";
 "informationCorrection.activityStatusReportDescription" = "引退、活動休止、復帰など";
 
+/* Common UI Elements */
+"common.loading" = "読み込み中...";
+"common.loadingState" = "ローディング状態";
+"common.errorState" = "エラー状態";
+"common.retry" = "再試行";
+"common.navigationTest" = "ナビゲーションテスト";
+"common.openCreatorDetail" = "クリエイター詳細を開く";
+"common.more" = "...";
+"common.platformCount" = "+%d";
+"common.resendCooldown" = "(%d秒)";
+
 /* Common */
 "common.hello" = "Hello, World!";
 "common.previewContent" = "Preview Content";

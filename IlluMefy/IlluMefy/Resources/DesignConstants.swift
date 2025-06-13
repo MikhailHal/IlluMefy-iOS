@@ -38,12 +38,16 @@ enum CornerRadius {
     static let small: CGFloat = 4
     static let medium: CGFloat = 8
     static let large: CGFloat = 12
+    static let extraLarge: CGFloat = 16
+    static let round: CGFloat = 20
     
     // Component specific
     static let textField: CGFloat = 8
     static let button: CGFloat = 8
     static let card: CGFloat = 8
     static let checkbox: CGFloat = 4
+    static let tile: CGFloat = 16
+    static let tag: CGFloat = 20
 }
 
 // MARK: - Size
@@ -60,6 +64,18 @@ enum Size {
     static let textFieldPaddingHorizontal: CGFloat = 20
     static let checkboxSize: CGFloat = 20
     static let tapAreaMinimum: CGFloat = 44
+    
+    // Creator tile sizes
+    static let creatorTileWidth: CGFloat = 120
+    static let creatorTileHeight: CGFloat = 180
+    static let creatorImageSize: CGFloat = 120
+    static let similarCreatorImageSize: CGFloat = 80
+    static let similarCreatorCardWidth: CGFloat = 100
+    
+    // Platform icon overlay
+    static let platformOverlayWidth: CGFloat = 50
+    static let platformOverlayHeight: CGFloat = 35
+    static let platformIconSize: CGFloat = 25
     
     // Particle sizes
     static let particleMin: CGFloat = 4
@@ -149,6 +165,10 @@ enum Typography {
     static let titleMedium: CGFloat = 32
     static let bodyRegular: CGFloat = 16
     static let checkmark: CGFloat = 14
+    static let captionSmall: CGFloat = 12
+    static let captionExtraSmall: CGFloat = 10
+    static let captionMini: CGFloat = 9
+    static let systemSmall: CGFloat = 8
 }
 
 // MARK: - Layout
@@ -165,4 +185,12 @@ enum Layout {
     static let verificationCodeMaxLength: Int = 6
     static let buttonFrameHeight: CGFloat = 56
     static let descriptionSpacing: CGFloat = 6
+    
+    // Creator tile specific
+    static let platformIndicatorBottomOffset: CGFloat = 45
+    static let homeGradientStartRadius: CGFloat = 50
+    static let homeGradientEndRadius: CGFloat = 250
+    
+    // Business logic constants
+    static let popularityThreshold: Int = 500
 }
