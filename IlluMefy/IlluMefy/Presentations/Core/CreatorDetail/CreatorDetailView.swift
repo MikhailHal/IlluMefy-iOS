@@ -10,11 +10,17 @@ import SwiftUI
 struct CreatorDetailView: View {
     @StateObject private var viewModel: CreatorDetailViewModel
     @Environment(\.dismiss) private var dismiss
+    @State private var currentCreatorId: String
+    @State private var selectedCreatorId: String?
+    @State private var showingCreatorDetail = false
     
     init(creatorId: String) {
         let container = DependencyContainer.shared
-        let viewModel = container.container.resolve(CreatorDetailViewModel.self, argument: creatorId)!
+        guard let viewModel = container.container.resolve(CreatorDetailViewModel.self, argument: creatorId) else {
+            fatalError("Failed to resolve CreatorDetailViewModel for creatorId: \(creatorId)")
+        }
         self._viewModel = StateObject(wrappedValue: viewModel)
+        self._currentCreatorId = State(initialValue: creatorId)
     }
     
     var body: some View {
@@ -30,6 +36,13 @@ struct CreatorDetailView: View {
         }
         .background(Asset.Color.Application.Background.background.swiftUIColor)
         .navigationBarHidden(true)
+        .sheet(isPresented: $showingCreatorDetail) {
+            if let selectedCreatorId = selectedCreatorId {
+                NavigationStack {
+                    CreatorDetailView(creatorId: selectedCreatorId)
+                }
+            }
+        }
         .task {
             await viewModel.loadCreatorDetail()
         }
@@ -380,7 +393,10 @@ struct CreatorDetailView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: Spacing.relatedComponentDivider) {
                     ForEach(similarCreators) { similarCreator in
-                        SimilarCreatorCard(creator: similarCreator)
+                        SimilarCreatorCard(creator: similarCreator) {
+                            selectedCreatorId = similarCreator.id
+                            showingCreatorDetail = true
+                        }
                     }
                 }
                 .padding(.trailing, Spacing.screenEdgePadding)
@@ -402,7 +418,9 @@ struct CreatorDetailView: View {
 }
 
 #Preview("正常表示") {
-    CreatorDetailView(creatorId: "creator_001")
+    NavigationStack {
+        CreatorDetailView(creatorId: "creator_001")
+    }
 }
 
 #Preview("ローディング中") {
@@ -464,4 +482,35 @@ struct CreatorDetailView: View {
     }
     
     return MockErrorView()
+}
+
+#Preview("ナビゲーションテスト") {
+    struct NavigationTestView: View {
+        @State private var selectedCreator: String?
+        @State private var showingDetail = false
+        
+        var body: some View {
+            NavigationStack {
+                VStack {
+                    Text("ナビゲーションテスト")
+                        .font(.title)
+                    
+                    Button("クリエイター詳細を開く") {
+                        selectedCreator = "creator_001"
+                        showingDetail = true
+                    }
+                    .buttonStyle(.borderedProminent)
+                }
+                .sheet(isPresented: $showingDetail) {
+                    if let creatorId = selectedCreator {
+                        NavigationStack {
+                            CreatorDetailView(creatorId: creatorId)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    return NavigationTestView()
 }

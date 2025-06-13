@@ -61,8 +61,10 @@ struct CreatorTile: View {
         } perform: {
             // 長押しアクション
         }
-        .fullScreenCover(isPresented: $showingDetail) {
-            CreatorDetailView(creatorId: creator.id)
+        .sheet(isPresented: $showingDetail) {
+            NavigationStack {
+                CreatorDetailView(creatorId: creator.id)
+            }
         }
     }
     

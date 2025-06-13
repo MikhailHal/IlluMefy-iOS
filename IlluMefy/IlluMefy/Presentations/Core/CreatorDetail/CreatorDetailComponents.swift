@@ -218,6 +218,7 @@ struct InfoCorrectionButton: View {
 
 struct SimilarCreatorCard: View {
     let creator: Creator
+    let onTap: () -> Void
     @State private var isPressed = false
     
     var body: some View {
@@ -271,8 +272,17 @@ struct SimilarCreatorCard: View {
         )
         .scaleEffect(isPressed ? 0.95 : 1.0)
         .animation(.easeInOut(duration: 0.1), value: isPressed)
+        .shadow(
+            color: isPressed ? .clear : .black.opacity(0.1),
+            radius: isPressed ? 0 : 4,
+            x: 0,
+            y: isPressed ? 0 : 2
+        )
         .onTapGesture {
-            // Navigate to similar creator detail
+            // 触覚フィードバック
+            let impactFeedback = UIImpactFeedbackGenerator(style: .light)
+            impactFeedback.impactOccurred()
+            onTap()
         }
         .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity) { pressing in
             withAnimation(.easeInOut(duration: 0.1)) {
