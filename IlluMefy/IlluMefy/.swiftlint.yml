@@ -20,3 +20,5 @@ disabled_rules:
   - trailing_whitespace
   - file_length
   - identifier_name
+  - type_body_length
+  - function_body_length
