@@ -188,4 +188,35 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
             .sorted { $0.viewCount > $1.viewCount }
             .prefix(limit))
     }
+    
+    func getCreatorById(id: String) async throws -> Creator {
+        try await Task.sleep(nanoseconds: 200_000_000) // 0.2秒
+        guard let creator = mockCreators.first(where: { $0.id == id }) else {
+            throw CreatorRepositoryError.creatorNotFound
+        }
+        return creator
+    }
+    
+    func getSimilarCreators(creatorId: String, limit: Int) async throws -> [Creator] {
+        try await Task.sleep(nanoseconds: 400_000_000) // 0.4秒
+        
+        guard let targetCreator = mockCreators.first(where: { $0.id == creatorId }) else {
+            throw CreatorRepositoryError.creatorNotFound
+        }
+        
+        // 類似度計算：共通タグ数とプラットフォーム重複度で評価
+        let similarCreators = mockCreators
+            .filter { $0.id != creatorId } // 自分自身は除外
+            .map { creator in
+                let commonTags = Set(creator.relatedTag).intersection(Set(targetCreator.relatedTag)).count
+                let commonPlatforms = Set(creator.platform.keys).intersection(Set(targetCreator.platform.keys)).count
+                let similarityScore = commonTags * 2 + commonPlatforms // タグの重みを高く設定
+                return (creator: creator, score: similarityScore)
+            }
+            .sorted { $0.score > $1.score }
+            .filter { $0.score > 0 } // 類似度が0より大きいもののみ
+            .map { $0.creator }
+        
+        return Array(similarCreators.prefix(limit))
+    }
 }

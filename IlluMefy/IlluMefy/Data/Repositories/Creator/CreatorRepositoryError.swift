@@ -9,6 +9,7 @@ import Foundation
 
 enum CreatorRepositoryError: Error, LocalizedError {
     case notFound
+    case creatorNotFound
     case networkError
     case decodingError
     case unauthorized
@@ -19,6 +20,8 @@ enum CreatorRepositoryError: Error, LocalizedError {
         switch self {
         case .notFound:
             return "クリエイターが見つかりませんでした"
+        case .creatorNotFound:
+            return "指定されたクリエイターが見つかりませんでした"
         case .networkError:
             return "ネットワークエラーが発生しました"
         case .decodingError:
@@ -37,6 +40,8 @@ extension CreatorRepositoryError: RepositoryErrorProtocol {
     var code: Int {
         switch self {
         case .notFound:
+            return 404
+        case .creatorNotFound:
             return 404
         case .networkError:
             return -1009
@@ -68,7 +73,7 @@ extension CreatorRepositoryError: RepositoryErrorProtocol {
         switch self {
         case .networkError, .serverError:
             return true
-        case .notFound, .decodingError, .unauthorized, .unknown:
+        case .notFound, .creatorNotFound, .decodingError, .unauthorized, .unknown:
             return false
         }
     }

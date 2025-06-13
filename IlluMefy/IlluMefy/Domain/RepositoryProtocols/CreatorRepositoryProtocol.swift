@@ -41,4 +41,19 @@ protocol CreatorRepositoryProtocol {
     /// - Returns: 人気順にソートされたクリエイターの配列
     /// - Throws: RepositoryError
     func getPopularCreators(limit: Int) async throws -> [Creator]
+    
+    /// 指定IDのクリエイターを取得
+    /// 
+    /// - Parameter id: クリエイターID
+    /// - Returns: 指定されたクリエイター
+    /// - Throws: RepositoryError
+    func getCreatorById(id: String) async throws -> Creator
+    
+    /// 類似クリエイターを取得
+    /// 
+    /// - Parameter creatorId: 基準となるクリエイターID
+    /// - Parameter limit: 取得する件数の上限
+    /// - Returns: 類似度順にソートされたクリエイターの配列
+    /// - Throws: RepositoryError
+    func getSimilarCreators(creatorId: String, limit: Int) async throws -> [Creator]
 }
