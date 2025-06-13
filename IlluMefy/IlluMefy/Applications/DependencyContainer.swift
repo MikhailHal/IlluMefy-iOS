@@ -110,6 +110,16 @@ final class DependencyContainer: @unchecked Sendable {
             resolver.resolve(SearchCreatorsByTagsUseCase.self)!
         }.inObjectScope(.transient)
         
+        // GetCreatorDetail usecase
+        container.register(GetCreatorDetailUseCase.self) { resolver in
+            let creatorRepository = resolver.resolve(CreatorRepositoryProtocol.self)!
+            return GetCreatorDetailUseCase(creatorRepository: creatorRepository)
+        }.inObjectScope(.transient)
+        
+        container.register((any GetCreatorDetailUseCaseProtocol).self) { resolver in
+            resolver.resolve(GetCreatorDetailUseCase.self)!
+        }.inObjectScope(.transient)
+        
     }
     ///
     /// register all view-models
@@ -139,6 +149,17 @@ final class DependencyContainer: @unchecked Sendable {
         
         container.register((any HomeViewModelProtocol).self) { resolver in
             resolver.resolve(HomeViewModel.self)!
+        }.inObjectScope(.transient)
+        
+        // CreatorDetail screen
+        container.register(CreatorDetailViewModel.self) { (resolver, creatorId: String) in
+            let getCreatorDetailUseCase = resolver.resolve((any GetCreatorDetailUseCaseProtocol).self)!
+            return MainActor.assumeIsolated {
+                return CreatorDetailViewModel(
+                    creatorId: creatorId,
+                    getCreatorDetailUseCase: getCreatorDetailUseCase
+                )
+            }
         }.inObjectScope(.transient)
     }
 }
