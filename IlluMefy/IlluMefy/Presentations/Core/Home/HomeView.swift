@@ -18,8 +18,8 @@ struct HomeView: View {
                          Asset.Color.Application.Background.background.swiftUIColor]
                 ),
                 center: .topLeading,
-                startRadius: 50,
-                endRadius: 250
+                startRadius: Layout.homeGradientStartRadius,
+                endRadius: Layout.homeGradientEndRadius
             ).ignoresSafeArea()
             ScrollView {
                 LazyVStack(spacing: Spacing.unrelatedComponentDivider) {
@@ -118,8 +118,8 @@ extension View {
     func sectionScrollTransition() -> some View {
         self.scrollTransition { content, phase in
             content
-                .opacity(phase.isIdentity ? 1.0 : 0.4)
-                .scaleEffect(phase.isIdentity ? 1.0 : 0.8)
+                .opacity(phase.isIdentity ? Effects.visibleOpacity : Effects.dimmedOpacity)
+                .scaleEffect(phase.isIdentity ? Effects.visibleOpacity : Effects.scaledDown)
         }
     }
 }

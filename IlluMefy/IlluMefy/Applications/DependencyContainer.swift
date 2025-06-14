@@ -43,6 +43,11 @@ final class DependencyContainer: @unchecked Sendable {
         container.register(MockCreatorRepository.self) { _ in
             MockCreatorRepository()
         }.inObjectScope(.container)
+        
+        // TagApplication repository
+        container.register(TagApplicationRepository.self) { _ in
+            TagApplicationRepository()
+        }.inObjectScope(.container)
     }
     ///
     /// register all repositories
@@ -63,6 +68,11 @@ final class DependencyContainer: @unchecked Sendable {
         // Creator repository
         container.register(CreatorRepositoryProtocol.self) { resolver in
             resolver.resolve(MockCreatorRepository.self)!
+        }.inObjectScope(.transient)
+        
+        // TagApplication repository
+        container.register(TagApplicationRepositoryProtocol.self) { resolver in
+            resolver.resolve(TagApplicationRepository.self)!
         }.inObjectScope(.transient)
     }
     ///
@@ -120,6 +130,20 @@ final class DependencyContainer: @unchecked Sendable {
             resolver.resolve(GetCreatorDetailUseCase.self)!
         }.inObjectScope(.transient)
         
+        // SubmitTagApplication usecase
+        container.register(SubmitTagApplicationUseCase.self) { resolver in
+            let tagApplicationRepository = resolver.resolve(TagApplicationRepositoryProtocol.self)!
+            let creatorRepository = resolver.resolve(CreatorRepositoryProtocol.self)!
+            return SubmitTagApplicationUseCase(
+                tagApplicationRepository: tagApplicationRepository,
+                creatorRepository: creatorRepository
+            )
+        }.inObjectScope(.transient)
+        
+        container.register((any SubmitTagApplicationUseCaseProtocol).self) { resolver in
+            resolver.resolve(SubmitTagApplicationUseCase.self)!
+        }.inObjectScope(.transient)
+        
     }
     ///
     /// register all view-models
@@ -158,6 +182,18 @@ final class DependencyContainer: @unchecked Sendable {
                 return CreatorDetailViewModel(
                     creatorId: creatorId,
                     getCreatorDetailUseCase: getCreatorDetailUseCase
+                )
+            }
+        }.inObjectScope(.transient)
+        
+        // TagApplication screen
+        container.register(TagApplicationViewModel.self) { (resolver, creator: Creator, applicationType: TagApplicationRequest.ApplicationType) in
+            let submitTagApplicationUseCase = resolver.resolve((any SubmitTagApplicationUseCaseProtocol).self)!
+            return MainActor.assumeIsolated {
+                return TagApplicationViewModel(
+                    creator: creator,
+                    applicationType: applicationType,
+                    submitTagApplicationUseCase: submitTagApplicationUseCase
                 )
             }
         }.inObjectScope(.transient)

@@ -22,3 +22,4 @@ disabled_rules:
   - identifier_name
   - type_body_length
   - function_body_length
+  - trailing_newline

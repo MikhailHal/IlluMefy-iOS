@@ -28,6 +28,12 @@ enum Opacity {
     static let rippleColor: Double = 0.3
     static let pulseEffect: Double = 0.5
     
+    // Light overlays
+    static let overlayLight: Double = 0.1
+    static let overlayMedium: Double = 0.2
+    static let overlayHeavy: Double = 0.7
+    static let elementFocused: Double = 0.9
+    
     // Gradient
     static let gradientStart: Double = 0.05
     static let gradientEnd: Double = 0.45
@@ -54,9 +60,14 @@ enum CornerRadius {
 enum Size {
     // Icon sizes
     static let iconSmall: CGFloat = 20
+    static let iconSmallMedium: CGFloat = 28
     static let iconMedium: CGFloat = 24
     static let iconLarge: CGFloat = 100
     static let iconGlow: CGFloat = 120
+    
+    // Small specific sizes
+    static let smallImageSize: CGFloat = 50
+    static let smallIconSize: CGFloat = 16
     
     // Component sizes
     static let buttonHeight: CGFloat = 52
@@ -111,6 +122,11 @@ enum AnimationDuration {
     static let rippleFinal: Double = 0.75
     static let particleMin: Double = 15
     static let particleMax: Double = 25
+    
+    // Interaction animations
+    static let buttonPress: Double = 0.1
+    static let heartBeat: Double = 0.2
+    static let tagPulse: Double = 2.0
 }
 
 // MARK: - Animation Parameters
@@ -157,12 +173,25 @@ enum Effects {
     static let perspective: CGFloat = 0.5
     static let initialScale: CGFloat = 0.5
     static let feedbackIntensity: CGFloat = 0.5
+    
+    // Press effects
+    static let scalePressed: CGFloat = 0.95
+    static let scalePressedLight: CGFloat = 0.98
+    static let scaleHeart: CGFloat = 1.1
+    static let scaleIcon: CGFloat = 1.5
+    
+    // Animation states
+    static let visibleOpacity: CGFloat = 1.0
+    static let dimmedOpacity: CGFloat = 0.4
+    static let scaledDown: CGFloat = 0.8
 }
 
 // MARK: - Typography
 enum Typography {
+    static let titleExtraLarge: CGFloat = 60
     static let titleLarge: CGFloat = 36
     static let titleMedium: CGFloat = 32
+    static let iconMedium: CGFloat = 20
     static let bodyRegular: CGFloat = 16
     static let checkmark: CGFloat = 14
     static let captionSmall: CGFloat = 12

@@ -15,28 +15,28 @@ struct TagTile: View {
         VStack(spacing: 8) {
             // Tag name with popularity pulse
             Text("#\(tag.displayName)")
-                .font(.system(size: 16, weight: .semibold))
+                .font(.system(size: Typography.bodyRegular, weight: .semibold))
                 .foregroundColor(.white)
                 .lineLimit(1)
                 .scaleEffect(isPopular ? (isAnimating ? 1.05 : 1.0) : 1.0)
-                .animation(.easeInOut(duration: 2).repeatForever(autoreverses: true), value: isAnimating)
+                .animation(.easeInOut(duration: AnimationDuration.tagPulse).repeatForever(autoreverses: true), value: isAnimating)
             
             // Click count with number animation
             HStack(spacing: 4) {
                 Image(systemName: "hand.tap.fill")
-                    .font(.system(size: 10))
-                    .foregroundColor(.white.opacity(0.8))
+                    .font(.system(size: Typography.captionExtraSmall))
+                    .foregroundColor(.white.opacity(Opacity.secondaryText))
                 
                 Text(formatClickCount(tag.clickedCount))
-                    .font(.system(size: 12, weight: .medium))
-                    .foregroundColor(.white.opacity(0.9))
+                    .font(.system(size: Typography.captionSmall, weight: .medium))
+                    .foregroundColor(.white.opacity(Opacity.elementFocused))
                     .contentTransition(.numericText())
             }
         }
-        .padding(.horizontal, 16)
-        .padding(.vertical, 12)
+        .padding(.horizontal, Spacing.medium)
+        .padding(.vertical, Spacing.relatedComponentDivider)
         .background(
-            RoundedRectangle(cornerRadius: 20)
+            RoundedRectangle(cornerRadius: CornerRadius.tag)
                 .fill(
                     LinearGradient(
                         colors: gradientColors,
@@ -46,10 +46,10 @@ struct TagTile: View {
                 )
         )
         .overlay(
-            RoundedRectangle(cornerRadius: 20)
-                .stroke(.white.opacity(0.3), lineWidth: 1)
+            RoundedRectangle(cornerRadius: CornerRadius.tag)
+                .stroke(.white.opacity(Opacity.glow), lineWidth: BorderWidth.medium)
         )
-        .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
+        .shadow(color: .black.opacity(Opacity.overlayMedium), radius: Shadow.radiusSmall, x: 0, y: Shadow.offsetYSmall)
         .onAppear {
             if isPopular {
                 isAnimating = true
@@ -60,14 +60,14 @@ struct TagTile: View {
     // MARK: - Computed Properties
     
     private var isPopular: Bool {
-        tag.clickedCount > 500 // 人気閾値
+        tag.clickedCount > Layout.popularityThreshold // 人気閾値
     }
     
     private var gradientColors: [Color] {
         if isPopular {
             return [.orange, .red] // 人気タグは暖色
         } else {
-            return [.blue.opacity(0.8), .purple.opacity(0.8)] // 通常は寒色
+            return [.blue.opacity(Opacity.secondaryText), .purple.opacity(Opacity.secondaryText)] // 通常は寒色
         }
     }
     

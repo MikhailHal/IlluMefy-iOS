@@ -24,18 +24,18 @@ struct PlatformButton: View {
                 // Platform icon
                 if platform == .youtube {
                     Image(systemName: platform.icon)
-                        .font(.system(size: 20))
+                        .font(.system(size: Typography.iconMedium))
                         .foregroundColor(.red)
                 } else {
                     Image(platform.icon)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: 20, height: 20)
+                        .frame(width: Size.iconSmall, height: Size.iconSmall)
                 }
                 
                 // Platform name
                 Text(platformDisplayName(platform))
-                    .font(.system(size: 12, weight: .medium))
+                    .font(.system(size: Typography.captionSmall, weight: .medium))
                     .foregroundColor(Asset.Color.Application.foreground.swiftUIColor)
                 
                 Spacer()
@@ -45,21 +45,21 @@ struct PlatformButton: View {
                     .font(.caption)
                     .foregroundColor(.secondary)
             }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 12)
+            .padding(.horizontal, Spacing.medium)
+            .padding(.vertical, Spacing.relatedComponentDivider)
             .background(
-                RoundedRectangle(cornerRadius: 12)
+                RoundedRectangle(cornerRadius: CornerRadius.large)
                     .fill(.ultraThinMaterial)
             )
             .overlay(
-                RoundedRectangle(cornerRadius: 12)
-                    .stroke(.primary.opacity(0.2), lineWidth: 1)
+                RoundedRectangle(cornerRadius: CornerRadius.large)
+                    .stroke(.primary.opacity(Opacity.overlayMedium), lineWidth: BorderWidth.medium)
             )
-            .scaleEffect(isPressed ? 0.95 : 1.0)
-            .animation(.easeInOut(duration: 0.1), value: isPressed)
+            .scaleEffect(isPressed ? Effects.scalePressed : Effects.visibleOpacity)
+            .animation(.easeInOut(duration: AnimationDuration.buttonPress), value: isPressed)
         })
         .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity) { pressing in
-            withAnimation(.easeInOut(duration: 0.1)) {
+            withAnimation(.easeInOut(duration: AnimationDuration.buttonPress)) {
                 isPressed = pressing
             }
         } perform: {}
@@ -94,7 +94,7 @@ struct StatCard: View {
         VStack(spacing: 8) {
             Image(systemName: icon)
                 .font(.title2)
-                .foregroundColor(.primary.opacity(0.7))
+                .foregroundColor(.primary.opacity(Opacity.overlayHeavy))
             
             Text(value)
                 .font(.title2)
@@ -106,14 +106,14 @@ struct StatCard: View {
                 .multilineTextAlignment(.center)
         }
         .frame(maxWidth: .infinity)
-        .padding(.vertical, 16)
+        .padding(.vertical, Spacing.medium)
         .background(
-            RoundedRectangle(cornerRadius: 12)
+            RoundedRectangle(cornerRadius: CornerRadius.large)
                 .fill(.ultraThinMaterial)
         )
         .overlay(
-            RoundedRectangle(cornerRadius: 12)
-                .stroke(.primary.opacity(0.1), lineWidth: 1)
+            RoundedRectangle(cornerRadius: CornerRadius.large)
+                .stroke(.primary.opacity(Opacity.overlayLight), lineWidth: BorderWidth.medium)
         )
     }
 }
@@ -134,25 +134,25 @@ struct TagChip: View {
             if isEditing {
                 Button(action: onDelete) {
                     Image(systemName: "xmark.circle.fill")
-                        .font(.system(size: 12))
+                        .font(.system(size: Typography.captionSmall))
                         .foregroundColor(.red)
                 }
             }
         }
-        .padding(.horizontal, 12)
-        .padding(.vertical, 6)
+        .padding(.horizontal, Spacing.relatedComponentDivider)
+        .padding(.vertical, Spacing.smallMedium)
         .background(
             Capsule()
-                .fill(isEditing ? Color.red.opacity(0.1) : Color(.systemBackground).opacity(0.8))
+                .fill(isEditing ? Color.red.opacity(Opacity.overlayLight) : Color(.systemBackground).opacity(Opacity.secondaryText))
         )
         .overlay(
             Capsule()
-                .stroke(isEditing ? .red.opacity(0.3) : .primary.opacity(0.2), lineWidth: 1)
+                .stroke(isEditing ? .red.opacity(Opacity.glow) : .primary.opacity(Opacity.overlayMedium), lineWidth: BorderWidth.medium)
         )
-        .scaleEffect(isPressed ? 0.95 : 1.0)
-        .animation(.easeInOut(duration: 0.1), value: isPressed)
+        .scaleEffect(isPressed ? Effects.scalePressed : Effects.visibleOpacity)
+        .animation(.easeInOut(duration: AnimationDuration.buttonPress), value: isPressed)
         .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity) { pressing in
-            withAnimation(.easeInOut(duration: 0.1)) {
+            withAnimation(.easeInOut(duration: AnimationDuration.buttonPress)) {
                 isPressed = pressing
             }
         } perform: {}
@@ -172,17 +172,17 @@ struct InfoCorrectionButton: View {
         Button(action: action) {
             HStack(spacing: 12) {
                 Image(systemName: icon)
-                    .font(.system(size: 20))
+                    .font(.system(size: Typography.iconMedium))
                     .foregroundColor(.orange)
-                    .frame(width: 28)
+                    .frame(width: Size.iconSmallMedium)
                 
                 VStack(alignment: .leading, spacing: 2) {
                     Text(title)
-                        .font(.system(size: 16, weight: .medium))
+                        .font(.system(size: Typography.bodyRegular, weight: .medium))
                         .foregroundColor(.primary)
                     
                     Text(description)
-                        .font(.system(size: 12))
+                        .font(.system(size: Typography.captionSmall))
                         .foregroundColor(.secondary)
                         .lineLimit(2)
                 }
@@ -193,21 +193,21 @@ struct InfoCorrectionButton: View {
                     .font(.caption)
                     .foregroundColor(.secondary)
             }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 12)
+            .padding(.horizontal, Spacing.medium)
+            .padding(.vertical, Spacing.relatedComponentDivider)
             .background(
-                RoundedRectangle(cornerRadius: 12)
+                RoundedRectangle(cornerRadius: CornerRadius.large)
                     .fill(.ultraThinMaterial)
             )
             .overlay(
-                RoundedRectangle(cornerRadius: 12)
-                    .stroke(.primary.opacity(0.1), lineWidth: 1)
+                RoundedRectangle(cornerRadius: CornerRadius.large)
+                    .stroke(.primary.opacity(Opacity.overlayLight), lineWidth: BorderWidth.medium)
             )
-            .scaleEffect(isPressed ? 0.98 : 1.0)
-            .animation(.easeInOut(duration: 0.1), value: isPressed)
+            .scaleEffect(isPressed ? Effects.scalePressedLight : Effects.visibleOpacity)
+            .animation(.easeInOut(duration: AnimationDuration.buttonPress), value: isPressed)
         }
         .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity) { pressing in
-            withAnimation(.easeInOut(duration: 0.1)) {
+            withAnimation(.easeInOut(duration: AnimationDuration.buttonPress)) {
                 isPressed = pressing
             }
         } perform: {}
@@ -230,16 +230,16 @@ struct SimilarCreatorCard: View {
                     .aspectRatio(contentMode: .fill)
             } placeholder: {
                 Rectangle()
-                    .fill(Color.gray.opacity(0.3))
+                    .fill(Color.gray.opacity(Opacity.glow))
                     .overlay(
                         ProgressView()
                     )
             }
-            .frame(width: 80, height: 80)
+            .frame(width: Size.similarCreatorImageSize, height: Size.similarCreatorImageSize)
             .clipShape(Circle())
             .overlay(
                 Circle()
-                    .stroke(.white.opacity(0.3), lineWidth: 2)
+                    .stroke(.white.opacity(Opacity.glow), lineWidth: BorderWidth.extraThick)
             )
             
             // Creator info
@@ -252,28 +252,28 @@ struct SimilarCreatorCard: View {
                 
                 HStack(spacing: 4) {
                     Image(systemName: "eye.fill")
-                        .font(.system(size: 8))
+                        .font(.system(size: Typography.systemSmall))
                         .foregroundColor(.secondary)
                     Text(formatViewCount(creator.viewCount))
-                        .font(.system(size: 8))
+                        .font(.system(size: Typography.systemSmall))
                         .foregroundColor(.secondary)
                 }
             }
         }
-        .frame(width: 100)
-        .padding(.vertical, 8)
+        .frame(width: Size.similarCreatorCardWidth)
+        .padding(.vertical, Spacing.componentGrouping)
         .background(
-            RoundedRectangle(cornerRadius: 12)
+            RoundedRectangle(cornerRadius: CornerRadius.large)
                 .fill(.ultraThinMaterial)
         )
         .overlay(
-            RoundedRectangle(cornerRadius: 12)
-                .stroke(.primary.opacity(0.1), lineWidth: 1)
+            RoundedRectangle(cornerRadius: CornerRadius.large)
+                .stroke(.primary.opacity(Opacity.overlayLight), lineWidth: BorderWidth.medium)
         )
-        .scaleEffect(isPressed ? 0.95 : 1.0)
-        .animation(.easeInOut(duration: 0.1), value: isPressed)
+        .scaleEffect(isPressed ? Effects.scalePressed : Effects.visibleOpacity)
+        .animation(.easeInOut(duration: AnimationDuration.buttonPress), value: isPressed)
         .shadow(
-            color: isPressed ? .clear : .black.opacity(0.1),
+            color: isPressed ? .clear : .black.opacity(Opacity.overlayLight),
             radius: isPressed ? 0 : 4,
             x: 0,
             y: isPressed ? 0 : 2
@@ -285,7 +285,7 @@ struct SimilarCreatorCard: View {
             onTap()
         }
         .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity) { pressing in
-            withAnimation(.easeInOut(duration: 0.1)) {
+            withAnimation(.easeInOut(duration: AnimationDuration.buttonPress)) {
                 isPressed = pressing
             }
         } perform: {}

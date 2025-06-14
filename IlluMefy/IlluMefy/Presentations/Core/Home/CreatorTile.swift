@@ -20,7 +20,7 @@ struct CreatorTile: View {
                     .aspectRatio(contentMode: .fill)
             } placeholder: {
                 Rectangle()
-                    .fill(Color.gray.opacity(0.3))
+                    .fill(Color.gray.opacity(Opacity.glow))
                     .overlay(
                         ProgressView()
                     )
@@ -123,7 +123,7 @@ struct CreatorTile: View {
     private var platformIconOverlay: some View {
         ZStack {
             Rectangle()
-                .fill(Asset.Color.Application.Background.background.swiftUIColor.opacity(0.8))
+                .fill(Asset.Color.Application.Background.background.swiftUIColor.opacity(Opacity.secondaryText))
                 .clipShape(.rect(
                     topLeadingRadius: CornerRadius.tile,
                     bottomLeadingRadius: 0,
@@ -254,5 +254,5 @@ extension Image {
         ))
     }
     .padding()
-    .background(Color.gray.opacity(0.1))
+    .background(Color.gray.opacity(Opacity.overlayLight))
 }

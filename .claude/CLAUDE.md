@@ -1,7 +1,33 @@
 # Claude Development Guidelines for IlluMefy-iOS
 
+## ❗ CRITICAL PROJECT RULES (読み込み必須)
+**これらのルールは会話圧縮後も必ず適用すること**
+
+### 🚫 絶対禁止事項
+1. **ハードコードされた文字列の使用**
+   - ❌ `Text("ログイン")` 
+   - ✅ `Text(L10n.Common.login)`
+2. **Nimliプレフィックスの使用**
+   - ❌ `NimliButton` 
+   - ✅ `IlluMefyButton`
+3. **直接的なcolor指定**
+   - ❌ `.foregroundColor(.blue)` 
+   - ✅ `.foregroundColor(Color.Button.ButtonForeground)`
+4. **UI値のハードコーディング**
+   - ❌ `.padding(16)` → ✅ `.padding(Spacing.medium)`
+   - ❌ `.font(.system(size: 16))` → ✅ `.font(.system(size: Typography.bodyRegular))`
+   - ❌ `.cornerRadius(12)` → ✅ `.cornerRadius(CornerRadius.large)`
+   - ❌ `.opacity(0.8)` → ✅ `.opacity(Opacity.secondaryText)`
+
+### ✅ 必須事項
+1. **SwiftGen経由での文字列アクセス**: すべての文字列は`L10n.`経由
+2. **Clean Architecture厳守**: Repository → UseCase → ViewModel → View
+3. **DependencyContainer登録**: 新規コンポーネントは必ず登録
+4. **IlluMefyプレフィックス**: すべてのカスタムコンポーネントに必須
+5. **定数使用必須**: パディング、フォントサイズ、角丸、透明度は`DesignConstants.swift`と`Spacing.swift`の定数を使用
+
 ## Project Overview
-IlluMefy is a food management iOS app built with SwiftUI and Clean Architecture.
+IlluMefy is a creator discovery iOS app built with SwiftUI and Clean Architecture.
 
 ## Architecture Rules
 - Follow Clean Architecture pattern:
@@ -36,11 +62,12 @@ IlluMefy is a food management iOS app built with SwiftUI and Clean Architecture.
 ### Localization
 - Add strings to `Resources/Localizable.strings`
 - Follow naming pattern: `[screen].[component].[usage]`
-- **必ずSwiftGenで生成したアクセッサを使用** (直接文字列リテラルは使用禁止)
+- **🚨 CRITICAL: 必ずSwiftGenで生成したアクセッサを使用** (直接文字列リテラルは使用禁止)
   - 例: `L10n.login.button.submit` を使用 (❌ "Submit" を直接使用)
+- **会話圧縮後も必ず適用**: この制約は絶対に忘れてはいけない
 - Run swiftgen after adding strings:
   ```bash
-  cd IlluMefy/IlluMefy && swiftgen run strings Resources/Localizable.strings -t structured-swift5 -o Generated/Strings.swift
+  /opt/homebrew/bin/swiftgen strings IlluMefy/Resources/Localizable.strings --templateName structured-swift5 --output IlluMefy/Generated/Strings.swift --param enumName=L10n
   ```
 
 ### Git Workflow
@@ -73,11 +100,15 @@ IlluMefy is a food management iOS app built with SwiftUI and Clean Architecture.
 - Always handle loading and error states
 - Follow existing patterns in the codebase
 
-## Common Mistakes to Avoid
-**CRITICAL RULE**: ハードコードされた文字列は絶対に使用禁止
-- ❌ `errorMessage = "ネットワークエラー"`
-- ✅ `errorMessage = L10n.Error.network`
-- すべてのユーザー向け文字列は必ずLocalizable.strings → SwiftGen経由で使用
+## ❗ CRITICAL RULE REINFORCEMENT
+**絶対に忘れてはいけない制約（会話圧縮後も適用）**:
+1. **ハードコードされた文字列は絶対に使用禁止**
+   - ❌ `errorMessage = "ネットワークエラー"`
+   - ✅ `errorMessage = L10n.Error.network`
+2. **すべてのユーザー向け文字列は必ずLocalizable.strings → SwiftGen経由で使用**
+3. **IlluMefyプレフィックス必須**（Nimli禁止）
+4. **Clean Architecture厳守**
+5. **DependencyContainer登録必須**
 
 ## Common Mistakes to Avoid
 1. **Using non-existent constants**: Always check available constants in `Spacing.swift` before using

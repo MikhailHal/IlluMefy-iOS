@@ -13,6 +13,8 @@ struct CreatorDetailView: View {
     @State private var currentCreatorId: String
     @State private var selectedCreatorId: String?
     @State private var showingCreatorDetail = false
+    @State private var showingTagApplication = false
+    @State private var tagApplicationType: TagApplicationRequest.ApplicationType = .add
     
     init(creatorId: String) {
         let container = DependencyContainer.shared
@@ -43,6 +45,11 @@ struct CreatorDetailView: View {
                 }
             }
         }
+        .sheet(isPresented: $showingTagApplication) {
+            if case .loaded(let creator, _) = viewModel.state {
+                TagApplicationView(creator: creator, applicationType: tagApplicationType)
+            }
+        }
         .task {
             await viewModel.loadCreatorDetail()
         }
@@ -55,7 +62,7 @@ struct CreatorDetailView: View {
             headerSection
             Spacer()
             ProgressView()
-                .scaleEffect(1.5)
+                .scaleEffect(Effects.scaleIcon)
             Text("読み込み中...")
                 .font(.headline)
                 .foregroundColor(.secondary)
@@ -69,7 +76,7 @@ struct CreatorDetailView: View {
             headerSection
             Spacer()
             Image(systemName: "exclamationmark.triangle")
-                .font(.system(size: 60))
+                .font(.system(size: Typography.titleExtraLarge))
                 .foregroundColor(.red)
             Text(title)
                 .font(.title2)
@@ -130,7 +137,7 @@ struct CreatorDetailView: View {
             }, label: {
                 Image(systemName: "xmark.circle.fill")
                     .font(.title2)
-                    .foregroundColor(.primary.opacity(0.6))
+                    .foregroundColor(.primary.opacity(Opacity.placeholder))
             })
         }
     }
@@ -144,25 +151,25 @@ struct CreatorDetailView: View {
                     .aspectRatio(contentMode: .fill)
             } placeholder: {
                 Rectangle()
-                    .fill(Color.gray.opacity(0.3))
+                    .fill(Color.gray.opacity(Opacity.glow))
                     .overlay(
                         ProgressView()
                     )
             }
-            .frame(width: 120, height: 120)
+            .frame(width: Size.creatorImageSize, height: Size.creatorImageSize)
             .clipShape(Circle())
             .overlay(
                 Circle()
                     .stroke(
                         LinearGradient(
-                            colors: [.white.opacity(0.3), .clear],
+                            colors: [.white.opacity(Opacity.glow), .clear],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
                         ),
-                        lineWidth: 3
+                        lineWidth: BorderWidth.extraThick + BorderWidth.thin
                     )
             )
-            .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 5)
+            .shadow(color: .black.opacity(Opacity.overlayMedium), radius: Shadow.radiusMedium, x: 0, y: Shadow.offsetYMedium)
             
             // Creator name with favorite button
             HStack(spacing: 12) {
@@ -172,14 +179,14 @@ struct CreatorDetailView: View {
                     .multilineTextAlignment(.center)
                 
                 Button(action: {
-                    withAnimation(.easeInOut(duration: 0.2)) {
+                    withAnimation(.easeInOut(duration: AnimationDuration.heartBeat)) {
                         viewModel.toggleFavorite()
                     }
                 }, label: {
                     Image(systemName: viewModel.isFavorite ? "heart.fill" : "heart")
                         .font(.title2)
-                        .foregroundColor(viewModel.isFavorite ? .red : .primary.opacity(0.7))
-                        .scaleEffect(viewModel.isFavorite ? 1.1 : 1.0)
+                        .foregroundColor(viewModel.isFavorite ? .red : .primary.opacity(Opacity.overlayHeavy))
+                        .scaleEffect(viewModel.isFavorite ? Effects.scaleHeart : Effects.visibleOpacity)
                         .animation(.spring(response: 0.3, dampingFraction: 0.6), value: viewModel.isFavorite)
                 })
             }
@@ -189,13 +196,13 @@ struct CreatorDetailView: View {
                 let (platform, _) = creator.mainPlatform()
                 if platform == .youtube {
                     Image(systemName: platform.icon)
-                        .font(.system(size: 16))
+                        .font(.system(size: Typography.bodyRegular))
                         .foregroundColor(.red)
                 } else {
                     Image(platform.icon)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: 16, height: 16)
+                        .frame(width: Size.smallIconSize, height: Size.smallIconSize)
                 }
                 Text(L10n.CreatorDetail.mainPlatform)
                     .font(.caption)
@@ -256,41 +263,43 @@ struct CreatorDetailView: View {
             
             HStack(spacing: Spacing.relatedComponentDivider) {
                 Button(action: {
-                    // タグ削除申請画面への遷移
+                    tagApplicationType = .remove
+                    showingTagApplication = true
                 }, label: {
                     HStack {
                         Image(systemName: "minus.circle.fill")
-                            .font(.system(size: 16))
+                            .font(.system(size: Typography.bodyRegular))
                         Text(L10n.CreatorDetail.tagDeleteApplication)
-                            .font(.system(size: 14, weight: .medium))
+                            .font(.system(size: Typography.checkmark, weight: .medium))
                     }
                     .foregroundColor(.primary)
                     .frame(maxWidth: .infinity)
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 12)
+                    .padding(.horizontal, Spacing.medium)
+                    .padding(.vertical, Spacing.relatedComponentDivider)
                     .background(
-                        RoundedRectangle(cornerRadius: 12)
+                        RoundedRectangle(cornerRadius: CornerRadius.large)
                             .fill(.ultraThinMaterial)
                     )
                     .overlay(
-                        RoundedRectangle(cornerRadius: 12)
-                            .stroke(.primary.opacity(0.2), lineWidth: 1)
+                        RoundedRectangle(cornerRadius: CornerRadius.large)
+                            .stroke(.primary.opacity(Opacity.overlayMedium), lineWidth: BorderWidth.medium)
                     )
                 })
                 
                 Button(action: {
-                    // タグ申請画面への遷移
+                    tagApplicationType = .add
+                    showingTagApplication = true
                 }, label: {
                     HStack {
                         Image(systemName: "plus.circle.fill")
-                            .font(.system(size: 16))
+                            .font(.system(size: Typography.bodyRegular))
                         Text(L10n.CreatorDetail.tagAddApplication)
-                            .font(.system(size: 14, weight: .medium))
+                            .font(.system(size: Typography.checkmark, weight: .medium))
                     }
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 12)
+                    .padding(.horizontal, Spacing.medium)
+                    .padding(.vertical, Spacing.relatedComponentDivider)
                     .background(
                         LinearGradient(
                             colors: [
@@ -301,7 +310,7 @@ struct CreatorDetailView: View {
                             endPoint: .trailing
                         )
                     )
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .clipShape(RoundedRectangle(cornerRadius: CornerRadius.large))
                 })
             }
         }
@@ -457,7 +466,7 @@ struct CreatorDetailView: View {
                 case .error(let title, let message):
                     VStack(spacing: 16) {
                         Image(systemName: "exclamationmark.triangle")
-                            .font(.system(size: 60))
+                            .font(.system(size: Typography.titleExtraLarge))
                             .foregroundColor(.red)
                         Text(title)
                             .font(.title2)

@@ -25,6 +25,12 @@ This file contains feedback and corrections received during development. Always 
 ## Code Style
 - **2025-05-26**: Don't add comments unless specifically asked
 - **2025-05-26**: Use proper constants for all hardcoded values
+- **2025-06-14**: パディング、フォントサイズ、角丸、透明度などの値のハードコーディング絶対禁止
+  - ❌ `.padding(16)` → ✅ `.padding(Spacing.medium)`
+  - ❌ `.font(.system(size: 16))` → ✅ `.font(.system(size: Typography.bodyRegular))`
+  - ❌ `.cornerRadius(12)` → ✅ `.cornerRadius(CornerRadius.large)`
+  - ❌ `.opacity(0.8)` → ✅ `.opacity(Opacity.secondaryText)`
+  - 必ずDesignConstants.swift、Spacing.swiftの定数を使用する
 
 ## Architecture
 - **2025-05-26**: When updating screens, also update UseCase and Data layers, not just UI
