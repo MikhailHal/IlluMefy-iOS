@@ -25,13 +25,18 @@ struct TagApplicationView: View {
     
     var body: some View {
         NavigationView {
-            Form {
-                creatorInfoSection
-                applicationTypeSection
-                tagInputSection
-                reasonSection
+            VStack(spacing: 0) {
+                Form {
+                    creatorInfoSection
+                    applicationTypeSection
+                    tagInputSection
+                    reasonSection
+                    infoSection
+                }
+                
                 submitSection
-                infoSection
+                    .padding(.top, Spacing.relatedComponentDivider)
+                    .background(Asset.Color.Application.Background.background.swiftUIColor)
             }
             .navigationTitle(L10n.TagApplication.title)
             .navigationBarTitleDisplayMode(.inline)
@@ -96,6 +101,9 @@ struct TagApplicationView: View {
                 }
             }
             .pickerStyle(.segmented)
+            .onChange(of: viewModel.applicationType) { _, _ in
+                viewModel.resetFormData()
+            }
         }
     }
     
@@ -103,7 +111,7 @@ struct TagApplicationView: View {
         Section {
             if viewModel.applicationType == .add {
                 TextField(L10n.TagApplication.tagName, text: $viewModel.tagName)
-                    .onChange(of: viewModel.tagName) { newValue in
+                    .onChange(of: viewModel.tagName) { _, newValue in
                         viewModel.tagName = viewModel.validateTagName(newValue)
                     }
                 
@@ -157,7 +165,7 @@ struct TagApplicationView: View {
         Section {
             TextField(L10n.TagApplication.reasonPlaceholder, text: $viewModel.reason, axis: .vertical)
                 .lineLimit(3...6)
-                .onChange(of: viewModel.reason) { newValue in
+                .onChange(of: viewModel.reason) { _, newValue in
                     viewModel.reason = viewModel.validateReason(newValue)
                 }
             
@@ -187,10 +195,9 @@ struct TagApplicationView: View {
                     Text(L10n.TagApplication.submit)
                 }
             }
-            .frame(maxWidth: .infinity)
         })
+        .illuMefyButtonStyle(isEnabled: viewModel.isSubmitEnabled)
         .disabled(!viewModel.isSubmitEnabled)
-        .buttonStyle(.borderedProminent)
         .padding(.horizontal, Spacing.screenEdgePadding)
     }
     
