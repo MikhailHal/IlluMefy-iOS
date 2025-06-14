@@ -8,6 +8,7 @@
 import Foundation
 
 /// タグ申請ViewModel プロトコル
+@MainActor
 protocol TagApplicationViewModelProtocol: ObservableObject {
     // MARK: - Properties
     

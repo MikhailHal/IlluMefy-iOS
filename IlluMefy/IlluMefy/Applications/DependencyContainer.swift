@@ -187,7 +187,7 @@ final class DependencyContainer: @unchecked Sendable {
         }.inObjectScope(.transient)
         
         // TagApplication screen
-        container.register(TagApplicationViewModel.self) { (resolver, creator: Creator, applicationType: TagApplicationRequest.ApplicationType) in
+        container.register(TagApplicationViewModel.self) {(resolver, creator: Creator, applicationType: TagApplicationRequest.ApplicationType) in
             let submitTagApplicationUseCase = resolver.resolve((any SubmitTagApplicationUseCaseProtocol).self)!
             return MainActor.assumeIsolated {
                 return TagApplicationViewModel(
