@@ -52,4 +52,7 @@ protocol TagApplicationViewModelProtocol: ObservableObject {
     
     /// 理由のバリデーション
     func validateReason(_ value: String) -> String
+    
+    /// フォームデータをリセット
+    func resetFormData()
 }

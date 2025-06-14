@@ -100,4 +100,11 @@ class TagApplicationViewModel: TagApplicationViewModelProtocol {
         }
         return value
     }
+    
+    func resetFormData() {
+        tagName = ""
+        reason = ""
+        isSuccess = false
+        resultMessage = ""
+    }
 }
