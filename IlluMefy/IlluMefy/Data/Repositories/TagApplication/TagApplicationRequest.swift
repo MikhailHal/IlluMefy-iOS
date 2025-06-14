@@ -25,15 +25,15 @@ struct TagApplicationRequest: Codable {
     let requestedAt: Date
     
     enum ApplicationType: String, Codable, CaseIterable {
-        case add
         case remove
+        case add
         
         var displayName: String {
             switch self {
-            case .add:
-                return L10n.CreatorDetail.tagAddApplication
             case .remove:
                 return L10n.CreatorDetail.tagDeleteApplication
+            case .add:
+                return L10n.CreatorDetail.tagAddApplication
             }
         }
     }
