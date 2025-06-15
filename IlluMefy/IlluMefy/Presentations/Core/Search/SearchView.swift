@@ -22,9 +22,6 @@ struct SearchView: View {
         VStack(spacing: 0) {
             // 検索バー
             searchBarSection
-            
-            
-            
             // メインコンテンツ
             mainContentSection
         }
@@ -95,7 +92,7 @@ struct SearchView: View {
                                 ForEach(viewModel.suggestions, id: \.id) { tag in
                                     Button(action: {
                                         viewModel.selectTag(tag)
-                                    }) {
+                                    }, label: {
                                         HStack {
                                             Text(tag.displayName)
                                                 .font(.body)
@@ -109,7 +106,7 @@ struct SearchView: View {
                                         }
                                         .padding(.horizontal, Spacing.componentGrouping)
                                         .padding(.vertical, Spacing.relatedComponentDivider)
-                                    }
+                                    })
                                     .buttonStyle(PlainButtonStyle())
                                     .background(Asset.Color.TextField.background.swiftUIColor)
                                     
@@ -227,11 +224,13 @@ struct SearchView: View {
                         
                         Button(action: {
                             onRemove(tag)
-                        }) {
+                        }, label: {
                             Image(systemName: "xmark.circle.fill")
                                 .font(.caption)
-                                .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
-                        }
+                                .foregroundColor(
+                                    Asset.Color.TextField.placeholderNoneFocused.swiftUIColor
+                                )
+                        })
                         .buttonStyle(PlainButtonStyle())
                     }
                     .padding(.horizontal, Spacing.componentGrouping)
@@ -277,6 +276,16 @@ struct SearchView: View {
     }
     
     private func creatorListItem(creator: Creator) -> some View {
+        CreatorListItemView(creator: creator)
+    }
+    
+}
+
+struct CreatorListItemView: View {
+    let creator: Creator
+    @State private var showingDetail = false
+    
+    var body: some View {
         HStack(spacing: Spacing.componentGrouping) {
             // クリエイター画像
             AsyncImage(url: URL(string: creator.thumbnailUrl)) { image in
@@ -373,7 +382,12 @@ struct SearchView: View {
                 .stroke(Asset.Color.TextField.borderNoneFocused.swiftUIColor, lineWidth: 1)
         )
         .onTapGesture {
-            // クリエイター詳細画面への遷移
+            showingDetail = true
+        }
+        .sheet(isPresented: $showingDetail) {
+            NavigationStack {
+                CreatorDetailView(creatorId: creator.id)
+            }
         }
     }
     
@@ -386,7 +400,9 @@ struct SearchView: View {
             return "\(count)"
         }
     }
-    
+}
+
+extension SearchView {
     private var emptyStateView: some View {
         VStack(spacing: Spacing.unrelatedComponentDivider) {
             Spacer()
