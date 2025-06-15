@@ -48,6 +48,15 @@ final class DependencyContainer: @unchecked Sendable {
         container.register(TagApplicationRepository.self) { _ in
             TagApplicationRepository()
         }.inObjectScope(.container)
+        
+        // ProfileCorrection repository
+        container.register(ProfileCorrectionRepository.self) { _ in
+            ProfileCorrectionRepository()
+        }.inObjectScope(.container)
+        
+        container.register(MockProfileCorrectionRepository.self) { _ in
+            MockProfileCorrectionRepository()
+        }.inObjectScope(.container)
     }
     ///
     /// register all repositories
@@ -73,6 +82,11 @@ final class DependencyContainer: @unchecked Sendable {
         // TagApplication repository
         container.register(TagApplicationRepositoryProtocol.self) { resolver in
             resolver.resolve(TagApplicationRepository.self)!
+        }.inObjectScope(.transient)
+        
+        // ProfileCorrection repository
+        container.register(ProfileCorrectionRepositoryProtocol.self) { resolver in
+            resolver.resolve(MockProfileCorrectionRepository.self)!
         }.inObjectScope(.transient)
     }
     ///
@@ -144,6 +158,20 @@ final class DependencyContainer: @unchecked Sendable {
             resolver.resolve(SubmitTagApplicationUseCase.self)!
         }.inObjectScope(.transient)
         
+        // SubmitProfileCorrection usecase
+        container.register(SubmitProfileCorrectionUseCase.self) { resolver in
+            let profileCorrectionRepository = resolver.resolve(ProfileCorrectionRepositoryProtocol.self)!
+            let creatorRepository = resolver.resolve(CreatorRepositoryProtocol.self)!
+            return SubmitProfileCorrectionUseCase(
+                profileCorrectionRepository: profileCorrectionRepository,
+                creatorRepository: creatorRepository
+            )
+        }.inObjectScope(.transient)
+        
+        container.register((any SubmitProfileCorrectionUseCaseProtocol).self) { resolver in
+            resolver.resolve(SubmitProfileCorrectionUseCase.self)!
+        }.inObjectScope(.transient)
+        
     }
     ///
     /// register all view-models
@@ -194,6 +222,17 @@ final class DependencyContainer: @unchecked Sendable {
                     creator: creator,
                     applicationType: applicationType,
                     submitTagApplicationUseCase: submitTagApplicationUseCase
+                )
+            }
+        }.inObjectScope(.transient)
+        
+        // ProfileCorrection screen
+        container.register(ProfileCorrectionViewModel.self) { (resolver, creator: Creator) in
+            let submitProfileCorrectionUseCase = resolver.resolve((any SubmitProfileCorrectionUseCaseProtocol).self)!
+            return MainActor.assumeIsolated {
+                return ProfileCorrectionViewModel(
+                    creator: creator,
+                    submitProfileCorrectionUseCase: submitProfileCorrectionUseCase
                 )
             }
         }.inObjectScope(.transient)

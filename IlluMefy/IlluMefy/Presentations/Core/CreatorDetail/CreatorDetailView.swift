@@ -15,6 +15,7 @@ struct CreatorDetailView: View {
     @State private var showingCreatorDetail = false
     @State private var showingTagApplication = false
     @State private var tagApplicationType: TagApplicationRequest.ApplicationType = .add
+    @State private var showingProfileCorrection = false
     
     init(creatorId: String) {
         let container = DependencyContainer.shared
@@ -48,6 +49,11 @@ struct CreatorDetailView: View {
         .sheet(isPresented: $showingTagApplication) {
             if case .loaded(let creator, _) = viewModel.state {
                 TagApplicationView(creator: creator, applicationType: tagApplicationType)
+            }
+        }
+        .sheet(isPresented: $showingProfileCorrection) {
+            if case .loaded(let creator, _) = viewModel.state {
+                ProfileCorrectionView(creator: creator)
             }
         }
         .task {
@@ -333,7 +339,7 @@ struct CreatorDetailView: View {
                     description: L10n.InformationCorrection.profileCorrectionDescription,
                     icon: "person.circle",
                     action: {
-                        // プロフィール修正画面への遷移
+                        showingProfileCorrection = true
                     }
                 )
                 
