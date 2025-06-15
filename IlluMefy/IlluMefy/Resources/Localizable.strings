@@ -225,6 +225,22 @@
 "profileCorrection.validation.emptyCorrectionValue" = "%@の値を入力してください";
 "profileCorrection.validation.correctionValueTooLong" = "%@の値が長すぎます";
 
+/* Search */
+"search.searchPlaceholder" = "クリエイター名で検索";
+"search.recentSearches" = "最近の検索";
+"search.selectedTags" = "選択中のタグ";
+"search.searchMode" = "検索モード";
+"search.searchModeAny" = "いずれかのタグを含む";
+"search.searchModeAll" = "すべてのタグを含む";
+"search.sortBy" = "並び替え";
+"search.sortByPopularity" = "人気順";
+"search.sortByNewest" = "新着順";
+"search.sortByName" = "名前順";
+"search.searchPrompt" = "クリエイター名やタグで検索してみましょう";
+"search.noResults" = "検索結果が見つかりません";
+"search.noResultsMessage" = "検索条件を変更してお試しください";
+"search.selectTags" = "タグを選択";
+
 /* Common */
 "common.hello" = "Hello, World!";
 "common.previewContent" = "Preview Content";
