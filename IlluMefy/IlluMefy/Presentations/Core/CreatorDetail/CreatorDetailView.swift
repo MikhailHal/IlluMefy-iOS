@@ -15,6 +15,7 @@ struct CreatorDetailView: View {
     @State private var showingCreatorDetail = false
     @State private var showingTagApplication = false
     @State private var tagApplicationType: TagApplicationRequest.ApplicationType = .add
+    @State private var showingTagApplicationTypeSelection = false
     @State private var showingProfileCorrection = false
     
     init(creatorId: String) {
@@ -55,6 +56,21 @@ struct CreatorDetailView: View {
             if case .loaded(let creator, _) = viewModel.state {
                 ProfileCorrectionView(creator: creator)
             }
+        }
+        .confirmationDialog("タグ申請", isPresented: $showingTagApplicationTypeSelection) {
+            Button("タグ追加申請") {
+                tagApplicationType = .add
+                showingTagApplication = true
+            }
+            
+            Button("タグ削除申請") {
+                tagApplicationType = .remove
+                showingTagApplication = true
+            }
+            
+            Button("キャンセル", role: .cancel) { }
+        } message: {
+            Text("タグ申請の種類を選択してください")
         }
         .task {
             await viewModel.loadCreatorDetail()
@@ -267,58 +283,35 @@ struct CreatorDetailView: View {
                 .font(.subheadline)
                 .foregroundColor(.secondary)
             
-            HStack(spacing: Spacing.relatedComponentDivider) {
-                Button(action: {
-                    tagApplicationType = .remove
-                    showingTagApplication = true
-                }, label: {
-                    HStack {
-                        Image(systemName: "minus.circle.fill")
-                            .font(.system(size: Typography.bodyRegular))
-                        Text(L10n.CreatorDetail.tagDeleteApplication)
-                            .font(.system(size: Typography.checkmark, weight: .medium))
-                    }
-                    .foregroundColor(.primary)
-                    .frame(maxWidth: .infinity)
-                    .padding(.horizontal, Spacing.medium)
-                    .padding(.vertical, Spacing.relatedComponentDivider)
-                    .background(
-                        RoundedRectangle(cornerRadius: CornerRadius.large)
-                            .fill(.ultraThinMaterial)
+            Button(action: {
+                showingTagApplicationTypeSelection = true
+            }, label: {
+                HStack {
+                    Image(systemName: "tag.circle.fill")
+                        .font(.system(size: Typography.bodyRegular))
+                    Text("タグ申請")
+                        .font(.system(size: Typography.checkmark, weight: .medium))
+                    Spacer()
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: Typography.caption2, weight: .medium))
+                        .foregroundColor(.secondary)
+                }
+                .foregroundColor(.white)
+                .frame(maxWidth: .infinity)
+                .padding(.horizontal, Spacing.medium)
+                .padding(.vertical, Spacing.relatedComponentDivider)
+                .background(
+                    LinearGradient(
+                        colors: [
+                            Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor,
+                            Asset.Color.Button.buttonBackgroundGradationEnd.swiftUIColor
+                        ],
+                        startPoint: .leading,
+                        endPoint: .trailing
                     )
-                    .overlay(
-                        RoundedRectangle(cornerRadius: CornerRadius.large)
-                            .stroke(.primary.opacity(Opacity.overlayMedium), lineWidth: BorderWidth.medium)
-                    )
-                })
-                
-                Button(action: {
-                    tagApplicationType = .add
-                    showingTagApplication = true
-                }, label: {
-                    HStack {
-                        Image(systemName: "plus.circle.fill")
-                            .font(.system(size: Typography.bodyRegular))
-                        Text(L10n.CreatorDetail.tagAddApplication)
-                            .font(.system(size: Typography.checkmark, weight: .medium))
-                    }
-                    .foregroundColor(.white)
-                    .frame(maxWidth: .infinity)
-                    .padding(.horizontal, Spacing.medium)
-                    .padding(.vertical, Spacing.relatedComponentDivider)
-                    .background(
-                        LinearGradient(
-                            colors: [
-                                Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor,
-                                Asset.Color.Button.buttonBackgroundGradationEnd.swiftUIColor
-                            ],
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                    )
-                    .clipShape(RoundedRectangle(cornerRadius: CornerRadius.large))
-                })
-            }
+                )
+                .clipShape(RoundedRectangle(cornerRadius: CornerRadius.large))
+            })
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
@@ -333,34 +326,32 @@ struct CreatorDetailView: View {
                 .font(.subheadline)
                 .foregroundColor(.secondary)
             
-            VStack(spacing: 12) {
-                InfoCorrectionButton(
-                    title: L10n.InformationCorrection.profileCorrection,
-                    description: L10n.InformationCorrection.profileCorrectionDescription,
-                    icon: "person.circle",
-                    action: {
-                        showingProfileCorrection = true
-                    }
+            Button(action: {
+                showingProfileCorrection = true
+            }, label: {
+                HStack {
+                    Image(systemName: "pencil.circle.fill")
+                        .font(.system(size: Typography.bodyRegular))
+                    Text("プロフィール修正依頼")
+                        .font(.system(size: Typography.checkmark, weight: .medium))
+                    Spacer()
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: Typography.caption2, weight: .medium))
+                        .foregroundColor(.secondary)
+                }
+                .foregroundColor(.primary)
+                .frame(maxWidth: .infinity)
+                .padding(.horizontal, Spacing.medium)
+                .padding(.vertical, Spacing.relatedComponentDivider)
+                .background(
+                    RoundedRectangle(cornerRadius: CornerRadius.large)
+                        .fill(.ultraThinMaterial)
                 )
-                
-                InfoCorrectionButton(
-                    title: L10n.InformationCorrection.snsLinksCorrection,
-                    description: L10n.InformationCorrection.snsLinksCorrectionDescription,
-                    icon: "link.circle",
-                    action: {
-                        // SNSリンク修正画面への遷移
-                    }
+                .overlay(
+                    RoundedRectangle(cornerRadius: CornerRadius.large)
+                        .stroke(.primary.opacity(Opacity.overlayMedium), lineWidth: BorderWidth.medium)
                 )
-                
-                InfoCorrectionButton(
-                    title: L10n.InformationCorrection.activityStatusReport,
-                    description: L10n.InformationCorrection.activityStatusReportDescription,
-                    icon: "exclamationmark.circle",
-                    action: {
-                        // 活動状況報告画面への遷移
-                    }
-                )
-            }
+            })
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }

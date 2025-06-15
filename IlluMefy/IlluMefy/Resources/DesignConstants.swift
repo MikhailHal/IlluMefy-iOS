@@ -195,6 +195,7 @@ enum Typography {
     static let bodyRegular: CGFloat = 16
     static let checkmark: CGFloat = 14
     static let captionSmall: CGFloat = 12
+    static let caption2: CGFloat = 11
     static let captionExtraSmall: CGFloat = 10
     static let captionMini: CGFloat = 9
     static let systemSmall: CGFloat = 8
