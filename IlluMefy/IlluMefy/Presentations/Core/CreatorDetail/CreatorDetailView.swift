@@ -57,20 +57,20 @@ struct CreatorDetailView: View {
                 ProfileCorrectionView(creator: creator)
             }
         }
-        .confirmationDialog("タグ申請", isPresented: $showingTagApplicationTypeSelection) {
-            Button("タグ追加申請") {
+        .confirmationDialog(L10n.CreatorDetail.tagApplication, isPresented: $showingTagApplicationTypeSelection) {
+            Button(L10n.CreatorDetail.tagAddApplication) {
                 tagApplicationType = .add
                 showingTagApplication = true
             }
             
-            Button("タグ削除申請") {
+            Button(L10n.CreatorDetail.tagDeleteApplication) {
                 tagApplicationType = .remove
                 showingTagApplication = true
             }
             
-            Button("キャンセル", role: .cancel) { }
+            Button(L10n.Common.cancel, role: .cancel) { }
         } message: {
-            Text("タグ申請の種類を選択してください")
+            Text(L10n.CreatorDetail.tagApplicationTypeSelection)
         }
         .task {
             await viewModel.loadCreatorDetail()
@@ -85,7 +85,7 @@ struct CreatorDetailView: View {
             Spacer()
             ProgressView()
                 .scaleEffect(Effects.scaleIcon)
-            Text("読み込み中...")
+            Text(L10n.Common.loading)
                 .font(.headline)
                 .foregroundColor(.secondary)
             Spacer()
@@ -107,7 +107,7 @@ struct CreatorDetailView: View {
                 .font(.body)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
-            Button("再試行") {
+            Button(L10n.Common.retry) {
                 Task {
                     await viewModel.loadCreatorDetail()
                 }
@@ -194,7 +194,7 @@ struct CreatorDetailView: View {
             .shadow(color: .black.opacity(Opacity.overlayMedium), radius: Shadow.radiusMedium, x: 0, y: Shadow.offsetYMedium)
             
             // Creator name with favorite button
-            HStack(spacing: 12) {
+            HStack(spacing: Spacing.relatedComponentDivider) {
                 Text(creator.name)
                     .font(.title)
                     .bold()
@@ -209,7 +209,7 @@ struct CreatorDetailView: View {
                         .font(.title2)
                         .foregroundColor(viewModel.isFavorite ? .red : .primary.opacity(Opacity.overlayHeavy))
                         .scaleEffect(viewModel.isFavorite ? Effects.scaleHeart : Effects.visibleOpacity)
-                        .animation(.spring(response: 0.3, dampingFraction: 0.6), value: viewModel.isFavorite)
+                        .animation(.spring(response: AnimationParameters.springResponse, dampingFraction: AnimationParameters.springDamping), value: viewModel.isFavorite)
                 })
             }
             
@@ -260,7 +260,7 @@ struct CreatorDetailView: View {
                 .bold()
             
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 8) {
+                HStack(spacing: Spacing.componentGrouping) {
                     ForEach(creator.relatedTag, id: \.self) { tag in
                         TagChip(tagName: tag, isEditing: false) {
                             // タグ削除アクション
@@ -287,7 +287,7 @@ struct CreatorDetailView: View {
                 showingTagApplicationTypeSelection = true
             }, label: {
                 HStack {
-                    Text("タグの内容について申請をする")
+                    Text(L10n.CreatorDetail.tagApplicationButton)
                         .font(.system(size: Typography.checkmark, weight: .medium))
                         .frame(maxWidth: .infinity)
                     Spacer()
@@ -311,7 +311,7 @@ struct CreatorDetailView: View {
                 showingProfileCorrection = true
             }, label: {
                 HStack {
-                    Text("プロフィールについて修正依頼を申請する")
+                    Text(L10n.CreatorDetail.profileCorrectionButton)
                         .font(.system(size: Typography.checkmark, weight: .medium))
                         .frame(maxWidth: .infinity)
                 }

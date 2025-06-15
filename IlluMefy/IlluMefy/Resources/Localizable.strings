@@ -115,8 +115,11 @@
 "creatorDetail.tagApplicationDescription" = "このクリエイターに新しいタグを提案したり、不適切なタグを報告できます";
 "creatorDetail.tagDeleteApplication" = "タグ削除申請";
 "creatorDetail.tagAddApplication" = "タグ追加申請";
+"creatorDetail.tagApplicationTypeSelection" = "タグ申請の種類を選択してください";
+"creatorDetail.tagApplicationButton" = "タグの内容について申請をする";
 "creatorDetail.informationCorrection" = "情報修正";
 "creatorDetail.informationCorrectionDescription" = "クリエイター情報に間違いや古い情報がある場合は修正依頼を送信できます";
+"creatorDetail.profileCorrectionButton" = "プロフィールについて修正依頼を申請する";
 "creatorDetail.statistics" = "統計情報";
 "creatorDetail.similarCreators" = "類似クリエイター";
 "creatorDetail.similarCreatorsDescription" = "同じタグを持つクリエイターをチェック";
