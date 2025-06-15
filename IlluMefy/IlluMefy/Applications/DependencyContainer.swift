@@ -57,6 +57,16 @@ final class DependencyContainer: @unchecked Sendable {
         container.register(MockProfileCorrectionRepository.self) { _ in
             MockProfileCorrectionRepository()
         }.inObjectScope(.container)
+        
+        // SearchHistory repository
+        container.register(SearchHistoryRepository.self) { _ in
+            SearchHistoryRepository()
+        }.inObjectScope(.container)
+        
+        // Tag repository
+        container.register(MockTagRepository.self) { _ in
+            MockTagRepository()
+        }.inObjectScope(.container)
     }
     ///
     /// register all repositories
@@ -87,6 +97,16 @@ final class DependencyContainer: @unchecked Sendable {
         // ProfileCorrection repository
         container.register(ProfileCorrectionRepositoryProtocol.self) { resolver in
             resolver.resolve(MockProfileCorrectionRepository.self)!
+        }.inObjectScope(.transient)
+        
+        // SearchHistory repository
+        container.register(SearchHistoryRepositoryProtocol.self) { resolver in
+            resolver.resolve(SearchHistoryRepository.self)!
+        }.inObjectScope(.transient)
+        
+        // Tag repository
+        container.register(TagRepositoryProtocol.self) { resolver in
+            resolver.resolve(MockTagRepository.self)!
         }.inObjectScope(.transient)
     }
     ///
@@ -172,6 +192,38 @@ final class DependencyContainer: @unchecked Sendable {
             resolver.resolve(SubmitProfileCorrectionUseCase.self)!
         }.inObjectScope(.transient)
         
+        // SearchCreatorsByName usecase
+        container.register(SearchCreatorsByNameUseCase.self) { resolver in
+            let creatorRepository = resolver.resolve(CreatorRepositoryProtocol.self)!
+            return SearchCreatorsByNameUseCase(creatorRepository: creatorRepository)
+        }.inObjectScope(.transient)
+        
+        container.register((any SearchCreatorsByNameUseCaseProtocol).self) { resolver in
+            resolver.resolve(SearchCreatorsByNameUseCase.self)!
+        }.inObjectScope(.transient)
+        
+        // SaveSearchHistory usecase
+        container.register(SaveSearchHistoryUseCase.self) { resolver in
+            let searchHistoryRepository = resolver.resolve(SearchHistoryRepositoryProtocol.self)!
+            return SaveSearchHistoryUseCase(repository: searchHistoryRepository)
+        }.inObjectScope(.transient)
+        
+        // GetSearchHistory usecase
+        container.register(GetSearchHistoryUseCase.self) { resolver in
+            let searchHistoryRepository = resolver.resolve(SearchHistoryRepositoryProtocol.self)!
+            return GetSearchHistoryUseCase(repository: searchHistoryRepository)
+        }.inObjectScope(.transient)
+        
+        // SearchTagsByName usecase
+        container.register(SearchTagsByNameUseCase.self) { resolver in
+            let tagRepository = resolver.resolve(TagRepositoryProtocol.self)!
+            return SearchTagsByNameUseCase(tagRepository: tagRepository)
+        }.inObjectScope(.transient)
+        
+        container.register((any SearchTagsByNameUseCaseProtocol).self) { resolver in
+            resolver.resolve(SearchTagsByNameUseCase.self)!
+        }.inObjectScope(.transient)
+        
     }
     ///
     /// register all view-models
@@ -233,6 +285,22 @@ final class DependencyContainer: @unchecked Sendable {
                 return ProfileCorrectionViewModel(
                     creator: creator,
                     submitProfileCorrectionUseCase: submitProfileCorrectionUseCase
+                )
+            }
+        }.inObjectScope(.transient)
+        
+        // Search screen
+        container.register(SearchViewModel.self) { resolver in
+            let searchTagsByNameUseCase = resolver.resolve((any SearchTagsByNameUseCaseProtocol).self)!
+            let searchCreatorsByTagsUseCase = resolver.resolve((any SearchCreatorsByTagsUseCaseProtocol).self)!
+            let saveSearchHistoryUseCase = resolver.resolve(SaveSearchHistoryUseCase.self)!
+            let getSearchHistoryUseCase = resolver.resolve(GetSearchHistoryUseCase.self)!
+            return MainActor.assumeIsolated {
+                return SearchViewModel(
+                    searchTagsByNameUseCase: searchTagsByNameUseCase,
+                    searchCreatorsByTagsUseCase: searchCreatorsByTagsUseCase,
+                    saveSearchHistoryUseCase: saveSearchHistoryUseCase,
+                    getSearchHistoryUseCase: getSearchHistoryUseCase
                 )
             }
         }.inObjectScope(.transient)
