@@ -171,6 +171,57 @@
 "tagApplication.infoDescription" = "申請は運営チームが確認後、適切と判断された場合に反映されます。";
 "tagApplication.characterCount" = "%d/50文字";
 
+/* Profile Correction */
+"profileCorrection.title" = "プロフィール修正依頼";
+"profileCorrection.targetCreator" = "対象クリエイター";
+"profileCorrection.correctionItems" = "修正したい項目";
+"profileCorrection.correctionItemsFooter" = "修正したい項目を選択してください。複数選択が可能です。";
+"profileCorrection.correctionDetails" = "修正内容";
+"profileCorrection.currentValue" = "現在の値";
+"profileCorrection.currentValuePlaceholder" = "現在の値が表示されます";
+"profileCorrection.suggestedValue" = "修正後の値";
+"profileCorrection.suggestedValuePlaceholder" = "修正後の値を入力してください";
+"profileCorrection.reason" = "修正理由";
+"profileCorrection.reasonPlaceholder" = "修正が必要な理由を詳しく説明してください";
+"profileCorrection.reasonFooter" = "修正の理由を具体的に記載することで審査がスムーズになります。";
+"profileCorrection.referenceUrl" = "参考URL（任意）";
+"profileCorrection.referenceUrlPlaceholder" = "修正内容の根拠となるURL";
+"profileCorrection.referenceUrlFooter" = "修正内容を裏付ける公式情報やSNSのURLがあれば入力してください。";
+"profileCorrection.submit" = "修正依頼を送信";
+"profileCorrection.submitting" = "送信中...";
+"profileCorrection.success" = "送信完了";
+"profileCorrection.submitSuccess" = "修正依頼を受け付けました。審査結果をお待ちください。";
+"profileCorrection.error" = "送信エラー";
+"profileCorrection.info" = "ご注意";
+"profileCorrection.infoDescription" = "送信された修正依頼は運営チームが確認し、適切と判断された場合に反映されます。虚偽の情報や不適切な内容の場合は却下される可能性があります。";
+
+/* Profile Correction Types */
+"profileCorrection.type.creatorName" = "クリエイター名";
+"profileCorrection.type.profileImage" = "プロフィール画像";
+"profileCorrection.type.youtube" = "YouTube";
+"profileCorrection.type.twitch" = "Twitch";
+"profileCorrection.type.tiktok" = "TikTok";
+"profileCorrection.type.twitter" = "X (Twitter)";
+"profileCorrection.type.instagram" = "Instagram";
+"profileCorrection.type.otherSns" = "その他SNS";
+"profileCorrection.type.tags" = "タグ";
+"profileCorrection.type.other" = "その他";
+
+/* Profile Correction Status */
+"profileCorrection.status.pending" = "審査待ち";
+"profileCorrection.status.reviewing" = "審査中";
+"profileCorrection.status.approved" = "承認済み";
+"profileCorrection.status.rejected" = "却下";
+
+/* Profile Correction Validation */
+"profileCorrection.validation.emptyCreatorId" = "クリエイターIDが指定されていません";
+"profileCorrection.validation.emptyCorrectionItems" = "修正項目を選択してください";
+"profileCorrection.validation.emptyReason" = "修正理由を入力してください";
+"profileCorrection.validation.reasonTooLong" = "修正理由は500文字以内で入力してください";
+"profileCorrection.validation.invalidUrl" = "参考URLの形式が正しくありません";
+"profileCorrection.validation.emptyCorrectionValue" = "%@の値を入力してください";
+"profileCorrection.validation.correctionValueTooLong" = "%@の値が長すぎます";
+
 /* Common */
 "common.hello" = "Hello, World!";
 "common.previewContent" = "Preview Content";
