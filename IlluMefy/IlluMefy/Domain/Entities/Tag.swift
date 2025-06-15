@@ -42,7 +42,7 @@ import Foundation
  )
  ```
  */
-struct Tag: Equatable, Codable, Identifiable {
+struct Tag: Equatable, Codable, Identifiable, Hashable {
     
     /// タグの一意識別子
     let id: String
