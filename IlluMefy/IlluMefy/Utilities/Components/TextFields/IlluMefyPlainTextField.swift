@@ -50,7 +50,7 @@ struct IlluMefyPlainTextField: View {
                 }
             }
             
-            TextField("a", text: $text)
+            TextField("", text: $text)
                 .textFieldStyle(
                     NormalTextFieldStyle(
                         isEnabled: true,
