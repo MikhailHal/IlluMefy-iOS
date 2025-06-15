@@ -32,26 +32,20 @@ final class SearchCreatorsByTagsUseCase: SearchCreatorsByTagsUseCaseProtocol {
         }
         
         do {
-            let creators = try await creatorRepository.searchCreatorsByTags(tagIds: request.tagIds)
-            
-            // ビジネスロジック: アクティブなクリエイターのみ & 関連度でソート
-            let filteredCreators = creators
-                .filter { $0.isActive }
-                .sorted { creator1, creator2 in
-                    // タグの一致数でソート
-                    let matches1 = Set(creator1.relatedTag).intersection(Set(request.tagIds)).count
-                    let matches2 = Set(creator2.relatedTag).intersection(Set(request.tagIds)).count
-                    
-                    if matches1 != matches2 {
-                        return matches1 > matches2
-                    }
-                    // 一致数が同じならviewCountでソート
-                    return creator1.viewCount > creator2.viewCount
-                }
+            // 新しい拡張版のリポジトリメソッドを使用
+            let result = try await creatorRepository.searchByTags(
+                tagIds: request.tagIds,
+                searchMode: request.searchMode,
+                sortOrder: request.sortOrder,
+                offset: request.offset,
+                limit: request.limit
+            )
             
             return SearchCreatorsByTagsUseCaseResponse(
-                creators: filteredCreators,
-                searchedTags: request.tagIds
+                creators: result.creators,
+                searchedTags: request.tagIds,
+                totalCount: result.totalCount,
+                hasMore: result.hasMore
             )
         } catch let error as CreatorRepositoryError {
             throw SearchCreatorsByTagsUseCaseError.repositoryError(error)

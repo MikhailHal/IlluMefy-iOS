@@ -10,4 +10,6 @@ import Foundation
 struct SearchCreatorsByTagsUseCaseResponse {
     let creators: [Creator]
     let searchedTags: [String]
+    let totalCount: Int
+    let hasMore: Bool
 }

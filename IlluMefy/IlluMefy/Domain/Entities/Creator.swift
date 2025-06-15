@@ -47,7 +47,7 @@ import Foundation
  let sortedPlatforms = creator.sortedPlatformListByPriority()
  ```
  */
-struct Creator: Equatable, Codable, Identifiable {
+struct Creator: Equatable, Codable, Identifiable, Hashable {
     
     /// クリエイターの一意識別子
     let id: String

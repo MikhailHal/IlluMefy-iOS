@@ -35,6 +35,24 @@ protocol CreatorRepositoryProtocol {
     /// - Throws: RepositoryError
     func searchCreatorsByTags(tagIds: [String]) async throws -> [Creator]
     
+    /// タグによるクリエイター検索（拡張版）
+    /// 
+    /// - Parameters:
+    ///   - tagIds: 検索するタグIDの配列
+    ///   - searchMode: 検索モード（AND/OR）
+    ///   - sortOrder: ソート順
+    ///   - offset: ページネーション用のオフセット
+    ///   - limit: 1ページあたりの取得件数
+    /// - Returns: 検索結果
+    /// - Throws: RepositoryError
+    func searchByTags(
+        tagIds: [String],
+        searchMode: TagSearchMode,
+        sortOrder: CreatorSortOrder,
+        offset: Int,
+        limit: Int
+    ) async throws -> CreatorSearchResult
+    
     /// 人気のクリエイターを取得
     /// 
     /// - Parameter limit: 取得する件数の上限
@@ -56,4 +74,20 @@ protocol CreatorRepositoryProtocol {
     /// - Returns: 類似度順にソートされたクリエイターの配列
     /// - Throws: RepositoryError
     func getSimilarCreators(creatorId: String, limit: Int) async throws -> [Creator]
+    
+    /// 名前でクリエイターを検索
+    /// 
+    /// - Parameters:
+    ///   - query: 検索クエリ
+    ///   - sortOrder: ソート順
+    ///   - offset: ページネーション用のオフセット
+    ///   - limit: 1ページあたりの取得件数
+    /// - Returns: 検索結果
+    /// - Throws: RepositoryError
+    func searchByName(
+        query: String,
+        sortOrder: CreatorSortOrder,
+        offset: Int,
+        limit: Int
+    ) async throws -> CreatorSearchResult
 }

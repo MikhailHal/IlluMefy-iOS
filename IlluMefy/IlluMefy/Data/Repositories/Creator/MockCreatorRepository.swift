@@ -27,7 +27,7 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
                 .youtube: 0.7,
                 .twitch: 0.3
             ],
-            relatedTag: ["fps", "apex-legends", "valorant"],
+            relatedTag: ["tag_007", "tag_011"],
             description: "FPSゲームをメインに実況しています。毎日20時から配信！",
             platform: [
                 .youtube: "https://youtube.com/@gameplayerA",
@@ -48,7 +48,7 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
                 .x: 0.6,
                 .youtube: 0.4
             ],
-            relatedTag: ["vtuber", "fps", "minecraft", "singing"],
+            relatedTag: ["tag_009", "tag_007", "tag_001"],
             description: "歌ってゲームして楽しく配信してます♪",
             platform: [
                 .youtube: "https://youtube.com/@vtuberB",
@@ -69,7 +69,7 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
                 .twitch: 0.3,
                 .youtube: 0.2
             ],
-            relatedTag: ["fps", "valorant", "professional", "tournament"],
+            relatedTag: ["tag_007", "tag_005", "tag_014"],
             description: "プロゲーマーとして活動中。大会実績多数。",
             platform: [
                 .twitch: "https://twitch.tv/progamerC",
@@ -90,7 +90,7 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
             platformClickRatio: [
                 .youtube: 1.0
             ],
-            relatedTag: ["minecraft", "casual", "building"],
+            relatedTag: ["tag_001", "tag_013"],
             description: "マイクラ建築をまったり実況。初心者歓迎！",
             platform: [
                 .youtube: "https://youtube.com/@casualD"
@@ -109,7 +109,7 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
                 .niconico: 0.7,
                 .youtube: 0.3
             ],
-            relatedTag: ["retro", "speedrun", "classic-games"],
+            relatedTag: ["tag_001"],
             description: "レトロゲームのRTAやってます。週末配信。",
             platform: [
                 .youtube: "https://youtube.com/@retroE",
@@ -129,7 +129,7 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
                 .tiktok: 0.8,
                 .instagram: 0.2
             ],
-            relatedTag: ["dance", "trending", "entertainment"],
+            relatedTag: ["tag_003"],
             description: "バズるダンス動画を毎日投稿！フォロー待ってます！",
             platform: [
                 .tiktok: "https://tiktok.com/@dancerF",
@@ -149,7 +149,7 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
                 .discord: 0.7,
                 .youtube: 0.3
             ],
-            relatedTag: ["community", "events", "discussion"],
+            relatedTag: ["tag_005"],
             description: "ゲームコミュニティの運営とイベント司会をしています。",
             platform: [
                 .discord: "https://discord.gg/communityG",
@@ -218,5 +218,107 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
             .map { $0.creator }
         
         return Array(similarCreators.prefix(limit))
+    }
+    
+    func searchByName(
+        query: String,
+        sortOrder: CreatorSortOrder,
+        offset: Int,
+        limit: Int
+    ) async throws -> CreatorSearchResult {
+        try await Task.sleep(nanoseconds: 300_000_000) // 0.3秒
+        
+        // 名前でフィルタリング
+        let filteredCreators = mockCreators.filter { creator in
+            creator.name.localizedCaseInsensitiveContains(query)
+        }
+        
+        // ソート
+        let sortedCreators = sortCreators(filteredCreators, by: sortOrder)
+        
+        // ページネーション
+        let totalCount = sortedCreators.count
+        let startIndex = offset
+        let endIndex = min(startIndex + limit, totalCount)
+        
+        guard startIndex < totalCount else {
+            return CreatorSearchResult(
+                creators: [],
+                totalCount: totalCount,
+                hasMore: false
+            )
+        }
+        
+        let pageCreators = Array(sortedCreators[startIndex..<endIndex])
+        let hasMore = endIndex < totalCount
+        
+        return CreatorSearchResult(
+            creators: pageCreators,
+            totalCount: totalCount,
+            hasMore: hasMore
+        )
+    }
+    
+    func searchByTags(
+        tagIds: [String],
+        searchMode: TagSearchMode,
+        sortOrder: CreatorSortOrder,
+        offset: Int,
+        limit: Int
+    ) async throws -> CreatorSearchResult {
+        try await Task.sleep(nanoseconds: 300_000_000) // 0.3秒
+        
+        // タグでフィルタリング
+        let filteredCreators = mockCreators.filter { creator in
+            let creatorTags = Set(creator.relatedTag)
+            let searchTags = Set(tagIds)
+            
+            switch searchMode {
+            case .all:
+                // すべてのタグを含む（AND検索）
+                return searchTags.isSubset(of: creatorTags)
+            case .any:
+                // いずれかのタグを含む（OR検索）
+                return !creatorTags.isDisjoint(with: searchTags)
+            }
+        }
+        
+        // ソート
+        let sortedCreators = sortCreators(filteredCreators, by: sortOrder)
+        
+        // ページネーション
+        let totalCount = sortedCreators.count
+        let startIndex = offset
+        let endIndex = min(startIndex + limit, totalCount)
+        
+        guard startIndex < totalCount else {
+            return CreatorSearchResult(
+                creators: [],
+                totalCount: totalCount,
+                hasMore: false
+            )
+        }
+        
+        let pageCreators = Array(sortedCreators[startIndex..<endIndex])
+        let hasMore = endIndex < totalCount
+        
+        return CreatorSearchResult(
+            creators: pageCreators,
+            totalCount: totalCount,
+            hasMore: hasMore
+        )
+    }
+    
+    // MARK: - Helper Methods
+    
+    private func sortCreators(_ creators: [Creator], by sortOrder: CreatorSortOrder) -> [Creator] {
+        switch sortOrder {
+        case .popularity:
+            return creators.sorted { $0.viewCount > $1.viewCount }
+        case .newest:
+            return creators.sorted { $0.createdAt > $1.createdAt }
+        case .name:
+            return creators.sorted { $0.name < $1.name }
+        }
     }
 }

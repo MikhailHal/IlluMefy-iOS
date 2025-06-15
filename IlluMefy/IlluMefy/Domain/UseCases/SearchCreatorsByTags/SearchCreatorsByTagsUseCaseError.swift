@@ -41,6 +41,19 @@ extension SearchCreatorsByTagsUseCaseError: UseCaseErrorProtocol {
         }
     }
     
+    var title: String {
+        switch self {
+        case .emptyTags:
+            return "タグが未選択"
+        case .tooManyTags:
+            return "タグが多すぎます"
+        case .repositoryError:
+            return "データ取得エラー"
+        case .unknown:
+            return "システムエラー"
+        }
+    }
+    
     var message: String {
         return self.errorDescription ?? "Unknown error"
     }
