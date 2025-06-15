@@ -52,7 +52,11 @@
       "Bash(/Users/haruto/.claude/local/node_modules/@anthropic-ai/claude-code/vendor/ripgrep/arm64-darwin/rg -n \"padding\\(\\d+\\)|cornerRadius\\(\\d+\\)|spacing\\(\\d+\\)|size\\(\\d+\\)|lineWidth\\(\\d+\\)|radius\\(\\d+\\)\" --type swift /Users/haruto/Desktop/dev/mobile-app/illumefy/IlluMefy-iOS/IlluMefy/IlluMefy/)",
       "Bash(/Users/haruto/.claude/local/node_modules/@anthropic-ai/claude-code/vendor/ripgrep/arm64-darwin/rg -n \"\\\\.padding\\\\(\\\\d+\\\\)|\\\\.cornerRadius\\\\(\\\\d+\\\\)|\\\\.spacing\\\\(\\\\d+\\\\)\" --type swift /Users/haruto/Desktop/dev/mobile-app/illumefy/IlluMefy-iOS/IlluMefy/IlluMefy/)",
       "Bash(/Users/haruto/.claude/local/node_modules/@anthropic-ai/claude-code/vendor/ripgrep/arm64-darwin/rg \"\\.padding\\(.horizontal, 16\\)\" --type swift -n)",
-      "Bash(/Users/haruto/.claude/local/node_modules/@anthropic-ai/claude-code/vendor/ripgrep/arm64-darwin/rg -n \"\\.padding\\(\\d+\\)|\\.frame\\(width:\\s*\\d+|\\.frame\\(height:\\s*\\d+|\\.cornerRadius\\(\\d+\\)|\\.font\\(\\.system\\(size:\\s*\\d+\\)|\\.opacity\\(\\d+\\.\\d+\\)\" --type swift Presentations/)"
+      "Bash(/Users/haruto/.claude/local/node_modules/@anthropic-ai/claude-code/vendor/ripgrep/arm64-darwin/rg -n \"\\.padding\\(\\d+\\)|\\.frame\\(width:\\s*\\d+|\\.frame\\(height:\\s*\\d+|\\.cornerRadius\\(\\d+\\)|\\.font\\(\\.system\\(size:\\s*\\d+\\)|\\.opacity\\(\\d+\\.\\d+\\)\" --type swift Presentations/)",
+      "Bash(echo $?)",
+      "Bash(/Users/haruto/.claude/local/node_modules/@anthropic-ai/claude-code/vendor/ripgrep/arm64-darwin/rg \"CreatorDetail|Platform|tagApplication\" IlluMefy/IlluMefy/Generated/Strings.swift -A 5 -B 5)",
+      "Bash(/Users/haruto/.claude/local/node_modules/@anthropic-ai/claude-code/vendor/ripgrep/arm64-darwin/rg \"Typography\\.\" IlluMefy/IlluMefy/Presentations/Core/CreatorDetail/CreatorDetailView.swift)",
+      "Bash(/Users/haruto/.claude/local/node_modules/@anthropic-ai/claude-code/vendor/ripgrep/arm64-darwin/rg \"Typography\\.\" IlluMefy/IlluMefy/Presentations/Core/CreatorDetail/CreatorDetailComponents.swift)"
     ],
     "deny": []
   },

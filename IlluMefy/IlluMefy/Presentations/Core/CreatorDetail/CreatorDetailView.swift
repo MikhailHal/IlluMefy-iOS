@@ -287,31 +287,12 @@ struct CreatorDetailView: View {
                 showingTagApplicationTypeSelection = true
             }, label: {
                 HStack {
-                    Image(systemName: "tag.circle.fill")
-                        .font(.system(size: Typography.bodyRegular))
-                    Text("タグ申請")
+                    Text("タグの内容について申請をする")
                         .font(.system(size: Typography.checkmark, weight: .medium))
+                        .frame(maxWidth: .infinity)
                     Spacer()
-                    Image(systemName: "chevron.right")
-                        .font(.system(size: Typography.caption2, weight: .medium))
-                        .foregroundColor(.secondary)
                 }
-                .foregroundColor(.white)
-                .frame(maxWidth: .infinity)
-                .padding(.horizontal, Spacing.medium)
-                .padding(.vertical, Spacing.relatedComponentDivider)
-                .background(
-                    LinearGradient(
-                        colors: [
-                            Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor,
-                            Asset.Color.Button.buttonBackgroundGradationEnd.swiftUIColor
-                        ],
-                        startPoint: .leading,
-                        endPoint: .trailing
-                    )
-                )
-                .clipShape(RoundedRectangle(cornerRadius: CornerRadius.large))
-            })
+            }).illuMefyButtonStyle(isEnabled: true, size: .regular)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
@@ -330,28 +311,11 @@ struct CreatorDetailView: View {
                 showingProfileCorrection = true
             }, label: {
                 HStack {
-                    Image(systemName: "pencil.circle.fill")
-                        .font(.system(size: Typography.bodyRegular))
-                    Text("プロフィール修正依頼")
+                    Text("プロフィールについて修正依頼を申請する")
                         .font(.system(size: Typography.checkmark, weight: .medium))
-                    Spacer()
-                    Image(systemName: "chevron.right")
-                        .font(.system(size: Typography.caption2, weight: .medium))
-                        .foregroundColor(.secondary)
+                        .frame(maxWidth: .infinity)
                 }
-                .foregroundColor(.primary)
-                .frame(maxWidth: .infinity)
-                .padding(.horizontal, Spacing.medium)
-                .padding(.vertical, Spacing.relatedComponentDivider)
-                .background(
-                    RoundedRectangle(cornerRadius: CornerRadius.large)
-                        .fill(.ultraThinMaterial)
-                )
-                .overlay(
-                    RoundedRectangle(cornerRadius: CornerRadius.large)
-                        .stroke(.primary.opacity(Opacity.overlayMedium), lineWidth: BorderWidth.medium)
-                )
-            })
+            }).illuMefyButtonStyle(isEnabled: true, size: .regular)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
