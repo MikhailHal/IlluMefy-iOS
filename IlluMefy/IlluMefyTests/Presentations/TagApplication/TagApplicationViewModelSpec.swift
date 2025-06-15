@@ -102,7 +102,7 @@ final class TagApplicationViewModelSpec: QuickSpec, @unchecked Sendable {
                         expect(viewModel.tagNameCharacterCount).to(equal(L10n.TagApplication.characterCount(4)))
                         
                         viewModel.tagName = "A very long tag name"
-                        expect(viewModel.tagNameCharacterCount).to(equal(L10n.TagApplication.characterCount(19)))
+                        expect(viewModel.tagNameCharacterCount).to(equal(L10n.TagApplication.characterCount(20)))
                     }
                 }
                 
