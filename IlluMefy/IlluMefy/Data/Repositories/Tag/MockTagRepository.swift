@@ -26,7 +26,7 @@ final class MockTagRepository: TagRepositoryProtocol {
         Tag(id: "tag_011", displayName: "実況", tagName: "gameplay", clickedCount: 850, createdAt: Date(), updatedAt: Date(), parentTagId: nil, childTagIds: []),
         Tag(id: "tag_012", displayName: "レビュー", tagName: "review", clickedCount: 650, createdAt: Date(), updatedAt: Date(), parentTagId: nil, childTagIds: []),
         Tag(id: "tag_013", displayName: "マインクラフト", tagName: "minecraft", clickedCount: 750, createdAt: Date(), updatedAt: Date(), parentTagId: "tag_001", childTagIds: []),
-        Tag(id: "tag_014", displayName: "プロゲーマー", tagName: "professional", clickedCount: 300, createdAt: Date(), updatedAt: Date(), parentTagId: nil, childTagIds: []),
+        Tag(id: "tag_014", displayName: "プロゲーマー", tagName: "professional", clickedCount: 300, createdAt: Date(), updatedAt: Date(), parentTagId: nil, childTagIds: [])
     ]
     
     // MARK: - TagRepositoryProtocol
