@@ -87,7 +87,7 @@ struct CreatorDetailView: View {
                 .scaleEffect(Effects.scaleIcon)
             Text(L10n.Common.loading)
                 .font(.headline)
-                .foregroundColor(.secondary)
+                .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
             Spacer()
         }
         .padding(Spacing.screenEdgePadding)
@@ -99,13 +99,13 @@ struct CreatorDetailView: View {
             Spacer()
             Image(systemName: "exclamationmark.triangle")
                 .font(.system(size: Typography.titleExtraLarge))
-                .foregroundColor(.red)
+                .foregroundColor(Asset.Color.WarningText.warningLabelForground.swiftUIColor)
             Text(title)
                 .font(.title2)
                 .bold()
             Text(message)
                 .font(.body)
-                .foregroundColor(.secondary)
+                .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
                 .multilineTextAlignment(.center)
             Button(L10n.Common.retry) {
                 Task {
@@ -159,7 +159,7 @@ struct CreatorDetailView: View {
             }, label: {
                 Image(systemName: "xmark.circle.fill")
                     .font(.title2)
-                    .foregroundColor(.primary.opacity(Opacity.placeholder))
+                    .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
             })
         }
     }
@@ -173,7 +173,7 @@ struct CreatorDetailView: View {
                     .aspectRatio(contentMode: .fill)
             } placeholder: {
                 Rectangle()
-                    .fill(Color.gray.opacity(Opacity.glow))
+                    .fill(Asset.Color.TextField.placeholderDisabled.swiftUIColor)
                     .overlay(
                         ProgressView()
                     )
@@ -184,14 +184,19 @@ struct CreatorDetailView: View {
                 Circle()
                     .stroke(
                         LinearGradient(
-                            colors: [.white.opacity(Opacity.glow), .clear],
+                            colors: [Asset.Color.Application.foreground.swiftUIColor.opacity(Opacity.glow), Color.clear],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
                         ),
                         lineWidth: BorderWidth.extraThick + BorderWidth.thin
                     )
             )
-            .shadow(color: .black.opacity(Opacity.overlayMedium), radius: Shadow.radiusMedium, x: 0, y: Shadow.offsetYMedium)
+            .shadow(
+                color: Asset.Color.Application.Background.background.swiftUIColor.opacity(Opacity.overlayMedium),
+                radius: Shadow.radiusMedium,
+                x: 0,
+                y: Shadow.offsetYMedium
+            )
             
             // Creator name with favorite button
             HStack(spacing: Spacing.relatedComponentDivider) {
@@ -207,9 +212,19 @@ struct CreatorDetailView: View {
                 }, label: {
                     Image(systemName: viewModel.isFavorite ? "heart.fill" : "heart")
                         .font(.title2)
-                        .foregroundColor(viewModel.isFavorite ? .red : .primary.opacity(Opacity.overlayHeavy))
+                        .foregroundColor(
+                            viewModel.isFavorite
+                                ? Asset.Color.WarningText.warningLabelForground.swiftUIColor
+                                : Asset.Color.Application.foreground.swiftUIColor.opacity(Opacity.overlayHeavy)
+                        )
                         .scaleEffect(viewModel.isFavorite ? Effects.scaleHeart : Effects.visibleOpacity)
-                        .animation(.spring(response: AnimationParameters.springResponse, dampingFraction: AnimationParameters.springDamping), value: viewModel.isFavorite)
+                        .animation(
+                            .spring(
+                                response: AnimationParameters.springResponse,
+                                dampingFraction: AnimationParameters.springDamping
+                            ),
+                            value: viewModel.isFavorite
+                        )
                 })
             }
             
@@ -219,7 +234,7 @@ struct CreatorDetailView: View {
                 if platform == .youtube {
                     Image(systemName: platform.icon)
                         .font(.system(size: Typography.bodyRegular))
-                        .foregroundColor(.red)
+                        .foregroundColor(Asset.Color.WarningText.warningLabelForground.swiftUIColor)
                 } else {
                     Image(platform.icon)
                         .resizable()
@@ -228,7 +243,7 @@ struct CreatorDetailView: View {
                 }
                 Text(L10n.CreatorDetail.mainPlatform)
                     .font(.caption)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
             }
         }
     }
@@ -281,7 +296,7 @@ struct CreatorDetailView: View {
             
             Text(L10n.CreatorDetail.tagApplicationDescription)
                 .font(.subheadline)
-                .foregroundColor(.secondary)
+                .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
             
             Button(action: {
                 showingTagApplicationTypeSelection = true
@@ -305,7 +320,7 @@ struct CreatorDetailView: View {
             
             Text(L10n.CreatorDetail.informationCorrectionDescription)
                 .font(.subheadline)
-                .foregroundColor(.secondary)
+                .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
             
             Button(action: {
                 showingProfileCorrection = true
@@ -358,7 +373,7 @@ struct CreatorDetailView: View {
             
             Text(L10n.CreatorDetail.similarCreatorsDescription)
                 .font(.subheadline)
-                .foregroundColor(.secondary)
+                .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
             
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: Spacing.relatedComponentDivider) {
@@ -401,11 +416,11 @@ struct CreatorDetailView: View {
             Group {
                 switch viewModel.state {
                 case .loading:
-                    Text("ローディング中...")
+                    Text(L10n.Common.loading)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .background(Asset.Color.Application.Background.background.swiftUIColor)
                 default:
-                    Text("ローディング状態")
+                    Text(L10n.Common.loadingState)
                 }
             }
             .onAppear {
@@ -428,15 +443,15 @@ struct CreatorDetailView: View {
                     VStack(spacing: 16) {
                         Image(systemName: "exclamationmark.triangle")
                             .font(.system(size: Typography.titleExtraLarge))
-                            .foregroundColor(.red)
+                            .foregroundColor(Asset.Color.WarningText.warningLabelForground.swiftUIColor)
                         Text(title)
                             .font(.title2)
                             .bold()
                         Text(message)
                             .font(.body)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
                             .multilineTextAlignment(.center)
-                        Button("再試行") {
+                        Button(L10n.Common.retry) {
                             // Dummy action
                         }
                         .buttonStyle(.borderedProminent)
@@ -445,7 +460,7 @@ struct CreatorDetailView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .background(Asset.Color.Application.Background.background.swiftUIColor)
                 default:
-                    Text("エラー状態")
+                    Text(L10n.Common.errorState)
                 }
             }
         }
@@ -462,10 +477,10 @@ struct CreatorDetailView: View {
         var body: some View {
             NavigationStack {
                 VStack {
-                    Text("ナビゲーションテスト")
+                    Text(L10n.Common.navigationTest)
                         .font(.title)
                     
-                    Button("クリエイター詳細を開く") {
+                    Button(L10n.Common.openCreatorDetail) {
                         selectedCreator = "creator_001"
                         showingDetail = true
                     }
