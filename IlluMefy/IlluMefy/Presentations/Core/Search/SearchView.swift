@@ -34,33 +34,20 @@ struct SearchView: View {
             // ベースのレイアウト
             VStack(spacing: Spacing.relatedComponentDivider) {
                 // シンプルな検索ボックス
-                HStack {
-                    TextField("タグを検索...", text: $viewModel.searchText)
-                        .textFieldStyle(
-                            NormalTextFieldStyle(
-                                isEnabled: true,
-                                text: $viewModel.searchText,
-                                placeholder: "タグを検索...",
-                                keyboardType: .default,
-                                textContentType: nil
-                            )
+                TextField("タグを検索...", text: $viewModel.searchText)
+                    .textFieldStyle(
+                        NormalTextFieldStyle(
+                            isEnabled: true,
+                            text: $viewModel.searchText,
+                            placeholder: "タグを検索...",
+                            keyboardType: .default,
+                            textContentType: nil
                         )
-                        .onSubmit {
-                            viewModel.addSelectedTag()
-                        }
-                    
-                    if !viewModel.searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                        Button("追加") {
-                            viewModel.addSelectedTag()
-                        }
-                        .font(.body)
-                        .padding(.horizontal, 16)
-                        .frame(height: 48)
-                        .background(Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor)
-                        .foregroundColor(Asset.Color.Button.buttonForeground.swiftUIColor)
-                        .cornerRadius(CornerRadius.button)
+                    )
+                    .onChange(of: viewModel.searchText) { _, newValue in
+                        // 日本語入力中でもリアルタイムで検索候補を更新
+                        // onChange内でViewModelのupdateSuggestionsを直接呼び出し
                     }
-                }
                 
                 // 選択されたタグ
                 if !viewModel.selectedTags.isEmpty {
@@ -91,7 +78,7 @@ struct SearchView: View {
                             LazyVStack(spacing: 0) {
                                 ForEach(viewModel.suggestions, id: \.id) { tag in
                                     Button(action: {
-                                        viewModel.selectTag(tag)
+                                        viewModel.addSelectedTagFromSuggestion(tag)
                                     }, label: {
                                         HStack {
                                             Text(tag.displayName)
@@ -146,7 +133,7 @@ struct SearchView: View {
                 HStack(spacing: Spacing.componentGrouping) {
                     ForEach(viewModel.searchHistory, id: \.self) { query in
                         Button(action: {
-                            viewModel.selectFromHistory(query)
+                            viewModel.addTagsFromHistory(query)
                         }, label: {
                             Text(query)
                                 .font(.caption)
