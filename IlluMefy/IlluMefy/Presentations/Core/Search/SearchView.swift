@@ -44,10 +44,6 @@ struct SearchView: View {
                             textContentType: nil
                         )
                     )
-                    .onChange(of: viewModel.searchText) { _, newValue in
-                        // 日本語入力中でもリアルタイムで検索候補を更新
-                        // onChange内でViewModelのupdateSuggestionsを直接呼び出し
-                    }
                 
                 // 選択されたタグ
                 if !viewModel.selectedTags.isEmpty {
