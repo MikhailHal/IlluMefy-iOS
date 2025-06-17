@@ -27,6 +27,7 @@ protocol SearchViewModelProtocol: ObservableObject {
     func clearHistory() async
     func selectTag(_ tag: Tag)
     func removeTag(_ tag: Tag)
+    func clearAllTags()
     func addSelectedTag()
     func addSelectedTagFromSuggestion(_ tag: Tag)
 }

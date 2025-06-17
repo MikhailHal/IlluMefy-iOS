@@ -26,6 +26,7 @@ final class SearchViewModel: SearchViewModelProtocol {
     private let searchCreatorsByTagsUseCase: SearchCreatorsByTagsUseCaseProtocol
     private let saveSearchHistoryUseCase: SaveSearchHistoryUseCase
     private let getSearchHistoryUseCase: GetSearchHistoryUseCase
+    private let clearSearchHistoryUseCase: ClearSearchHistoryUseCase
     private let tagSuggestionService = TagSuggestionService()
     
     private var cancellables = Set<AnyCancellable>()
@@ -39,12 +40,14 @@ final class SearchViewModel: SearchViewModelProtocol {
         searchTagsByNameUseCase: SearchTagsByNameUseCaseProtocol,
         searchCreatorsByTagsUseCase: SearchCreatorsByTagsUseCaseProtocol,
         saveSearchHistoryUseCase: SaveSearchHistoryUseCase,
-        getSearchHistoryUseCase: GetSearchHistoryUseCase
+        getSearchHistoryUseCase: GetSearchHistoryUseCase,
+        clearSearchHistoryUseCase: ClearSearchHistoryUseCase
     ) {
         self.searchTagsByNameUseCase = searchTagsByNameUseCase
         self.searchCreatorsByTagsUseCase = searchCreatorsByTagsUseCase
         self.saveSearchHistoryUseCase = saveSearchHistoryUseCase
         self.getSearchHistoryUseCase = getSearchHistoryUseCase
+        self.clearSearchHistoryUseCase = clearSearchHistoryUseCase
         
         setupBindings()
         loadSearchHistory()
@@ -332,6 +335,15 @@ final class SearchViewModel: SearchViewModelProtocol {
         }
     }
     
+    func clearAllTags() {
+        selectedTags.removeAll()
+        state = .initial
+        currentCreators = []
+        hasMore = false
+        currentOffset = 0
+        totalCount = 0
+    }
+    
     func deleteFromHistory(_ query: String) async {
         do {
             try await saveSearchHistoryUseCase.execute(query: query)
@@ -342,6 +354,11 @@ final class SearchViewModel: SearchViewModelProtocol {
     }
     
     func clearHistory() async {
-        loadSearchHistory()
+        do {
+            try await clearSearchHistoryUseCase.execute()
+            loadSearchHistory()
+        } catch {
+            print("Failed to clear search history: \(error)")
+        }
     }
 }

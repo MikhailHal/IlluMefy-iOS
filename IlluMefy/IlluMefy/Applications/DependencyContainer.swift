@@ -214,6 +214,12 @@ final class DependencyContainer: @unchecked Sendable {
             return GetSearchHistoryUseCase(repository: searchHistoryRepository)
         }.inObjectScope(.transient)
         
+        // ClearSearchHistory usecase
+        container.register(ClearSearchHistoryUseCase.self) { resolver in
+            let searchHistoryRepository = resolver.resolve(SearchHistoryRepositoryProtocol.self)!
+            return ClearSearchHistoryUseCase(searchHistoryRepository: searchHistoryRepository)
+        }.inObjectScope(.transient)
+        
         // SearchTagsByName usecase
         container.register(SearchTagsByNameUseCase.self) { resolver in
             let tagRepository = resolver.resolve(TagRepositoryProtocol.self)!
@@ -295,12 +301,14 @@ final class DependencyContainer: @unchecked Sendable {
             let searchCreatorsByTagsUseCase = resolver.resolve((any SearchCreatorsByTagsUseCaseProtocol).self)!
             let saveSearchHistoryUseCase = resolver.resolve(SaveSearchHistoryUseCase.self)!
             let getSearchHistoryUseCase = resolver.resolve(GetSearchHistoryUseCase.self)!
+            let clearSearchHistoryUseCase = resolver.resolve(ClearSearchHistoryUseCase.self)!
             return MainActor.assumeIsolated {
                 return SearchViewModel(
                     searchTagsByNameUseCase: searchTagsByNameUseCase,
                     searchCreatorsByTagsUseCase: searchCreatorsByTagsUseCase,
                     saveSearchHistoryUseCase: saveSearchHistoryUseCase,
-                    getSearchHistoryUseCase: getSearchHistoryUseCase
+                    getSearchHistoryUseCase: getSearchHistoryUseCase,
+                    clearSearchHistoryUseCase: clearSearchHistoryUseCase
                 )
             }
         }.inObjectScope(.transient)

@@ -25,6 +25,10 @@ struct SearchView: View {
             // メインコンテンツ
             mainContentSection
         }
+        .onTapGesture {
+            // 画面をタップしたらキーボードを閉じる
+            hideKeyboard()
+        }
     }
     
     // MARK: - View Components
@@ -54,6 +58,15 @@ struct SearchView: View {
                                 .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
                             
                             Spacer()
+                            
+                            // すべてクリアボタン
+                            if !viewModel.selectedTags.isEmpty {
+                                Button(L10n.Search.clearAllTags) {
+                                    viewModel.clearAllTags()
+                                }
+                                .font(.caption2)
+                                .foregroundColor(Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor)
+                            }
                             
                             // 自動検索の説明
                             if case .searching = viewModel.state {
@@ -152,10 +165,24 @@ struct SearchView: View {
     
     private var searchHistorySection: some View {
         VStack(alignment: .leading, spacing: Spacing.relatedComponentDivider) {
-            Text(L10n.Search.recentSearches)
-                .font(.caption)
-                .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
-                .frame(maxWidth: .infinity, alignment: .leading)
+            HStack {
+                Text(L10n.Search.recentSearches)
+                    .font(.caption)
+                    .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
+                
+                Spacer()
+                
+                if !viewModel.searchHistory.isEmpty {
+                    Button(L10n.Search.clearHistory) {
+                        Task {
+                            await viewModel.clearHistory()
+                        }
+                    }
+                    .font(.caption)
+                    .foregroundColor(Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor)
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
             
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: Spacing.componentGrouping) {
@@ -487,6 +514,12 @@ extension SearchView {
             Spacer()
         }
         .padding(Spacing.screenEdgePadding)
+    }
+    
+    // MARK: - Helper Methods
+    
+    private func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
 

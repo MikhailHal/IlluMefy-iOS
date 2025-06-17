@@ -44,7 +44,7 @@ class MockCreatorRepositorySpec: QuickSpec {
                     // Then
                     expect(error).to(beNil())
                     expect(result).toNot(beNil())
-                    expect(result?.count).to(equal(7))
+                    expect(result?.count).to(equal(9))
                     expect(result?.first?.name).to(equal("ゲーム実況者A"))
                 }
                 
@@ -307,7 +307,7 @@ class MockCreatorRepositorySpec: QuickSpec {
                     
                     // Then
                     expect(error).to(beNil())
-                    expect(result?.count).to(equal(7)) // 総クリエイター数
+                    expect(result?.count).to(equal(9)) // 総クリエイター数
                 }
             }
             
