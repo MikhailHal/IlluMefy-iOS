@@ -224,6 +224,7 @@ final class SearchViewModel: SearchViewModelProtocol {
         // 履歴クエリはカンマ区切りのタグ名の形式
         let tagNames = query.split(separator: ",").map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
         
+        var tagsAdded = false
         for tagName in tagNames {
             // タグ名に一致するタグを検索
             if let matchingTag = allTags.first(where: { tag in
@@ -232,6 +233,7 @@ final class SearchViewModel: SearchViewModelProtocol {
                 // 重複チェック
                 if !selectedTags.contains(where: { $0.id == matchingTag.id }) {
                     selectedTags.append(matchingTag)
+                    tagsAdded = true
                 }
             }
         }
@@ -239,6 +241,13 @@ final class SearchViewModel: SearchViewModelProtocol {
         // テキストをクリア
         searchText = ""
         suggestions = []
+        
+        // タグが追加されたら自動的に検索
+        if tagsAdded {
+            Task {
+                await search()
+            }
+        }
     }
     
     // MARK: - Tag Helper Methods
@@ -275,6 +284,11 @@ final class SearchViewModel: SearchViewModelProtocol {
         // テキストと候補をクリア
         searchText = ""
         suggestions = []
+        
+        // タグ選択後、自動的に検索を実行
+        Task {
+            await search()
+        }
     }
     
     func addSelectedTag() {
@@ -300,6 +314,18 @@ final class SearchViewModel: SearchViewModelProtocol {
     
     func removeTag(_ tag: Tag) {
         selectedTags.removeAll { $0.id == tag.id }
+        
+        // タグ削除後、残りのタグで再検索（タグが0個になったら初期状態に戻す）
+        Task {
+            if selectedTags.isEmpty {
+                state = .initial
+                currentCreators = []
+                hasMore = false
+                currentOffset = 0
+            } else {
+                await search()
+            }
+        }
     }
     
     func deleteFromHistory(_ query: String) async {

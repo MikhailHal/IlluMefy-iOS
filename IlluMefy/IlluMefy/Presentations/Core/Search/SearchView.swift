@@ -47,12 +47,44 @@ struct SearchView: View {
                 
                 // 選択されたタグ
                 if !viewModel.selectedTags.isEmpty {
-                    selectedTagsView(
-                        tags: viewModel.selectedTags,
-                        onRemove: { tag in
-                            viewModel.removeTag(tag)
+                    VStack(alignment: .leading, spacing: Spacing.relatedComponentDivider) {
+                        HStack {
+                            Text("選択中のタグ")
+                                .font(.caption2)
+                                .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
+                            
+                            Spacer()
+                            
+                            // 自動検索の説明
+                            if case .searching = viewModel.state {
+                                // 検索中は表示しない
+                            } else {
+                                Text("自動で検索されます")
+                                    .font(.caption2)
+                                    .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
+                            }
                         }
-                    )
+                        .padding(.horizontal, Spacing.screenEdgePadding)
+                        
+                        selectedTagsView(
+                            tags: viewModel.selectedTags,
+                            onRemove: { tag in
+                                viewModel.removeTag(tag)
+                            }
+                        )
+                        
+                        // 検索状態の表示
+                        if case .searching = viewModel.state {
+                            HStack(spacing: Spacing.componentGrouping) {
+                                ProgressView()
+                                    .scaleEffect(0.8)
+                                Text("検索中...")
+                                    .font(.caption)
+                                    .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
+                            }
+                            .padding(.horizontal, Spacing.screenEdgePadding)
+                        }
+                    }
                 }
                 
                 // 検索履歴
