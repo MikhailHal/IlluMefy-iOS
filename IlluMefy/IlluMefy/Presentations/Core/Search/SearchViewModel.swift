@@ -241,6 +241,20 @@ final class SearchViewModel: SearchViewModelProtocol {
         suggestions = []
     }
     
+    // MARK: - Tag Helper Methods
+    
+    /// タグIDから表示名を取得
+    func getTagDisplayName(for tagId: String) -> String {
+        allTags.first { $0.id == tagId }?.displayName ?? tagId
+    }
+    
+    /// 複数のタグIDからTag配列を取得
+    func getTagsForIds(_ tagIds: [String]) -> [Tag] {
+        tagIds.compactMap { tagId in
+            allTags.first { $0.id == tagId }
+        }
+    }
+    
     // MARK: - Tag Selection Methods
     
     func selectTag(_ tag: Tag) {

@@ -259,13 +259,14 @@ struct SearchView: View {
     }
     
     private func creatorListItem(creator: Creator) -> some View {
-        CreatorListItemView(creator: creator)
+        CreatorListItemView(creator: creator, viewModel: viewModel)
     }
     
 }
 
 struct CreatorListItemView: View {
     let creator: Creator
+    let viewModel: SearchViewModel
     @State private var showingDetail = false
     
     var body: some View {
@@ -308,9 +309,10 @@ struct CreatorListItemView: View {
                     // タグ
                     if !creator.relatedTag.isEmpty {
                         HStack(spacing: Spacing.relatedComponentDivider) {
-                            ForEach(Array(creator.relatedTag.prefix(2)), id: \.self) { tagId in
-                                // タグIDを表示名に変換（簡略化のため、ここではそのまま表示）
-                                Text(tagId)
+                            // ViewModelからTag情報を取得
+                            let tags = viewModel.getTagsForIds(Array(creator.relatedTag.prefix(2)))
+                            ForEach(tags) { tag in
+                                Text(tag.displayName)
                                     .font(.caption)
                                     .foregroundColor(Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor)
                                     .padding(.horizontal, 6)

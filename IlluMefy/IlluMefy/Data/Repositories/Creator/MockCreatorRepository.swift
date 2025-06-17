@@ -48,8 +48,8 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
                 .x: 0.6,
                 .youtube: 0.4
             ],
-            relatedTag: ["tag_009", "tag_007", "tag_001"],
-            description: "歌ってゲームして楽しく配信してます♪",
+            relatedTag: ["tag_009", "tag_007", "tag_001", "tag_004"],
+            description: "歌ってゲームして楽しく配信してます♪ アニメも大好き！",
             platform: [
                 .youtube: "https://youtube.com/@vtuberB",
                 .x: "https://twitter.com/vtuberB"
@@ -157,6 +157,46 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
             ],
             createdAt: Date().addingTimeInterval(-86400 * 75),
             updatedAt: Date().addingTimeInterval(-86400 * 3),
+            isActive: true
+        ),
+        Creator(
+            id: "creator_008",
+            name: "アニメ評論家H",
+            thumbnailUrl: "https://picsum.photos/200/200?random=8",
+            viewCount: 12000,
+            socialLinkClickCount: 3000,
+            platformClickRatio: [
+                .youtube: 0.8,
+                .x: 0.2
+            ],
+            relatedTag: ["tag_004", "tag_012"],
+            description: "今期アニメの感想と考察を毎週配信。ネタバレ注意！",
+            platform: [
+                .youtube: "https://youtube.com/@animecriticH",
+                .x: "https://twitter.com/animecriticH"
+            ],
+            createdAt: Date().addingTimeInterval(-86400 * 180),
+            updatedAt: Date().addingTimeInterval(-86400),
+            isActive: true
+        ),
+        Creator(
+            id: "creator_009",
+            name: "アニソンDJ_I",
+            thumbnailUrl: "https://picsum.photos/200/200?random=9",
+            viewCount: 6500,
+            socialLinkClickCount: 1800,
+            platformClickRatio: [
+                .twitch: 0.6,
+                .youtube: 0.4
+            ],
+            relatedTag: ["tag_004", "tag_003", "tag_010"],
+            description: "アニソンRemixとDJ配信。毎週土曜日21時〜",
+            platform: [
+                .twitch: "https://twitch.tv/anisongDJ",
+                .youtube: "https://youtube.com/@anisongDJ"
+            ],
+            createdAt: Date().addingTimeInterval(-86400 * 90),
+            updatedAt: Date().addingTimeInterval(-7200),
             isActive: true
         )
     ]
