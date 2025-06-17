@@ -19,6 +19,7 @@ final class SearchViewModel: SearchViewModelProtocol {
     @Published private(set) var searchHistory: [String] = []
     @Published private(set) var isLoading = false
     @Published private(set) var hasMore = false
+    @Published private(set) var totalCount = 0
     
     // MARK: - Private Properties
     private let searchTagsByNameUseCase: SearchTagsByNameUseCaseProtocol
@@ -160,6 +161,7 @@ final class SearchViewModel: SearchViewModelProtocol {
             
             currentCreators = result.creators
             hasMore = result.hasMore
+            totalCount = result.totalCount
             
             if result.creators.isEmpty {
                 state = .empty
@@ -169,7 +171,7 @@ final class SearchViewModel: SearchViewModelProtocol {
         } catch let error as SearchCreatorsByTagsUseCaseError {
             state = .error(error.title, error.message)
         } catch {
-            state = .error("クリエイター検索エラー", "クリエイター検索中にエラーが発生しました")
+            state = .error(L10n.Search.Error.creatorSearchTitle, L10n.Search.Error.creatorSearchMessage)
         }
     }
     
@@ -213,6 +215,7 @@ final class SearchViewModel: SearchViewModelProtocol {
         currentCreators = []
         hasMore = false
         currentOffset = 0
+        totalCount = 0
     }
     
     func selectFromHistory(_ query: String) {
@@ -322,6 +325,7 @@ final class SearchViewModel: SearchViewModelProtocol {
                 currentCreators = []
                 hasMore = false
                 currentOffset = 0
+                totalCount = 0
             } else {
                 await search()
             }

@@ -34,12 +34,12 @@ struct SearchView: View {
             // ベースのレイアウト
             VStack(spacing: Spacing.relatedComponentDivider) {
                 // シンプルな検索ボックス
-                TextField("タグを検索...", text: $viewModel.searchText)
+                TextField(L10n.Search.searchPlaceholder, text: $viewModel.searchText)
                     .textFieldStyle(
                         NormalTextFieldStyle(
                             isEnabled: true,
                             text: $viewModel.searchText,
-                            placeholder: "タグを検索...",
+                            placeholder: L10n.Search.searchPlaceholder,
                             keyboardType: .default,
                             textContentType: nil
                         )
@@ -49,7 +49,7 @@ struct SearchView: View {
                 if !viewModel.selectedTags.isEmpty {
                     VStack(alignment: .leading, spacing: Spacing.relatedComponentDivider) {
                         HStack {
-                            Text("選択中のタグ")
+                            Text(L10n.Search.selectedTags)
                                 .font(.caption2)
                                 .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
                             
@@ -59,7 +59,7 @@ struct SearchView: View {
                             if case .searching = viewModel.state {
                                 // 検索中は表示しない
                             } else {
-                                Text("自動で検索されます")
+                                Text(L10n.Search.autoSearchHint)
                                     .font(.caption2)
                                     .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
                             }
@@ -78,7 +78,7 @@ struct SearchView: View {
                             HStack(spacing: Spacing.componentGrouping) {
                                 ProgressView()
                                     .scaleEffect(0.8)
-                                Text("検索中...")
+                                Text(L10n.Search.searching)
                                     .font(.caption)
                                     .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
                             }
@@ -201,7 +201,7 @@ struct SearchView: View {
             Image(systemName: "magnifyingglass")
                 .font(.system(size: Typography.titleExtraLarge))
                 .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
-            Text("タグを選択してクリエイターを探してみましょう")
+            Text(L10n.Search.searchPrompt)
                 .font(.headline)
                 .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
                 .multilineTextAlignment(.center)
@@ -260,11 +260,37 @@ struct SearchView: View {
     }
     
     private func creatorResultsView(creators: [Creator]) -> some View {
-        ScrollView {
-            LazyVStack(spacing: Spacing.relatedComponentDivider) {
-                ForEach(creators) { creator in
-                    creatorListItem(creator: creator)
+        VStack(alignment: .leading, spacing: 0) {
+            // 検索結果の件数表示
+            HStack {
+                if viewModel.totalCount > creators.count {
+                    Text(L10n.Search.resultsCountWithTotal(viewModel.totalCount, creators.count))
+                        .font(.subheadline)
+                        .fontWeight(.medium)
+                        .foregroundColor(Asset.Color.Application.foreground.swiftUIColor)
+                } else {
+                    Text(L10n.Search.resultsCount(creators.count))
+                        .font(.subheadline)
+                        .fontWeight(.medium)
+                        .foregroundColor(Asset.Color.Application.foreground.swiftUIColor)
                 }
+                
+                Spacer()
+                
+                if viewModel.hasMore {
+                    Text(L10n.Search.loadMore)
+                        .font(.caption)
+                        .foregroundColor(Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor)
+                }
+            }
+            .padding(.horizontal, Spacing.screenEdgePadding)
+            .padding(.vertical, Spacing.componentGrouping)
+            
+            ScrollView {
+                LazyVStack(spacing: Spacing.relatedComponentDivider) {
+                    ForEach(creators) { creator in
+                        creatorListItem(creator: creator)
+                    }
                 
                 // Load More Indicator
                 if viewModel.hasMore {
@@ -282,11 +308,12 @@ struct SearchView: View {
                         }
                     }
                 }
+                }
+                .padding(Spacing.screenEdgePadding)
             }
-            .padding(Spacing.screenEdgePadding)
-        }
-        .refreshable {
-            await viewModel.search()
+            .refreshable {
+                await viewModel.search()
+            }
         }
     }
     
