@@ -12,6 +12,12 @@ struct HomeView: View {
     DependencyContainer.shared.resolve(HomeViewModel.self)!
     @EnvironmentObject private var router: IlluMefyAppRouter
     
+    let onTagTapped: ((Tag) -> Void)?
+    
+    init(onTagTapped: ((Tag) -> Void)? = nil) {
+        self.onTagTapped = onTagTapped
+    }
+    
     var body: some View {
         ZStack {
             // Netflix-style dark background
@@ -98,7 +104,7 @@ struct HomeView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: Spacing.componentGrouping) {
                 ForEach(viewModel.popularTags) { tag in
-                    FeaturedTagTile(tag: tag)
+                    FeaturedTagTile(tag: tag, onTapped: onTagTapped)
                 }
             }
             .padding(.horizontal, Spacing.screenEdgePadding)
@@ -310,6 +316,7 @@ struct CreatorCard: View {
 
 struct FeaturedTagTile: View {
     let tag: Tag
+    let onTapped: ((Tag) -> Void)?
     @State private var isPressed = false
     
     var body: some View {
@@ -331,7 +338,7 @@ struct FeaturedTagTile: View {
             .onTapGesture {
                 let impactFeedback = UIImpactFeedbackGenerator(style: .light)
                 impactFeedback.impactOccurred()
-                // Navigate to tag search
+                onTapped?(tag)
             }
             .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity) { pressing in
                 isPressed = pressing

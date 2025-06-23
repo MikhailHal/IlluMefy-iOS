@@ -9,14 +9,18 @@ import SwiftUI
 import UIKit
 
 struct SearchView: View {
-    @StateObject private var viewModel: SearchViewModel
+    @ObservedObject private var viewModel: SearchViewModel
     
-    init() {
-        let container = DependencyContainer.shared
-        guard let viewModel = container.container.resolve(SearchViewModel.self) else {
-            fatalError("Failed to resolve SearchViewModel")
+    init(viewModel: SearchViewModel? = nil) {
+        if let viewModel = viewModel {
+            self.viewModel = viewModel
+        } else {
+            let container = DependencyContainer.shared
+            guard let resolvedViewModel = container.container.resolve(SearchViewModel.self) else {
+                fatalError("Failed to resolve SearchViewModel")
+            }
+            self.viewModel = resolvedViewModel
         }
-        self._viewModel = StateObject(wrappedValue: viewModel)
     }
     
     var body: some View {

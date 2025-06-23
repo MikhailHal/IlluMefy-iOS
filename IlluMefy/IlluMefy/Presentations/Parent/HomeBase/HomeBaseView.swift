@@ -41,6 +41,9 @@ struct HomeBaseView<ContentView: View>: View {
 }
 
 private struct TabBarView: View {
+    @State private var selectedTab: Int = 0
+    @StateObject private var searchViewModel = DependencyContainer.shared.resolve(SearchViewModel.self)!
+    
     init() {
         let appearance: UITabBarAppearance = UITabBarAppearance()
         appearance.configureWithDefaultBackground()
@@ -48,32 +51,40 @@ private struct TabBarView: View {
         UITabBar.appearance().standardAppearance = appearance
     }
     var body: some View {
-        TabView {
-            HomeView()
+        TabView(selection: $selectedTab) {
+            HomeView(onTagTapped: { tag in
+                selectedTab = 2 // Switch to search tab
+                searchViewModel.searchWithTag(tag)
+            })
                 .tabItem {
                     Image(systemName: "house.fill")
                     Text(L10n.Navigation.home)
                 }
+                .tag(0)
             FavoriteView()
                 .tabItem {
                     Image(systemName: "star.fill")
                     Text(L10n.Navigation.favorite)
                 }
-            SearchView()
+                .tag(1)
+            SearchView(viewModel: searchViewModel)
                 .tabItem {
                     Image(systemName: "sparkle.magnifyingglass")
                     Text(L10n.Navigation.search)
                 }
+                .tag(2)
             AccountView()
                 .tabItem {
                     Image(systemName: "person.fill")
                     Text(L10n.Navigation.account)
                 }
+                .tag(3)
             SettingView()
                 .tabItem {
                     Image(systemName: "gearshape.fill")
                     Text(L10n.Navigation.settings)
                 }
+                .tag(4)
         }
     }
 }

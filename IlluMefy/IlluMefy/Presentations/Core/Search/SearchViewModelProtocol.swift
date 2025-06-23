@@ -30,4 +30,5 @@ protocol SearchViewModelProtocol: ObservableObject {
     func clearAllTags()
     func addSelectedTag()
     func addSelectedTagFromSuggestion(_ tag: Tag)
+    func searchWithTag(_ tag: Tag)
 }
