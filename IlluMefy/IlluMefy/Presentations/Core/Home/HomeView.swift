@@ -5,6 +5,7 @@
 //  Created by Haruto K. on 2025/06/08.
 //
 import SwiftUI
+import UIKit
 
 struct HomeView: View {
     @StateObject private var viewModel =
@@ -88,6 +89,8 @@ struct HomeView: View {
             Spacer()
             
             Button(action: {
+                let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
+                impactFeedback.impactOccurred()
                 // Navigate to see all
             }) {
                 HStack(spacing: Spacing.relatedComponentDivider) {
@@ -203,6 +206,8 @@ struct FeaturedCreatorView: View {
                 HStack(spacing: Spacing.componentGrouping) {
                     // Play button
                     Button(action: {
+                        let impactFeedback = UIImpactFeedbackGenerator(style: .heavy)
+                        impactFeedback.impactOccurred()
                         router.navigate(to: .creatorDetail(creatorId: creator.id))
                     }) {
                         HStack(spacing: Spacing.relatedComponentDivider) {
@@ -297,6 +302,8 @@ struct CreatorCard: View {
         .scaleEffect(isHovered ? 1.05 : 1.0)
         .animation(.easeInOut(duration: 0.2), value: isHovered)
         .onTapGesture {
+            let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
+            impactFeedback.impactOccurred()
             router.navigate(to: .creatorDetail(creatorId: creator.id))
         }
         .onHover { hovering in
@@ -338,6 +345,8 @@ struct FeaturedTagTile: View {
             .scaleEffect(isPressed ? 0.95 : 1.0)
             .animation(.easeInOut(duration: 0.1), value: isPressed)
             .onTapGesture {
+                let impactFeedback = UIImpactFeedbackGenerator(style: .light)
+                impactFeedback.impactOccurred()
                 // Navigate to tag search
             }
             .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity) { pressing in

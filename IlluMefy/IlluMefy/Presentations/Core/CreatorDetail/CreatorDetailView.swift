@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct CreatorDetailView: View {
     @StateObject private var viewModel: CreatorDetailViewModel
@@ -100,6 +101,8 @@ struct CreatorDetailView: View {
                 .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSubtitle.swiftUIColor)
                 .multilineTextAlignment(.center)
             Button(L10n.Common.retry) {
+                let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
+                impactFeedback.impactOccurred()
                 Task {
                     await viewModel.loadCreatorDetail()
                 }
@@ -147,6 +150,8 @@ struct CreatorDetailView: View {
         HStack {
             Spacer()
             Button(action: {
+                let impactFeedback = UIImpactFeedbackGenerator(style: .light)
+                impactFeedback.impactOccurred()
                 dismiss()
             }, label: {
                 Image(systemName: "xmark.circle.fill")
@@ -198,6 +203,8 @@ struct CreatorDetailView: View {
                     .multilineTextAlignment(.center)
                 
                 Button(action: {
+                    let impactFeedback = UIImpactFeedbackGenerator(style: .heavy)
+                    impactFeedback.impactOccurred()
                     withAnimation(.easeInOut(duration: AnimationDuration.heartBeat)) {
                         viewModel.toggleFavorite()
                     }
@@ -292,6 +299,8 @@ struct CreatorDetailView: View {
                 .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSubtitle.swiftUIColor)
             
             Button(action: {
+                let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
+                impactFeedback.impactOccurred()
                 showingTagApplicationTypeSelection = true
             }, label: {
                 HStack {
@@ -317,6 +326,8 @@ struct CreatorDetailView: View {
                 .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSubtitle.swiftUIColor)
             
             Button(action: {
+                let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
+                impactFeedback.impactOccurred()
                 showingProfileCorrection = true
             }, label: {
                 HStack {

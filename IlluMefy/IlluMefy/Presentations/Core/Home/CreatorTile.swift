@@ -5,6 +5,7 @@
 //  Created by Haruto K. on 2025/06/09.
 //
 import SwiftUI
+import UIKit
 
 struct CreatorTile: View {
     let creator: Creator
@@ -52,6 +53,8 @@ struct CreatorTile: View {
             multiplePlatformIndicator
         }
         .onTapGesture {
+            let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
+            impactFeedback.impactOccurred()
             router.navigate(to: .creatorDetail(creatorId: creator.id))
         }
         .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity) { pressing in

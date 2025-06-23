@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 // MARK: - Supporting Views
 
@@ -16,6 +17,8 @@ struct PlatformButton: View {
     
     var body: some View {
         Button(action: {
+            let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
+            impactFeedback.impactOccurred()
             if let url = URL(string: url) {
                 UIApplication.shared.open(url)
             }
@@ -132,7 +135,11 @@ struct TagChip: View {
                 .font(.caption)
             
             if isEditing {
-                Button(action: onDelete) {
+                Button(action: {
+                    let impactFeedback = UIImpactFeedbackGenerator(style: .light)
+                    impactFeedback.impactOccurred()
+                    onDelete()
+                }) {
                     Image(systemName: "xmark.circle.fill")
                         .font(.system(size: Typography.captionSmall))
                         .foregroundColor(.red)
@@ -169,7 +176,11 @@ struct InfoCorrectionButton: View {
     @State private var isPressed = false
     
     var body: some View {
-        Button(action: action) {
+        Button(action: {
+            let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
+            impactFeedback.impactOccurred()
+            action()
+        }) {
             HStack(spacing: 12) {
                 Image(systemName: icon)
                     .font(.system(size: Typography.iconMedium))
