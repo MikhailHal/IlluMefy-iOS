@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct SearchView: View {
     @StateObject private var viewModel: SearchViewModel
@@ -19,9 +20,15 @@ struct SearchView: View {
     }
     
     var body: some View {
-        VStack(spacing: 0) {
-            searchBarSection
-            mainContentSection
+        ZStack {
+            // Netflix-style dark background
+            Asset.Color.Application.Background.backgroundPrimary.swiftUIColor
+                .ignoresSafeArea()
+            
+            VStack(spacing: 0) {
+                searchBarSection
+                mainContentSection
+            }
         }
         .onTapGesture {
             hideKeyboard()
@@ -38,17 +45,29 @@ struct SearchView: View {
         ZStack(alignment: .top) {
             // ベースのレイアウト
             VStack(spacing: Spacing.relatedComponentDivider) {
-                // シンプルな検索ボックス
-                TextField(L10n.Search.searchPlaceholder, text: $viewModel.searchText)
-                    .textFieldStyle(
-                        NormalTextFieldStyle(
-                            isEnabled: true,
-                            text: $viewModel.searchText,
-                            placeholder: L10n.Search.searchPlaceholder,
-                            keyboardType: .default,
-                            textContentType: nil
+                // Netflix-style search bar
+                HStack(spacing: Spacing.componentGrouping) {
+                    Image(systemName: "magnifyingglass")
+                        .font(.system(size: Typography.bodyRegular))
+                        .foregroundColor(Asset.Color.SearchBar.searchBarIcon.swiftUIColor)
+                    
+                    TextField(L10n.Search.searchPlaceholder, text: $viewModel.searchText)
+                        .font(.system(size: Typography.bodyRegular))
+                        .foregroundColor(Asset.Color.SearchBar.searchBarText.swiftUIColor)
+                        .tint(Asset.Color.Application.accent.swiftUIColor)
+                }
+                .padding(.horizontal, Spacing.medium)
+                .padding(.vertical, Spacing.componentGrouping)
+                .background(
+                    RoundedRectangle(cornerRadius: CornerRadius.button)
+                        .fill(Asset.Color.SearchBar.searchBarBackground.swiftUIColor)
+                        .stroke(
+                            viewModel.searchText.isEmpty ? 
+                            Asset.Color.SearchBar.searchBarBorder.swiftUIColor : 
+                            Asset.Color.SearchBar.searchBarBorderFocused.swiftUIColor,
+                            lineWidth: 1
                         )
-                    )
+                )
                 
                 // 選択されたタグ
                 if !viewModel.selectedTags.isEmpty {
@@ -56,17 +75,19 @@ struct SearchView: View {
                         HStack {
                             Text(L10n.Search.selectedTags)
                                 .font(.caption2)
-                                .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
+                                .foregroundColor(Asset.Color.SearchResult.searchResultSubtitle.swiftUIColor)
                             
                             Spacer()
                             
                             // すべてクリアボタン
                             if !viewModel.selectedTags.isEmpty {
                                 Button(L10n.Search.clearAllTags) {
+                                    let impactFeedback = UIImpactFeedbackGenerator(style: .light)
+                                    impactFeedback.impactOccurred()
                                     viewModel.clearAllTags()
                                 }
                                 .font(.caption2)
-                                .foregroundColor(Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor)
+                                .foregroundColor(Asset.Color.Application.accent.swiftUIColor)
                             }
                             
                             // 自動検索の説明
@@ -75,7 +96,7 @@ struct SearchView: View {
                             } else {
                                 Text(L10n.Search.autoSearchHint)
                                     .font(.caption2)
-                                    .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
+                                    .foregroundColor(Asset.Color.SearchResult.searchResultMetrics.swiftUIColor)
                             }
                         }
                         .padding(.horizontal, Spacing.screenEdgePadding)
@@ -94,7 +115,7 @@ struct SearchView: View {
                                     .scaleEffect(0.8)
                                 Text(L10n.Search.searching)
                                     .font(.caption)
-                                    .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
+                                    .foregroundColor(Asset.Color.SearchResult.searchResultSubtitle.swiftUIColor)
                             }
                             .padding(.horizontal, Spacing.screenEdgePadding)
                         }
@@ -125,35 +146,35 @@ struct SearchView: View {
                                         HStack {
                                             Text(tag.displayName)
                                                 .font(.body)
-                                                .foregroundColor(Asset.Color.Application.textPrimary.swiftUIColor)
+                                                .foregroundColor(Asset.Color.SearchSuggestion.searchSuggestionText.swiftUIColor)
                                             
                                             Spacer()
                                             
                                             Text("\(tag.clickedCount)回")
                                                 .font(.caption)
-                                                .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
+                                                .foregroundColor(Asset.Color.SearchSuggestion.searchSuggestionCount.swiftUIColor)
                                         }
                                         .padding(.horizontal, Spacing.componentGrouping)
                                         .padding(.vertical, Spacing.relatedComponentDivider)
+                                        .background(Asset.Color.SearchSuggestion.searchSuggestionBackground.swiftUIColor)
                                     })
                                     .buttonStyle(PlainButtonStyle())
-                                    .background(Asset.Color.TextField.background.swiftUIColor)
                                     
                                     if tag.id != viewModel.suggestions.last?.id {
                                         Divider()
-                                            .background(Asset.Color.TextField.borderNoneFocused.swiftUIColor)
+                                            .background(Asset.Color.SearchSuggestion.searchSuggestionSeparator.swiftUIColor)
                                     }
                                 }
                             }
                         }
                         .frame(maxHeight: geometry.size.height - 80) // 検索バー分を引いた残り全体
-                        .background(Asset.Color.TextField.background.swiftUIColor)
+                        .background(Asset.Color.SearchSuggestion.searchSuggestionBackground.swiftUIColor)
                         .cornerRadius(CornerRadius.button)
                         .overlay(
                             RoundedRectangle(cornerRadius: CornerRadius.button)
-                                .stroke(Asset.Color.TextField.borderFocused.swiftUIColor, lineWidth: 1)
+                                .stroke(Asset.Color.SearchSuggestion.searchSuggestionBorder.swiftUIColor, lineWidth: 1)
                         )
-                        .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
+                        .shadow(color: Asset.Color.SearchResult.searchResultShadow.swiftUIColor, radius: 8, x: 0, y: 4)
                         .padding(.horizontal, Spacing.screenEdgePadding)
                         
                         Spacer()
@@ -169,18 +190,20 @@ struct SearchView: View {
             HStack {
                 Text(L10n.Search.recentSearches)
                     .font(.caption)
-                    .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
+                    .foregroundColor(Asset.Color.SearchResult.searchResultSubtitle.swiftUIColor)
                 
                 Spacer()
                 
                 if !viewModel.searchHistory.isEmpty {
                     Button(L10n.Search.clearHistory) {
+                        let impactFeedback = UIImpactFeedbackGenerator(style: .light)
+                        impactFeedback.impactOccurred()
                         Task {
                             await viewModel.clearHistory()
                         }
                     }
                     .font(.caption)
-                    .foregroundColor(Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor)
+                    .foregroundColor(Asset.Color.Application.accent.swiftUIColor)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -189,14 +212,16 @@ struct SearchView: View {
                 HStack(spacing: Spacing.componentGrouping) {
                     ForEach(viewModel.searchHistory, id: \.self) { query in
                         Button(action: {
+                            let impactFeedback = UIImpactFeedbackGenerator(style: .light)
+                            impactFeedback.impactOccurred()
                             viewModel.addTagsFromHistory(query)
                         }, label: {
                             Text(query)
                                 .font(.caption)
                                 .padding(.horizontal, Spacing.componentGrouping)
                                 .padding(.vertical, Spacing.relatedComponentDivider)
-                                .background(Asset.Color.TextField.background.swiftUIColor)
-                                .foregroundColor(Asset.Color.Application.textPrimary.swiftUIColor)
+                                .background(Asset.Color.SearchTag.searchTagBackground.swiftUIColor)
+                                .foregroundColor(Asset.Color.SearchTag.searchTagText.swiftUIColor)
                                 .cornerRadius(CornerRadius.tag)
                         })
                     }
@@ -228,10 +253,10 @@ struct SearchView: View {
             Spacer()
             Image(systemName: "magnifyingglass")
                 .font(.system(size: Typography.titleExtraLarge))
-                .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
+                .foregroundColor(Asset.Color.SearchEmpty.searchEmptyIcon.swiftUIColor)
             Text(L10n.Search.searchPrompt)
                 .font(.headline)
-                .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
+                .foregroundColor(Asset.Color.SearchEmpty.searchEmptyTitle.swiftUIColor)
                 .multilineTextAlignment(.center)
             Spacer()
         }
@@ -245,7 +270,7 @@ struct SearchView: View {
                 .scaleEffect(Effects.scaleIcon)
             Text(L10n.Common.loading)
                 .font(.headline)
-                .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
+                .foregroundColor(Asset.Color.SearchEmpty.searchEmptyTitle.swiftUIColor)
             Spacer()
         }
         .padding(Spacing.screenEdgePadding)
@@ -263,22 +288,22 @@ struct SearchView: View {
                     HStack(spacing: Spacing.componentGrouping / 2) {
                         Text(tag.displayName)
                             .font(.caption)
-                            .foregroundColor(Asset.Color.Application.textPrimary.swiftUIColor)
+                            .foregroundColor(Asset.Color.SearchTag.searchTagText.swiftUIColor)
                         
                         Button(action: {
+                            let impactFeedback = UIImpactFeedbackGenerator(style: .light)
+                            impactFeedback.impactOccurred()
                             onRemove(tag)
                         }, label: {
                             Image(systemName: "xmark.circle.fill")
                                 .font(.caption)
-                                .foregroundColor(
-                                    Asset.Color.TextField.placeholderNoneFocused.swiftUIColor
-                                )
+                                .foregroundColor(Asset.Color.SearchTag.searchTagRemove.swiftUIColor)
                         })
                         .buttonStyle(PlainButtonStyle())
                     }
                     .padding(.horizontal, Spacing.componentGrouping)
                     .padding(.vertical, Spacing.relatedComponentDivider)
-                    .background(Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor)
+                    .background(Asset.Color.SearchTag.searchTagBackgroundSelected.swiftUIColor)
                     .cornerRadius(CornerRadius.tag)
                 }
             }
@@ -295,12 +320,12 @@ struct SearchView: View {
                     Text(L10n.Search.resultsCountWithTotal(viewModel.totalCount, creators.count))
                         .font(.subheadline)
                         .fontWeight(.medium)
-                        .foregroundColor(Asset.Color.Application.textPrimary.swiftUIColor)
+                        .foregroundColor(Asset.Color.SearchResult.searchResultTitle.swiftUIColor)
                 } else {
                     Text(L10n.Search.resultsCount(creators.count))
                         .font(.subheadline)
                         .fontWeight(.medium)
-                        .foregroundColor(Asset.Color.Application.textPrimary.swiftUIColor)
+                        .foregroundColor(Asset.Color.SearchResult.searchResultTitle.swiftUIColor)
                 }
                 
                 Spacer()
@@ -308,7 +333,7 @@ struct SearchView: View {
                 if viewModel.hasMore {
                     Text(L10n.Search.loadMore)
                         .font(.caption)
-                        .foregroundColor(Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor)
+                        .foregroundColor(Asset.Color.Application.accent.swiftUIColor)
                 }
             }
             .padding(.horizontal, Spacing.screenEdgePadding)
@@ -327,7 +352,7 @@ struct SearchView: View {
                             .scaleEffect(0.8)
                         Text(L10n.Common.loading)
                             .font(.caption)
-                            .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
+                            .foregroundColor(Asset.Color.SearchResult.searchResultMetrics.swiftUIColor)
                     }
                     .frame(maxWidth: .infinity)
                     .onAppear {
@@ -364,13 +389,21 @@ struct CreatorListItemView: View {
             platformIconView
         }
         .padding(Spacing.componentGrouping)
-        .background(Asset.Color.TextField.background.swiftUIColor)
+        .background(Asset.Color.SearchResult.searchResultBackground.swiftUIColor)
         .cornerRadius(CornerRadius.button)
         .overlay(
             RoundedRectangle(cornerRadius: CornerRadius.button)
-                .stroke(Asset.Color.TextField.borderNoneFocused.swiftUIColor, lineWidth: 1)
+                .stroke(Asset.Color.SearchResult.searchResultBorder.swiftUIColor, lineWidth: 1)
+        )
+        .shadow(
+            color: Asset.Color.SearchResult.searchResultShadow.swiftUIColor,
+            radius: 4,
+            x: 0,
+            y: 2
         )
         .onTapGesture {
+            let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
+            impactFeedback.impactOccurred()
             showingDetail = true
         }
         .sheet(isPresented: $showingDetail) {
@@ -387,10 +420,11 @@ struct CreatorListItemView: View {
                 .aspectRatio(contentMode: .fill)
         } placeholder: {
             Rectangle()
-                .fill(Asset.Color.TextField.background.swiftUIColor)
+                .fill(Asset.Color.SearchResult.searchResultBackground.swiftUIColor)
                 .overlay(
                     ProgressView()
                         .scaleEffect(0.8)
+                        .tint(Asset.Color.Application.accent.swiftUIColor)
                 )
         }
         .frame(width: 80, height: 80)
@@ -402,13 +436,13 @@ struct CreatorListItemView: View {
             Text(creator.name)
                 .font(.headline)
                 .fontWeight(.semibold)
-                .foregroundColor(Asset.Color.Application.textPrimary.swiftUIColor)
+                .foregroundColor(Asset.Color.SearchResult.searchResultTitle.swiftUIColor)
                 .lineLimit(1)
             
             if let description = creator.description, !description.isEmpty {
                 Text(description)
                     .font(.subheadline)
-                    .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
+                    .foregroundColor(Asset.Color.SearchResult.searchResultSubtitle.swiftUIColor)
                     .lineLimit(2)
             }
             
@@ -426,7 +460,7 @@ struct CreatorListItemView: View {
             
             Text("\(formatViewCount(creator.viewCount)) views")
                 .font(.caption)
-                .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
+                .foregroundColor(Asset.Color.SearchResult.searchResultMetrics.swiftUIColor)
         }
     }
     
@@ -436,12 +470,12 @@ struct CreatorListItemView: View {
             ForEach(tags) { tag in
                 Text(tag.displayName)
                     .font(.caption)
-                    .foregroundColor(Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor)
+                    .foregroundColor(Asset.Color.Application.accent.swiftUIColor)
                     .padding(.horizontal, 6)
                     .padding(.vertical, 2)
                     .background(
                         Capsule()
-                            .fill(Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor.opacity(0.1))
+                            .fill(Asset.Color.Application.accent.swiftUIColor.opacity(0.2))
                     )
             }
         }
@@ -457,7 +491,7 @@ struct CreatorListItemView: View {
                 } else {
                     Image(platform.icon)
                         .resizable()
-                        .foregroundColor(Asset.Color.Application.textPrimary.swiftUIColor)
+                        .foregroundColor(Asset.Color.SearchResult.searchResultTitle.swiftUIColor)
                 }
             }
             .frame(width: 24, height: 24)
@@ -466,7 +500,7 @@ struct CreatorListItemView: View {
             if creator.platform.count > 1 {
                 Text("+\(creator.platform.count - 1)")
                     .font(.caption2)
-                    .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
+                    .foregroundColor(Asset.Color.SearchResult.searchResultMetrics.swiftUIColor)
             }
         }
     }
@@ -488,13 +522,13 @@ extension SearchView {
             Spacer()
             Image(systemName: "magnifyingglass")
                 .font(.system(size: Typography.titleExtraLarge))
-                .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
+                .foregroundColor(Asset.Color.SearchEmpty.searchEmptyIcon.swiftUIColor)
             Text(L10n.Search.noResults)
                 .font(.headline)
-                .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
+                .foregroundColor(Asset.Color.SearchEmpty.searchEmptyTitle.swiftUIColor)
             Text(L10n.Search.noResultsMessage)
                 .font(.subheadline)
-                .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
+                .foregroundColor(Asset.Color.SearchEmpty.searchEmptyMessage.swiftUIColor)
                 .multilineTextAlignment(.center)
             Spacer()
         }
@@ -512,9 +546,11 @@ extension SearchView {
                 .bold()
             Text(message)
                 .font(.subheadline)
-                .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
+                .foregroundColor(Asset.Color.SearchEmpty.searchEmptyMessage.swiftUIColor)
                 .multilineTextAlignment(.center)
             Button(L10n.Common.retry) {
+                let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
+                impactFeedback.impactOccurred()
                 Task {
                     await viewModel.search()
                 }
