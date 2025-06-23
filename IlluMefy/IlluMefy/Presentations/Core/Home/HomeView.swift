@@ -87,22 +87,6 @@ struct HomeView: View {
                 .foregroundColor(Asset.Color.HomeSection.homeSectionTitle.swiftUIColor)
             
             Spacer()
-            
-            Button(action: {
-                let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
-                impactFeedback.impactOccurred()
-                // Navigate to see all
-            }) {
-                HStack(spacing: Spacing.relatedComponentDivider) {
-                    Text(L10n.Common.seeAll)
-                        .font(.system(size: Typography.captionSmall))
-                        .foregroundColor(Asset.Color.Application.accent.swiftUIColor)
-                    
-                    Image(systemName: "chevron.right")
-                        .font(.system(size: Typography.captionSmall, weight: .semibold))
-                        .foregroundColor(Asset.Color.Application.accent.swiftUIColor)
-                }
-            }
         }
         .padding(.horizontal, Spacing.screenEdgePadding)
         .padding(.bottom, Spacing.componentGrouping)
