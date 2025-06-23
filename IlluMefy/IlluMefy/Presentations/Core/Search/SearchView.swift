@@ -383,7 +383,7 @@ struct SearchView: View {
 struct CreatorListItemView: View {
     let creator: Creator
     let viewModel: SearchViewModel
-    @State private var showingDetail = false
+    @EnvironmentObject private var router: IlluMefyAppRouter
     
     var body: some View {
         HStack(spacing: Spacing.componentGrouping) {
@@ -408,12 +408,7 @@ struct CreatorListItemView: View {
         .onTapGesture {
             let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
             impactFeedback.impactOccurred()
-            showingDetail = true
-        }
-        .sheet(isPresented: $showingDetail) {
-            NavigationStack {
-                CreatorDetailView(creatorId: creator.id)
-            }
+            router.navigate(to: .creatorDetail(creatorId: creator.id))
         }
     }
     
