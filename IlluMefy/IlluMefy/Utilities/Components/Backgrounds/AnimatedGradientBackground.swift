@@ -34,7 +34,7 @@ struct AnimatedGradientBackground: View {
         LinearGradient(
             gradient: Gradient(colors: [
                 // 開始色：プライマリカラーの薄い色
-                Asset.Color.Application.Background.background.swiftUIColor,
+                Asset.Color.Application.Background.backgroundPrimary.swiftUIColor,
                 // 中間色：セカンダリカラーの薄い色
                 Asset.Color.Application.Background.gradientStart.swiftUIColor
                     .opacity(Constants.startColorOpacity),

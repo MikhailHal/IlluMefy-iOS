@@ -115,7 +115,7 @@ extension View {
         .illuMefyButtonStyle(isEnabled: true, size: .small)
         .padding(.horizontal, Spacing.screenEdgePadding)
     }
-    .background(Asset.Color.Application.Background.background.swiftUIColor)
+    .background(Asset.Color.Application.Background.backgroundPrimary.swiftUIColor)
 }
 
 #Preview("Disabled State") {
@@ -125,5 +125,5 @@ extension View {
     .illuMefyButtonStyle(isEnabled: false)
     .disabled(true)
     .padding(.horizontal, Spacing.screenEdgePadding)
-    .background(Asset.Color.Application.Background.background.swiftUIColor)
+    .background(Asset.Color.Application.Background.backgroundPrimary.swiftUIColor)
 }

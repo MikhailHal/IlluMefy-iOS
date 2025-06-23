@@ -36,7 +36,7 @@ struct TagApplicationView: View {
                 
                 submitSection
                     .padding(.top, Spacing.relatedComponentDivider)
-                    .background(Asset.Color.Application.Background.background.swiftUIColor)
+                    .background(Asset.Color.Application.Background.backgroundPrimary.swiftUIColor)
             }
             .navigationTitle(L10n.TagApplication.title)
             .navigationBarTitleDisplayMode(.inline)

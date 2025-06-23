@@ -20,13 +20,10 @@ struct SearchView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            // 検索バー
             searchBarSection
-            // メインコンテンツ
             mainContentSection
         }
         .onTapGesture {
-            // 画面をタップしたらキーボードを閉じる
             hideKeyboard()
         }
     }
@@ -34,6 +31,10 @@ struct SearchView: View {
     // MARK: - View Components
     
     private var searchBarSection: some View {
+        searchBarContent
+    }
+    
+    private var searchBarContent: some View {
         ZStack(alignment: .top) {
             // ベースのレイアウト
             VStack(spacing: Spacing.relatedComponentDivider) {
@@ -124,7 +125,7 @@ struct SearchView: View {
                                         HStack {
                                             Text(tag.displayName)
                                                 .font(.body)
-                                                .foregroundColor(Asset.Color.Application.foreground.swiftUIColor)
+                                                .foregroundColor(Asset.Color.Application.textPrimary.swiftUIColor)
                                             
                                             Spacer()
                                             
@@ -195,7 +196,7 @@ struct SearchView: View {
                                 .padding(.horizontal, Spacing.componentGrouping)
                                 .padding(.vertical, Spacing.relatedComponentDivider)
                                 .background(Asset.Color.TextField.background.swiftUIColor)
-                                .foregroundColor(Asset.Color.Application.foreground.swiftUIColor)
+                                .foregroundColor(Asset.Color.Application.textPrimary.swiftUIColor)
                                 .cornerRadius(CornerRadius.tag)
                         })
                     }
@@ -262,7 +263,7 @@ struct SearchView: View {
                     HStack(spacing: Spacing.componentGrouping / 2) {
                         Text(tag.displayName)
                             .font(.caption)
-                            .foregroundColor(Asset.Color.Application.foreground.swiftUIColor)
+                            .foregroundColor(Asset.Color.Application.textPrimary.swiftUIColor)
                         
                         Button(action: {
                             onRemove(tag)
@@ -294,12 +295,12 @@ struct SearchView: View {
                     Text(L10n.Search.resultsCountWithTotal(viewModel.totalCount, creators.count))
                         .font(.subheadline)
                         .fontWeight(.medium)
-                        .foregroundColor(Asset.Color.Application.foreground.swiftUIColor)
+                        .foregroundColor(Asset.Color.Application.textPrimary.swiftUIColor)
                 } else {
                     Text(L10n.Search.resultsCount(creators.count))
                         .font(.subheadline)
                         .fontWeight(.medium)
-                        .foregroundColor(Asset.Color.Application.foreground.swiftUIColor)
+                        .foregroundColor(Asset.Color.Application.textPrimary.swiftUIColor)
                 }
                 
                 Spacer()
@@ -357,93 +358,10 @@ struct CreatorListItemView: View {
     
     var body: some View {
         HStack(spacing: Spacing.componentGrouping) {
-            // クリエイター画像
-            AsyncImage(url: URL(string: creator.thumbnailUrl)) { image in
-                image
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-            } placeholder: {
-                Rectangle()
-                    .fill(Asset.Color.TextField.background.swiftUIColor)
-                    .overlay(
-                        ProgressView()
-                            .scaleEffect(0.8)
-                    )
-            }
-            .frame(width: 80, height: 80)
-            .cornerRadius(CornerRadius.button)
-            
-            // クリエイター情報
-            VStack(alignment: .leading, spacing: Spacing.relatedComponentDivider) {
-                // 名前
-                Text(creator.name)
-                    .font(.headline)
-                    .fontWeight(.semibold)
-                    .foregroundColor(Asset.Color.Application.foreground.swiftUIColor)
-                    .lineLimit(1)
-                
-                // 説明
-                if (creator.description != nil) && (!creator.description!.isEmpty) {
-                    Text(creator.description!)
-                        .font(.subheadline)
-                        .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
-                        .lineLimit(2)
-                }
-                
-                // タグとメトリクス
-                HStack {
-                    // タグ
-                    if !creator.relatedTag.isEmpty {
-                        HStack(spacing: Spacing.relatedComponentDivider) {
-                            // ViewModelからTag情報を取得
-                            let tags = viewModel.getTagsForIds(Array(creator.relatedTag.prefix(2)))
-                            ForEach(tags) { tag in
-                                Text(tag.displayName)
-                                    .font(.caption)
-                                    .foregroundColor(Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor)
-                                    .padding(.horizontal, 6)
-                                    .padding(.vertical, 2)
-                                    .background(
-                                        Capsule()
-                                            .fill(Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor.opacity(0.1))
-                                    )
-                            }
-                        }
-                    }
-                    
-                    Spacer()
-                    
-                    // 視聴回数
-                    Text("\(formatViewCount(creator.viewCount)) views")
-                        .font(.caption)
-                        .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
-                }
-            }
-            
+            creatorImageView
+            creatorInfoView
             Spacer()
-            
-            // プラットフォームアイコン
-            VStack {
-                let platform = creator.mainPlatform().0
-                Group {
-                    if platform == .youtube {
-                        Image(systemName: platform.icon)
-                            .foregroundColor(.red)
-                    } else {
-                        Image(platform.icon)
-                            .resizable()
-                            .foregroundColor(Asset.Color.Application.foreground.swiftUIColor)
-                    }
-                }
-                .frame(width: 24, height: 24)
-                .font(.title2)
-                
-                if creator.platform.count > 1 {
-                    Text("+\(creator.platform.count - 1)")
-                        .font(.caption2)
-                        .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
-                }
-            }
+            platformIconView
         }
         .padding(Spacing.componentGrouping)
         .background(Asset.Color.TextField.background.swiftUIColor)
@@ -458,6 +376,97 @@ struct CreatorListItemView: View {
         .sheet(isPresented: $showingDetail) {
             NavigationStack {
                 CreatorDetailView(creatorId: creator.id)
+            }
+        }
+    }
+    
+    private var creatorImageView: some View {
+        AsyncImage(url: URL(string: creator.thumbnailUrl)) { image in
+            image
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+        } placeholder: {
+            Rectangle()
+                .fill(Asset.Color.TextField.background.swiftUIColor)
+                .overlay(
+                    ProgressView()
+                        .scaleEffect(0.8)
+                )
+        }
+        .frame(width: 80, height: 80)
+        .cornerRadius(CornerRadius.button)
+    }
+    
+    private var creatorInfoView: some View {
+        VStack(alignment: .leading, spacing: Spacing.relatedComponentDivider) {
+            Text(creator.name)
+                .font(.headline)
+                .fontWeight(.semibold)
+                .foregroundColor(Asset.Color.Application.textPrimary.swiftUIColor)
+                .lineLimit(1)
+            
+            if let description = creator.description, !description.isEmpty {
+                Text(description)
+                    .font(.subheadline)
+                    .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
+                    .lineLimit(2)
+            }
+            
+            tagsAndMetricsView
+        }
+    }
+    
+    private var tagsAndMetricsView: some View {
+        HStack {
+            if !creator.relatedTag.isEmpty {
+                tagsView
+            }
+            
+            Spacer()
+            
+            Text("\(formatViewCount(creator.viewCount)) views")
+                .font(.caption)
+                .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
+        }
+    }
+    
+    private var tagsView: some View {
+        HStack(spacing: Spacing.relatedComponentDivider) {
+            let tags = viewModel.getTagsForIds(Array(creator.relatedTag.prefix(2)))
+            ForEach(tags) { tag in
+                Text(tag.displayName)
+                    .font(.caption)
+                    .foregroundColor(Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor)
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 2)
+                    .background(
+                        Capsule()
+                            .fill(Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor.opacity(0.1))
+                    )
+            }
+        }
+    }
+    
+    private var platformIconView: some View {
+        VStack {
+            let platform = creator.mainPlatform().0
+            Group {
+                if platform == .youtube {
+                    Image(systemName: platform.icon)
+                        .foregroundColor(.red)
+                } else {
+                    Image(platform.icon)
+                        .resizable()
+                        .foregroundColor(Asset.Color.Application.textPrimary.swiftUIColor)
+                }
+            }
+            .frame(width: 24, height: 24)
+            .font(.title2)
+            
+            if creator.platform.count > 1 {
+                Text("+\(creator.platform.count - 1)")
+                    .font(.caption2)
+                    .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
             }
         }
     }

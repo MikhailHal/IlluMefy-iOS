@@ -15,7 +15,7 @@ struct HomeView: View {
                 gradient: Gradient(
                     colors:
                         [Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor,
-                         Asset.Color.Application.Background.background.swiftUIColor]
+                         Asset.Color.Application.Background.backgroundPrimary.swiftUIColor]
                 ),
                 center: .topLeading,
                 startRadius: Layout.homeGradientStartRadius,
@@ -30,7 +30,7 @@ struct HomeView: View {
                 }
             }.padding(Spacing.screenEdgePadding)
         }
-        .background(Asset.Color.Application.Background.background.swiftUIColor)
+        .background(Asset.Color.Application.Background.backgroundPrimary.swiftUIColor)
         .onAppear {
             viewModel.onAppear()
         }

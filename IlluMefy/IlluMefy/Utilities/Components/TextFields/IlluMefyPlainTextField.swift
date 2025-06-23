@@ -41,7 +41,7 @@ struct IlluMefyPlainTextField: View {
                 HStack(spacing: Spacing.componentGrouping / 2) {
                     Text(label)
                         .font(.caption)
-                        .foregroundColor(Asset.Color.Application.foreground.swiftUIColor)
+                        .foregroundColor(Asset.Color.Application.textPrimary.swiftUIColor)
                     if isRequired {
                         Text(L10n.Common.TextField.required)
                             .font(.caption)

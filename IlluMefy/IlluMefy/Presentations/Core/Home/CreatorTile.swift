@@ -123,7 +123,7 @@ struct CreatorTile: View {
     private var platformIconOverlay: some View {
         ZStack {
             Rectangle()
-                .fill(Asset.Color.Application.Background.background.swiftUIColor.opacity(Opacity.secondaryText))
+                .fill(Asset.Color.Application.Background.backgroundPrimary.swiftUIColor.opacity(Opacity.secondaryText))
                 .clipShape(.rect(
                     topLeadingRadius: CornerRadius.tile,
                     bottomLeadingRadius: 0,

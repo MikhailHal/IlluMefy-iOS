@@ -133,7 +133,7 @@ struct SignUpFormView: View {
             // タイトル（段階的フェードイン）
             Text(L10n.PhoneNumberRegistration.title)
                 .font(.system(size: Typography.titleLarge, weight: .bold, design: .rounded))
-                .foregroundColor(Asset.Color.Application.foreground.swiftUIColor)
+                .foregroundColor(Asset.Color.Application.textPrimary.swiftUIColor)
                 .padding(.top, Spacing.componentGrouping)
                 .offset(y: formAppeared ? 0 : Layout.titleOffsetY)
                 .opacity(formAppeared ? 1 : 0)
@@ -142,7 +142,7 @@ struct SignUpFormView: View {
             // 説明文
             Text(L10n.PhoneNumberRegistration.Description.line1)
                 .font(.system(.body, design: .rounded))
-                .foregroundColor(Asset.Color.Application.foreground.swiftUIColor.opacity(Opacity.secondaryText))
+                .foregroundColor(Asset.Color.Application.textPrimary.swiftUIColor.opacity(Opacity.secondaryText))
                 .offset(y: formAppeared ? 0 : Layout.subtitleOffsetY)
                 .opacity(formAppeared ? 1 : 0)
                 .animation(.easeOut(duration: AnimationDuration.medium).delay(AnimationParameters.delayLong), value: formAppeared)
@@ -206,7 +206,7 @@ struct SignUpFormView: View {
                 Image(systemName: isPrivacyPolicyAgreed ? "checkmark.square.fill" : "square")
                     .foregroundColor(isPrivacyPolicyAgreed ?
                         Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor :
-                        Asset.Color.Application.foreground.swiftUIColor.opacity(Opacity.disabledText))
+                        Asset.Color.Application.textPrimary.swiftUIColor.opacity(Opacity.disabledText))
                     .font(.title2)
             })
             

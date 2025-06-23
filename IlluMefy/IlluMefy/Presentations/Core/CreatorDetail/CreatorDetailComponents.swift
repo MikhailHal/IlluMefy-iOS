@@ -36,7 +36,7 @@ struct PlatformButton: View {
                 // Platform name
                 Text(platformDisplayName(platform))
                     .font(.system(size: Typography.captionSmall, weight: .medium))
-                    .foregroundColor(Asset.Color.Application.foreground.swiftUIColor)
+                    .foregroundColor(Asset.Color.Application.textPrimary.swiftUIColor)
                 
                 Spacer()
                 

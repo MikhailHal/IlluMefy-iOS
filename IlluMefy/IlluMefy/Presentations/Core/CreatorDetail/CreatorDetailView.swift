@@ -38,7 +38,7 @@ struct CreatorDetailView: View {
                 errorView(title: title, message: message)
             }
         }
-        .background(Asset.Color.Application.Background.background.swiftUIColor)
+        .background(Asset.Color.Application.Background.backgroundPrimary.swiftUIColor)
         .navigationBarHidden(true)
         .sheet(isPresented: $showingCreatorDetail) {
             if let selectedCreatorId = selectedCreatorId {
@@ -184,7 +184,7 @@ struct CreatorDetailView: View {
                 Circle()
                     .stroke(
                         LinearGradient(
-                            colors: [Asset.Color.Application.foreground.swiftUIColor.opacity(Opacity.glow), Color.clear],
+                            colors: [Asset.Color.Application.textPrimary.swiftUIColor.opacity(Opacity.glow), Color.clear],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
                         ),
@@ -192,7 +192,7 @@ struct CreatorDetailView: View {
                     )
             )
             .shadow(
-                color: Asset.Color.Application.Background.background.swiftUIColor.opacity(Opacity.overlayMedium),
+                color: Asset.Color.Application.Background.backgroundPrimary.swiftUIColor.opacity(Opacity.overlayMedium),
                 radius: Shadow.radiusMedium,
                 x: 0,
                 y: Shadow.offsetYMedium
@@ -215,7 +215,7 @@ struct CreatorDetailView: View {
                         .foregroundColor(
                             viewModel.isFavorite
                                 ? Asset.Color.WarningText.warningLabelForground.swiftUIColor
-                                : Asset.Color.Application.foreground.swiftUIColor.opacity(Opacity.overlayHeavy)
+                                : Asset.Color.Application.textPrimary.swiftUIColor.opacity(Opacity.overlayHeavy)
                         )
                         .scaleEffect(viewModel.isFavorite ? Effects.scaleHeart : Effects.visibleOpacity)
                         .animation(
@@ -418,7 +418,7 @@ struct CreatorDetailView: View {
                 case .loading:
                     Text(L10n.Common.loading)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .background(Asset.Color.Application.Background.background.swiftUIColor)
+                        .background(Asset.Color.Application.Background.backgroundPrimary.swiftUIColor)
                 default:
                     Text(L10n.Common.loadingState)
                 }
@@ -458,7 +458,7 @@ struct CreatorDetailView: View {
                     }
                     .padding()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background(Asset.Color.Application.Background.background.swiftUIColor)
+                    .background(Asset.Color.Application.Background.backgroundPrimary.swiftUIColor)
                 default:
                     Text(L10n.Common.errorState)
                 }

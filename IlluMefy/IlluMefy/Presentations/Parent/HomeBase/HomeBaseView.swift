@@ -18,7 +18,7 @@ struct HomeBaseView<ContentView: View>: View {
         VStack {
             TabBarView()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Asset.Color.Application.Background.background.swiftUIColor)
+                .background(Asset.Color.Application.Background.backgroundPrimary.swiftUIColor)
                 .ignoresSafeArea(.keyboard, edges: .all)
                 .navigationBarBackButtonHidden()
         }

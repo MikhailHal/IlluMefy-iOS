@@ -156,7 +156,7 @@ struct VerificationFormView: View {
             // タイトル（段階的フェードイン）
             Text(L10n.PhoneVerification.title)
                 .font(.system(size: Typography.titleMedium, weight: .bold, design: .rounded))
-                .foregroundColor(Asset.Color.Application.foreground.swiftUIColor)
+                .foregroundColor(Asset.Color.Application.textPrimary.swiftUIColor)
                 .padding(.top, Spacing.componentGrouping)
                 .offset(y: formAppeared ? 0 : Layout.titleOffsetY)
                 .opacity(formAppeared ? 1 : 0)
@@ -167,7 +167,7 @@ struct VerificationFormView: View {
                 // 1行目の説明
                 Text(L10n.PhoneVerification.Description.line1)
                     .font(.system(.body, design: .rounded))
-                    .foregroundColor(Asset.Color.Application.foreground.swiftUIColor.opacity(Opacity.secondaryText))
+                    .foregroundColor(Asset.Color.Application.textPrimary.swiftUIColor.opacity(Opacity.secondaryText))
                     .offset(y: formAppeared ? 0 : Layout.subtitleOffsetY)
                     .opacity(formAppeared ? 1 : 0)
                     .animation(.easeOut(duration: AnimationDuration.medium).delay(AnimationParameters.delayLong), value: formAppeared)
@@ -175,7 +175,7 @@ struct VerificationFormView: View {
                 // 2行目の説明
                 Text(L10n.PhoneVerification.Description.line2)
                     .font(.system(.callout, design: .rounded))
-                    .foregroundColor(Asset.Color.Application.foreground.swiftUIColor.opacity(Opacity.tertiaryText))
+                    .foregroundColor(Asset.Color.Application.textPrimary.swiftUIColor.opacity(Opacity.tertiaryText))
                     .offset(y: formAppeared ? 0 : Layout.subtitleOffsetY)
                     .opacity(formAppeared ? 1 : 0)
                     .animation(.easeOut(duration: AnimationDuration.medium).delay(AnimationParameters.delayExtraLong), value: formAppeared)
@@ -308,7 +308,7 @@ struct VerificationFormView: View {
                     Text("\(L10n.PhoneVerification.Button.resendCode) (\(viewModel.resendCooldownSeconds)秒)")
                         .font(.footnote)
                         .fontWeight(.semibold)
-                        .foregroundColor(Asset.Color.Application.foreground.swiftUIColor.opacity(Opacity.disabledText))
+                        .foregroundColor(Asset.Color.Application.textPrimary.swiftUIColor.opacity(Opacity.disabledText))
                 } else {
                     Text(L10n.PhoneVerification.Button.resendCode)
                         .font(.footnote)
