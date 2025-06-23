@@ -9,7 +9,7 @@ import SwiftUI
 struct CreatorTile: View {
     let creator: Creator
     @State private var isPressed = false
-    @State private var showingDetail = false
+    @EnvironmentObject private var router: IlluMefyAppRouter
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -52,7 +52,7 @@ struct CreatorTile: View {
             multiplePlatformIndicator
         }
         .onTapGesture {
-            showingDetail = true
+            router.navigate(to: .creatorDetail(creatorId: creator.id))
         }
         .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity) { pressing in
             withAnimation(.easeInOut(duration: AnimationDuration.instant)) {
@@ -60,11 +60,6 @@ struct CreatorTile: View {
             }
         } perform: {
             // 長押しアクション
-        }
-        .sheet(isPresented: $showingDetail) {
-            NavigationStack {
-                CreatorDetailView(creatorId: creator.id)
-            }
         }
     }
     

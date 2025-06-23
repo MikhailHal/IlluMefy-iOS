@@ -44,6 +44,8 @@ struct ParentView: View {
                         }
                     case .phoneVerification(let verificationID, let phoneNumber):
                         PhoneVerificationView(verificationID: verificationID, phoneNumber: phoneNumber)
+                    case .creatorDetail(let creatorId):
+                        CreatorDetailView(creatorId: creatorId)
                     }
                 }
             }.environmentObject(router)

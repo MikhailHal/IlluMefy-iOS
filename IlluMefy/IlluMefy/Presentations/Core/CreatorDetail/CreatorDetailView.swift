@@ -11,8 +11,7 @@ struct CreatorDetailView: View {
     @StateObject private var viewModel: CreatorDetailViewModel
     @Environment(\.dismiss) private var dismiss
     @State private var currentCreatorId: String
-    @State private var selectedCreatorId: String?
-    @State private var showingCreatorDetail = false
+    @EnvironmentObject private var router: IlluMefyAppRouter
     @State private var showingTagApplication = false
     @State private var tagApplicationType: TagApplicationRequest.ApplicationType = .add
     @State private var showingTagApplicationTypeSelection = false
@@ -38,15 +37,8 @@ struct CreatorDetailView: View {
                 errorView(title: title, message: message)
             }
         }
-        .background(Asset.Color.Application.Background.backgroundPrimary.swiftUIColor)
+        .background(Asset.Color.CreatorDetailCard.creatorDetailCardBackground.swiftUIColor)
         .navigationBarHidden(true)
-        .sheet(isPresented: $showingCreatorDetail) {
-            if let selectedCreatorId = selectedCreatorId {
-                NavigationStack {
-                    CreatorDetailView(creatorId: selectedCreatorId)
-                }
-            }
-        }
         .sheet(isPresented: $showingTagApplication) {
             if case .loaded(let creator, _) = viewModel.state {
                 TagApplicationView(creator: creator, applicationType: tagApplicationType)
@@ -87,7 +79,7 @@ struct CreatorDetailView: View {
                 .scaleEffect(Effects.scaleIcon)
             Text(L10n.Common.loading)
                 .font(.headline)
-                .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
+                .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSubtitle.swiftUIColor)
             Spacer()
         }
         .padding(Spacing.screenEdgePadding)
@@ -99,13 +91,13 @@ struct CreatorDetailView: View {
             Spacer()
             Image(systemName: "exclamationmark.triangle")
                 .font(.system(size: Typography.titleExtraLarge))
-                .foregroundColor(Asset.Color.WarningText.warningLabelForground.swiftUIColor)
+                .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardFavoriteActive.swiftUIColor)
             Text(title)
                 .font(.title2)
                 .bold()
             Text(message)
                 .font(.body)
-                .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
+                .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSubtitle.swiftUIColor)
                 .multilineTextAlignment(.center)
             Button(L10n.Common.retry) {
                 Task {
@@ -159,7 +151,7 @@ struct CreatorDetailView: View {
             }, label: {
                 Image(systemName: "xmark.circle.fill")
                     .font(.title2)
-                    .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
+                    .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSubtitle.swiftUIColor)
             })
         }
     }
@@ -173,7 +165,7 @@ struct CreatorDetailView: View {
                     .aspectRatio(contentMode: .fill)
             } placeholder: {
                 Rectangle()
-                    .fill(Asset.Color.TextField.placeholderDisabled.swiftUIColor)
+                    .fill(Asset.Color.CreatorDetailCard.creatorDetailCardSectionBackground.swiftUIColor)
                     .overlay(
                         ProgressView()
                     )
@@ -184,7 +176,7 @@ struct CreatorDetailView: View {
                 Circle()
                     .stroke(
                         LinearGradient(
-                            colors: [Asset.Color.Application.textPrimary.swiftUIColor.opacity(Opacity.glow), Color.clear],
+                            colors: [Asset.Color.CreatorDetailCard.creatorDetailCardBorder.swiftUIColor, Color.clear],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
                         ),
@@ -192,7 +184,7 @@ struct CreatorDetailView: View {
                     )
             )
             .shadow(
-                color: Asset.Color.Application.Background.backgroundPrimary.swiftUIColor.opacity(Opacity.overlayMedium),
+                color: Asset.Color.CreatorDetailCard.creatorDetailCardBorder.swiftUIColor.opacity(Opacity.overlayMedium),
                 radius: Shadow.radiusMedium,
                 x: 0,
                 y: Shadow.offsetYMedium
@@ -201,8 +193,8 @@ struct CreatorDetailView: View {
             // Creator name with favorite button
             HStack(spacing: Spacing.relatedComponentDivider) {
                 Text(creator.name)
-                    .font(.title)
-                    .bold()
+                    .font(.system(size: Typography.titleLarge, weight: .bold))
+                    .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardTitle.swiftUIColor)
                     .multilineTextAlignment(.center)
                 
                 Button(action: {
@@ -215,7 +207,7 @@ struct CreatorDetailView: View {
                         .foregroundColor(
                             viewModel.isFavorite
                                 ? Asset.Color.WarningText.warningLabelForground.swiftUIColor
-                                : Asset.Color.Application.textPrimary.swiftUIColor.opacity(Opacity.overlayHeavy)
+                                : Asset.Color.CreatorDetailCard.creatorDetailCardFavoriteInactive.swiftUIColor
                         )
                         .scaleEffect(viewModel.isFavorite ? Effects.scaleHeart : Effects.visibleOpacity)
                         .animation(
@@ -234,7 +226,7 @@ struct CreatorDetailView: View {
                 if platform == .youtube {
                     Image(systemName: platform.icon)
                         .font(.system(size: Typography.bodyRegular))
-                        .foregroundColor(Asset.Color.WarningText.warningLabelForground.swiftUIColor)
+                        .foregroundColor(.red)
                 } else {
                     Image(platform.icon)
                         .resizable()
@@ -243,7 +235,7 @@ struct CreatorDetailView: View {
                 }
                 Text(L10n.CreatorDetail.mainPlatform)
                     .font(.caption)
-                    .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
+                    .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSubtitle.swiftUIColor)
             }
         }
     }
@@ -251,8 +243,8 @@ struct CreatorDetailView: View {
     private func platformButtonsSection(creator: Creator) -> some View {
         VStack(alignment: .leading, spacing: Spacing.relatedComponentDivider) {
             Text(L10n.CreatorDetail.snsLinks)
-                .font(.headline)
-                .bold()
+                .font(.system(size: Typography.titleMedium, weight: .bold))
+                .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSectionTitle.swiftUIColor)
             
             LazyVGrid(columns: [
                 GridItem(.flexible()),
@@ -271,8 +263,8 @@ struct CreatorDetailView: View {
     private func tagsSection(creator: Creator) -> some View {
         VStack(alignment: .leading, spacing: Spacing.relatedComponentDivider) {
             Text(L10n.CreatorDetail.relatedTags)
-                .font(.headline)
-                .bold()
+                .font(.system(size: Typography.titleMedium, weight: .bold))
+                .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSectionTitle.swiftUIColor)
             
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: Spacing.componentGrouping) {
@@ -291,12 +283,13 @@ struct CreatorDetailView: View {
     private var tagRegistrationSection: some View {
         VStack(alignment: .leading, spacing: Spacing.relatedComponentDivider) {
             Text(L10n.CreatorDetail.tagApplication)
-                .font(.headline)
-                .bold()
+                .font(.system(size: Typography.titleMedium, weight: .bold))
+                .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSectionTitle.swiftUIColor)
             
             Text(L10n.CreatorDetail.tagApplicationDescription)
-                .font(.subheadline)
-                .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
+                .font(.system(size: Typography.bodyRegular))
+                .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSubtitle.swiftUIColor)
+                .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSubtitle.swiftUIColor)
             
             Button(action: {
                 showingTagApplicationTypeSelection = true
@@ -315,12 +308,13 @@ struct CreatorDetailView: View {
     private var informationCorrectionSection: some View {
         VStack(alignment: .leading, spacing: Spacing.relatedComponentDivider) {
             Text(L10n.CreatorDetail.informationCorrection)
-                .font(.headline)
-                .bold()
+                .font(.system(size: Typography.titleMedium, weight: .bold))
+                .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSectionTitle.swiftUIColor)
             
             Text(L10n.CreatorDetail.informationCorrectionDescription)
-                .font(.subheadline)
-                .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
+                .font(.system(size: Typography.bodyRegular))
+                .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSubtitle.swiftUIColor)
+                .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSubtitle.swiftUIColor)
             
             Button(action: {
                 showingProfileCorrection = true
@@ -338,8 +332,8 @@ struct CreatorDetailView: View {
     private func statsSection(creator: Creator) -> some View {
         VStack(spacing: Spacing.relatedComponentDivider) {
             Text(L10n.CreatorDetail.statistics)
-                .font(.headline)
-                .bold()
+                .font(.system(size: Typography.titleMedium, weight: .bold))
+                .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSectionTitle.swiftUIColor)
                 .frame(maxWidth: .infinity, alignment: .leading)
             
             HStack(spacing: Spacing.unrelatedComponentDivider) {
@@ -367,20 +361,20 @@ struct CreatorDetailView: View {
     private func similarCreatorsSection(similarCreators: [Creator]) -> some View {
         VStack(alignment: .leading, spacing: Spacing.relatedComponentDivider) {
             Text(L10n.CreatorDetail.similarCreators)
-                .font(.headline)
-                .bold()
+                .font(.system(size: Typography.titleMedium, weight: .bold))
+                .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSectionTitle.swiftUIColor)
                 .frame(maxWidth: .infinity, alignment: .leading)
             
             Text(L10n.CreatorDetail.similarCreatorsDescription)
-                .font(.subheadline)
-                .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
+                .font(.system(size: Typography.bodyRegular))
+                .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSubtitle.swiftUIColor)
+                .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSubtitle.swiftUIColor)
             
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: Spacing.relatedComponentDivider) {
                     ForEach(similarCreators) { similarCreator in
                         SimilarCreatorCard(creator: similarCreator) {
-                            selectedCreatorId = similarCreator.id
-                            showingCreatorDetail = true
+                            router.navigate(to: .creatorDetail(creatorId: similarCreator.id))
                         }
                     }
                 }
@@ -418,7 +412,7 @@ struct CreatorDetailView: View {
                 case .loading:
                     Text(L10n.Common.loading)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .background(Asset.Color.Application.Background.backgroundPrimary.swiftUIColor)
+                        .background(Asset.Color.CreatorDetailCard.creatorDetailCardBackground.swiftUIColor)
                 default:
                     Text(L10n.Common.loadingState)
                 }
@@ -443,13 +437,13 @@ struct CreatorDetailView: View {
                     VStack(spacing: 16) {
                         Image(systemName: "exclamationmark.triangle")
                             .font(.system(size: Typography.titleExtraLarge))
-                            .foregroundColor(Asset.Color.WarningText.warningLabelForground.swiftUIColor)
+                            .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardFavoriteActive.swiftUIColor)
                         Text(title)
                             .font(.title2)
                             .bold()
                         Text(message)
                             .font(.body)
-                            .foregroundColor(Asset.Color.TextField.placeholderNoneFocused.swiftUIColor)
+                            .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSubtitle.swiftUIColor)
                             .multilineTextAlignment(.center)
                         Button(L10n.Common.retry) {
                             // Dummy action
@@ -458,7 +452,7 @@ struct CreatorDetailView: View {
                     }
                     .padding()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background(Asset.Color.Application.Background.backgroundPrimary.swiftUIColor)
+                    .background(Asset.Color.CreatorDetailCard.creatorDetailCardBackground.swiftUIColor)
                 default:
                     Text(L10n.Common.errorState)
                 }
@@ -471,8 +465,7 @@ struct CreatorDetailView: View {
 
 #Preview("ナビゲーションテスト") {
     struct NavigationTestView: View {
-        @State private var selectedCreator: String?
-        @State private var showingDetail = false
+        // State variables removed for preview
         
         var body: some View {
             NavigationStack {
@@ -481,18 +474,11 @@ struct CreatorDetailView: View {
                         .font(.title)
                     
                     Button(L10n.Common.openCreatorDetail) {
-                        selectedCreator = "creator_001"
-                        showingDetail = true
+                        // Navigation would be handled by router
                     }
                     .buttonStyle(.borderedProminent)
                 }
-                .sheet(isPresented: $showingDetail) {
-                    if let creatorId = selectedCreator {
-                        NavigationStack {
-                            CreatorDetailView(creatorId: creatorId)
-                        }
-                    }
-                }
+                // Navigation via router would be used in real app
             }
         }
     }

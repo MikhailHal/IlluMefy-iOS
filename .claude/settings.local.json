@@ -56,7 +56,17 @@
       "Bash(echo $?)",
       "Bash(/Users/haruto/.claude/local/node_modules/@anthropic-ai/claude-code/vendor/ripgrep/arm64-darwin/rg \"CreatorDetail|Platform|tagApplication\" IlluMefy/IlluMefy/Generated/Strings.swift -A 5 -B 5)",
       "Bash(/Users/haruto/.claude/local/node_modules/@anthropic-ai/claude-code/vendor/ripgrep/arm64-darwin/rg \"Typography\\.\" IlluMefy/IlluMefy/Presentations/Core/CreatorDetail/CreatorDetailView.swift)",
-      "Bash(/Users/haruto/.claude/local/node_modules/@anthropic-ai/claude-code/vendor/ripgrep/arm64-darwin/rg \"Typography\\.\" IlluMefy/IlluMefy/Presentations/Core/CreatorDetail/CreatorDetailComponents.swift)"
+      "Bash(/Users/haruto/.claude/local/node_modules/@anthropic-ai/claude-code/vendor/ripgrep/arm64-darwin/rg \"Typography\\.\" IlluMefy/IlluMefy/Presentations/Core/CreatorDetail/CreatorDetailComponents.swift)",
+      "Bash(/Users/haruto/.claude/local/node_modules/@anthropic-ai/claude-code/vendor/ripgrep/arm64-darwin/rg \"Common\\.|CreatorDetail\\.|TagApplication\\.\" IlluMefy/IlluMefy/Generated/Strings.swift -A 5 -B 5)",
+      "Bash(swiftlint:*)",
+      "Bash(swift:*)",
+      "Bash(git reset:*)",
+      "Bash(/opt/homebrew/bin/swiftgen strings Resources/Localizable.strings --templateName structured-swift5 --output Generated/Strings.swift --param enumName=L10n)",
+      "Bash(/Users/haruto/.claude/local/node_modules/@anthropic-ai/claude-code/vendor/ripgrep/arm64-darwin/rg \"Asset\\.Color\\.\" /Users/haruto/Desktop/dev/mobile-app/illumefy/IlluMefy-iOS/IlluMefy/IlluMefy/Presentations/Core/CreatorDetail/ -A 1 -B 1)",
+      "Bash(/Users/haruto/.claude/local/node_modules/@anthropic-ai/claude-code/vendor/ripgrep/arm64-darwin/rg \"overlayHeavy\" /Users/haruto/Desktop/dev/mobile-app/illumefy/IlluMefy-iOS/IlluMefy/IlluMefy/Presentations/Core/CreatorDetail/CreatorDetailView.swift -A 2 -B 2)",
+      "Bash(/Users/haruto/.claude/local/node_modules/@anthropic-ai/claude-code/vendor/ripgrep/arm64-darwin/rg \"youtube.*\\.red\\|\\.red.*youtube\\|youtube.*foregroundColor\\|foregroundColor.*youtube\" /Users/haruto/Desktop/dev/mobile-app/illumefy/IlluMefy-iOS/IlluMefy/IlluMefy/Presentations/Core/CreatorDetail/ -A 2 -B 2)",
+      "Bash(/Users/haruto/.claude/local/node_modules/@anthropic-ai/claude-code/vendor/ripgrep/arm64-darwin/rg \"youtube\" /Users/haruto/Desktop/dev/mobile-app/illumefy/IlluMefy-iOS/IlluMefy/IlluMefy/Presentations/Core/Home/ -A 1 -B 1)",
+      "Bash(/Users/haruto/.claude/local/node_modules/@anthropic-ai/claude-code/vendor/ripgrep/arm64-darwin/rg \"youtube.*red\" /Users/haruto/Desktop/dev/mobile-app/illumefy/IlluMefy-iOS/IlluMefy/IlluMefy/Presentations/Core/Home/CreatorTile.swift -A 2 -B 2)"
     ],
     "deny": []
   },

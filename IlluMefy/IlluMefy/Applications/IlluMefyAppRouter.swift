@@ -16,6 +16,7 @@ class IlluMefyAppRouter: ObservableObject {
         case phoneNumberRegistration
         case groupList
         case phoneVerification(verificationID: String, phoneNumber: String)
+        case creatorDetail(creatorId: String)
     }
     func navigate(to destination: Destination) {
         path.append(destination)

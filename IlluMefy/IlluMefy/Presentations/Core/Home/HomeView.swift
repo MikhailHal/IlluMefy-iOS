@@ -9,6 +9,7 @@ import SwiftUI
 struct HomeView: View {
     @StateObject private var viewModel =
     DependencyContainer.shared.resolve(HomeViewModel.self)!
+    @EnvironmentObject private var router: IlluMefyAppRouter
     
     var body: some View {
         ZStack {
@@ -155,7 +156,7 @@ struct HomeView: View {
 
 struct FeaturedCreatorView: View {
     let creator: Creator
-    @State private var showingDetail = false
+    @EnvironmentObject private var router: IlluMefyAppRouter
     
     var body: some View {
         ZStack(alignment: .bottomLeading) {
@@ -202,7 +203,7 @@ struct FeaturedCreatorView: View {
                 HStack(spacing: Spacing.componentGrouping) {
                     // Play button
                     Button(action: {
-                        showingDetail = true
+                        router.navigate(to: .creatorDetail(creatorId: creator.id))
                     }) {
                         HStack(spacing: Spacing.relatedComponentDivider) {
                             Image(systemName: "play.fill")
@@ -222,11 +223,6 @@ struct FeaturedCreatorView: View {
         }
         .cornerRadius(CornerRadius.button)
         .padding(.horizontal, Spacing.screenEdgePadding)
-        .sheet(isPresented: $showingDetail) {
-            NavigationStack {
-                CreatorDetailView(creatorId: creator.id)
-            }
-        }
     }
 }
 
@@ -234,8 +230,8 @@ struct FeaturedCreatorView: View {
 
 struct CreatorCard: View {
     let creator: Creator
-    @State private var showingDetail = false
     @State private var isHovered = false
+    @EnvironmentObject private var router: IlluMefyAppRouter
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -301,15 +297,10 @@ struct CreatorCard: View {
         .scaleEffect(isHovered ? 1.05 : 1.0)
         .animation(.easeInOut(duration: 0.2), value: isHovered)
         .onTapGesture {
-            showingDetail = true
+            router.navigate(to: .creatorDetail(creatorId: creator.id))
         }
         .onHover { hovering in
             isHovered = hovering
-        }
-        .sheet(isPresented: $showingDetail) {
-            NavigationStack {
-                CreatorDetailView(creatorId: creator.id)
-            }
         }
     }
     
