@@ -106,6 +106,8 @@
 "home.popularTags" = "人気タグ";
 "home.recommendedCreators" = "おすすめクリエイター";
 "home.recentlyAddedCreators" = "最近追加されたクリエイター";
+"home.featuredContent" = "注目のコンテンツ";
+"home.viewProfile" = "プロフィールを見る";
 
 /* Creator Detail */
 "creatorDetail.mainPlatform" = "メインプラットフォーム";
@@ -253,4 +255,8 @@
 /* Common */
 "common.hello" = "Hello, World!";
 "common.previewContent" = "Preview Content";
+"common.seeAll" = "すべて見る";
+"common.viewCount" = "%d 回視聴";
+"common.viewCountThousand" = "%@K 回視聴";
+"common.viewCountMillion" = "%@M 回視聴";
  
