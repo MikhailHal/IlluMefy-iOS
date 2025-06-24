@@ -384,6 +384,7 @@ struct CreatorListItemView: View {
     let creator: Creator
     let viewModel: SearchViewModel
     @EnvironmentObject private var router: IlluMefyAppRouter
+    @State private var isHovered = false
     
     var body: some View {
         HStack(spacing: Spacing.componentGrouping) {
@@ -393,22 +394,27 @@ struct CreatorListItemView: View {
             platformIconView
         }
         .padding(Spacing.componentGrouping)
-        .background(Asset.Color.SearchResult.searchResultBackground.swiftUIColor)
+        .background(Asset.Color.CreatorCard.creatorCardBackground.swiftUIColor)
         .cornerRadius(CornerRadius.button)
         .overlay(
             RoundedRectangle(cornerRadius: CornerRadius.button)
-                .stroke(Asset.Color.SearchResult.searchResultBorder.swiftUIColor, lineWidth: 1)
+                .stroke(Asset.Color.CreatorCard.creatorCardBorder.swiftUIColor, lineWidth: 1)
         )
         .shadow(
-            color: Asset.Color.SearchResult.searchResultShadow.swiftUIColor,
-            radius: 4,
+            color: Asset.Color.CreatorCard.creatorCardShadow.swiftUIColor,
+            radius: isHovered ? 12 : 4,
             x: 0,
-            y: 2
+            y: isHovered ? 8 : 2
         )
+        .scaleEffect(isHovered ? 1.02 : 1.0)
+        .animation(.easeInOut(duration: 0.2), value: isHovered)
         .onTapGesture {
             let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
             impactFeedback.impactOccurred()
             router.navigate(to: .creatorDetail(creatorId: creator.id))
+        }
+        .onHover { hovering in
+            isHovered = hovering
         }
     }
     
@@ -419,7 +425,7 @@ struct CreatorListItemView: View {
                 .aspectRatio(contentMode: .fill)
         } placeholder: {
             Rectangle()
-                .fill(Asset.Color.SearchResult.searchResultBackground.swiftUIColor)
+                .fill(Asset.Color.CreatorCard.creatorCardBackground.swiftUIColor)
                 .overlay(
                     ProgressView()
                         .scaleEffect(0.8)
@@ -435,13 +441,13 @@ struct CreatorListItemView: View {
             Text(creator.name)
                 .font(.headline)
                 .fontWeight(.semibold)
-                .foregroundColor(Asset.Color.SearchResult.searchResultTitle.swiftUIColor)
+                .foregroundColor(Asset.Color.CreatorCard.creatorCardTitle.swiftUIColor)
                 .lineLimit(1)
             
             if let description = creator.description, !description.isEmpty {
                 Text(description)
                     .font(.subheadline)
-                    .foregroundColor(Asset.Color.SearchResult.searchResultSubtitle.swiftUIColor)
+                    .foregroundColor(Asset.Color.Application.textSecondary.swiftUIColor)
                     .lineLimit(2)
             }
             
@@ -459,7 +465,7 @@ struct CreatorListItemView: View {
             
             Text("\(formatViewCount(creator.viewCount)) views")
                 .font(.caption)
-                .foregroundColor(Asset.Color.SearchResult.searchResultMetrics.swiftUIColor)
+                .foregroundColor(Asset.Color.Application.textSecondary.swiftUIColor)
         }
     }
     
@@ -490,7 +496,7 @@ struct CreatorListItemView: View {
                 } else {
                     Image(platform.icon)
                         .resizable()
-                        .foregroundColor(Asset.Color.SearchResult.searchResultTitle.swiftUIColor)
+                        .foregroundColor(Asset.Color.Application.accent.swiftUIColor)
                 }
             }
             .frame(width: 24, height: 24)
@@ -499,7 +505,7 @@ struct CreatorListItemView: View {
             if creator.platform.count > 1 {
                 Text("+\(creator.platform.count - 1)")
                     .font(.caption2)
-                    .foregroundColor(Asset.Color.SearchResult.searchResultMetrics.swiftUIColor)
+                    .foregroundColor(Asset.Color.Application.textSecondary.swiftUIColor)
             }
         }
     }
