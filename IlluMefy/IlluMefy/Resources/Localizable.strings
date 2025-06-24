@@ -147,6 +147,14 @@
 "informationCorrection.activityStatusReport" = "活動状況の報告";
 "informationCorrection.activityStatusReportDescription" = "引退、活動休止、復帰など";
 
+/* Favorite Screen */
+"favorite.title" = "お気に入り";
+"favorite.emptyTitle" = "お気に入りがありません";
+"favorite.emptyMessage" = "気になるクリエイターを見つけたら\nお気に入りに追加してみましょう";
+"favorite.removeConfirmTitle" = "お気に入りから削除";
+"favorite.removeConfirmMessage" = "このクリエイターをお気に入りから削除しますか？";
+"favorite.removeConfirmAction" = "削除";
+
 /* Common UI Elements */
 "common.loading" = "読み込み中...";
 "common.loadingState" = "ローディング状態";

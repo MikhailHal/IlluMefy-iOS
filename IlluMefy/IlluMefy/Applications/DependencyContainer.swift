@@ -67,6 +67,11 @@ final class DependencyContainer: @unchecked Sendable {
         container.register(MockTagRepository.self) { _ in
             MockTagRepository()
         }.inObjectScope(.container)
+        
+        // Favorite repository
+        container.register(FavoriteRepository.self) { _ in
+            FavoriteRepository()
+        }.inObjectScope(.container)
     }
     ///
     /// register all repositories
@@ -107,6 +112,11 @@ final class DependencyContainer: @unchecked Sendable {
         // Tag repository
         container.register(TagRepositoryProtocol.self) { resolver in
             resolver.resolve(MockTagRepository.self)!
+        }.inObjectScope(.transient)
+        
+        // Favorite repository
+        container.register(FavoriteRepositoryProtocol.self) { resolver in
+            resolver.resolve(FavoriteRepository.self)!
         }.inObjectScope(.transient)
     }
     ///
@@ -220,6 +230,16 @@ final class DependencyContainer: @unchecked Sendable {
             return ClearSearchHistoryUseCase(searchHistoryRepository: searchHistoryRepository)
         }.inObjectScope(.transient)
         
+        // GetFavoriteCreators usecase
+        container.register((any GetFavoriteCreatorsUseCaseProtocol).self) { resolver in
+            let favoriteRepository = resolver.resolve(FavoriteRepositoryProtocol.self)!
+            let creatorRepository = resolver.resolve(CreatorRepositoryProtocol.self)!
+            return GetFavoriteCreatorsUseCase(
+                favoriteRepository: favoriteRepository,
+                creatorRepository: creatorRepository
+            )
+        }.inObjectScope(.transient)
+        
         // SearchTagsByName usecase
         container.register(SearchTagsByNameUseCase.self) { resolver in
             let tagRepository = resolver.resolve(TagRepositoryProtocol.self)!
@@ -311,6 +331,22 @@ final class DependencyContainer: @unchecked Sendable {
                     clearSearchHistoryUseCase: clearSearchHistoryUseCase
                 )
             }
+        }.inObjectScope(.transient)
+        
+        // Favorite screen
+        container.register(FavoriteViewModel.self) { resolver in
+            let getFavoriteCreatorsUseCase = resolver.resolve((any GetFavoriteCreatorsUseCaseProtocol).self)!
+            let favoriteRepository = resolver.resolve(FavoriteRepositoryProtocol.self)!
+            return MainActor.assumeIsolated {
+                return FavoriteViewModel(
+                    getFavoriteCreatorsUseCase: getFavoriteCreatorsUseCase,
+                    favoriteRepository: favoriteRepository
+                )
+            }
+        }.inObjectScope(.transient)
+        
+        container.register((any FavoriteViewModelProtocol).self) { resolver in
+            resolver.resolve(FavoriteViewModel.self)!
         }.inObjectScope(.transient)
     }
 }
