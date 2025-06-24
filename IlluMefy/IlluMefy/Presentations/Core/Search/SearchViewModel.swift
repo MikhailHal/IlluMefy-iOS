@@ -242,7 +242,7 @@ final class SearchViewModel: SearchViewModelProtocol {
         // 履歴クエリはカンマ区切りのタグ名の形式
         let tagNames = query.split(separator: ",").map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
         
-        var tagsAdded = false
+        var tagsToAdd: [Tag] = []
         for tagName in tagNames {
             // タグ名に一致するタグを検索
             if let matchingTag = allTags.first(where: { tag in
@@ -250,8 +250,7 @@ final class SearchViewModel: SearchViewModelProtocol {
             }) {
                 // 重複チェック
                 if !selectedTags.contains(where: { $0.id == matchingTag.id }) {
-                    selectedTags.append(matchingTag)
-                    tagsAdded = true
+                    tagsToAdd.append(matchingTag)
                 }
             }
         }
@@ -260,11 +259,9 @@ final class SearchViewModel: SearchViewModelProtocol {
         searchText = ""
         suggestions = []
         
-        // タグが追加されたら自動的に検索
-        if tagsAdded {
-            Task {
-                await search()
-            }
+        // タグを一度に追加（Combineのバインディングが1回だけ実行される）
+        if !tagsToAdd.isEmpty {
+            selectedTags.append(contentsOf: tagsToAdd)
         }
     }
     
@@ -303,10 +300,7 @@ final class SearchViewModel: SearchViewModelProtocol {
         searchText = ""
         suggestions = []
         
-        // タグ選択後、自動的に検索を実行
-        Task {
-            await search()
-        }
+        // Combineのバインディングに任せる（手動でsearch()を呼ばない）
     }
     
     func addSelectedTag() {
@@ -333,18 +327,8 @@ final class SearchViewModel: SearchViewModelProtocol {
     func removeTag(_ tag: Tag) {
         selectedTags.removeAll { $0.id == tag.id }
         
-        // タグ削除後、残りのタグで再検索（タグが0個になったら初期状態に戻す）
-        Task {
-            if selectedTags.isEmpty {
-                state = .initial
-                currentCreators = []
-                hasMore = false
-                currentOffset = 0
-                totalCount = 0
-            } else {
-                await search()
-            }
-        }
+        // タグ削除後は、Combineのバインディングが自動的に実行される
+        // 手動でsearch()を呼ぶ必要なし
     }
     
     func clearAllTags() {
@@ -399,9 +383,6 @@ final class SearchViewModel: SearchViewModelProtocol {
         print("selectedTags after setting: \(selectedTags.map { "\($0.displayName)(\($0.id))" })")
         print("About to execute search with tag: \(tag.displayName)")
         
-        // $selectedTagsのdebounceをキャンセルして即座に検索実行
-        Task {
-            await search()
-        }
+        // Combineのバインディングに任せる（手動でsearch()を呼ばない）
     }
 }
