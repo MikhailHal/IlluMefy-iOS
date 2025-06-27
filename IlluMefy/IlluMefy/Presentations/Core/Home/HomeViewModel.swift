@@ -22,14 +22,17 @@ final class HomeViewModel: HomeViewModelProtocol {
     // MARK: - Use Cases
     private let getPopularCreatorsUseCase: GetPopularCreatorsUseCaseProtocol
     private let searchCreatorsByTagsUseCase: SearchCreatorsByTagsUseCaseProtocol
+    private let getOperatorMessageUseCase: GetOperatorMessageUseCaseProtocol
     
     // MARK: - Initialization
     init(
         getPopularCreatorsUseCase: GetPopularCreatorsUseCaseProtocol,
-        searchCreatorsByTagsUseCase: SearchCreatorsByTagsUseCaseProtocol
+        searchCreatorsByTagsUseCase: SearchCreatorsByTagsUseCaseProtocol,
+        getOperatorMessageUseCase: GetOperatorMessageUseCaseProtocol
     ) {
         self.getPopularCreatorsUseCase = getPopularCreatorsUseCase
         self.searchCreatorsByTagsUseCase = searchCreatorsByTagsUseCase
+        self.getOperatorMessageUseCase = getOperatorMessageUseCase
     }
     
     // MARK: - Public Methods
@@ -41,7 +44,7 @@ final class HomeViewModel: HomeViewModelProtocol {
     
     func loadInitialData() async {
         await withErrorHandling {
-            await _ = (loadPopularCreators(), loadPopularTags(), loadRecommendedCreators(), loadNewArrivalCreators())
+            await _ = (loadPopularCreators(), loadPopularTags(), loadRecommendedCreators(), loadNewArrivalCreators(), loadOperatorMessage())
         }
     }
     
@@ -119,6 +122,17 @@ final class HomeViewModel: HomeViewModelProtocol {
         let request = GetPopularCreatorsUseCaseRequest(limit: 20)
         let response = try? await getPopularCreatorsUseCase.execute(request: request)
         newArrivalCreators = response?.creators ?? []
+    }
+    
+    private func loadOperatorMessage() async {
+        // 運営メッセージをサーバーから取得してキャッシュに保存
+        // エラーが発生してもアプリの動作には影響しないようにする
+        do {
+            _ = try await getOperatorMessageUseCase.fetchAndCacheOperatorMessage()
+        } catch {
+            // ログ出力（本番環境では適切なログシステムに送信）
+            print("Failed to load operator message: \(error)")
+        }
     }
     
     private func withErrorHandling(_ operation: () async throws -> Void) async {

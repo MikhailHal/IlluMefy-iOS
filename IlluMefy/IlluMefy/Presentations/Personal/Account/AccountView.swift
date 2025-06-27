@@ -73,12 +73,6 @@ struct AccountView: View {
                 sectionHeader(L10n.activity, icon: "list.clipboard")
             }
             
-            // 設定・その他セクション
-            Section {
-                settingsSection()
-            } header: {
-                sectionHeader(L10n.settingsAndOthers, icon: "gearshape")
-            }
         }
         .listStyle(.insetGrouped)
         .scrollContentBackground(.hidden)
@@ -193,36 +187,6 @@ struct AccountView: View {
         }
     }
     
-    // MARK: - Settings Section
-    private func settingsSection() -> some View {
-        VStack(spacing: 0) {
-            menuRow(
-                icon: "bell",
-                title: L10n.notificationSettings,
-                action: { showingComingSoonAlert = true },
-                isDisabled: true
-            )
-            
-            Divider()
-                .background(Asset.Color.Application.textSecondary.swiftUIColor.opacity(0.3))
-            
-            menuRow(
-                icon: "doc.text",
-                title: L10n.termsOfService,
-                action: { viewModel.openTermsOfService() }
-            )
-            
-            Divider()
-                .background(Asset.Color.Application.textSecondary.swiftUIColor.opacity(0.3))
-            
-            menuRow(
-                icon: "info.circle",
-                title: L10n.appInformation,
-                action: { viewModel.navigateToAppInfo() },
-                isDisabled: true
-            )
-        }
-    }
     
     // MARK: - Menu Row
     private func menuRow(icon: String, title: String, action: @escaping () -> Void, isDisabled: Bool = false) -> some View {

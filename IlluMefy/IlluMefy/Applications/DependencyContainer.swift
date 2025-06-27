@@ -72,6 +72,11 @@ final class DependencyContainer: @unchecked Sendable {
         container.register(FavoriteRepository.self) { _ in
             FavoriteRepository()
         }.inObjectScope(.container)
+        
+        // OperatorMessage repository
+        container.register(OperatorMessageRepository.self) { _ in
+            OperatorMessageRepository()
+        }.inObjectScope(.container)
     }
     ///
     /// register all repositories
@@ -117,6 +122,11 @@ final class DependencyContainer: @unchecked Sendable {
         // Favorite repository
         container.register(FavoriteRepositoryProtocol.self) { resolver in
             resolver.resolve(FavoriteRepository.self)!
+        }.inObjectScope(.transient)
+        
+        // OperatorMessage repository
+        container.register(OperatorMessageRepositoryProtocol.self) { resolver in
+            resolver.resolve(OperatorMessageRepository.self)!
         }.inObjectScope(.transient)
     }
     ///
@@ -250,6 +260,16 @@ final class DependencyContainer: @unchecked Sendable {
             resolver.resolve(SearchTagsByNameUseCase.self)!
         }.inObjectScope(.transient)
         
+        // GetOperatorMessage usecase
+        container.register(GetOperatorMessageUseCase.self) { resolver in
+            let operatorMessageRepository = resolver.resolve(OperatorMessageRepositoryProtocol.self)!
+            return GetOperatorMessageUseCase(operatorMessageRepository: operatorMessageRepository)
+        }.inObjectScope(.transient)
+        
+        container.register((any GetOperatorMessageUseCaseProtocol).self) { resolver in
+            resolver.resolve(GetOperatorMessageUseCase.self)!
+        }.inObjectScope(.transient)
+        
     }
     ///
     /// register all view-models
@@ -269,10 +289,12 @@ final class DependencyContainer: @unchecked Sendable {
         container.register(HomeViewModel.self) { resolver in
             let getPopularCreatorsUseCase = resolver.resolve((any GetPopularCreatorsUseCaseProtocol).self)!
             let searchCreatorsByTagsUseCase = resolver.resolve((any SearchCreatorsByTagsUseCaseProtocol).self)!
+            let getOperatorMessageUseCase = resolver.resolve((any GetOperatorMessageUseCaseProtocol).self)!
             return MainActor.assumeIsolated {
                 return HomeViewModel(
                     getPopularCreatorsUseCase: getPopularCreatorsUseCase,
-                    searchCreatorsByTagsUseCase: searchCreatorsByTagsUseCase
+                    searchCreatorsByTagsUseCase: searchCreatorsByTagsUseCase,
+                    getOperatorMessageUseCase: getOperatorMessageUseCase
                 )
             }
         }.inObjectScope(.transient)
@@ -351,6 +373,14 @@ final class DependencyContainer: @unchecked Sendable {
         container.register(AccountViewModel.self) { resolver in
             return MainActor.assumeIsolated {
                 return AccountViewModel()
+            }
+        }.inObjectScope(.transient)
+        
+        // Setting screen
+        container.register(SettingViewModel.self) { resolver in
+            let getOperatorMessageUseCase = resolver.resolve((any GetOperatorMessageUseCaseProtocol).self)!
+            return MainActor.assumeIsolated {
+                return SettingViewModel(getOperatorMessageUseCase: getOperatorMessageUseCase)
             }
         }.inObjectScope(.transient)
         

@@ -26,7 +26,10 @@
 "Authentication Required" = "認証が必要です";
 "Coming Soon" = "準備中";
 "Coming Soon Message" = "この機能は現在準備中です。今しばらくお待ちください。";
+"Contact Support" = "サポート・お問い合わせ";
 "Favorite History" = "お気に入り履歴";
+"Last Updated" = "最終更新";
+"Operator Message" = "運営からのお知らせ";
 "Loading" = "読み込み中";
 "Loading Failed" = "読み込みに失敗しました";
 "Notification Settings" = "通知設定";
@@ -37,6 +40,7 @@
 "Profile Correction History" = "プロフィール修正履歴";
 "Registration Date" = "登録日";
 "Retry" = "再試行";
+"Settings" = "設定";
 "Settings and Others" = "設定・その他（🛠️開発中）";
 "Tag Application History" = "タグ申請履歴";
 "Terms of Service" = "利用規約";
