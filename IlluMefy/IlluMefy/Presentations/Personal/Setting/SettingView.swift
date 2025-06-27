@@ -102,161 +102,155 @@ struct SettingView: View {
         .padding(Spacing.screenEdgePadding)
     }
     
-    // MARK: - Operator Message Card (Prominent Design)
+    // MARK: - Operator Message (Netflix-style Minimal)
     private func operatorMessageCard(message: OperatorMessage) -> some View {
-        VStack(alignment: .leading, spacing: Spacing.componentGrouping) {
-            // ヘッダー部分
-            HStack {
-                HStack(spacing: Spacing.componentGrouping) {
-                    Image(systemName: "megaphone.fill")
-                        .font(.system(size: 20, weight: .medium))
-                        .foregroundColor(.white)
+        VStack(alignment: .leading, spacing: Spacing.relatedComponentDivider) {
+            // ヘッダー - ミニマルで洗練された
+            HStack(alignment: .top) {
+                VStack(alignment: .leading, spacing: 2) {
+                    HStack(spacing: 8) {
+                        Text(L10n.operatorMessage)
+                            .font(.system(.caption, design: .default, weight: .medium))
+                            .foregroundColor(Asset.Color.Application.textSecondary.swiftUIColor.opacity(0.8))
+                            .textCase(.uppercase)
+                            .tracking(0.5)
+                        
+                        // NEWインジケーター - ミニマル
+                        if message.isNew {
+                            Circle()
+                                .fill(Asset.Color.Application.accent.swiftUIColor)
+                                .frame(width: 6, height: 6)
+                        }
+                    }
                     
-                    Text(L10n.operatorMessage)
-                        .font(.system(.headline, design: .rounded, weight: .bold))
-                        .foregroundColor(.white)
+                    // メッセージタイトル - 主役
+                    Text(message.title)
+                        .font(.system(.title2, design: .default, weight: .semibold))
+                        .foregroundColor(Asset.Color.Application.textPrimary.swiftUIColor)
+                        .lineLimit(1)
+                        .truncationMode(.tail)
+                        .allowsTightening(true)
+                        .minimumScaleFactor(0.8)
                 }
                 
                 Spacer()
                 
-                // NEWバッジ
-                if message.isNew {
-                    Text("NEW")
-                        .font(.system(.caption, design: .rounded, weight: .bold))
-                        .foregroundColor(Asset.Color.Application.accent.swiftUIColor)
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 4)
-                        .background(Color.white)
-                        .clipShape(Capsule())
-                }
+                // 更新日時 - 右上に控えめに
+                Text(message.formattedUpdatedAt)
+                    .font(.system(.caption2, design: .default, weight: .regular))
+                    .foregroundColor(Asset.Color.Application.textSecondary.swiftUIColor.opacity(0.6))
             }
             
-            // メッセージタイトル
-            Text(message.title)
-                .font(.system(.title3, design: .rounded, weight: .semibold))
-                .foregroundColor(.white)
-                .lineLimit(2)
-            
-            // メッセージ内容
+            // メッセージ内容 - 読みやすく
             Text(message.content)
-                .font(.system(.body, design: .rounded))
-                .foregroundColor(.white.opacity(0.9))
+                .font(.system(.subheadline, design: .default, weight: .regular))
+                .foregroundColor(Asset.Color.Application.textSecondary.swiftUIColor)
+                .lineSpacing(2)
                 .lineLimit(nil)
                 .fixedSize(horizontal: false, vertical: true)
             
-            // 更新日時
-            HStack {
-                Image(systemName: "clock")
-                    .font(.caption)
-                    .foregroundColor(.white.opacity(0.7))
-                
-                Text("\(L10n.lastUpdated): \(message.formattedUpdatedAt)")
-                    .font(.caption)
-                    .foregroundColor(.white.opacity(0.7))
-                
-                Spacer()
-            }
         }
-        .padding(Spacing.relatedComponentDivider)
+        .padding(Spacing.screenEdgePadding)
         .background(
-            // グラデーション背景
-            LinearGradient(
-                colors: [
-                    Asset.Color.Application.accent.swiftUIColor,
-                    Asset.Color.Application.accent.swiftUIColor.opacity(0.8)
-                ],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
+            // サブトルな背景
+            RoundedRectangle(cornerRadius: 12)
+                .fill(Asset.Color.Application.textPrimary.swiftUIColor.opacity(0.02))
+                .stroke(Asset.Color.Application.textSecondary.swiftUIColor.opacity(0.08), lineWidth: 1)
         )
-        .clipShape(RoundedRectangle(cornerRadius: CornerRadius.large))
-        .shadow(
-            color: Asset.Color.Application.accent.swiftUIColor.opacity(0.3),
-            radius: Shadow.radiusLarge,
-            y: Shadow.offsetYMedium
-        )
-        // 軽いパルスアニメーション
-        .scaleEffect(message.isNew ? 1.02 : 1.0)
-        .animation(
-            message.isNew ? 
-                .easeInOut(duration: 2.0).repeatForever(autoreverses: true) : 
-                .none,
-            value: message.isNew
-        )
+        // 新しいメッセージのみわずかに強調
+        .scaleEffect(message.isNew ? 1.0 : 1.0)
+        .opacity(message.isNew ? 1.0 : 0.95)
+        .animation(.easeInOut(duration: 0.3), value: message.isNew)
     }
     
-    // MARK: - Settings List
+    // MARK: - Settings List (Netflix-style)
     private func settingsListView() -> some View {
         VStack(spacing: 0) {
-            IlluMefyCardNormal {
-                VStack(spacing: 0) {
-                    settingRow(
-                        icon: "bell",
-                        title: L10n.notificationSettings,
-                        action: { showingComingSoonAlert = true },
-                        isDisabled: true
-                    )
-                    
-                    Divider()
-                        .background(Asset.Color.Application.textSecondary.swiftUIColor.opacity(0.3))
-                    
-                    settingRow(
-                        icon: "doc.text",
-                        title: L10n.termsOfService,
-                        action: { viewModel.openTermsOfService() }
-                    )
-                    
-                    Divider()
-                        .background(Asset.Color.Application.textSecondary.swiftUIColor.opacity(0.3))
-                    
-                    settingRow(
-                        icon: "info.circle",
-                        title: L10n.appInformation,
-                        action: { showingComingSoonAlert = true },
-                        isDisabled: true
-                    )
-                    
-                    Divider()
-                        .background(Asset.Color.Application.textSecondary.swiftUIColor.opacity(0.3))
-                    
-                    settingRow(
-                        icon: "questionmark.circle",
-                        title: L10n.contactSupport,
-                        action: { showingComingSoonAlert = true },
-                        isDisabled: true
-                    )
-                }
-                .padding(.vertical, Spacing.componentGrouping)
-            }
+            settingRow(
+                icon: "bell",
+                title: L10n.notificationSettings,
+                subtitle: L10n.notificationSettingsDescription,
+                action: { showingComingSoonAlert = true },
+                isDisabled: true
+            )
+            
+            settingRowDivider()
+            
+            settingRow(
+                icon: "doc.text",
+                title: L10n.termsOfService,
+                subtitle: L10n.termsOfServiceDescription,
+                action: { viewModel.openTermsOfService() }
+            )
+            
+            settingRowDivider()
+            
+            settingRow(
+                icon: "info.circle",
+                title: L10n.appInformation,
+                subtitle: L10n.appInformationDescription,
+                action: { showingComingSoonAlert = true },
+                isDisabled: true
+            )
+            
+            settingRowDivider()
+            
+            settingRow(
+                icon: "questionmark.circle",
+                title: L10n.contactSupport,
+                subtitle: L10n.contactSupportDescription,
+                action: { showingComingSoonAlert = true },
+                isDisabled: true
+            )
         }
     }
     
-    // MARK: - Setting Row
-    private func settingRow(icon: String, title: String, action: @escaping () -> Void, isDisabled: Bool = false) -> some View {
+    // MARK: - Setting Row (Netflix-style)
+    private func settingRow(icon: String, title: String, subtitle: String, action: @escaping () -> Void, isDisabled: Bool = false) -> some View {
         Button(action: action) {
-            HStack(spacing: Spacing.componentGrouping) {
+            HStack(alignment: .top, spacing: Spacing.componentGrouping) {
+                // アイコン（Netflix風の適切なサイズ）
                 Image(systemName: icon)
-                    .font(.system(size: 18))
-                    .foregroundColor(isDisabled ? Asset.Color.Application.textSecondary.swiftUIColor.opacity(0.5) : Asset.Color.Application.accent.swiftUIColor)
-                    .frame(width: 24)
+                    .font(.system(size: 24, weight: .medium))
+                    .foregroundColor(isDisabled ? Asset.Color.Application.textSecondary.swiftUIColor.opacity(0.4) : Asset.Color.Application.textSecondary.swiftUIColor)
+                    .frame(width: 32, height: 32)
+                    .padding(.top, 2)
                 
-                Text(title)
-                    .font(.body)
-                    .foregroundColor(isDisabled ? Asset.Color.Application.textSecondary.swiftUIColor.opacity(0.5) : Asset.Color.Application.textPrimary.swiftUIColor)
+                // タイトルとサブタイトル
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(title)
+                        .font(.system(.title3, design: .default, weight: .medium))
+                        .foregroundColor(isDisabled ? Asset.Color.Application.textSecondary.swiftUIColor.opacity(0.5) : Asset.Color.Application.textPrimary.swiftUIColor)
+                        .multilineTextAlignment(.leading)
+                    
+                    Text(subtitle)
+                        .font(.system(.subheadline, design: .default, weight: .regular))
+                        .foregroundColor(isDisabled ? Asset.Color.Application.textSecondary.swiftUIColor.opacity(0.4) : Asset.Color.Application.textSecondary.swiftUIColor)
+                        .multilineTextAlignment(.leading)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
                 
                 Spacer()
                 
+                // 矢印（Netflix風 - 適切なサイズ）
                 Image(systemName: "chevron.right")
-                    .font(.system(size: 14, weight: .medium))
-                    .foregroundColor(isDisabled ? Asset.Color.Application.textSecondary.swiftUIColor.opacity(0.3) : Asset.Color.Application.textSecondary.swiftUIColor)
+                    .font(.system(size: 16, weight: .medium))
+                    .foregroundColor(Asset.Color.Application.textSecondary.swiftUIColor.opacity(0.6))
+                    .padding(.top, 12)
             }
-            .padding(.vertical, Spacing.componentGrouping)
-            .padding(.horizontal, Spacing.relatedComponentDivider)
+            .padding(.vertical, 24)
+            .padding(.horizontal, Spacing.screenEdgePadding)
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
         .disabled(isDisabled)
-        .opacity(isDisabled ? 0.6 : 1.0)
+    }
+    
+    // MARK: - Setting Row Divider
+    private func settingRowDivider() -> some View {
+        Divider()
+            .background(Asset.Color.Application.textSecondary.swiftUIColor.opacity(0.15))
+            .padding(.leading, Spacing.screenEdgePadding + 32 + Spacing.componentGrouping)
     }
 }
 

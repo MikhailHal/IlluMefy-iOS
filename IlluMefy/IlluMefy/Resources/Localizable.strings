@@ -23,16 +23,19 @@
 "Account" = "アカウント";
 "Activity" = "アクティビティ（🛠️開発中）";
 "App Information" = "アプリ情報";
+"App Information Description" = "アプリの詳細な情報を確認します";
 "Authentication Required" = "認証が必要です";
 "Coming Soon" = "準備中";
 "Coming Soon Message" = "この機能は現在準備中です。今しばらくお待ちください。";
 "Contact Support" = "サポート・お問い合わせ";
+"Contact Support Description" = "不具合や機能追加依頼に関してはこちらへ";
 "Favorite History" = "お気に入り履歴";
 "Last Updated" = "最終更新";
 "Operator Message" = "運営からのお知らせ";
 "Loading" = "読み込み中";
 "Loading Failed" = "読み込みに失敗しました";
 "Notification Settings" = "通知設定";
+"Notification Settings Description" = "プッシュ通知の設定を管理します";
 "OK" = "OK";
 "Phone Number" = "電話番号";
 "Please Login Again" = "再度ログインしてください";
@@ -44,6 +47,7 @@
 "Settings and Others" = "設定・その他（🛠️開発中）";
 "Tag Application History" = "タグ申請履歴";
 "Terms of Service" = "利用規約";
+"Terms of Service Description" = "アプリの利用に関する規約をご確認ください";
 "Try Again Later" = "しばらくしてから再試行してください";
 "Unknown" = "不明";
 "User ID" = "ユーザーID";
