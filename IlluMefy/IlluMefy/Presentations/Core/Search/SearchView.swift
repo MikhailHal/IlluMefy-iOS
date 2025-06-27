@@ -344,29 +344,34 @@ struct SearchView: View {
             .padding(.vertical, Spacing.componentGrouping)
             
             ScrollView {
-                LazyVStack(spacing: Spacing.relatedComponentDivider) {
+                LazyVGrid(columns: [
+                    GridItem(.flexible(), spacing: 0),
+                    GridItem(.flexible(), spacing: 0),
+                    GridItem(.flexible(), spacing: 0)
+                ], spacing: 0) {
                     ForEach(creators) { creator in
-                        creatorListItem(creator: creator)
+                        SearchCreatorCard(creator: creator, viewModel: viewModel)
                     }
-                
-                // Load More Indicator
-                if viewModel.hasMore {
-                    HStack {
-                        ProgressView()
-                            .scaleEffect(0.8)
-                        Text(L10n.Common.loading)
-                            .font(.caption)
-                            .foregroundColor(Asset.Color.SearchResult.searchResultMetrics.swiftUIColor)
-                    }
-                    .frame(maxWidth: .infinity)
-                    .onAppear {
-                        Task {
-                            await viewModel.loadMore()
+                    
+                    // Load More Indicator
+                    if viewModel.hasMore {
+                        VStack {
+                            ProgressView()
+                                .scaleEffect(0.8)
+                            Text(L10n.Common.loading)
+                                .font(.caption)
+                                .foregroundColor(Asset.Color.SearchResult.searchResultMetrics.swiftUIColor)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .gridCellColumns(3) // 3列すべてを占有
+                        .onAppear {
+                            Task {
+                                await viewModel.loadMore()
+                            }
                         }
                     }
                 }
-                }
-                .padding(Spacing.screenEdgePadding)
+                .padding(0)
             }
             .refreshable {
                 await viewModel.search()
@@ -374,140 +379,109 @@ struct SearchView: View {
         }
     }
     
-    private func creatorListItem(creator: Creator) -> some View {
-        CreatorListItemView(creator: creator, viewModel: viewModel)
-    }
-    
 }
 
-struct CreatorListItemView: View {
+struct SearchCreatorCard: View {
     let creator: Creator
     let viewModel: SearchViewModel
     @EnvironmentObject private var router: IlluMefyAppRouter
-    @State private var isHovered = false
     
     var body: some View {
-        HStack(spacing: Spacing.componentGrouping) {
-            creatorImageView
-            creatorInfoView
-            Spacer()
-            platformIconView
-        }
-        .padding(Spacing.componentGrouping)
-        .background(Asset.Color.CreatorCard.creatorCardBackground.swiftUIColor)
-        .cornerRadius(CornerRadius.button)
-        .overlay(
-            RoundedRectangle(cornerRadius: CornerRadius.button)
-                .stroke(Asset.Color.CreatorCard.creatorCardBorder.swiftUIColor, lineWidth: 1)
-        )
-        .shadow(
-            color: Asset.Color.CreatorCard.creatorCardShadow.swiftUIColor,
-            radius: isHovered ? 12 : 4,
-            x: 0,
-            y: isHovered ? 8 : 2
-        )
-        .scaleEffect(isHovered ? 1.02 : 1.0)
-        .animation(.easeInOut(duration: 0.2), value: isHovered)
-        .onTapGesture {
-            let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
-            impactFeedback.impactOccurred()
-            router.navigate(to: .creatorDetail(creatorId: creator.id))
-        }
-        .onHover { hovering in
-            isHovered = hovering
-        }
-    }
-    
-    private var creatorImageView: some View {
-        AsyncImage(url: URL(string: creator.thumbnailUrl)) { image in
-            image
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-        } placeholder: {
-            Rectangle()
-                .fill(Asset.Color.CreatorCard.creatorCardBackground.swiftUIColor)
-                .overlay(
-                    ProgressView()
-                        .scaleEffect(0.8)
-                        .tint(Asset.Color.Application.accent.swiftUIColor)
-                )
-        }
-        .frame(width: 80, height: 80)
-        .cornerRadius(CornerRadius.button)
-    }
-    
-    private var creatorInfoView: some View {
-        VStack(alignment: .leading, spacing: Spacing.relatedComponentDivider) {
-            Text(creator.name)
-                .font(.headline)
-                .fontWeight(.semibold)
-                .foregroundColor(Asset.Color.CreatorCard.creatorCardTitle.swiftUIColor)
-                .lineLimit(1)
-            
-            if let description = creator.description, !description.isEmpty {
-                Text(description)
-                    .font(.subheadline)
-                    .foregroundColor(Asset.Color.Application.textSecondary.swiftUIColor)
-                    .lineLimit(2)
-            }
-            
-            tagsAndMetricsView
-        }
-    }
-    
-    private var tagsAndMetricsView: some View {
-        HStack {
-            if !creator.relatedTag.isEmpty {
-                tagsView
-            }
-            
-            Spacer()
-            
-            Text("\(formatViewCount(creator.viewCount)) views")
-                .font(.caption)
-                .foregroundColor(Asset.Color.Application.textSecondary.swiftUIColor)
-        }
-    }
-    
-    private var tagsView: some View {
-        HStack(spacing: Spacing.relatedComponentDivider) {
-            let tags = viewModel.getTagsForIds(Array(creator.relatedTag.prefix(2)))
-            ForEach(tags) { tag in
-                Text(tag.displayName)
-                    .font(.caption)
-                    .foregroundColor(Asset.Color.Application.accent.swiftUIColor)
-                    .padding(.horizontal, 6)
-                    .padding(.vertical, 2)
-                    .background(
-                        Capsule()
-                            .fill(Asset.Color.Application.accent.swiftUIColor.opacity(0.2))
+        GeometryReader { geometry in
+            Button(action: {
+                let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
+                impactFeedback.impactOccurred()
+                router.navigate(to: .creatorDetail(creatorId: creator.id))
+            }, label: {
+                ZStack(alignment: .bottomLeading) {
+                    // 背景画像（TikTok風の全面表示）
+                    AsyncImage(url: URL(string: creator.thumbnailUrl)) { image in
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                    } placeholder: {
+                        Rectangle()
+                            .fill(Asset.Color.Application.Background.backgroundSecondary.swiftUIColor)
+                            .overlay(
+                                ProgressView()
+                                    .tint(Asset.Color.Application.textSecondary.swiftUIColor)
+                            )
+                    }
+                    .frame(width: geometry.size.width, height: geometry.size.height)
+                    .clipped()
+                    
+                    // グラデーションオーバーレイ（テキストの可読性向上）
+                    LinearGradient(
+                        gradient: Gradient(colors: [
+                            Color.black.opacity(0.0),
+                            Color.black.opacity(0.3),
+                            Color.black.opacity(0.7)
+                        ]),
+                        startPoint: .top,
+                        endPoint: .bottom
                     )
-            }
-        }
-    }
-    
-    private var platformIconView: some View {
-        VStack {
-            let platform = creator.mainPlatform().0
-            Group {
-                if platform == .youtube {
-                    Image(systemName: platform.icon)
-                        .foregroundColor(.red)
-                } else {
-                    Image(platform.icon)
-                        .resizable()
-                        .foregroundColor(Asset.Color.Application.accent.swiftUIColor)
+                    
+                    // 右上にプラットフォームアイコンとタグ数
+                    VStack(alignment: .trailing, spacing: 4) {
+                        HStack(spacing: 4) {
+                            let platform = creator.mainPlatform().0
+                            if platform == .youtube {
+                                Image(systemName: platform.icon)
+                                    .font(.system(size: 12))
+                                    .foregroundColor(.red)
+                                    .shadow(radius: 1)
+                            } else {
+                                Image(platform.icon)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 12, height: 12)
+                                    .foregroundColor(.white)
+                                    .shadow(radius: 1)
+                            }
+                            
+                            if creator.platform.count > 1 {
+                                Text("+\(creator.platform.count - 1)")
+                                    .font(.system(size: 10, weight: .medium))
+                                    .foregroundColor(.white.opacity(0.9))
+                                    .shadow(radius: 1)
+                            }
+                        }
+                        
+                        // 視聴回数をコンパクトに表示
+                        Text(formatViewCount(creator.viewCount))
+                            .font(.system(size: 10))
+                            .foregroundColor(.white.opacity(0.8))
+                            .shadow(radius: 1)
+                    }
+                    .padding(6)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+                    
+                    // クリエイター情報（左下配置）
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(creator.name)
+                            .font(.system(size: 12, weight: .semibold))
+                            .foregroundColor(.white)
+                            .lineLimit(1)
+                            .shadow(radius: 1)
+                        
+                        // タグ表示（1つだけコンパクトに）
+                        if !creator.relatedTag.isEmpty {
+                            let tags = viewModel.getTagsForIds(Array(creator.relatedTag.prefix(1)))
+                            if let firstTag = tags.first {
+                                Text("#\(firstTag.displayName)")
+                                    .font(.system(size: 10))
+                                    .foregroundColor(.white.opacity(0.9))
+                                    .shadow(radius: 1)
+                            }
+                        }
+                    }
+                    .padding(8)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
                 }
-            }
-            .frame(width: 24, height: 24)
-            .font(.title2)
-            
-            if creator.platform.count > 1 {
-                Text("+\(creator.platform.count - 1)")
-                    .font(.caption2)
-                    .foregroundColor(Asset.Color.Application.textSecondary.swiftUIColor)
-            }
+            })
+            .buttonStyle(PlainButtonStyle())
         }
+        .aspectRatio(9/16, contentMode: .fit) // TikTok風の縦長アスペクト比
     }
     
     private func formatViewCount(_ count: Int) -> String {
