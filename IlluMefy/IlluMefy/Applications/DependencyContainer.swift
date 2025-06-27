@@ -77,6 +77,11 @@ final class DependencyContainer: @unchecked Sendable {
         container.register(OperatorMessageRepository.self) { _ in
             OperatorMessageRepository()
         }.inObjectScope(.container)
+        
+        // ContactSupport repository
+        container.register(ContactSupportRepository.self) { _ in
+            ContactSupportRepository()
+        }.inObjectScope(.container)
     }
     ///
     /// register all repositories
@@ -127,6 +132,11 @@ final class DependencyContainer: @unchecked Sendable {
         // OperatorMessage repository
         container.register(OperatorMessageRepositoryProtocol.self) { resolver in
             resolver.resolve(OperatorMessageRepository.self)!
+        }.inObjectScope(.transient)
+        
+        // ContactSupport repository
+        container.register(ContactSupportRepositoryProtocol.self) { resolver in
+            resolver.resolve(ContactSupportRepository.self)!
         }.inObjectScope(.transient)
     }
     ///
@@ -270,6 +280,26 @@ final class DependencyContainer: @unchecked Sendable {
             resolver.resolve(GetOperatorMessageUseCase.self)!
         }.inObjectScope(.transient)
         
+        // SubmitContactSupport usecase
+        container.register(SubmitContactSupportUseCase.self) { resolver in
+            let contactSupportRepository = resolver.resolve(ContactSupportRepositoryProtocol.self)!
+            return SubmitContactSupportUseCase(repository: contactSupportRepository)
+        }.inObjectScope(.transient)
+        
+        container.register((any SubmitContactSupportUseCaseProtocol).self) { resolver in
+            resolver.resolve(SubmitContactSupportUseCase.self)!
+        }.inObjectScope(.transient)
+        
+        // GetContactSupportHistory usecase
+        container.register(GetContactSupportHistoryUseCase.self) { resolver in
+            let contactSupportRepository = resolver.resolve(ContactSupportRepositoryProtocol.self)!
+            return GetContactSupportHistoryUseCase(repository: contactSupportRepository)
+        }.inObjectScope(.transient)
+        
+        container.register((any GetContactSupportHistoryUseCaseProtocol).self) { resolver in
+            resolver.resolve(GetContactSupportHistoryUseCase.self)!
+        }.inObjectScope(.transient)
+        
     }
     ///
     /// register all view-models
@@ -386,6 +416,14 @@ final class DependencyContainer: @unchecked Sendable {
         
         container.register((any FavoriteViewModelProtocol).self) { resolver in
             resolver.resolve(FavoriteViewModel.self)!
+        }.inObjectScope(.transient)
+        
+        // ContactSupport screen
+        container.register(ContactSupportViewModel.self) { resolver in
+            let submitContactSupportUseCase = resolver.resolve((any SubmitContactSupportUseCaseProtocol).self)!
+            return MainActor.assumeIsolated {
+                return ContactSupportViewModel(submitContactSupportUseCase: submitContactSupportUseCase)
+            }
         }.inObjectScope(.transient)
     }
 }

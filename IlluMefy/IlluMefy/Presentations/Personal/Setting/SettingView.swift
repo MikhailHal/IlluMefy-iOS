@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SettingView: View {
     @StateObject private var viewModel = DependencyContainer.shared.resolve(SettingViewModel.self)!
+    @EnvironmentObject private var router: IlluMefyAppRouter
     @State private var showingComingSoonAlert = false
     
     var body: some View {
@@ -199,8 +200,9 @@ struct SettingView: View {
                 icon: "questionmark.circle",
                 title: L10n.contactSupport,
                 subtitle: L10n.contactSupportDescription,
-                action: { showingComingSoonAlert = true },
-                isDisabled: true
+                action: { 
+                    router.navigate(to: .contactSupport)
+                }
             )
         }
     }
