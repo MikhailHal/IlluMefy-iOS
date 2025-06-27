@@ -17,11 +17,17 @@ final class CreatorDetailViewModel: CreatorDetailViewModelProtocol {
     // MARK: - Private Properties
     private let creatorId: String
     private let getCreatorDetailUseCase: GetCreatorDetailUseCaseProtocol
+    private let favoriteRepository: FavoriteRepositoryProtocol
     
     // MARK: - Initialization
-    init(creatorId: String, getCreatorDetailUseCase: GetCreatorDetailUseCaseProtocol) {
+    init(
+        creatorId: String,
+        getCreatorDetailUseCase: GetCreatorDetailUseCaseProtocol,
+        favoriteRepository: FavoriteRepositoryProtocol
+    ) {
         self.creatorId = creatorId
         self.getCreatorDetailUseCase = getCreatorDetailUseCase
+        self.favoriteRepository = favoriteRepository
     }
     
     // MARK: - CreatorDetailViewModelProtocol
@@ -33,6 +39,9 @@ final class CreatorDetailViewModel: CreatorDetailViewModelProtocol {
             let request = GetCreatorDetailUseCaseRequest(creatorId: creatorId)
             let response = try await getCreatorDetailUseCase.execute(request: request)
             
+            // お気に入り状態を確認
+            isFavorite = try await favoriteRepository.isFavorite(creatorId: creatorId)
+            
             state = .loaded(creator: response.creator, similarCreators: response.similarCreators)
         } catch GetCreatorDetailUseCaseError.creatorNotFound {
             state = .error(title: "クリエイターが見つかりません", message: "指定されたクリエイターは存在しないか、削除された可能性があります。")
@@ -42,7 +51,19 @@ final class CreatorDetailViewModel: CreatorDetailViewModelProtocol {
     }
     
     func toggleFavorite() {
-        isFavorite.toggle()
-        // Note: お気に入り機能の実装は今後追加予定
+        Task {
+            do {
+                if isFavorite {
+                    try await favoriteRepository.removeFavoriteCreator(creatorId: creatorId)
+                } else {
+                    try await favoriteRepository.addFavoriteCreator(creatorId: creatorId)
+                }
+                // 成功したらUIを更新
+                isFavorite.toggle()
+            } catch {
+                // エラーが発生した場合は変更を戻す
+                print("Failed to toggle favorite: \(error)")
+            }
+        }
     }
 }

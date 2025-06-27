@@ -9,8 +9,13 @@ import Foundation
 
 /// お気に入りリポジトリの実装
 final class FavoriteRepository: FavoriteRepositoryProtocol {
-    private let userDefaults = UserDefaults.standard
-    private let favoritesKey = "IlluMefy_FavoriteCreatorIds"
+    private let userDefaults: UserDefaults
+    private let favoritesKey: String
+    
+    init(userDefaults: UserDefaults = UserDefaults.standard, favoritesKey: String = "IlluMefy_FavoriteCreatorIds") {
+        self.userDefaults = userDefaults
+        self.favoritesKey = favoritesKey
+    }
     
     func getFavoriteCreatorIds() async throws -> [String] {
         let stored = userDefaults.stringArray(forKey: favoritesKey) ?? []

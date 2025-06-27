@@ -284,10 +284,12 @@ final class DependencyContainer: @unchecked Sendable {
         // CreatorDetail screen
         container.register(CreatorDetailViewModel.self) { (resolver, creatorId: String) in
             let getCreatorDetailUseCase = resolver.resolve((any GetCreatorDetailUseCaseProtocol).self)!
+            let favoriteRepository = resolver.resolve(FavoriteRepositoryProtocol.self)!
             return MainActor.assumeIsolated {
                 return CreatorDetailViewModel(
                     creatorId: creatorId,
-                    getCreatorDetailUseCase: getCreatorDetailUseCase
+                    getCreatorDetailUseCase: getCreatorDetailUseCase,
+                    favoriteRepository: favoriteRepository
                 )
             }
         }.inObjectScope(.transient)

@@ -15,14 +15,17 @@ final class CreatorDetailViewModelSpec: QuickSpec, @unchecked Sendable {
     override class func spec() {
         var viewModel: CreatorDetailViewModel!
         var mockGetCreatorDetailUseCase: MockGetCreatorDetailUseCase!
+        var mockFavoriteRepository: MockFavoriteRepository!
         
         describe("CreatorDetailViewModel") {
             beforeEach {
                 mockGetCreatorDetailUseCase = MockGetCreatorDetailUseCase()
+                mockFavoriteRepository = MockFavoriteRepository()
                 
                 viewModel = CreatorDetailViewModel(
                     creatorId: "test-creator-id",
-                    getCreatorDetailUseCase: mockGetCreatorDetailUseCase
+                    getCreatorDetailUseCase: mockGetCreatorDetailUseCase,
+                    favoriteRepository: mockFavoriteRepository
                 )
             }
             
@@ -39,7 +42,8 @@ final class CreatorDetailViewModelSpec: QuickSpec, @unchecked Sendable {
                 it("should store the creator ID") {
                     let customViewModel = CreatorDetailViewModel(
                         creatorId: "custom-id-123",
-                        getCreatorDetailUseCase: mockGetCreatorDetailUseCase
+                        getCreatorDetailUseCase: mockGetCreatorDetailUseCase,
+                        favoriteRepository: mockFavoriteRepository
                     )
                     // ViewModelがcreatorIdをprivateで保持しているため、
                     // loadCreatorDetailが呼ばれた時に正しいIDが使われることで確認
@@ -115,11 +119,15 @@ final class CreatorDetailViewModelSpec: QuickSpec, @unchecked Sendable {
                         mockGetCreatorDetailUseCase.mockSimilarCreators = similarCreators
                     }
                     
-                    it("should update state to loading and then loaded") {
+                    it("should update state to loading and then loaded with favorite status") {
+                        // お気に入り状態を設定
+                        mockFavoriteRepository.mockFavoriteIds = ["test-creator-id"]
+                        
                         waitUntil(timeout: .seconds(3)) { done in
                             Task {
                                 // 初期状態を確認
                                 expect(viewModel.state).to(equal(CreatorDetailViewState.idle))
+                                expect(viewModel.isFavorite).to(beFalse())
                                 
                                 // loadCreatorDetailを実行
                                 let loadTask = Task {
@@ -136,10 +144,25 @@ final class CreatorDetailViewModelSpec: QuickSpec, @unchecked Sendable {
                                 if case let .loaded(creator, similar) = viewModel.state {
                                     expect(creator).to(equal(testCreator))
                                     expect(similar).to(equal(similarCreators))
+                                    expect(viewModel.isFavorite).to(beTrue()) // お気に入り状態も確認
                                 } else {
                                     fail("Expected state to be loaded")
                                 }
                                 
+                                done()
+                            }
+                        }
+                    }
+                    
+                    it("should load with non-favorite status") {
+                        // お気に入りに含まれていない
+                        mockFavoriteRepository.mockFavoriteIds = []
+                        
+                        waitUntil(timeout: .seconds(3)) { done in
+                            Task {
+                                await viewModel.loadCreatorDetail()
+                                
+                                expect(viewModel.isFavorite).to(beFalse())
                                 done()
                             }
                         }
@@ -232,30 +255,57 @@ final class CreatorDetailViewModelSpec: QuickSpec, @unchecked Sendable {
             }
             
             context("toggleFavorite") {
-                it("should toggle favorite state from false to true") {
-                    expect(viewModel.isFavorite).to(beFalse())
+                it("should add to favorites when not favorite") {
+                    // お気に入りでない状態から開始
+                    viewModel.isFavorite = false
+                    mockFavoriteRepository.mockFavoriteIds = []
+                    
                     viewModel.toggleFavorite()
-                    expect(viewModel.isFavorite).to(beTrue())
+                    
+                    // 非同期処理を待つ
+                    waitUntil(timeout: .seconds(3)) { done in
+                        Task {
+                            try? await Task.sleep(nanoseconds: 500_000_000) // 0.5秒待つ
+                            expect(mockFavoriteRepository.mockFavoriteIds).to(contain("test-creator-id"))
+                            expect(viewModel.isFavorite).to(beTrue())
+                            done()
+                        }
+                    }
                 }
                 
-                it("should toggle favorite state from true to false") {
+                it("should remove from favorites when already favorite") {
+                    // お気に入り状態から開始
                     viewModel.isFavorite = true
-                    expect(viewModel.isFavorite).to(beTrue())
+                    mockFavoriteRepository.mockFavoriteIds = ["test-creator-id"]
+                    
                     viewModel.toggleFavorite()
-                    expect(viewModel.isFavorite).to(beFalse())
+                    
+                    // 非同期処理を待つ
+                    waitUntil(timeout: .seconds(3)) { done in
+                        Task {
+                            try? await Task.sleep(nanoseconds: 500_000_000) // 0.5秒待つ
+                            expect(mockFavoriteRepository.mockFavoriteIds).toNot(contain("test-creator-id"))
+                            expect(viewModel.isFavorite).to(beFalse())
+                            done()
+                        }
+                    }
                 }
                 
-                it("should toggle multiple times correctly") {
-                    expect(viewModel.isFavorite).to(beFalse())
+                it("should handle error gracefully") {
+                    // エラーが発生する設定
+                    viewModel.isFavorite = false
+                    mockFavoriteRepository.shouldThrowError = true
                     
                     viewModel.toggleFavorite()
-                    expect(viewModel.isFavorite).to(beTrue())
                     
-                    viewModel.toggleFavorite()
-                    expect(viewModel.isFavorite).to(beFalse())
-                    
-                    viewModel.toggleFavorite()
-                    expect(viewModel.isFavorite).to(beTrue())
+                    // エラーが発生してもUIが変更されないことを確認
+                    waitUntil(timeout: .seconds(3)) { done in
+                        Task {
+                            try? await Task.sleep(nanoseconds: 500_000_000) // 0.5秒待つ
+                            expect(viewModel.isFavorite).to(beFalse()) // 変更されていない
+                            done()
+                        }
+                    }
                 }
             }
             
