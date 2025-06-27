@@ -59,16 +59,17 @@ struct FavoriteView: View {
     private var favoriteCreatorsView: some View {
         ScrollView {
             LazyVGrid(columns: [
-                GridItem(.flexible()),
-                GridItem(.flexible())
-            ], spacing: Spacing.relatedComponentDivider) {
+                GridItem(.flexible(), spacing: 0),
+                GridItem(.flexible(), spacing: 0),
+                GridItem(.flexible(), spacing: 0)
+            ], spacing: 0) {
                 ForEach(viewModel.favoriteCreators) { creator in
                     FavoriteCreatorCard(creator: creator) {
                         router.navigate(to: .creatorDetail(creatorId: creator.id))
                     }
                 }
             }
-            .padding(Spacing.screenEdgePadding)
+            .padding(0)
         }
     }
     
@@ -79,54 +80,68 @@ struct FavoriteCreatorCard: View {
     let onTap: () -> Void
     
     var body: some View {
-        Button(action: onTap) {
-            VStack(spacing: Spacing.componentGrouping) {
-                AsyncImage(url: URL(string: creator.thumbnailUrl)) { image in
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                } placeholder: {
-                    Rectangle()
-                        .fill(Asset.Color.Application.Background.backgroundSecondary.swiftUIColor)
-                        .overlay(
-                            ProgressView()
-                                .tint(Asset.Color.Application.textSecondary.swiftUIColor)
-                        )
-                }
-                .frame(width: 120, height: 120)
-                .clipShape(Circle())
-                
-                VStack(spacing: Spacing.componentGrouping) {
-                    Text(creator.name)
-                        .font(.system(size: Typography.bodyRegular, weight: .semibold))
-                        .foregroundColor(Asset.Color.Application.textPrimary.swiftUIColor)
-                        .lineLimit(1)
-                    
-                    let (platform, _) = creator.mainPlatform()
-                    HStack(spacing: Spacing.componentGrouping) {
-                        if platform == .youtube {
-                            Image(systemName: platform.icon)
-                                .font(.caption)
-                                .foregroundColor(.red)
-                        } else {
-                            Image(platform.icon)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 12, height: 12)
-                        }
-                        Text(platform.displayName)
-                            .font(.caption)
-                            .foregroundColor(Asset.Color.Application.textSecondary.swiftUIColor)
+        GeometryReader { geometry in
+            Button(action: onTap) {
+                ZStack(alignment: .bottomLeading) {
+                    // 背景画像（TikTok風の全面表示）
+                    AsyncImage(url: URL(string: creator.thumbnailUrl)) { image in
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                    } placeholder: {
+                        Rectangle()
+                            .fill(Asset.Color.Application.Background.backgroundSecondary.swiftUIColor)
+                            .overlay(
+                                ProgressView()
+                                    .tint(Asset.Color.Application.textSecondary.swiftUIColor)
+                            )
                     }
+                    .frame(width: geometry.size.width, height: geometry.size.height)
+                    .clipped()
+                    
+                    // グラデーションオーバーレイ（テキストの可読性向上）
+                    LinearGradient(
+                        gradient: Gradient(colors: [
+                            Color.black.opacity(0.0),
+                            Color.black.opacity(0.3),
+                            Color.black.opacity(0.7)
+                        ]),
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                    
+                    // クリエイター情報（左下配置）
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(creator.name)
+                            .font(.system(size: 12, weight: .semibold))
+                            .foregroundColor(.white)
+                            .lineLimit(1)
+                            .shadow(radius: 1)
+                        
+                        let (platform, _) = creator.mainPlatform()
+                        HStack(spacing: 4) {
+                            if platform == .youtube {
+                                Image(systemName: platform.icon)
+                                    .font(.system(size: 10))
+                                    .foregroundColor(.red)
+                            } else {
+                                Image(platform.icon)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 10, height: 10)
+                            }
+                            Text(platform.displayName)
+                                .font(.system(size: 10))
+                                .foregroundColor(.white.opacity(0.9))
+                        }
+                        .shadow(radius: 1)
+                    }
+                    .padding(8)
                 }
             }
-            .padding(Spacing.componentGrouping)
-            .background(
-                Asset.Color.Application.Background.backgroundSecondary.swiftUIColor
-            )
-            .cornerRadius(CornerRadius.medium)
+            .buttonStyle(PlainButtonStyle())
         }
-        .buttonStyle(PlainButtonStyle())
+        .aspectRatio(9/16, contentMode: .fit) // TikTok風の縦長アスペクト比
     }
 }
 
