@@ -60,9 +60,6 @@ struct AccountView: View {
     private func contentView(userInfo: UserInfo) -> some View {
         ScrollView {
             VStack(spacing: Spacing.unrelatedComponentDivider) {
-                // ユーザー統計カード
-                userStatsSection(userInfo: userInfo)
-                
                 // アクティビティカードセクション
                 activityCardsSection()
                 
@@ -102,80 +99,6 @@ struct AccountView: View {
         .padding(Spacing.screenEdgePadding)
     }
     
-    // MARK: - User Stats Section
-    private func userStatsSection(userInfo: UserInfo) -> some View {
-        VStack(alignment: .leading, spacing: Spacing.componentGrouping) {
-            Text("推し活統計")
-                .font(.system(.title2, design: .rounded, weight: .semibold))
-                .foregroundColor(Asset.Color.Application.textPrimary.swiftUIColor)
-            
-            HStack(spacing: Spacing.componentGrouping) {
-                // お気に入り数（モック）
-                statCard(
-                    title: "お気に入り",
-                    value: "12",
-                    subtitle: "クリエイター",
-                    icon: "heart.fill",
-                    color: .pink
-                )
-                
-                // 利用日数（計算）
-                statCard(
-                    title: "利用日数",
-                    value: "\(daysSinceRegistration(userInfo.registrationDate))",
-                    subtitle: "日",
-                    icon: "calendar",
-                    color: Asset.Color.Application.accent.swiftUIColor
-                )
-                
-                // タグ申請数（モック）
-                statCard(
-                    title: "申請済み",
-                    value: "3",
-                    subtitle: "タグ",
-                    icon: "tag.fill",
-                    color: .orange
-                )
-            }
-        }
-    }
-    
-    private func statCard(title: String, value: String, subtitle: String, icon: String, color: Color) -> some View {
-        VStack(spacing: Spacing.relatedComponentDivider) {
-            HStack {
-                Image(systemName: icon)
-                    .font(.system(size: 20))
-                    .foregroundColor(color)
-                
-                Spacer()
-                
-                VStack(alignment: .trailing, spacing: 2) {
-                    Text(value)
-                        .font(.system(.title, design: .rounded, weight: .bold))
-                        .foregroundColor(Asset.Color.Application.textPrimary.swiftUIColor)
-                    
-                    Text(subtitle)
-                        .font(.caption)
-                        .foregroundColor(Asset.Color.Application.textSecondary.swiftUIColor)
-                }
-            }
-            
-            HStack {
-                Text(title)
-                    .font(.system(.subheadline, design: .rounded, weight: .medium))
-                    .foregroundColor(Asset.Color.Application.textSecondary.swiftUIColor)
-                
-                Spacer()
-            }
-        }
-        .padding(Spacing.componentGrouping)
-        .background(
-            RoundedRectangle(cornerRadius: CornerRadius.medium)
-                .fill(Asset.Color.Application.textPrimary.swiftUIColor.opacity(0.02))
-                .stroke(Asset.Color.Application.textSecondary.swiftUIColor.opacity(0.08), lineWidth: 1)
-        )
-        .frame(maxWidth: .infinity)
-    }
     
     // MARK: - Activity Cards Section
     private func activityCardsSection() -> some View {
@@ -334,8 +257,8 @@ struct AccountView: View {
     private func accountInfoRow(icon: String, label: String, value: String) -> some View {
         HStack(alignment: .top, spacing: Spacing.componentGrouping) {
             Image(systemName: icon)
-                .font(.system(size: 18, weight: .medium))
-                .foregroundColor(Asset.Color.Application.accent.swiftUIColor)
+                .font(.system(size: 24, weight: .medium))
+                .foregroundColor(Asset.Color.Application.textSecondary.swiftUIColor)
                 .frame(width: 32, height: 32)
                 .padding(.top, 2)
             
@@ -355,12 +278,6 @@ struct AccountView: View {
         .padding(.horizontal, Spacing.screenEdgePadding)
     }
     
-    // MARK: - Helper Functions
-    private func daysSinceRegistration(_ date: Date) -> Int {
-        let calendar = Calendar.current
-        let days = calendar.dateComponents([.day], from: date, to: Date()).day ?? 0
-        return max(days, 1) // 最低1日
-    }
 }
 
 #Preview {
