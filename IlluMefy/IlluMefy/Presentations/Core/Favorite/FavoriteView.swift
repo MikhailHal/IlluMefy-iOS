@@ -81,33 +81,33 @@ struct FavoriteView: View {
     
     // MARK: - Tab Bar
     private var tabBar: some View {
-        HStack(spacing: 0) {
+        HStack() {
             ForEach(FavoriteTabType.allCases, id: \.self) { tab in
                 Button(action: {
                     viewModel.selectTab(tab)
-                }) {
+                }, label: {
                     VStack(spacing: 4) {
                         Image(systemName: tab.icon)
-                            .font(.system(size: 16, weight: .medium))
-                            .foregroundColor(viewModel.selectedTab == tab ? 
-                                Asset.Color.Application.textPrimary.swiftUIColor : 
+                            .font(.callout.weight(.medium))
+                            .foregroundColor(viewModel.selectedTab == tab ?
+                                Asset.Color.Application.textPrimary.swiftUIColor :
                                 Asset.Color.Application.textSecondary.swiftUIColor.opacity(0.6))
                         
                         Text(tab.displayName)
-                            .font(.system(size: 12, weight: .medium))
-                            .foregroundColor(viewModel.selectedTab == tab ? 
-                                Asset.Color.Application.textPrimary.swiftUIColor : 
+                            .font(.caption.weight(.medium))
+                            .foregroundColor(viewModel.selectedTab == tab ?
+                                Asset.Color.Application.textPrimary.swiftUIColor :
                                 Asset.Color.Application.textSecondary.swiftUIColor.opacity(0.6))
                     }
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 12)
                     .background(
                         Rectangle()
-                            .fill(viewModel.selectedTab == tab ? 
-                                Asset.Color.Application.textPrimary.swiftUIColor.opacity(0.05) : 
+                            .fill(viewModel.selectedTab == tab ?
+                                Asset.Color.Application.textPrimary.swiftUIColor.opacity(0.05) :
                                 Color.clear)
                     )
-                }
+                })
                 .buttonStyle(.plain)
             }
         }
