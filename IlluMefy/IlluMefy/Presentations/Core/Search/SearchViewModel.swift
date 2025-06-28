@@ -84,8 +84,6 @@ final class SearchViewModel: SearchViewModelProtocol {
                     self.searchHistory = history
                 }
             } catch {
-                // 履歴の読み込みエラーは無視（クリティカルではない）
-                print("Failed to load search history: \(error)")
             }
         }
     }
@@ -109,10 +107,8 @@ final class SearchViewModel: SearchViewModelProtocol {
             )
             await MainActor.run {
                 self.allTags = result.tags
-                print("Loaded \(result.tags.count) tags into allTags")
             }
         } catch {
-            print("Failed to load all tags: \(error)")
         }
     }
     
@@ -138,7 +134,6 @@ final class SearchViewModel: SearchViewModelProtocol {
     
     // MARK: - Public Methods
     func search() async {
-        print("search() called with selectedTags: \(selectedTags.map { "\($0.displayName)(\($0.id))" })")
         
         isLoading = true
         state = .searching
@@ -154,7 +149,6 @@ final class SearchViewModel: SearchViewModelProtocol {
         do {
             // 選択されたタグを全て含むクリエイターを検索（AND検索）
             let tagIds = selectedTags.map { $0.id }
-            print("Searching with tagIds: \(tagIds)")
             
             let request = SearchCreatorsByTagsUseCaseRequest(
                 tagIds: tagIds,
@@ -163,7 +157,6 @@ final class SearchViewModel: SearchViewModelProtocol {
                 limit: pageSize
             )
             let result = try await searchCreatorsByTagsUseCase.execute(request: request)
-            print("Search result: \(result.creators.count) creators found, hasMore: \(result.hasMore), totalCount: \(result.totalCount)")
             
             // 検索履歴に保存
             let searchQuery = buildSearchQueryForHistory()
@@ -177,10 +170,8 @@ final class SearchViewModel: SearchViewModelProtocol {
             totalCount = result.totalCount
             
             if result.creators.isEmpty {
-                print("No creators found, setting state to .empty")
                 state = .empty
             } else {
-                print("Found creators, setting state to .loadedCreators")
                 state = .loadedCreators(result.creators)
             }
         } catch let error as SearchCreatorsByTagsUseCaseError {
@@ -299,8 +290,6 @@ final class SearchViewModel: SearchViewModelProtocol {
         // テキストと候補をクリア
         searchText = ""
         suggestions = []
-        
-        // Combineのバインディングに任せる（手動でsearch()を呼ばない）
     }
     
     func addSelectedTag() {
@@ -326,9 +315,6 @@ final class SearchViewModel: SearchViewModelProtocol {
     
     func removeTag(_ tag: Tag) {
         selectedTags.removeAll { $0.id == tag.id }
-        
-        // タグ削除後は、Combineのバインディングが自動的に実行される
-        // 手動でsearch()を呼ぶ必要なし
     }
     
     func clearAllTags() {
@@ -345,7 +331,6 @@ final class SearchViewModel: SearchViewModelProtocol {
             try await saveSearchHistoryUseCase.execute(query: query)
             loadSearchHistory()
         } catch {
-            print("Failed to delete from history: \(error)")
         }
     }
     
@@ -354,21 +339,14 @@ final class SearchViewModel: SearchViewModelProtocol {
             try await clearSearchHistoryUseCase.execute()
             loadSearchHistory()
         } catch {
-            print("Failed to clear search history: \(error)")
         }
     }
     
     func searchWithTag(_ tag: Tag) {
-        print("searchWithTag called with tag: \(tag.displayName) (id: \(tag.id))")
-        print("allTags count: \(allTags.count)")
-        
-        // allTagsが読み込まれていない場合は先に読み込む
         if allTags.isEmpty {
-            print("allTags is empty, loading tags first...")
             Task {
                 await loadAllTagsAsync()
                 await MainActor.run {
-                    print("Tags loaded, retrying searchWithTag...")
                     self.searchWithTag(tag)
                 }
             }
@@ -376,13 +354,8 @@ final class SearchViewModel: SearchViewModelProtocol {
         }
         
         // 既存のタグをクリアして新しいタグを設定
-        selectedTags = [tag]
+        selectedTags.append(tag)
         searchText = ""
         suggestions = []
-        
-        print("selectedTags after setting: \(selectedTags.map { "\($0.displayName)(\($0.id))" })")
-        print("About to execute search with tag: \(tag.displayName)")
-        
-        // Combineのバインディングに任せる（手動でsearch()を呼ばない）
     }
 }
