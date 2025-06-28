@@ -226,20 +226,18 @@ struct SettingView: View {
                         ProgressView()
                             .scaleEffect(0.8)
                             .tint(.red)
-                            .frame(width: 32, height: 32)
+                            .frame(width: 24, height: 24)
                     } else {
                         Image(systemName: "rectangle.portrait.and.arrow.right")
-                            .font(.system(size: 24, weight: .medium))
+                            .font(.system(size: 20, weight: .medium))
                             .foregroundColor(.red)
-                            .frame(width: 32, height: 32)
                     }
                     
                     Text(viewModel.isLoggingOut ? L10n.Settings.loggingOut : L10n.Settings.logout)
                         .font(.system(.title3, design: .default, weight: .medium))
                         .foregroundColor(.red)
-                    
-                    Spacer()
                 }
+                .frame(maxWidth: .infinity)
                 .padding(.vertical, 24)
                 .padding(.horizontal, Spacing.screenEdgePadding)
             })
