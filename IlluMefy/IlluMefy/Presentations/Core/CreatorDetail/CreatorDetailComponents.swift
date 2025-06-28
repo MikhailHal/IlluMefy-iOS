@@ -139,11 +139,11 @@ struct TagChip: View {
                     let impactFeedback = UIImpactFeedbackGenerator(style: .light)
                     impactFeedback.impactOccurred()
                     onDelete()
-                }) {
+                }, label: {
                     Image(systemName: "xmark.circle.fill")
                         .font(.system(size: Typography.captionSmall))
                         .foregroundColor(.red)
-                }
+                })
             }
         }
         .padding(.horizontal, Spacing.relatedComponentDivider)
@@ -180,7 +180,7 @@ struct InfoCorrectionButton: View {
             let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
             impactFeedback.impactOccurred()
             action()
-        }) {
+        }, label: {
             HStack(spacing: 12) {
                 Image(systemName: icon)
                     .font(.system(size: Typography.iconMedium))
@@ -216,12 +216,12 @@ struct InfoCorrectionButton: View {
             )
             .scaleEffect(isPressed ? Effects.scalePressedLight : Effects.visibleOpacity)
             .animation(.easeInOut(duration: AnimationDuration.buttonPress), value: isPressed)
-        }
-        .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity) { pressing in
+        })
+        .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity, pressing: { pressing in
             withAnimation(.easeInOut(duration: AnimationDuration.buttonPress)) {
                 isPressed = pressing
             }
-        } perform: {}
+        }, perform: {})
     }
 }
 

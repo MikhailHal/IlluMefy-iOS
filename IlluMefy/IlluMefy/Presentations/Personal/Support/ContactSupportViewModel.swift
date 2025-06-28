@@ -24,7 +24,7 @@ class ContactSupportViewModel: ObservableObject {
     
     // MARK: - Computed Properties
     var isFormValid: Bool {
-        guard let _ = selectedType,
+        guard selectedType != nil,
               !reason.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
             return false
         }
@@ -80,7 +80,7 @@ class ContactSupportViewModel: ObservableObject {
             }
             
             // お問い合わせを送信
-            let _ = try await submitContactSupportUseCase.execute(
+            _ = try await submitContactSupportUseCase.execute(
                 type: selectedType,
                 content: reason,
                 userId: currentUser.uid

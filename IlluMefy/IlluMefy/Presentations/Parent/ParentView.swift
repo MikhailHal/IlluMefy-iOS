@@ -72,7 +72,7 @@ struct ParentView: View {
         }
         
         // Firebase Authの現在のユーザーをチェック
-        if let _ = Auth.auth().currentUser {
+        if Auth.auth().currentUser != nil {
             // ユーザーが存在する場合は認証済みとみなす
             isAuthenticated = true
         } else {
@@ -94,7 +94,7 @@ struct ParentView: View {
           // Firebase Authの状態変更リスナーを設定
           authStateHandle = Auth.auth().addStateDidChangeListener { _, user in
               DispatchQueue.main.async {
-                  if let _ = user {
+                  if user != nil {
                       isAuthenticated = true
                   } else {
                       isAuthenticated = false

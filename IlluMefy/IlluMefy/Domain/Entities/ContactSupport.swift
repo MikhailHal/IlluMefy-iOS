@@ -89,10 +89,10 @@ enum ContactSupportType: String, CaseIterable, Codable {
 
 // MARK: - ContactSupportStatus
 enum ContactSupportStatus: String, CaseIterable, Codable {
-    case pending = "pending"
-    case reviewing = "reviewing"
-    case resolved = "resolved"
-    case closed = "closed"
+    case pending
+    case reviewing
+    case resolved
+    case closed
     
     var displayName: String {
         switch self {
@@ -113,12 +113,6 @@ struct ContactSupportRequest: Codable {
     let type: ContactSupportType
     let content: String
     let userId: String
-    
-    init(type: ContactSupportType, content: String, userId: String) {
-        self.type = type
-        self.content = content
-        self.userId = userId
-    }
 }
 
 // MARK: - ContactSupportError

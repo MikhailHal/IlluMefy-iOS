@@ -195,7 +195,6 @@ struct ContactSupportView: View {
     }
 }
 
-
 #Preview {
     ContactSupportView()
 }

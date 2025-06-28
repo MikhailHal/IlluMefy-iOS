@@ -25,30 +25,21 @@ final class AccountViewModel: AccountViewModelProtocol {
     
     func loadUserInfo() async {
         state = .loading
-        
-        do {
-            guard let currentUser = Auth.auth().currentUser else {
-                state = .error(
-                    title: L10n.authenticationRequired,
-                    message: L10n.pleaseLoginAgain
-                )
-                return
-            }
-            
-            let userInfo = UserInfo(
-                phoneNumber: currentUser.phoneNumber ?? L10n.unknown,
-                registrationDate: currentUser.metadata.creationDate ?? Date(),
-                userId: currentUser.uid
-            )
-            
-            state = .loaded(userInfo: userInfo)
-            
-        } catch {
+        guard let currentUser = Auth.auth().currentUser else {
             state = .error(
-                title: L10n.loadingFailed,
-                message: L10n.tryAgainLater
+                title: L10n.authenticationRequired,
+                message: L10n.pleaseLoginAgain
             )
+            return
         }
+        
+        let userInfo = UserInfo(
+            phoneNumber: currentUser.phoneNumber ?? L10n.unknown,
+            registrationDate: currentUser.metadata.creationDate ?? Date(),
+            userId: currentUser.uid
+        )
+        
+        state = .loaded(userInfo: userInfo)
     }
     
     func navigateToFavorites() {

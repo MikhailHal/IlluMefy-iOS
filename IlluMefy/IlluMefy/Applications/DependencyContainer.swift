@@ -420,7 +420,7 @@ final class DependencyContainer: @unchecked Sendable {
         }.inObjectScope(.transient)
         
         // Account screen
-        container.register(AccountViewModel.self) { resolver in
+        container.register(AccountViewModel.self) { _ in
             return MainActor.assumeIsolated {
                 return AccountViewModel()
             }

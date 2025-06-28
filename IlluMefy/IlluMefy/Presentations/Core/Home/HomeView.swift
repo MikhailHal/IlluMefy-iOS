@@ -199,7 +199,7 @@ struct FeaturedCreatorView: View {
                         let impactFeedback = UIImpactFeedbackGenerator(style: .heavy)
                         impactFeedback.impactOccurred()
                         router.navigate(to: .creatorDetail(creatorId: creator.id))
-                    }) {
+                    }, label: {
                         HStack(spacing: Spacing.relatedComponentDivider) {
                             Image(systemName: "play.fill")
                                 .font(.system(size: Typography.bodyRegular, weight: .bold))
@@ -211,7 +211,7 @@ struct FeaturedCreatorView: View {
                         .padding(.vertical, Spacing.componentGrouping)
                         .background(.white)
                         .cornerRadius(CornerRadius.button)
-                    }
+                    })
                 }
             }
             .padding(Spacing.screenEdgePadding)

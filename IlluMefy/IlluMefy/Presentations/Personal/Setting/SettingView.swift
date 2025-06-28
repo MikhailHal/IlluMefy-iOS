@@ -220,7 +220,7 @@ struct SettingView: View {
                 Task {
                     await viewModel.logout()
                 }
-            }) {
+            }, label: {
                 HStack(spacing: Spacing.componentGrouping) {
                     if viewModel.isLoggingOut {
                         ProgressView()
@@ -242,7 +242,7 @@ struct SettingView: View {
                 }
                 .padding(.vertical, 24)
                 .padding(.horizontal, Spacing.screenEdgePadding)
-            }
+            })
             .buttonStyle(.plain)
             .disabled(viewModel.isLoggingOut)
         }
