@@ -71,10 +71,9 @@ struct PhoneVerificationView: View {
         .alert(L10n.Common.Dialog.Title.success, isPresented: $viewModel.isShowNotificationDialog) {
             Button("OK") {
                 viewModel.isShowNotificationDialog = false
-                // ルートに戻って認証状態を再チェックさせる
+                // 認証が完了したので直接ホーム画面に遷移
                 router.navigateToRoot()
-                // ParentViewの認証状態を更新
-                NotificationCenter.default.post(name: NSNotification.Name("AuthenticationStatusChanged"), object: nil)
+                // ホーム画面へ遷移（Firebase Authの状態変更リスナーが自動的に処理）
             }
         } message: {
             Text(viewModel.notificationDialogMessage)

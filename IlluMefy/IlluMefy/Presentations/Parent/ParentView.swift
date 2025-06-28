@@ -14,6 +14,7 @@ struct ParentView: View {
     @EnvironmentObject var router: IlluMefyAppRouter
     @State private var isCheckingAuth = true
     @State private var isAuthenticated = false
+    @State private var authStateHandle: AuthStateDidChangeListenerHandle?
     
     var body: some View {
         ZStack {
@@ -56,7 +57,12 @@ struct ParentView: View {
             }
         }
         .onAppear {
-            checkAuthenticationStatus()
+            setupAuthStateListener()
+        }
+        .onDisappear {
+            if let handle = authStateHandle {
+                Auth.auth().removeStateDidChangeListener(handle)
+            }
         }
         .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("AuthenticationStatusChanged"))) { _ in
             checkAuthenticationStatus()
@@ -78,8 +84,33 @@ struct ParentView: View {
             isAuthenticated = true
             print("User already authenticated: \(currentUser.uid)")
         } else {
+            print("No authenticated user found")
             isAuthenticated = false
         }
         isCheckingAuth = false
+    }
+    
+    private func setupAuthStateListener() {
+        // テスト環境またはプレビュー環境では認証リスナーをスキップ
+        guard ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil &&
+              ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] != "1" else {
+            isAuthenticated = false
+            isCheckingAuth = false
+            return
+        }
+        
+        // Firebase Authの状態変更リスナーを設定
+        authStateHandle = Auth.auth().addStateDidChangeListener { auth, user in
+            DispatchQueue.main.async {
+                if let user = user {
+                    print("Auth state changed - User authenticated: \(user.uid)")
+                    isAuthenticated = true
+                } else {
+                    print("Auth state changed - User not authenticated")
+                    isAuthenticated = false
+                }
+                isCheckingAuth = false
+            }
+        }
     }
 }
