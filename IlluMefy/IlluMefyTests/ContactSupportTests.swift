@@ -38,19 +38,25 @@ class ContactSupportTests: QuickSpec {
                 it("すべてのタイプが正しい表示名を持つ") {
                     expect(ContactSupportType.bugReport.displayName).to(equal("不具合の報告"))
                     expect(ContactSupportType.featureRequest.displayName).to(equal("機能追加の要望"))
+                    expect(ContactSupportType.usageQuestion.displayName).to(equal("使い方に関する質問"))
+                    expect(ContactSupportType.accountIssue.displayName).to(equal("アカウントの問題"))
                     expect(ContactSupportType.other.displayName).to(equal("その他"))
                 }
                 
                 it("すべてのタイプが正しいアイコンを持つ") {
                     expect(ContactSupportType.bugReport.icon).to(equal("exclamationmark.triangle.fill"))
                     expect(ContactSupportType.featureRequest.icon).to(equal("lightbulb.fill"))
+                    expect(ContactSupportType.usageQuestion.icon).to(equal("questionmark.circle.fill"))
+                    expect(ContactSupportType.accountIssue.icon).to(equal("person.crop.circle.badge.exclamationmark"))
                     expect(ContactSupportType.other.icon).to(equal("ellipsis.circle.fill"))
                 }
                 
                 it("すべてのタイプが正しいプレースホルダーを持つ") {
-                    expect(ContactSupportType.bugReport.placeholder).to(contain("不具合"))
+                    expect(ContactSupportType.bugReport.placeholder).to(contain("問題"))
                     expect(ContactSupportType.featureRequest.placeholder).to(contain("機能"))
-                    expect(ContactSupportType.other.placeholder).to(contain("詳細"))
+                    expect(ContactSupportType.usageQuestion.placeholder).to(contain("操作"))
+                    expect(ContactSupportType.accountIssue.placeholder).to(contain("アカウント"))
+                    expect(ContactSupportType.other.placeholder).to(contain("お問い合わせ"))
                 }
             }
             
@@ -66,6 +72,7 @@ class ContactSupportTests: QuickSpec {
         describe("ContactSupportError") {
             it("エラーが正しいローカライズされた説明を持つ") {
                 expect(ContactSupportError.invalidInput.localizedDescription).to(equal("入力内容が無効です"))
+                expect(ContactSupportError.invalidContent.localizedDescription).to(equal("お問い合わせ内容が不正です"))
                 expect(ContactSupportError.networkError.localizedDescription).to(equal("ネットワークエラーが発生しました"))
                 expect(ContactSupportError.unauthorized.localizedDescription).to(equal("認証が必要です"))
                 expect(ContactSupportError.serverError.localizedDescription).to(equal("サーバーエラーが発生しました"))
@@ -89,12 +96,12 @@ class ContactSupportTests: QuickSpec {
                             do {
                                 let result = try await useCase.execute(
                                     type: .bugReport,
-                                    content: "テストコンテンツ",
+                                    content: "テストコンテンツで10文字以上の内容です",
                                     userId: "user-123"
                                 )
                                 
                                 expect(result.type).to(equal(.bugReport))
-                                expect(result.content).to(equal("テストコンテンツ"))
+                                expect(result.content).to(equal("テストコンテンツで10文字以上の内容です"))
                                 expect(result.userId).to(equal("user-123"))
                                 expect(result.status).to(equal(.pending))
                                 expect(mockRepository.submittedSupport).toNot(beNil())
@@ -131,7 +138,7 @@ class ContactSupportTests: QuickSpec {
                     }
                 }
                 
-                it("空のコンテンツでinvalidInputエラーが発生する") {
+                it("空のコンテンツでinvalidContentエラーが発生する") {
                     waitUntil { done in
                         Task {
                             do {
@@ -143,7 +150,7 @@ class ContactSupportTests: QuickSpec {
                                 fail("エラーが発生するべきです")
                                 done()
                             } catch let error as ContactSupportError {
-                                expect(error).to(equal(.invalidInput))
+                                expect(error).to(equal(.invalidContent))
                                 done()
                             } catch {
                                 fail("予期しないエラー: \(error)")
@@ -153,7 +160,7 @@ class ContactSupportTests: QuickSpec {
                     }
                 }
                 
-                it("500文字を超えるコンテンツでinvalidInputエラーが発生する") {
+                it("500文字を超えるコンテンツでinvalidContentエラーが発生する") {
                     let longContent = String(repeating: "a", count: 501)
                     waitUntil { done in
                         Task {
@@ -166,7 +173,29 @@ class ContactSupportTests: QuickSpec {
                                 fail("エラーが発生するべきです")
                                 done()
                             } catch let error as ContactSupportError {
-                                expect(error).to(equal(.invalidInput))
+                                expect(error).to(equal(.invalidContent))
+                                done()
+                            } catch {
+                                fail("予期しないエラー: \(error)")
+                                done()
+                            }
+                        }
+                    }
+                }
+                
+                it("10文字未満のコンテンツでinvalidContentエラーが発生する") {
+                    waitUntil { done in
+                        Task {
+                            do {
+                                let _ = try await useCase.execute(
+                                    type: .bugReport,
+                                    content: "短い",
+                                    userId: "user-123"
+                                )
+                                fail("エラーが発生するべきです")
+                                done()
+                            } catch let error as ContactSupportError {
+                                expect(error).to(equal(.invalidContent))
                                 done()
                             } catch {
                                 fail("予期しないエラー: \(error)")
@@ -251,7 +280,7 @@ private class MockContactSupportRepository: ContactSupportRepositoryProtocol {
             ContactSupport(
                 id: "1",
                 type: .bugReport,
-                content: "テスト1",
+                content: "テストコンテンツ1で10文字以上の内容です",
                 submittedAt: Date().addingTimeInterval(-3600),
                 status: .pending,
                 userId: userId
@@ -259,7 +288,7 @@ private class MockContactSupportRepository: ContactSupportRepositoryProtocol {
             ContactSupport(
                 id: "2",
                 type: .featureRequest,
-                content: "テスト2",
+                content: "テストコンテンツ2で10文字以上の内容です",
                 submittedAt: Date().addingTimeInterval(-7200),
                 status: .resolved,
                 userId: userId
@@ -271,7 +300,7 @@ private class MockContactSupportRepository: ContactSupportRepositoryProtocol {
         return ContactSupport(
             id: id,
             type: .bugReport,
-            content: "テストコンテンツ",
+            content: "テストコンテンツで10文字以上の内容です",
             submittedAt: Date(),
             status: .pending,
             userId: "user-123"
