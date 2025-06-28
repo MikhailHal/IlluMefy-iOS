@@ -71,7 +71,10 @@ struct PhoneVerificationView: View {
         .alert(L10n.Common.Dialog.Title.success, isPresented: $viewModel.isShowNotificationDialog) {
             Button("OK") {
                 viewModel.isShowNotificationDialog = false
-                router.navigate(to: .groupList)
+                // ルートに戻って認証状態を再チェックさせる
+                router.navigateToRoot()
+                // ParentViewの認証状態を更新
+                NotificationCenter.default.post(name: NSNotification.Name("AuthenticationStatusChanged"), object: nil)
             }
         } message: {
             Text(viewModel.notificationDialogMessage)
