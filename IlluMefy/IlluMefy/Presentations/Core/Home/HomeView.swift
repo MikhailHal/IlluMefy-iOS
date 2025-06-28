@@ -234,16 +234,16 @@ struct CreatorCard: View {
             AsyncImage(url: URL(string: creator.thumbnailUrl)) { image in
                 image
                     .resizable()
-                    .aspectRatio(16/9, contentMode: .fill)
+                    .aspectRatio(contentMode: .fill)
             } placeholder: {
                 Rectangle()
                     .fill(Asset.Color.CreatorCard.creatorCardBackground.swiftUIColor)
-                    .aspectRatio(16/9, contentMode: .fit)
                     .overlay(
                         ProgressView()
                             .tint(Asset.Color.CreatorCard.creatorCardTitle.swiftUIColor)
                     )
             }
+            .frame(height: Size.creatorCardHeight * 0.7)
             .clipped()
             
             // Info section
@@ -277,7 +277,9 @@ struct CreatorCard: View {
             .padding(Spacing.componentGrouping)
             .background(Asset.Color.CreatorCard.creatorCardBackground.swiftUIColor)
         }
-        .frame(width: 200)
+        .frame(width: Size.creatorCardWidth,
+               height: Size.creatorCardHeight
+        )
         .cornerRadius(CornerRadius.button)
         .overlay(
             RoundedRectangle(cornerRadius: CornerRadius.button)

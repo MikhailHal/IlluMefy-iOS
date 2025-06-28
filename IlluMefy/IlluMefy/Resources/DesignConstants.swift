@@ -83,6 +83,10 @@ enum Size {
     static let similarCreatorImageSize: CGFloat = 80
     static let similarCreatorCardWidth: CGFloat = 100
     
+    // Creator card sizes (Home screen horizontal scroll)
+    static let creatorCardWidth: CGFloat = 150
+    static let creatorCardHeight: CGFloat = 200
+    
     // Platform icon overlay
     static let platformOverlayWidth: CGFloat = 50
     static let platformOverlayHeight: CGFloat = 35
