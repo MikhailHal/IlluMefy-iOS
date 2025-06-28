@@ -320,6 +320,24 @@ final class DependencyContainer: @unchecked Sendable {
             resolver.resolve(LogoutUseCase.self)!
         }.inObjectScope(.transient)
         
+        // DeleteAccount usecase
+        container.register(DeleteAccountUseCase.self) { resolver in
+            let authRepository = resolver.resolve(AuthRepositoryProtocol.self)!
+            let favoriteRepository = resolver.resolve(FavoriteRepositoryProtocol.self)!
+            let userPreferencesRepository = resolver.resolve(UserPreferencesRepositoryProtocol.self)!
+            return MainActor.assumeIsolated {
+                return DeleteAccountUseCase(
+                    authRepository: authRepository,
+                    favoriteRepository: favoriteRepository,
+                    userPreferencesRepository: userPreferencesRepository
+                )
+            }
+        }.inObjectScope(.transient)
+        
+        container.register((any DeleteAccountUseCaseProtocol).self) { resolver in
+            resolver.resolve(DeleteAccountUseCase.self)!
+        }.inObjectScope(.transient)
+        
     }
     ///
     /// register all view-models
@@ -420,9 +438,10 @@ final class DependencyContainer: @unchecked Sendable {
         }.inObjectScope(.transient)
         
         // Account screen
-        container.register(AccountViewModel.self) { _ in
+        container.register(AccountViewModel.self) { resolver in
+            let deleteAccountUseCase = resolver.resolve((any DeleteAccountUseCaseProtocol).self)!
             return MainActor.assumeIsolated {
-                return AccountViewModel()
+                return AccountViewModel(deleteAccountUseCase: deleteAccountUseCase)
             }
         }.inObjectScope(.transient)
         

@@ -9,8 +9,10 @@ import SwiftUI
 
 struct SettingView: View {
     @StateObject private var viewModel = DependencyContainer.shared.resolve(SettingViewModel.self)!
+    @StateObject private var accountViewModel = DependencyContainer.shared.resolve(AccountViewModel.self)!
     @EnvironmentObject private var router: IlluMefyAppRouter
     @State private var showingComingSoonAlert = false
+    @State private var showingDeleteConfirmation = false
     
     var body: some View {
         NavigationView {
@@ -41,9 +43,27 @@ struct SettingView: View {
             } message: {
                 Text(L10n.comingSoonMessage)
             }
+            .alert("アカウント削除の確認", isPresented: $showingDeleteConfirmation) {
+                Button("キャンセル", role: .cancel) { }
+                Button("削除", role: .destructive) {
+                    Task {
+                        await accountViewModel.deleteAccount()
+                    }
+                }
+            } message: {
+                Text("このアカウントを削除すると、すべてのデータが失われ、元に戻すことはできません。本当に削除しますか？")
+            }
             .onChange(of: viewModel.logoutSuccess) { _, success in
                 if success {
                     // ログアウト成功時にルートに戻って認証状態をリセット
+                    router.navigateToRoot()
+                    // ParentViewの再評価を促すためのステップ
+                    NotificationCenter.default.post(name: NSNotification.Name("AuthenticationStatusChanged"), object: nil)
+                }
+            }
+            .onChange(of: accountViewModel.deleteAccountSuccess) { _, success in
+                if success {
+                    // アカウント削除成功時にルートに戻って認証状態をリセット
                     router.navigateToRoot()
                     // ParentViewの再評価を促すためのステップ
                     NotificationCenter.default.post(name: NSNotification.Name("AuthenticationStatusChanged"), object: nil)
@@ -76,6 +96,9 @@ struct SettingView: View {
                 
                 // 設定項目リスト
                 settingsListView()
+                
+                // 危険な操作セクション
+                accountDeletionSection()
             }
             .padding(.horizontal, Spacing.screenEdgePadding)
             .padding(.top, Spacing.componentGrouping)
@@ -292,6 +315,60 @@ struct SettingView: View {
         Divider()
             .background(Asset.Color.Application.textSecondary.swiftUIColor.opacity(0.15))
             .padding(.leading, Spacing.screenEdgePadding + 32 + Spacing.componentGrouping)
+    }
+    
+    // MARK: - Account Deletion Section
+    private func accountDeletionSection() -> some View {
+        VStack(alignment: .leading, spacing: Spacing.componentGrouping) {
+            Text("危険な操作")
+                .font(.system(.title2, design: .rounded, weight: .semibold))
+                .foregroundColor(Asset.Color.Application.textPrimary.swiftUIColor)
+            
+            Button(action: {
+                showingDeleteConfirmation = true
+            }, label: {
+                HStack(spacing: Spacing.componentGrouping) {
+                    Image(systemName: "trash")
+                        .font(.system(size: 24, weight: .medium))
+                        .foregroundColor(.red)
+                        .frame(width: 32, height: 32)
+                    
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("アカウントを削除")
+                            .font(.system(.title3, design: .default, weight: .medium))
+                            .foregroundColor(.red)
+                            .multilineTextAlignment(.leading)
+                        
+                        Text("すべてのデータが永久に削除されます")
+                            .font(.system(.subheadline, design: .default, weight: .regular))
+                            .foregroundColor(Asset.Color.Application.textSecondary.swiftUIColor)
+                            .multilineTextAlignment(.leading)
+                    }
+                    
+                    Spacer()
+                    
+                    if accountViewModel.isDeletingAccount {
+                        ProgressView()
+                            .scaleEffect(0.8)
+                            .tint(.red)
+                    } else {
+                        Image(systemName: "chevron.right")
+                            .font(.system(size: 16, weight: .medium))
+                            .foregroundColor(Asset.Color.Application.textSecondary.swiftUIColor.opacity(0.6))
+                    }
+                }
+                .padding(.vertical, 24)
+                .padding(.horizontal, Spacing.screenEdgePadding)
+                .background(
+                    RoundedRectangle(cornerRadius: CornerRadius.medium)
+                        .fill(Asset.Color.Application.textPrimary.swiftUIColor.opacity(0.02))
+                        .stroke(.red.opacity(0.2), lineWidth: 1)
+                )
+                .contentShape(Rectangle())
+            })
+            .buttonStyle(.plain)
+            .disabled(accountViewModel.isDeletingAccount)
+        }
     }
 }
 

@@ -99,7 +99,6 @@ struct AccountView: View {
         .padding(Spacing.screenEdgePadding)
     }
     
-    
     // MARK: - Activity Cards Section
     private func activityCardsSection() -> some View {
         VStack(alignment: .leading, spacing: Spacing.componentGrouping) {

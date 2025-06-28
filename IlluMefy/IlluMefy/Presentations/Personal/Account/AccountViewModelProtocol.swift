@@ -47,11 +47,17 @@ protocol AccountViewModelProtocol: ObservableObject {
     /// 画面の状態
     var state: AccountViewState { get }
     
+    /// アカウント削除処理中かどうか
+    var isDeletingAccount: Bool { get }
+    
+    /// アカウント削除が成功したかどうか
+    var deleteAccountSuccess: Bool { get }
+    
     /// ユーザー情報を読み込む
     func loadUserInfo() async
     
-    /// お気に入り画面への遷移
-    func navigateToFavorites()
+    /// アカウント削除
+    func deleteAccount() async
     
     /// アプリ情報画面への遷移
     func navigateToAppInfo()

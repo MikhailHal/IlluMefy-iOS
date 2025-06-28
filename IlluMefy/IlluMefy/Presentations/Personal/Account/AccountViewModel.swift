@@ -15,10 +15,15 @@ final class AccountViewModel: AccountViewModelProtocol {
     
     // MARK: - Published Properties
     @Published var state: AccountViewState = .idle
+    @Published var isDeletingAccount = false
+    @Published var deleteAccountSuccess = false
+    
+    // MARK: - Private Properties
+    private let deleteAccountUseCase: DeleteAccountUseCaseProtocol
     
     // MARK: - Initialization
-    init() {
-        // RouterはEnvironmentObjectで管理されるため、ここでは不要
+    init(deleteAccountUseCase: DeleteAccountUseCaseProtocol) {
+        self.deleteAccountUseCase = deleteAccountUseCase
     }
     
     // MARK: - AccountViewModelProtocol
@@ -42,10 +47,22 @@ final class AccountViewModel: AccountViewModelProtocol {
         state = .loaded(userInfo: userInfo)
     }
     
-    func navigateToFavorites() {
-        // タブ切り替えは親のHomeBaseViewで処理されるため、
-        // ここでは特別な処理は不要（タップ自体でタブが切り替わる）
-        print("お気に入り画面への遷移")
+    func deleteAccount() async {
+        isDeletingAccount = true
+        
+        do {
+            _ = try await deleteAccountUseCase.execute()
+            deleteAccountSuccess = true
+        } catch let error as DeleteAccountUseCaseError {
+            state = .error(title: error.title, message: error.message)
+        } catch {
+            state = .error(
+                title: L10n.Common.Dialog.Title.error,
+                message: L10n.tryAgainLater
+            )
+        }
+        
+        isDeletingAccount = false
     }
     
     func navigateToAppInfo() {
@@ -62,6 +79,5 @@ final class AccountViewModel: AccountViewModelProtocol {
     
     func showComingSoonAlert() {
         // TODO: アラート表示の実装
-        print("準備中の機能です")
     }
 }

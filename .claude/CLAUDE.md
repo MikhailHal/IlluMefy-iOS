@@ -206,3 +206,12 @@ IlluMefy is a creator discovery iOS app built with SwiftUI and Clean Architectur
 3. **プロジェクト固有制約の適用** - ハードコーディング禁止、SwiftGen使用等
 
 この手順により、会話圧縮後も一貫した品質とルール遵守を保証する。
+
+## App Store Release Readiness
+**CRITICAL**: Always check `.claude/APP_STORE_COMPLIANCE.md` for App Store approval requirements before making major changes.
+
+### 📱 Release Status Documents
+- **APP_STORE_COMPLIANCE.md** - App Store承認基準とリジェクト回避のための必須修正項目
+- **AUTHENTICATION_COMPLIANCE.md** - 認証方式のApp Store要件適合性分析
+
+これらの文書は App Store 提出前の最終チェックと開発優先度決定に使用する。
