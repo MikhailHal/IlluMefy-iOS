@@ -21,6 +21,12 @@ protocol SettingViewModelProtocol: ObservableObject {
     /// 画面の状態
     var state: SettingViewState { get }
     
+    /// ログアウト処理中かどうか
+    var isLoggingOut: Bool { get }
+    
+    /// ログアウト成功フラグ
+    var logoutSuccess: Bool { get }
+    
     /// 運営メッセージを読み込む
     func loadOperatorMessage() async
     
@@ -38,4 +44,7 @@ protocol SettingViewModelProtocol: ObservableObject {
     
     /// 準備中機能のアラート表示
     func showComingSoonAlert()
+    
+    /// ログアウト処理
+    func logout() async
 }

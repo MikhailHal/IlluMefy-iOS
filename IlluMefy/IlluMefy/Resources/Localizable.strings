@@ -298,4 +298,7 @@
 "common.viewCount" = "%d 回視聴";
 "common.viewCountThousand" = "%@K 回視聴";
 "common.viewCountMillion" = "%@M 回視聴";
- 
+
+/* Settings */
+"settings.logout" = "ログアウト";
+"settings.loggingOut" = "ログアウト中...";

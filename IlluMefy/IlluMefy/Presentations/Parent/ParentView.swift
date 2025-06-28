@@ -58,6 +58,9 @@ struct ParentView: View {
         .onAppear {
             checkAuthenticationStatus()
         }
+        .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("AuthenticationStatusChanged"))) { _ in
+            checkAuthenticationStatus()
+        }
     }
     
     private func checkAuthenticationStatus() {

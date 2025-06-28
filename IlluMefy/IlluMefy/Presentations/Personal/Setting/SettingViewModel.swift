@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import FirebaseAuth
 
 /// 設定画面のViewModel
 @MainActor
@@ -14,13 +15,17 @@ final class SettingViewModel: SettingViewModelProtocol {
     
     // MARK: - Published Properties
     @Published var state: SettingViewState = .idle
+    @Published var isLoggingOut: Bool = false
+    @Published var logoutSuccess: Bool = false
     
     // MARK: - Use Cases
     private let getOperatorMessageUseCase: GetOperatorMessageUseCaseProtocol
+    private let logoutUseCase: LogoutUseCaseProtocol
     
     // MARK: - Initialization
-    init(getOperatorMessageUseCase: GetOperatorMessageUseCaseProtocol) {
+    init(getOperatorMessageUseCase: GetOperatorMessageUseCaseProtocol, logoutUseCase: LogoutUseCaseProtocol) {
         self.getOperatorMessageUseCase = getOperatorMessageUseCase
+        self.logoutUseCase = logoutUseCase
     }
     
     // MARK: - SettingViewModelProtocol
@@ -56,5 +61,19 @@ final class SettingViewModel: SettingViewModelProtocol {
     func showComingSoonAlert() {
         // アラート表示は親Viewで処理
         print("準備中の機能です")
+    }
+    
+    func logout() async {
+        isLoggingOut = true
+        
+        do {
+            try await logoutUseCase.execute()
+            logoutSuccess = true
+        } catch {
+            // エラーハンドリング - 現在はコンソール出力のみ
+            print("ログアウトエラー: \(error.localizedDescription)")
+        }
+        
+        isLoggingOut = false
     }
 }

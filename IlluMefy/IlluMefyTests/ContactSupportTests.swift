@@ -20,9 +20,9 @@ class ContactSupportTests: QuickSpec {
                         id: "test-id",
                         type: .bugReport,
                         content: "テストコンテンツ",
-                        userId: "user-123",
                         submittedAt: date,
-                        status: .pending
+                        status: .pending,
+                        userId: "user-123"
                     )
                     
                     expect(support.id).to(equal("test-id"))
@@ -36,15 +36,15 @@ class ContactSupportTests: QuickSpec {
             
             context("ContactSupportType") {
                 it("すべてのタイプが正しい表示名を持つ") {
-                    expect(ContactSupportType.bugReport.displayName).to(equal("不具合報告"))
-                    expect(ContactSupportType.featureRequest.displayName).to(equal("機能追加依頼"))
+                    expect(ContactSupportType.bugReport.displayName).to(equal("不具合の報告"))
+                    expect(ContactSupportType.featureRequest.displayName).to(equal("機能追加の要望"))
                     expect(ContactSupportType.other.displayName).to(equal("その他"))
                 }
                 
                 it("すべてのタイプが正しいアイコンを持つ") {
-                    expect(ContactSupportType.bugReport.icon).to(equal("exclamationmark.triangle"))
-                    expect(ContactSupportType.featureRequest.icon).to(equal("lightbulb"))
-                    expect(ContactSupportType.other.icon).to(equal("questionmark.circle"))
+                    expect(ContactSupportType.bugReport.icon).to(equal("exclamationmark.triangle.fill"))
+                    expect(ContactSupportType.featureRequest.icon).to(equal("lightbulb.fill"))
+                    expect(ContactSupportType.other.icon).to(equal("ellipsis.circle.fill"))
                 }
                 
                 it("すべてのタイプが正しいプレースホルダーを持つ") {
@@ -56,8 +56,8 @@ class ContactSupportTests: QuickSpec {
             
             context("ContactSupportStatus") {
                 it("すべてのステータスが正しい表示名を持つ") {
-                    expect(ContactSupportStatus.pending.displayName).to(equal("受付中"))
-                    expect(ContactSupportStatus.inProgress.displayName).to(equal("対応中"))
+                    expect(ContactSupportStatus.pending.displayName).to(equal("受付済み"))
+                    expect(ContactSupportStatus.reviewing.displayName).to(equal("確認中"))
                     expect(ContactSupportStatus.resolved.displayName).to(equal("解決済み"))
                 }
             }

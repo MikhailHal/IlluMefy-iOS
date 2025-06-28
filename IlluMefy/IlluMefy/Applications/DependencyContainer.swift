@@ -82,6 +82,11 @@ final class DependencyContainer: @unchecked Sendable {
         container.register(ContactSupportRepository.self) { _ in
             ContactSupportRepository()
         }.inObjectScope(.container)
+        
+        // Auth repository
+        container.register(AuthRepository.self) { _ in
+            AuthRepository()
+        }.inObjectScope(.container)
     }
     ///
     /// register all repositories
@@ -137,6 +142,11 @@ final class DependencyContainer: @unchecked Sendable {
         // ContactSupport repository
         container.register(ContactSupportRepositoryProtocol.self) { resolver in
             resolver.resolve(ContactSupportRepository.self)!
+        }.inObjectScope(.transient)
+        
+        // Auth repository
+        container.register(AuthRepositoryProtocol.self) { resolver in
+            resolver.resolve(AuthRepository.self)!
         }.inObjectScope(.transient)
     }
     ///
@@ -300,6 +310,16 @@ final class DependencyContainer: @unchecked Sendable {
             resolver.resolve(GetContactSupportHistoryUseCase.self)!
         }.inObjectScope(.transient)
         
+        // Logout usecase
+        container.register(LogoutUseCase.self) { resolver in
+            let authRepository = resolver.resolve(AuthRepositoryProtocol.self)!
+            return LogoutUseCase(authRepository: authRepository)
+        }.inObjectScope(.transient)
+        
+        container.register((any LogoutUseCaseProtocol).self) { resolver in
+            resolver.resolve(LogoutUseCase.self)!
+        }.inObjectScope(.transient)
+        
     }
     ///
     /// register all view-models
@@ -409,8 +429,9 @@ final class DependencyContainer: @unchecked Sendable {
         // Setting screen
         container.register(SettingViewModel.self) { resolver in
             let getOperatorMessageUseCase = resolver.resolve((any GetOperatorMessageUseCaseProtocol).self)!
+            let logoutUseCase = resolver.resolve((any LogoutUseCaseProtocol).self)!
             return MainActor.assumeIsolated {
-                return SettingViewModel(getOperatorMessageUseCase: getOperatorMessageUseCase)
+                return SettingViewModel(getOperatorMessageUseCase: getOperatorMessageUseCase, logoutUseCase: logoutUseCase)
             }
         }.inObjectScope(.transient)
         
