@@ -65,9 +65,9 @@ struct FavoriteView: View {
     private var favoriteCreatorsView: some View {
         ScrollView {
             LazyVGrid(columns: [
-                GridItem(.flexible()),
-                GridItem(.flexible())
-            ]) {
+                GridItem(.flexible(), spacing: 0),
+                GridItem(.flexible(), spacing: 0)
+            ], spacing: 0) {
                 ForEach(viewModel.favoriteCreators) { creator in
                     FavoriteCreatorCard(creator: creator) {
                         router.navigate(to: .creatorDetail(creatorId: creator.id))
