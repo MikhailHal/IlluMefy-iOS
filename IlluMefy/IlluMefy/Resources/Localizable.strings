@@ -198,6 +198,7 @@
 "common.resendCooldown" = "(%d秒)";
 "common.submit" = "申請する";
 "common.cancel" = "キャンセル";
+"common.ok" = "OK";
 
 /* Tag Application */
 "tagApplication.title" = "タグ申請";

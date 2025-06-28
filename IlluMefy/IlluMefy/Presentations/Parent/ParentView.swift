@@ -20,16 +20,9 @@ struct ParentView: View {
         ZStack {
             NavigationStack(path: $router.path) {
                 Group {
-                    // 認証状態チェック中
-                    if isCheckingAuth {
-                        ProgressView()
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            .background(Color.black.opacity(0.1))
-                    } else if isAuthenticated {
-                        // 認証済みユーザーは直接ホーム画面へ
-                        HomeBaseView {
-                            Text(L10n.Common.hello)
-                        }
+                    if isAuthenticated {
+                        // 認証済みユーザーはホーム画面へ
+                        HomeBaseView()
                     } else {
                         // 未認証ユーザーは電話番号認証画面へ
                         PhoneNumberRegistrationView()
@@ -37,12 +30,10 @@ struct ParentView: View {
                 }
                 .navigationDestination(for: IlluMefyAppRouter.Destination.self) { destination in
                     switch destination {
+                    case .home:
+                        HomeBaseView()
                     case .phoneNumberRegistration:
                         PhoneNumberRegistrationView()
-                    case .groupList:
-                        HomeBaseView {
-                            Text(L10n.Common.hello)
-                        }
                     case .phoneVerification(let verificationID, let phoneNumber):
                         PhoneVerificationView(verificationID: verificationID, phoneNumber: phoneNumber)
                     case .creatorDetail(let creatorId):
@@ -65,7 +56,9 @@ struct ParentView: View {
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("AuthenticationStatusChanged"))) { _ in
-            checkAuthenticationStatus()
+            withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
+                checkAuthenticationStatus()
+            }
         }
     }
     
@@ -79,38 +72,40 @@ struct ParentView: View {
         }
         
         // Firebase Authの現在のユーザーをチェック
-        if let currentUser = Auth.auth().currentUser {
+        if let _ = Auth.auth().currentUser {
             // ユーザーが存在する場合は認証済みとみなす
             isAuthenticated = true
-            print("User already authenticated: \(currentUser.uid)")
         } else {
-            print("No authenticated user found")
             isAuthenticated = false
         }
         isCheckingAuth = false
     }
     
     private func setupAuthStateListener() {
-        // テスト環境またはプレビュー環境では認証リスナーをスキップ
-        guard ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil &&
-              ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] != "1" else {
-            isAuthenticated = false
-            isCheckingAuth = false
-            return
-        }
-        
-        // Firebase Authの状態変更リスナーを設定
-        authStateHandle = Auth.auth().addStateDidChangeListener { auth, user in
-            DispatchQueue.main.async {
-                if let user = user {
-                    print("Auth state changed - User authenticated: \(user.uid)")
-                    isAuthenticated = true
-                } else {
-                    print("Auth state changed - User not authenticated")
-                    isAuthenticated = false
-                }
-                isCheckingAuth = false
-            }
-        }
-    }
+          // テスト環境またはプレビュー環境では認証リスナーをスキップ
+          guard ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil &&
+      ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] != "1"
+      else {
+              isAuthenticated = false
+              isCheckingAuth = false
+              return
+          }
+
+          // Firebase Authの状態変更リスナーを設定
+          authStateHandle = Auth.auth().addStateDidChangeListener { _, user in
+              DispatchQueue.main.async {
+                  if let _ = user {
+                      isAuthenticated = true
+                  } else {
+                      isAuthenticated = false
+                  }
+                  isCheckingAuth = false
+              }
+          }
+      }
+}
+
+#Preview {
+    ParentView()
+    .environmentObject(IlluMefyAppRouter())
 }

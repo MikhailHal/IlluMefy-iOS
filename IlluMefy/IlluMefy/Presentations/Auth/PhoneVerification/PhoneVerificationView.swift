@@ -63,17 +63,15 @@ struct PhoneVerificationView: View {
         }
         // エラーダイアログ
         .alert(L10n.Common.Dialog.Title.error, isPresented: $viewModel.isShowErrorDialog) {
-            Button("OK") { viewModel.isShowErrorDialog = false }
+            Button(L10n.Common.ok) { viewModel.isShowErrorDialog = false }
         } message: {
             Text(viewModel.errorDialogMessage)
         }
         // 成功ダイアログ
         .alert(L10n.Common.Dialog.Title.success, isPresented: $viewModel.isShowNotificationDialog) {
-            Button("OK") {
+            Button(L10n.Common.ok) {
                 viewModel.isShowNotificationDialog = false
-                // 認証が完了したので直接ホーム画面に遷移
-                router.navigateToRoot()
-                // ホーム画面へ遷移（Firebase Authの状態変更リスナーが自動的に処理）
+                router.navigate(to: .home)
             }
         } message: {
             Text(viewModel.notificationDialogMessage)

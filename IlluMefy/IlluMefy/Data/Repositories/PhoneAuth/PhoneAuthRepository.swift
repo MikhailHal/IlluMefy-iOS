@@ -56,15 +56,23 @@ final class PhoneAuthRepository: PhoneAuthRepositoryProtocol {
         }
     }
     
-    /// 認証コードを検証（サインインなし）
+    /// 認証コードを検証してサインイン
     func verifyPhoneAuthCode(request: VerifyPhoneAuthCodeRequest) async throws -> VerifyPhoneAuthCodeResponse {
         let credential = PhoneAuthProvider.provider().credential(
             withVerificationID: request.verificationID,
             verificationCode: request.verificationCode
         )
         
-        // Credentialをそのまま返す（実際のサインインはAccountLoginRepositoryで行う）
-        return VerifyPhoneAuthCodeResponse(credential: credential)
+        do {
+            // 実際にFirebase Authでサインイン
+            let authResult = try await Auth.auth().signIn(with: credential)
+            print("Firebase Auth サインイン成功: \(authResult.user.uid)")
+            
+            return VerifyPhoneAuthCodeResponse(credential: credential)
+        } catch {
+            print("Firebase Auth サインインエラー: \(error)")
+            throw mapFirebaseError(error)
+        }
     }
     
     // MARK: - Private Methods

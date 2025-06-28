@@ -14,7 +14,7 @@ class IlluMefyAppRouter: ObservableObject {
     @Published var loadingMessage: String?
     enum Destination: Hashable {
         case phoneNumberRegistration
-        case groupList
+        case home
         case phoneVerification(verificationID: String, phoneNumber: String)
         case creatorDetail(creatorId: String)
         case contactSupport

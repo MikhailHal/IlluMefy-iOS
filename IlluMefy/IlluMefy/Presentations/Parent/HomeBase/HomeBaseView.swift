@@ -7,37 +7,16 @@
 
 import SwiftUI
 
-struct HomeBaseView<ContentView: View>: View {
-    let content: ContentView
+struct HomeBaseView: View {
     @EnvironmentObject private var router: IlluMefyAppRouter
     
-    init(@ViewBuilder content: () -> ContentView) {
-        self.content = content()
-    }
-    
     var body: some View {
-        NavigationStack(path: $router.path) {
-            VStack {
-                TabBarView()
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background(Asset.Color.Application.Background.backgroundPrimary.swiftUIColor)
-                    .ignoresSafeArea(.keyboard, edges: .all)
-                    .navigationBarBackButtonHidden()
-            }
-            .navigationDestination(for: IlluMefyAppRouter.Destination.self) { destination in
-                switch destination {
-                case .phoneNumberRegistration:
-                    PhoneNumberRegistrationView()
-                case .groupList:
-                    EmptyView() // Placeholder for future implementation
-                case .phoneVerification(let verificationID, let phoneNumber):
-                    PhoneVerificationView(verificationID: verificationID, phoneNumber: phoneNumber)
-                case .creatorDetail(let creatorId):
-                    CreatorDetailView(creatorId: creatorId)
-                case .contactSupport:
-                    ContactSupportView()
-                }
-            }
+        VStack {
+            TabBarView()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Asset.Color.Application.Background.backgroundPrimary.swiftUIColor)
+                .ignoresSafeArea(.keyboard, edges: .all)
+                .navigationBarBackButtonHidden()
         }
     }
 }
@@ -91,8 +70,6 @@ private struct TabBarView: View {
     }
 }
 #Preview {
-    HomeBaseView {
-        Text(L10n.Common.previewContent)
-    }
-    .environmentObject(IlluMefyAppRouter())
+    HomeBaseView()
+        .environmentObject(IlluMefyAppRouter())
 }
