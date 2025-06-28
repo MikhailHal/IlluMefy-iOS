@@ -13,7 +13,7 @@ struct FavoriteView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            // TikTok風タブバー
+            // タブエリア
             tabBar
             
             // コンテンツエリア
@@ -65,23 +65,21 @@ struct FavoriteView: View {
     private var favoriteCreatorsView: some View {
         ScrollView {
             LazyVGrid(columns: [
-                GridItem(.flexible(), spacing: 0),
-                GridItem(.flexible(), spacing: 0),
-                GridItem(.flexible(), spacing: 0)
-            ], spacing: 0) {
+                GridItem(.flexible()),
+                GridItem(.flexible())
+            ]) {
                 ForEach(viewModel.favoriteCreators) { creator in
                     FavoriteCreatorCard(creator: creator) {
                         router.navigate(to: .creatorDetail(creatorId: creator.id))
                     }
                 }
             }
-            .padding(0)
         }
     }
     
     // MARK: - Tab Bar
     private var tabBar: some View {
-        HStack() {
+        HStack {
             ForEach(FavoriteTabType.allCases, id: \.self) { tab in
                 Button(action: {
                     viewModel.selectTab(tab)
@@ -189,7 +187,7 @@ struct FavoriteCreatorCard: View {
             }
             .buttonStyle(PlainButtonStyle())
         }
-        .aspectRatio(9/16, contentMode: .fit) // TikTok風の縦長アスペクト比
+        .aspectRatio(1.0, contentMode: .fit) // 正方形アスペクト比
     }
 }
 
