@@ -83,15 +83,15 @@ final class HomeViewModel: HomeViewModelProtocol {
     
     private func createMockTags() -> [Tag] {
         return [
-            createTag(id: "1", display: "FPS", name: "fps", count: 1250),
-            createTag(id: "2", display: "VTuber", name: "vtuber", count: 890),
-            createTag(id: "3", display: "Minecraft", name: "minecraft", count: 720),
-            createTag(id: "4", display: "APEX", name: "apex-legends", count: 650),
-            createTag(id: "5", display: "Valorant", name: "valorant", count: 580),
-            createTag(id: "6", display: "歌ってみた", name: "singing", count: 420),
-            createTag(id: "7", display: "踊ってみた", name: "dance", count: 380),
-            createTag(id: "8", display: "プロゲーマー", name: "professional", count: 320),
-            createTag(id: "9", display: "レトロゲーム", name: "retro", count: 280)
+            createTag(id: "tag_007", display: "FPS", name: "fps", count: 500),
+            createTag(id: "tag_009", display: "VTuber", name: "vtuber", count: 1100),
+            createTag(id: "tag_013", display: "マインクラフト", name: "minecraft", count: 750),
+            createTag(id: "tag_001", display: "ゲーム", name: "gaming", count: 1200),
+            createTag(id: "tag_008", display: "RPG", name: "rpg", count: 400),
+            createTag(id: "tag_011", display: "実況", name: "gameplay", count: 850),
+            createTag(id: "tag_010", display: "配信", name: "streaming", count: 950),
+            createTag(id: "tag_014", display: "プロゲーマー", name: "professional", count: 300),
+            createTag(id: "tag_005", display: "技術", name: "tech", count: 700)
         ]
     }
     
