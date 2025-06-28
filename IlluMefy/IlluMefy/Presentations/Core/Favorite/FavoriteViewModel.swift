@@ -14,6 +14,7 @@ final class FavoriteViewModel: FavoriteViewModelProtocol {
     // MARK: - Published Properties
     @Published private(set) var favoriteCreators: [Creator] = []
     @Published private(set) var isLoading = false
+    @Published var selectedTab: FavoriteTabType = .favorites
     
     // MARK: - Private Properties
     private let getFavoriteCreatorsUseCase: GetFavoriteCreatorsUseCaseProtocol
@@ -50,6 +51,20 @@ final class FavoriteViewModel: FavoriteViewModelProtocol {
             favoriteCreators.removeAll { $0.id == creatorId }
         } catch {
             print("Failed to remove favorite: \(error)")
+        }
+    }
+    
+    func selectTab(_ tab: FavoriteTabType) {
+        selectedTab = tab
+        // タブ切り替え時に対応するデータを読み込み
+        Task {
+            switch tab {
+            case .favorites:
+                await loadFavoriteCreators()
+            case .history:
+                // 履歴は後回しなので一旦空にする
+                favoriteCreators = []
+            }
         }
     }
 }

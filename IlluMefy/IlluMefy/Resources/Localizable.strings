@@ -180,6 +180,8 @@
 
 /* Favorite Screen */
 "favorite.title" = "お気に入り";
+"favorite.favorites" = "お気に入り";
+"favorite.history" = "履歴";
 "favorite.emptyTitle" = "お気に入りがありません";
 "favorite.emptyMessage" = "気になるクリエイターを見つけたら\nお気に入りに追加してみましょう";
 "favorite.removeConfirmTitle" = "お気に入りから削除";

@@ -16,9 +16,15 @@ protocol FavoriteViewModelProtocol: ObservableObject {
     /// ローディング状態
     var isLoading: Bool { get }
     
+    /// 選択中のタブ
+    var selectedTab: FavoriteTabType { get set }
+    
     /// お気に入りクリエイターを読み込む
     func loadFavoriteCreators() async
     
     /// お気に入りから削除
     func removeFavorite(creatorId: String) async
+    
+    /// タブを選択
+    func selectTab(_ tab: FavoriteTabType)
 }

@@ -12,16 +12,22 @@ struct FavoriteView: View {
     @StateObject private var viewModel = DependencyContainer.shared.resolve(FavoriteViewModel.self)!
     
     var body: some View {
-        ZStack {
-            Asset.Color.Application.Background.backgroundPrimary.swiftUIColor
-                .ignoresSafeArea()
+        VStack(spacing: 0) {
+            // TikTok風タブバー
+            tabBar
             
-            if viewModel.isLoading {
-                loadingView
-            } else if viewModel.favoriteCreators.isEmpty {
-                emptyStateView
-            } else {
-                favoriteCreatorsView
+            // コンテンツエリア
+            ZStack {
+                Asset.Color.Application.Background.backgroundPrimary.swiftUIColor
+                    .ignoresSafeArea()
+                
+                if viewModel.isLoading {
+                    loadingView
+                } else if viewModel.favoriteCreators.isEmpty {
+                    emptyStateView
+                } else {
+                    favoriteCreatorsView
+                }
             }
         }
         .navigationTitle(L10n.Favorite.title)
@@ -73,6 +79,48 @@ struct FavoriteView: View {
         }
     }
     
+    // MARK: - Tab Bar
+    private var tabBar: some View {
+        HStack(spacing: 0) {
+            ForEach(FavoriteTabType.allCases, id: \.self) { tab in
+                Button(action: {
+                    viewModel.selectTab(tab)
+                }) {
+                    VStack(spacing: 4) {
+                        Image(systemName: tab.icon)
+                            .font(.system(size: 16, weight: .medium))
+                            .foregroundColor(viewModel.selectedTab == tab ? 
+                                Asset.Color.Application.textPrimary.swiftUIColor : 
+                                Asset.Color.Application.textSecondary.swiftUIColor.opacity(0.6))
+                        
+                        Text(tab.displayName)
+                            .font(.system(size: 12, weight: .medium))
+                            .foregroundColor(viewModel.selectedTab == tab ? 
+                                Asset.Color.Application.textPrimary.swiftUIColor : 
+                                Asset.Color.Application.textSecondary.swiftUIColor.opacity(0.6))
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 12)
+                    .background(
+                        Rectangle()
+                            .fill(viewModel.selectedTab == tab ? 
+                                Asset.Color.Application.textPrimary.swiftUIColor.opacity(0.05) : 
+                                Color.clear)
+                    )
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .background(
+            Asset.Color.Application.Background.backgroundPrimary.swiftUIColor
+        )
+        .overlay(
+            Rectangle()
+                .frame(height: 1)
+                .foregroundColor(Asset.Color.Application.textSecondary.swiftUIColor.opacity(0.1)),
+            alignment: .bottom
+        )
+    }
 }
 
 struct FavoriteCreatorCard: View {
