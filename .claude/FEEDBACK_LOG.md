@@ -31,6 +31,10 @@ This file contains feedback and corrections received during development. Always 
   - ❌ `.cornerRadius(12)` → ✅ `.cornerRadius(CornerRadius.large)`
   - ❌ `.opacity(0.8)` → ✅ `.opacity(Opacity.secondaryText)`
   - 必ずDesignConstants.swift、Spacing.swiftの定数を使用する
+- **2025-06-28**: フォントにはSwiftUIのシステム定義を優先使用
+  - ❌ `.font(.system(size: 16, weight: .medium))` → ✅ `.font(.callout.weight(.medium))`
+  - ❌ `.font(.system(size: 12, weight: .medium))` → ✅ `.font(.caption.weight(.medium))`
+  - システム定義: `.largeTitle`, `.title`, `.headline`, `.body`, `.callout`, `.caption`など
 
 ## Architecture
 - **2025-05-26**: When updating screens, also update UseCase and Data layers, not just UI

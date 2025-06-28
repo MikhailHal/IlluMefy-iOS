@@ -197,3 +197,12 @@ IlluMefy is a creator discovery iOS app built with SwiftUI and Clean Architectur
 
 ## Feedback Reference
 **IMPORTANT**: Always check `.claude/FEEDBACK_LOG.md` for specific feedback and corrections before implementing features.
+
+### 🚨 MANDATORY PRE-WORK CHECKLIST (会話開始時・圧縮後必須)
+**Claude Codeは毎回必ず以下を実行すること:**
+
+1. **FEEDBACK_LOG.mdを読み込み** - 過去の指摘事項とベストプラクティスを確認
+2. **CLAUDE.mdのCRITICAL RULESを再確認** - 絶対禁止事項の再認識
+3. **プロジェクト固有制約の適用** - ハードコーディング禁止、SwiftGen使用等
+
+この手順により、会話圧縮後も一貫した品質とルール遵守を保証する。
