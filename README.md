@@ -2,6 +2,9 @@
 ## Status
 [![CI](https://github.com/MikhailHal/IlluMefy-iOS/actions/workflows/ci.yml/badge.svg)](https://github.com/MikhailHal/IlluMefy-iOS/actions/workflows/ci.yml)
 
+## Demo
+https://github.com/user-attachments/assets/372f126f-81c5-4615-a018-82c719e9a550
+
 ## 🛠️ Development Setup
 
 ### Prerequisites
