@@ -118,9 +118,6 @@ struct VerificationFormView: View {
                 
                 // フォームセクション（入力フィールド）
                 formSection
-                
-                // アクションセクション（ボタン + リンク）
-                actionSection
             }
         }
         .scrollDismissesKeyboard(.interactively)
@@ -149,7 +146,7 @@ struct VerificationFormView: View {
             // アニメーション付きロゴアイコン
             AnimatedLogoIcon(isAppeared: $formAppeared)
             
-            // タイトル（段階的フェードイン）
+            // タイトル
             Text(L10n.PhoneVerification.title)
                 .font(.system(size: Typography.titleMedium, weight: .bold, design: .rounded))
                 .foregroundColor(Asset.Color.Application.textPrimary.swiftUIColor)
@@ -157,21 +154,12 @@ struct VerificationFormView: View {
                 .opacity(formAppeared ? 1 : 0)
                 .animation(.easeOut(duration: AnimationDuration.medium).delay(AnimationParameters.delayMedium), value: formAppeared)
             
-            // 説明文（2段階のフェードイン）
             VStack(spacing: Layout.descriptionSpacing) {
-                // 1行目の説明
                 Text(L10n.PhoneVerification.Description.line1)
                     .font(.system(.body, design: .rounded))
                     .foregroundColor(Asset.Color.Application.textPrimary.swiftUIColor.opacity(Opacity.secondaryText))
                     .opacity(formAppeared ? 1 : 0)
                     .animation(.easeOut(duration: AnimationDuration.medium).delay(AnimationParameters.delayLong), value: formAppeared)
-                
-                // 2行目の説明
-                Text(L10n.PhoneVerification.Description.line2)
-                    .font(.system(.callout, design: .rounded))
-                    .foregroundColor(Asset.Color.Application.textPrimary.swiftUIColor.opacity(Opacity.tertiaryText))
-                    .opacity(formAppeared ? 1 : 0)
-                    .animation(.easeOut(duration: AnimationDuration.medium).delay(AnimationParameters.delayExtraLong), value: formAppeared)
             }
             .multilineTextAlignment(.center)
             .padding(.horizontal, Spacing.screenEdgePadding * 1.5)
@@ -181,9 +169,11 @@ struct VerificationFormView: View {
     
     /// フォームセクション（入力フィールド）
     private var formSection: some View {
-        VStack(spacing: Spacing.relatedComponentDivider) {
+        VStack(spacing: Spacing.unrelatedComponentDivider) {
             // 認証番号入力フィールド
             verificationCodeField
+            // 再送信ボタン
+            resendCodeButton
         }
         .padding(.top, Spacing.unrelatedComponentDivider)
         .padding(.horizontal, Spacing.screenEdgePadding)
@@ -207,7 +197,6 @@ struct VerificationFormView: View {
                 keyboardType: .numberPad
             )
             .focused($isCodeFocused)
-            // フォーカス時の拡大エフェクト
             .scaleEffect(isCodeFocused ? Effects.focusScale : 1.0)
             .animation(
                 .spring(
@@ -216,73 +205,12 @@ struct VerificationFormView: View {
                 value: isCodeFocused
             )
             .onChange(of: viewModel.verificationCode) { _, newValue in
-                // 6桁制限
-                if newValue.count > Layout.verificationCodeMaxLength {
-                    viewModel.verificationCode = String(newValue.prefix(Layout.verificationCodeMaxLength))
+                let impactFeedback = UIImpactFeedbackGenerator(style: .heavy)
+                impactFeedback.impactOccurred()
+                if newValue.count == 6 {
+                    Task { await viewModel.registerAccount()}
                 }
             }
-        }
-    }
-
-    /// アクションセクション（ボタンとリンク）
-    private var actionSection: some View {
-        VStack(spacing: Spacing.relatedComponentDivider) {
-            // メインアクションボタン（アカウント登録完了）
-            primaryActionButton
-            
-            // 認証番号再送信ボタン
-            resendCodeButton
-            
-            // 戻るリンク
-            backLink
-        }
-        .padding(.top, Spacing.unrelatedComponentDivider)
-        .padding(.bottom, Spacing.screenEdgePadding * 2)
-    }
-    
-    /// プライマリアクションボタン（パルスエフェクト付き）
-    private var primaryActionButton: some View {
-        ZStack {
-            // ボタンが有効な時のパルスエフェクト
-            if viewModel.isRegisterButtonEnabled {
-                RoundedRectangle(cornerRadius: CornerRadius.large)
-                    .fill(Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor.opacity(Opacity.glow))
-                    .frame(height: Layout.buttonFrameHeight)
-                    .padding(.horizontal, Spacing.screenEdgePadding)
-                    .blur(radius: Effects.blurRadiusLarge)
-                    .scaleEffect(Effects.glowScale)
-                    .opacity(Opacity.pulseEffect)
-                    .animation(
-                        .easeInOut(duration: AnimationDuration.verySlow)
-                            .repeatForever(autoreverses: true),
-                        value: viewModel.isRegisterButtonEnabled
-                    )
-            }
-            
-            // メインボタン
-            IlluMefyButton(
-                title: L10n.PhoneVerification.Button.register,
-                isEnabled: viewModel.isRegisterButtonEnabled,
-                action: {
-                    // 触覚フィードバック（中程度の強さ）
-                    let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
-                    impactFeedback.impactOccurred()
-                    Task {
-                        await viewModel.registerAccount()
-                    }
-                }
-            )
-            .padding(.horizontal, Spacing.screenEdgePadding)
-            // 条件付きシャドウ（有効時はより強く）
-            .shadow(
-                color: Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor.opacity(Opacity.buttonShadow),
-                radius: viewModel.isRegisterButtonEnabled ? Shadow.radiusLarge : Shadow.radiusMedium,
-                y: viewModel.isRegisterButtonEnabled ? Shadow.offsetYLarge : Shadow.offsetYMedium
-            )
-            .animation(
-                .spring(response: AnimationParameters.springResponseMedium, dampingFraction: AnimationParameters.springDampingMedium),
-                value: viewModel.isRegisterButtonEnabled
-            )
         }
     }
     
@@ -310,22 +238,8 @@ struct VerificationFormView: View {
         )
         .disabled(!viewModel.isResendButtonEnabled)
         .padding(.top, Spacing.componentGrouping)
-    }
-    
-    /// 戻るリンク
-    private var backLink: some View {
-        Button(
-            action: {
-                router.navigateBack()
-            },
-            label: {
-                Text(L10n.PhoneVerification.Link.back)
-                    .font(.footnote)
-                    .fontWeight(.semibold)
-                    .foregroundColor(Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor)
-            }
-        )
-        .padding(.top, Spacing.componentGrouping / 2)
+        .opacity(formAppeared ? 1 : 0)
+        .animation(.easeOut(duration: AnimationDuration.medium).delay(AnimationParameters.delayMedium), value: formAppeared)
     }
 }
 
