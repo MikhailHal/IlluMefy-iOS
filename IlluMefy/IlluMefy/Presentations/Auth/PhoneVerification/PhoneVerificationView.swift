@@ -13,11 +13,7 @@ import SwiftUI
 /// 電話番号認証画面のメインビュー
 struct PhoneVerificationView: View {
     // MARK: - Properties
-    
-    /// ビューモデル（依存性注入で取得）
     @StateObject private var viewModel: PhoneVerificationViewModel
-    
-    /// アプリ全体のルーター
     @EnvironmentObject var router: IlluMefyAppRouter
     
     /// Firebase認証用のverificationID
@@ -158,7 +154,6 @@ struct VerificationFormView: View {
                 .font(.system(size: Typography.titleMedium, weight: .bold, design: .rounded))
                 .foregroundColor(Asset.Color.Application.textPrimary.swiftUIColor)
                 .padding(.top, Spacing.componentGrouping)
-                .offset(y: formAppeared ? 0 : Layout.titleOffsetY)
                 .opacity(formAppeared ? 1 : 0)
                 .animation(.easeOut(duration: AnimationDuration.medium).delay(AnimationParameters.delayMedium), value: formAppeared)
             
@@ -168,7 +163,6 @@ struct VerificationFormView: View {
                 Text(L10n.PhoneVerification.Description.line1)
                     .font(.system(.body, design: .rounded))
                     .foregroundColor(Asset.Color.Application.textPrimary.swiftUIColor.opacity(Opacity.secondaryText))
-                    .offset(y: formAppeared ? 0 : Layout.subtitleOffsetY)
                     .opacity(formAppeared ? 1 : 0)
                     .animation(.easeOut(duration: AnimationDuration.medium).delay(AnimationParameters.delayLong), value: formAppeared)
                 
@@ -176,7 +170,6 @@ struct VerificationFormView: View {
                 Text(L10n.PhoneVerification.Description.line2)
                     .font(.system(.callout, design: .rounded))
                     .foregroundColor(Asset.Color.Application.textPrimary.swiftUIColor.opacity(Opacity.tertiaryText))
-                    .offset(y: formAppeared ? 0 : Layout.subtitleOffsetY)
                     .opacity(formAppeared ? 1 : 0)
                     .animation(.easeOut(duration: AnimationDuration.medium).delay(AnimationParameters.delayExtraLong), value: formAppeared)
             }
@@ -194,8 +187,6 @@ struct VerificationFormView: View {
         }
         .padding(.top, Spacing.unrelatedComponentDivider)
         .padding(.horizontal, Spacing.screenEdgePadding)
-        // 横からスライドインするアニメーション
-        .offset(x: formAppeared ? 0 : Layout.formOffset)
         .opacity(formAppeared ? 1 : 0)
         .animation(
             .spring(
