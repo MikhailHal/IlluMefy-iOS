@@ -188,6 +188,10 @@ struct SignUpFormView: View {
                 dampingFraction: AnimationParameters.springDampingMedium),
                        value: isPhoneFocused
             )
+            .onChange(of: viewModel.phoneNumber) {
+                let impactFeedback = UIImpactFeedbackGenerator(style: .heavy)
+                impactFeedback.impactOccurred()
+            }
         }
     }
     
@@ -257,7 +261,7 @@ struct SignUpFormView: View {
                 title: L10n.PhoneNumberRegistration.Button.verification,
                 isEnabled: !viewModel.phoneNumber.isEmpty && isPrivacyPolicyAgreed,
                 action: {
-                    let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
+                    let impactFeedback = UIImpactFeedbackGenerator(style: .heavy)
                     impactFeedback.impactOccurred()
                     router.isShowingLoadingIndicator = true
                     Task {
