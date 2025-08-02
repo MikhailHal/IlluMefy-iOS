@@ -77,8 +77,8 @@ enum Size {
     static let tapAreaMinimum: CGFloat = 44
     
     // Creator tile sizes
-    static let creatorTileWidth: CGFloat = 120
-    static let creatorTileHeight: CGFloat = 180
+    static let creatorTileWidth: CGFloat = 160
+    static let creatorTileHeight: CGFloat = 220
     static let creatorImageSize: CGFloat = 120
     static let similarCreatorImageSize: CGFloat = 80
     static let similarCreatorCardWidth: CGFloat = 100
