@@ -54,7 +54,9 @@ struct HomeView: View {
             .scrollIndicators(.hidden)
         }
         .onAppear {
-            viewModel.onAppear()
+            Task {
+                await viewModel.loadInitialData()
+            }
         }
     }
 
@@ -114,8 +116,14 @@ struct HomeView: View {
     private var popularCreatorsSection: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: Spacing.componentGrouping) {
-                ForEach(viewModel.popularCreators) { creator in
-                    CreatorCard(creator: creator)
+                if viewModel.isLoading {
+                    ForEach(0..<5, id: \.self) { _ in
+                        CreatorTile(creator: nil)
+                    }
+                } else {
+                    ForEach(viewModel.popularCreators) { creator in
+                        CreatorTile(creator: creator)
+                    }
                 }
             }
             .padding(.horizontal, Spacing.screenEdgePadding)
@@ -125,8 +133,14 @@ struct HomeView: View {
     private var recommendedCreatorsSection: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: Spacing.componentGrouping) {
-                ForEach(viewModel.recommendedCreators) { creator in
-                    CreatorCard(creator: creator)
+                if viewModel.isLoading {
+                    ForEach(0..<5, id: \.self) { _ in
+                        CreatorTile(creator: nil)
+                    }
+                } else {
+                    ForEach(viewModel.recommendedCreators) { creator in
+                        CreatorTile(creator: creator)
+                    }
                 }
             }
             .padding(.horizontal, Spacing.screenEdgePadding)
@@ -136,8 +150,14 @@ struct HomeView: View {
     private var newArrivalCreatorsSection: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: Spacing.componentGrouping) {
-                ForEach(viewModel.newArrivalCreators) { creator in
-                    CreatorCard(creator: creator)
+                if viewModel.isLoading {
+                    ForEach(0..<5, id: \.self) { _ in
+                        CreatorTile(creator: nil)
+                    }
+                } else {
+                    ForEach(viewModel.newArrivalCreators) { creator in
+                        CreatorTile(creator: creator)
+                    }
                 }
             }
             .padding(.horizontal, Spacing.screenEdgePadding)

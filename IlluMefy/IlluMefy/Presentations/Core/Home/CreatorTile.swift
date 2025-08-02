@@ -6,28 +6,36 @@
 //
 import SwiftUI
 import UIKit
+import Shimmer
 
 struct CreatorTile: View {
-    let creator: Creator
+    let creator: Creator?
     @State private var isPressed = false
     @EnvironmentObject private var router: IlluMefyAppRouter
     
+    /// クリエイター情報がある場合は実際のデータを表示
+    /// 無い場合はスケルトンデータを表示
     var body: some View {
+        if creator != nil {
+            normalCard
+        } else {
+            skeletonCard
+        }
+    }
+    
+    // MARK: 通常ver
+    private var normalCard: some View {
         ZStack(alignment: .bottom) {
-            // Background image
-            AsyncImage(url: URL(string: creator.thumbnailUrl)) { image in
+            // サムネイル画像
+            AsyncImage(url: URL(string: creator!.thumbnailUrl)) { image in
                 image
                     .resizable()
                     .aspectRatio(contentMode: .fill)
             } placeholder: {
                 Rectangle()
                     .fill(Color.gray.opacity(Opacity.glow))
-                    .overlay(
-                        ProgressView()
-                    )
+                    .shimmering()
             }
-            
-            // Bottom info section
             bottomInfoSection
         }
         .frame(width: Size.creatorTileWidth, height: Size.creatorTileHeight)
@@ -55,15 +63,21 @@ struct CreatorTile: View {
         .onTapGesture {
             let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
             impactFeedback.impactOccurred()
-            router.navigate(to: .creatorDetail(creatorId: creator.id))
+            router.navigate(to: .creatorDetail(creatorId: creator!.id))
         }
-        .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity) { pressing in
-            withAnimation(.easeInOut(duration: AnimationDuration.instant)) {
-                isPressed = pressing
+    }
+    
+    // MARK: スケルトンver
+    private var skeletonCard: some View {
+        ZStack(alignment: .bottom) {
+            AsyncImage(url: URL(string: "")) { _ in
+                Rectangle().fill(Color.gray.opacity(Opacity.glow))
             }
-        } perform: {
-            // 長押しアクション
         }
+        .frame(width: Size.creatorTileWidth, height: Size.creatorTileHeight)
+        .cornerRadius(CornerRadius.tile)
+        .shadow(color: .black.opacity(Opacity.shadow), radius: Shadow.radiusSmall, x: 0, y: Shadow.offsetYSmall)
+        .shimmering()
     }
     
     // MARK: - View Components
@@ -71,14 +85,14 @@ struct CreatorTile: View {
     private var bottomInfoSection: some View {
         VStack(spacing: Spacing.small) {
             // Creator name
-            Text(creator.name)
+            Text(creator!.name)
                 .font(.caption)
                 .bold()
                 .lineLimit(1)
                 .foregroundColor(.white)
             
             // Content tags
-            if !creator.relatedTag.isEmpty {
+            if !creator!.relatedTag.isEmpty {
                 contentTagsView
             }
         }
@@ -99,7 +113,7 @@ struct CreatorTile: View {
     
     private var contentTagsView: some View {
         HStack(spacing: Spacing.small) {
-            ForEach(Array(creator.relatedTag.prefix(2)), id: \.self) { tag in
+            ForEach(Array(creator!.relatedTag.prefix(2)), id: \.self) { tag in
                 Text("#\(tag)")
                     .font(.system(size: Typography.captionMini))
                     .foregroundColor(.white.opacity(Opacity.secondaryText))
@@ -110,7 +124,7 @@ struct CreatorTile: View {
                             .fill(.white.opacity(Opacity.shadow))
                     )
             }
-            if creator.relatedTag.count > 2 {
+            if creator!.relatedTag.count > 2 {
                 Text(L10n.Common.more)
                     .font(.system(size: Typography.captionMini))
                     .foregroundColor(.white.opacity(Opacity.placeholder))
@@ -130,7 +144,7 @@ struct CreatorTile: View {
                 )
             
             // Main platform icon
-            let platform = creator.mainPlatform().0
+            let platform = creator!.mainPlatform().0
             if platform == .youtube {
                 Image(systemName: platform.icon)
                     .platformIconStyle()
@@ -144,7 +158,7 @@ struct CreatorTile: View {
     
     private var viewCountOverlay: some View {
         VStack {
-            Text(formatViewCount(creator.viewCount))
+            Text(formatViewCount(creator!.viewCount))
                 .font(.system(size: Typography.captionExtraSmall, weight: .semibold))
                 .foregroundColor(.white)
                 .padding(.horizontal, Spacing.smallMedium)
@@ -160,7 +174,7 @@ struct CreatorTile: View {
     }
     
     private var multiplePlatformIndicator: some View {
-        let platformCount = creator.platform.count
+        let platformCount = creator!.platform.count
         if platformCount > 1 {
             return AnyView(
                 VStack {
@@ -230,26 +244,7 @@ extension Image {
     
     HStack {
         CreatorTile(creator: mockCreator)
-        CreatorTile(creator: Creator(
-            id: "creator_002",
-            name: "VTuber B",
-            thumbnailUrl: "https://picsum.photos/200/200?random=2",
-            viewCount: 12000,
-            socialLinkClickCount: 2000,
-            platformClickRatio: [
-                .niconico: 0.8,
-                .youtube: 0.2
-            ],
-            relatedTag: ["vtuber", "singing"],
-            description: "歌って踊って楽しく配信！",
-            platform: [
-                .niconico: "https://www.nicovideo.jp/user/123",
-                .youtube: "https://youtube.com/@vtuberB"
-            ],
-            createdAt: Date(),
-            updatedAt: Date(),
-            isActive: true
-        ))
+        CreatorTile(creator: nil)
     }
     .padding()
     .background(Color.gray.opacity(Opacity.overlayLight))
