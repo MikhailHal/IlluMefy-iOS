@@ -257,11 +257,12 @@ struct SignUpFormView: View {
                 title: L10n.PhoneNumberRegistration.Button.verification,
                 isEnabled: !viewModel.phoneNumber.isEmpty && isPrivacyPolicyAgreed,
                 action: {
-                    // 触覚フィードバック（中程度の強さ）
                     let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
                     impactFeedback.impactOccurred()
+                    router.isShowingLoadingIndicator = true
                     Task {
                         await viewModel.sendAuthenticationCode()
+                        router.isShowingLoadingIndicator = false
                     }
                 }
             )

@@ -23,7 +23,7 @@ struct IlluMefyLoadingDialog: View {
                 VStack {
                     LoadingIndicator(
                         animation: .fiveLinesPulse,
-                        color: Color("indicator/indicator"),
+                        color: Asset.Color.Indicator.indicator.swiftUIColor,
                         size: .medium,
                         speed: .normal
                     )
@@ -32,7 +32,7 @@ struct IlluMefyLoadingDialog: View {
                             .foregroundColor(.white)
                             .padding(.top, Spacing.componentGrouping)
                     }
-                }
+                }.ignoresSafeArea(.keyboard)
             }
         }
     }
