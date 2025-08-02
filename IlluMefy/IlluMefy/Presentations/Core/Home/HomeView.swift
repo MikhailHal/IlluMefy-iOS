@@ -101,8 +101,14 @@ struct HomeView: View {
     private var popularTagsSection: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: Spacing.componentGrouping) {
-                ForEach(viewModel.popularTags) { tag in
-                    FeaturedTagTile(tag: tag, onTapped: onTagTapped)
+                if viewModel.isLoading {
+                    ForEach(0..<6, id: \.self) { _ in
+                        FeaturedTagTile(tag: nil, onTapped: onTagTapped)
+                    }
+                } else {
+                    ForEach(viewModel.popularTags) { tag in
+                        FeaturedTagTile(tag: tag, onTapped: onTagTapped)
+                    }
                 }
             }
             .padding(.horizontal, Spacing.screenEdgePadding)
@@ -225,11 +231,19 @@ struct FeaturedCreatorView: View {
 // MARK: - Featured Tag Tile Component
 
 struct FeaturedTagTile: View {
-    let tag: Tag
+    let tag: Tag?
     let onTapped: ((Tag) -> Void)?
     @State private var isPressed = false
     
     var body: some View {
+        if let tag = tag {
+            normalTag(tag: tag)
+        } else {
+            skeletonTag
+        }
+    }
+    
+    private func normalTag(tag: Tag) -> some View {
         Text("#\(tag.displayName)")
             .font(.system(size: Typography.bodyRegular, weight: .medium))
             .foregroundColor(Asset.Color.Tag.tagText.swiftUIColor)
@@ -253,6 +267,19 @@ struct FeaturedTagTile: View {
             .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity) { pressing in
                 isPressed = pressing
             } perform: {}
+    }
+    
+    private var skeletonTag: some View {
+        Text("#Loading")
+            .font(.system(size: Typography.bodyRegular, weight: .medium))
+            .foregroundColor(.clear)
+            .padding(.horizontal, Spacing.medium)
+            .padding(.vertical, Spacing.componentGrouping)
+            .background(
+                RoundedRectangle(cornerRadius: CornerRadius.tag)
+                    .fill(Color.gray.opacity(Opacity.glow))
+                    .shimmering()
+            )
     }
 }
 
