@@ -135,7 +135,6 @@ struct SignUpFormView: View {
                 .font(.system(size: Typography.titleLarge, weight: .bold, design: .rounded))
                 .foregroundColor(Asset.Color.Application.textPrimary.swiftUIColor)
                 .padding(.top, Spacing.componentGrouping)
-                .offset(y: formAppeared ? 0 : Layout.titleOffsetY)
                 .opacity(formAppeared ? 1 : 0)
                 .animation(.easeOut(duration: AnimationDuration.medium).delay(AnimationParameters.delayMedium), value: formAppeared)
             
@@ -143,7 +142,6 @@ struct SignUpFormView: View {
             Text(L10n.PhoneNumberRegistration.Description.line1)
                 .font(.system(.body, design: .rounded))
                 .foregroundColor(Asset.Color.Application.textPrimary.swiftUIColor.opacity(Opacity.secondaryText))
-                .offset(y: formAppeared ? 0 : Layout.subtitleOffsetY)
                 .opacity(formAppeared ? 1 : 0)
                 .animation(.easeOut(duration: AnimationDuration.medium).delay(AnimationParameters.delayLong), value: formAppeared)
             .multilineTextAlignment(.center)
@@ -163,8 +161,6 @@ struct SignUpFormView: View {
         }
         .padding(.top, Spacing.unrelatedComponentDivider)
         .padding(.horizontal, Spacing.screenEdgePadding)
-        // 横からスライドインするアニメーション
-        .offset(x: formAppeared ? 0 : Layout.formOffset)
         .opacity(formAppeared ? 1 : 0)
         .animation(
             .spring(
