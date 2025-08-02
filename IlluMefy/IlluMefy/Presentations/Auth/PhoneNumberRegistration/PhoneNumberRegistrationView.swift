@@ -206,7 +206,7 @@ struct SignUpFormView: View {
                     .font(.title2)
             })
             
-            // プライバシーポリシーテキスト（タップでWebページを開く）
+            // プライバシーポリシーテキスト
             Button(action: {
                 openPrivacyPolicy()
             }, label: {
@@ -221,17 +221,6 @@ struct SignUpFormView: View {
         }
         .padding(.vertical, Spacing.componentGrouping)
         .background(Color.clear)
-        // チェック時の拡大とボーダーハイライト
-        .scaleEffect(isPrivacyPolicyAgreed ? Effects.focusScale : 1.0)
-        .overlay(
-            RoundedRectangle(cornerRadius: CornerRadius.large)
-                .stroke(
-                    isPrivacyPolicyAgreed ? 
-                    Asset.Color.Button.buttonBackgroundGradationStart.swiftUIColor : Color.clear,
-                    lineWidth: BorderWidth.extraThick
-                )
-                .animation(.easeInOut(duration: AnimationDuration.fast), value: isPrivacyPolicyAgreed)
-        )
     }
                 
     /// アクションセクション（ボタンとリンク）
