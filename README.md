@@ -85,6 +85,7 @@ CI/CD: GitHubActions
 #### UI
 * SwiftUI  
 * SwiftfulLoadingIndicators  
+* SwiftUI Shimmer
 #### Logic
 ##### Firebase
 * Firebase Authentication  
