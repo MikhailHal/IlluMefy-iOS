@@ -6,6 +6,7 @@
 //
 import SwiftUI
 import UIKit
+import Shimmer
 
 struct HomeView: View {
     @StateObject private var viewModel =
@@ -20,10 +21,7 @@ struct HomeView: View {
     
     var body: some View {
         ZStack {
-            // Netflix-style dark background
-            Asset.Color.Application.Background.backgroundPrimary.swiftUIColor
-                .ignoresSafeArea()
-            
+            background
             ScrollView {
                 LazyVStack(spacing: 0) {
                     // Featured/Hero Section
@@ -60,28 +58,26 @@ struct HomeView: View {
         }
     }
 
+    /// 背景
+    private var background: some View {
+        ZStack {
+            AnimatedGradientBackground()
+            FloatingParticlesView()
+        }
+    }
     // MARK: - Featured/Hero Section
     
     private var featuredSection: some View {
         Group {
             if let featuredCreator = viewModel.popularCreators.first {
                 FeaturedCreatorView(creator: featuredCreator)
-                    .frame(height: 400)
+                    .frame(height: 350)
             } else {
                 RoundedRectangle(cornerRadius: CornerRadius.button)
                     .fill(Asset.Color.FeaturedCreatorCard.featuredCreatorCardBackground.swiftUIColor)
-                    .frame(height: 400)
-                    .overlay(
-                        VStack {
-                            Image(systemName: "play.rectangle.fill")
-                                .font(.system(size: 48))
-                                .foregroundColor(Asset.Color.FeaturedCreatorCard.featuredCreatorCardTitle.swiftUIColor)
-                            Text(L10n.Home.featuredContent)
-                                .font(.title2)
-                                .foregroundColor(Asset.Color.FeaturedCreatorCard.featuredCreatorCardTitle.swiftUIColor)
-                        }
-                    )
+                    .frame(height: 350)
                     .padding(.horizontal, Spacing.screenEdgePadding)
+                    .shimmering()
             }
         }
     }
@@ -173,31 +169,17 @@ struct FeaturedCreatorView: View {
     
     var body: some View {
         ZStack(alignment: .bottomLeading) {
-            // Background image
             AsyncImage(url: URL(string: creator.thumbnailUrl)) { image in
                 image
                     .resizable()
                     .aspectRatio(contentMode: .fill)
             } placeholder: {
                 Rectangle()
-                    .fill(Asset.Color.FeaturedCreatorCard.featuredCreatorCardBackground.swiftUIColor)
-                    .overlay(
-                        ProgressView()
-                            .tint(Asset.Color.FeaturedCreatorCard.featuredCreatorCardTitle.swiftUIColor)
-                    )
+                    .fill(Color.gray.opacity(Opacity.glow))
+                    .shimmering()
             }
             .clipped()
-            
-            // Gradient overlay
-            LinearGradient(
-                colors: [
-                    .clear,
-                    Asset.Color.FeaturedCreatorCard.featuredCreatorCardOverlay.swiftUIColor.opacity(0.3),
-                    Asset.Color.FeaturedCreatorCard.featuredCreatorCardOverlay.swiftUIColor.opacity(0.8)
-                ],
-                startPoint: .top,
-                endPoint: .bottom
-            )
+            .frame(maxHeight: 350)
             
             // Content overlay
             VStack(alignment: .leading, spacing: Spacing.componentGrouping) {
@@ -214,7 +196,6 @@ struct FeaturedCreatorView: View {
                 }
                 
                 HStack(spacing: Spacing.componentGrouping) {
-                    // Play button
                     Button(action: {
                         let impactFeedback = UIImpactFeedbackGenerator(style: .heavy)
                         impactFeedback.impactOccurred()
