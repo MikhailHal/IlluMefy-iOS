@@ -303,3 +303,19 @@
 /* Settings */
 "settings.logout" = "ログアウト";
 "settings.loggingOut" = "ログアウト中...";
+
+/* Creator Detail - Tag Deletion */
+"creatorDetail.tagDeletionAlertTitle" = "タグ削除申請";
+"creatorDetail.tagDeletionConfirmYes" = "はい";
+"creatorDetail.tagDeletionConfirmNo" = "いいえ";
+"creatorDetail.tagDeletionConfirmMessage" = "\"%@\"の削除を申請しますか？\n\n一度運営が審査するため即座に反映はされません。";
+"creatorDetail.tagDeletionInstruction" = "削除を希望する場合はタグを長押ししてください";
+
+/* Favorite */
+"favorite.addToFavorite" = "お気に入りに追加";
+"favorite.favorited" = "お気に入り済み";
+
+/* Creator Detail - Statistics */
+"creatorDetail.pageViews" = "ページ\n閲覧者数";
+"creatorDetail.snsLinkTaps" = "SNSリンク\nタップ回数";
+"creatorDetail.favoriteUsers" = "お気に入り\nユーザー数";
