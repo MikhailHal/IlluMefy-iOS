@@ -33,7 +33,8 @@ final class TagApplicationViewModelSpec: QuickSpec, @unchecked Sendable {
                     platform: [.youtube: "https://youtube.com/test"],
                     createdAt: Date(),
                     updatedAt: Date(),
-                    isActive: true
+                    isActive: true,
+                    favoriteCount: 0
                 )
                 
                 viewModel = TagApplicationViewModel(
@@ -56,6 +57,7 @@ final class TagApplicationViewModelSpec: QuickSpec, @unchecked Sendable {
                     expect(viewModel.showingResult).to(beFalse())
                     expect(viewModel.isSuccess).to(beFalse())
                     expect(viewModel.resultMessage).to(equal(""))
+                    expect(viewModel.creator.favoriteCount).to(equal(0))
                 }
                 
                 it("should store creator and application type") {

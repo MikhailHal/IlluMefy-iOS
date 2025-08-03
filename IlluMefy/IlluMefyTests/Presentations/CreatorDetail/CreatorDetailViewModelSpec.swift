@@ -79,7 +79,8 @@ final class CreatorDetailViewModelSpec: QuickSpec, @unchecked Sendable {
                         ],
                         createdAt: Date(),
                         updatedAt: Date(),
-                        isActive: true
+                        isActive: true,
+                        favoriteCount: 0
                     )
                     
                     let similarCreators = [
@@ -95,7 +96,8 @@ final class CreatorDetailViewModelSpec: QuickSpec, @unchecked Sendable {
                             platform: [:],
                             createdAt: Date(),
                             updatedAt: Date(),
-                            isActive: true
+                            isActive: true,
+                            favoriteCount: 0
                         ),
                         Creator(
                             id: "similar-2",
@@ -109,7 +111,8 @@ final class CreatorDetailViewModelSpec: QuickSpec, @unchecked Sendable {
                             platform: [:],
                             createdAt: Date(),
                             updatedAt: Date(),
-                            isActive: true
+                            isActive: true,
+                            favoriteCount: 0
                         )
                     ]
                     
@@ -335,7 +338,8 @@ final class CreatorDetailViewModelSpec: QuickSpec, @unchecked Sendable {
                         platform: [:],
                         createdAt: Date(),
                         updatedAt: Date(),
-                        isActive: true
+                        isActive: true,
+                        favoriteCount: 0
                     )
                     
                     let state1 = CreatorDetailViewState.loaded(creator: creator, similarCreators: [])

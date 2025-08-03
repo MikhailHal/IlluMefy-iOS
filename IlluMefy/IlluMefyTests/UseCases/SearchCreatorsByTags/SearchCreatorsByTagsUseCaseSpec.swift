@@ -41,7 +41,8 @@ class SearchCreatorsByTagsUseCaseSpec: QuickSpec {
                         platform: [.youtube: "https://youtube.com/creator1"],
                         createdAt: Date().addingTimeInterval(-86400),
                         updatedAt: Date().addingTimeInterval(-3600),
-                        isActive: true
+                        isActive: true,
+                        favoriteCount: 0
                     ),
                     Creator(
                         id: "creator2",
@@ -55,7 +56,8 @@ class SearchCreatorsByTagsUseCaseSpec: QuickSpec {
                         platform: [.twitch: "https://twitch.tv/creator2"],
                         createdAt: Date().addingTimeInterval(-86400 * 2),
                         updatedAt: Date().addingTimeInterval(-7200),
-                        isActive: true
+                        isActive: true,
+                        favoriteCount: 0
                     )
                 ]
                 

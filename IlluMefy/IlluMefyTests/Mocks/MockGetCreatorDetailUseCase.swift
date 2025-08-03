@@ -51,7 +51,8 @@ final class MockGetCreatorDetailUseCase: GetCreatorDetailUseCaseProtocol {
                 ],
                 createdAt: Date(),
                 updatedAt: Date(),
-                isActive: true
+                isActive: true,
+                favoriteCount: 0
             )
             
             return GetCreatorDetailUseCaseResponse(
