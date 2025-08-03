@@ -299,8 +299,8 @@ struct CreatorDetailView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: Spacing.componentGrouping) {
                     ForEach(creator.relatedTag, id: \.self) { tag in
-                        TagChip(tagName: tag, isEditing: false) {
-                            // タグ削除アクション
+                        IlluMefyFeaturedTag(text: tag) { _ in
+                            // タグタップアクション（将来的に検索画面遷移等）
                         }
                     }
                 }

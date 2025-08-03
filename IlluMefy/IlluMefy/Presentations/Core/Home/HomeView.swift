@@ -103,11 +103,11 @@ struct HomeView: View {
             HStack(spacing: Spacing.componentGrouping) {
                 if viewModel.isLoading {
                     ForEach(0..<6, id: \.self) { _ in
-                        FeaturedTagTile(tag: nil, onTapped: onTagTapped)
+                        IlluMefyFeaturedTag(tag: nil, onTapped: onTagTapped)
                     }
                 } else {
                     ForEach(viewModel.popularTags) { tag in
-                        FeaturedTagTile(tag: tag, onTapped: onTagTapped)
+                        IlluMefyFeaturedTag(tag: tag, onTapped: onTagTapped)
                     }
                 }
             }
@@ -225,64 +225,6 @@ struct FeaturedCreatorView: View {
         }
         .cornerRadius(CornerRadius.button)
         .padding(.horizontal, Spacing.screenEdgePadding)
-    }
-}
-
-// MARK: - Featured Tag Tile Component
-
-struct FeaturedTagTile: View {
-    let tag: Tag?
-    let onTapped: ((Tag) -> Void)?
-    @State private var isPressed = false
-    
-    var body: some View {
-        if let tag = tag {
-            normalTag(tag: tag)
-        } else {
-            skeletonTag
-        }
-    }
-    
-    private func normalTag(tag: Tag) -> some View {
-        HStack(spacing: Spacing.relatedComponentDivider) {
-            Image(systemName: "tag")
-                .frame(maxWidth: 10)
-            Text("\(tag.displayName)")
-                .font(.system(size: Typography.bodyRegular, weight: .medium))
-                .foregroundColor(Asset.Color.Tag.tagText.swiftUIColor)
-        }
-        .padding(.horizontal, Spacing.medium)
-        .padding(.vertical, Spacing.componentGrouping)
-        .overlay(
-            RoundedRectangle(cornerRadius: CornerRadius.tag)
-                .stroke(Asset.Color.Tag.tagBorder.swiftUIColor, lineWidth: 1)
-        )
-        .background(
-            RoundedRectangle(cornerRadius: CornerRadius.tag)
-                .fill(LinearGradient(
-                    colors: [Asset.Color.Tag.tagBackgroundGradationStart.swiftUIColor, Asset.Color.Tag.tagBackgroundGradationEnd.swiftUIColor],
-                    startPoint: .leading,
-                    endPoint: .trailing)
-                )
-        )
-        .onTapGesture {
-            let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
-            impactFeedback.impactOccurred()
-            onTapped?(tag)
-        }
-    }
-    
-    private var skeletonTag: some View {
-        Text("#Loading")
-            .font(.system(size: Typography.bodyRegular, weight: .medium))
-            .foregroundColor(.clear)
-            .padding(.horizontal, Spacing.medium)
-            .padding(.vertical, Spacing.componentGrouping)
-            .background(
-                RoundedRectangle(cornerRadius: CornerRadius.tag)
-                    .fill(Color.gray.opacity(Opacity.glow))
-                    .shimmering()
-            )
     }
 }
 
