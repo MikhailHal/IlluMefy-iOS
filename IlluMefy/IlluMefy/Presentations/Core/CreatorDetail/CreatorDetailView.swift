@@ -66,14 +66,14 @@ struct CreatorDetailView: View {
         } message: {
             Text(L10n.CreatorDetail.tagApplicationTypeSelection)
         }
-        .alert("タグ削除申請", isPresented: $showingTagDeleteConfirmation) {
-            Button("はい", role: .destructive) {
+        .alert(L10n.CreatorDetail.tagDeletionAlertTitle, isPresented: $showingTagDeleteConfirmation) {
+            Button(L10n.CreatorDetail.tagDeletionConfirmYes, role: .destructive) {
                 tagApplicationType = .remove
                 showingTagApplication = true
             }
-            Button("いいえ", role: .cancel) { }
+            Button(L10n.CreatorDetail.tagDeletionConfirmNo, role: .cancel) { }
         } message: {
-            Text("\"\(selectedTagForDeletion)\"の削除を申請しますか？\n\n一度運営が審査するため即座に反映はされません。")
+            Text(L10n.CreatorDetail.tagDeletionConfirmMessage(selectedTagForDeletion))
         }
         .task {
             await viewModel.loadCreatorDetail()
@@ -191,7 +191,7 @@ struct CreatorDetailView: View {
                 HStack(spacing: Spacing.componentGrouping) {
                     Image(systemName: viewModel.isFavorite ? "heart.fill" : "heart")
                         .font(.system(size: Typography.bodyRegular))
-                    Text(viewModel.isFavorite ? "お気に入り済み" : "お気に入りに追加")
+                    Text(viewModel.isFavorite ? L10n.Favorite.favorited : L10n.Favorite.addToFavorite)
                         .font(.system(size: Typography.bodyRegular, weight: .medium))
                 }
                 .foregroundColor(
@@ -235,7 +235,7 @@ struct CreatorDetailView: View {
                Text(formatViewCount(creator.viewCount))
                     .font(.system(size: Typography.bodyRegular, weight: .bold))
                     .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSectionTitle.swiftUIColor)
-                Text("ページ\n閲覧者数")
+                Text(L10n.CreatorDetail.pageViews)
                     .multilineTextAlignment(.center)
                      .font(.system(size: Typography.bodyRegular, weight: .bold))
                      .foregroundColor(
@@ -248,7 +248,7 @@ struct CreatorDetailView: View {
                 Text(formatViewCount(creator.socialLinkClickCount))
                     .font(.system(size: Typography.bodyRegular, weight: .bold))
                     .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSectionTitle.swiftUIColor)
-                Text("SNSリンク\nタップ回数")
+                Text(L10n.CreatorDetail.snsLinkTaps)
                     .multilineTextAlignment(.center)
                      .font(.system(size: Typography.bodyRegular, weight: .bold))
                      .foregroundColor(
@@ -261,7 +261,7 @@ struct CreatorDetailView: View {
                 Text(formatViewCount(creator.favoriteCount))
                     .font(.system(size: Typography.bodyRegular, weight: .bold))
                     .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSectionTitle.swiftUIColor)
-                Text("お気に入り\nユーザー数")
+                Text(L10n.CreatorDetail.favoriteUsers)
                     .multilineTextAlignment(.center)
                      .font(.system(size: Typography.bodyRegular, weight: .bold))
                      .foregroundColor(
@@ -296,7 +296,7 @@ struct CreatorDetailView: View {
                 .font(.system(size: Typography.titleMedium, weight: .bold))
                 .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSectionTitle.swiftUIColor)
             
-            Text("削除を希望する場合はタグを長押ししてください")
+            Text(L10n.CreatorDetail.tagDeletionInstruction)
                 .font(.system(size: Typography.captionSmall))
                 .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSubtitle.swiftUIColor)
             
