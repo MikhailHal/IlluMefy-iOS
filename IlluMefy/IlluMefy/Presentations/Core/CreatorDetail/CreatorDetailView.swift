@@ -17,6 +17,8 @@ struct CreatorDetailView: View {
     @State private var tagApplicationType: TagApplicationRequest.ApplicationType = .add
     @State private var showingTagApplicationTypeSelection = false
     @State private var showingProfileCorrection = false
+    @State private var showingTagDeleteConfirmation = false
+    @State private var selectedTagForDeletion: String = ""
     
     init(creatorId: String) {
         let container = DependencyContainer.shared
@@ -63,6 +65,15 @@ struct CreatorDetailView: View {
             Button(L10n.Common.cancel, role: .cancel) { }
         } message: {
             Text(L10n.CreatorDetail.tagApplicationTypeSelection)
+        }
+        .alert("タグ削除申請", isPresented: $showingTagDeleteConfirmation) {
+            Button("はい", role: .destructive) {
+                tagApplicationType = .remove
+                showingTagApplication = true
+            }
+            Button("いいえ", role: .cancel) { }
+        } message: {
+            Text("\"\(selectedTagForDeletion)\"の削除を申請しますか？\n\n一度運営が審査するため即座に反映はされません。")
         }
         .task {
             await viewModel.loadCreatorDetail()
@@ -285,11 +296,21 @@ struct CreatorDetailView: View {
                 .font(.system(size: Typography.titleMedium, weight: .bold))
                 .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSectionTitle.swiftUIColor)
             
+            Text("削除を希望する場合はタグを長押ししてください")
+                .font(.system(size: Typography.captionSmall))
+                .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSubtitle.swiftUIColor)
+            
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: Spacing.componentGrouping) {
                     IlluMefyAddTag()
                     ForEach(creator.relatedTag, id: \.self) { tag in
                         IlluMefyFeaturedTag(text: tag)
+                            .onLongPressGesture {
+                                let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
+                                impactFeedback.impactOccurred()
+                                selectedTagForDeletion = tag
+                                showingTagDeleteConfirmation = true
+                            }
                     }
                 }
                 .padding(.trailing, Spacing.screenEdgePadding)
