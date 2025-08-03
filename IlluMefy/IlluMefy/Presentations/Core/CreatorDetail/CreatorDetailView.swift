@@ -39,7 +39,6 @@ struct CreatorDetailView: View {
             }
         }
         .background(Asset.Color.CreatorDetailCard.creatorDetailCardBackground.swiftUIColor)
-        .navigationBarHidden(true)
         .sheet(isPresented: $showingTagApplication) {
             if case .loaded(let creator, _) = viewModel.state {
                 TagApplicationView(creator: creator, applicationType: tagApplicationType)
@@ -74,7 +73,6 @@ struct CreatorDetailView: View {
     
     private var loadingView: some View {
         VStack(spacing: Spacing.unrelatedComponentDivider) {
-            headerSection
             Spacer()
             ProgressView()
                 .scaleEffect(Effects.scaleIcon)
@@ -88,7 +86,6 @@ struct CreatorDetailView: View {
     
     private func errorView(title: String, message: String) -> some View {
         VStack(spacing: Spacing.unrelatedComponentDivider) {
-            headerSection
             Spacer()
             Image(systemName: "exclamationmark.triangle")
                 .font(.system(size: Typography.titleExtraLarge))
@@ -116,9 +113,6 @@ struct CreatorDetailView: View {
     private func contentView(creator: Creator, similarCreators: [Creator]) -> some View {
         ScrollView {
             VStack(spacing: Spacing.unrelatedComponentDivider) {
-                // Header section with close button
-                headerSection
-                
                 // Creator profile section
                 creatorProfileSection(creator: creator)
                 
@@ -138,22 +132,6 @@ struct CreatorDetailView: View {
     }
     
     // MARK: - View Components
-    
-    private var headerSection: some View {
-        HStack {
-            Spacer()
-            Button(action: {
-                let impactFeedback = UIImpactFeedbackGenerator(style: .light)
-                impactFeedback.impactOccurred()
-                dismiss()
-            }, label: {
-                Image(systemName: "xmark.circle.fill")
-                    .font(.title2)
-                    .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSubtitle.swiftUIColor)
-            })
-        }
-    }
-    
     private func creatorProfileSection(creator: Creator) -> some View {
         VStack(spacing: Spacing.relatedComponentDivider) {
             // Creator image
