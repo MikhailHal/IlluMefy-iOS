@@ -10,14 +10,21 @@ protocol IlluMefyTagDisplayable {
 struct IlluMefyFeaturedTag: View {
     let tagData: IlluMefyTagDisplayable?
     let onTapped: ((IlluMefyTagDisplayable) -> Void)?
+    let onLongPress: ((IlluMefyTagDisplayable) -> Void)?
+    let isDeletable: Bool
     @State private var isPressed = false
+    @State private var isLongPressing = false
     
     init(
         tagData: IlluMefyTagDisplayable?,
-        onTapped: ((IlluMefyTagDisplayable) -> Void)? = nil
+        onTapped: ((IlluMefyTagDisplayable) -> Void)? = nil,
+        onLongPress: ((IlluMefyTagDisplayable) -> Void)? = nil,
+        isDeletable: Bool = false
     ) {
         self.tagData = tagData
         self.onTapped = onTapped
+        self.onLongPress = onLongPress
+        self.isDeletable = isDeletable
     }
     
     var body: some View {
@@ -44,17 +51,21 @@ struct IlluMefyFeaturedTag: View {
         )
         .background(
             RoundedRectangle(cornerRadius: CornerRadius.tag)
-                .fill(LinearGradient(
-                    colors: [
-                        Asset.Color.Tag.tagBackgroundGradationStart.swiftUIColor, 
-                        Asset.Color.Tag.tagBackgroundGradationEnd.swiftUIColor
-                    ],
-                    startPoint: .leading,
-                    endPoint: .trailing
-                ))
+                .fill(isLongPressing && isDeletable ? 
+                    AnyShapeStyle(Asset.Color.CreatorDetailCard.creatorDetailCardLongPressing.swiftUIColor) :
+                    AnyShapeStyle(LinearGradient(
+                        colors: [
+                            Asset.Color.Tag.tagBackgroundGradationStart.swiftUIColor, 
+                            Asset.Color.Tag.tagBackgroundGradationEnd.swiftUIColor
+                        ],
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    ))
+                )
         )
         .scaleEffect(isPressed ? Effects.scalePressed : Effects.visibleOpacity)
         .animation(.easeInOut(duration: AnimationDuration.buttonPress), value: isPressed)
+        .animation(.easeInOut(duration: 0.2), value: isLongPressing)
         .onTapGesture {
             guard let onTapped = onTapped else { return }
             let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
@@ -67,6 +78,17 @@ struct IlluMefyFeaturedTag: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + AnimationDuration.buttonPress) {
                 isPressed = false
                 onTapped(tagData)
+            }
+        }
+        .onLongPressGesture(minimumDuration: 0.5) {
+            guard let onLongPress = onLongPress, isDeletable else { return }
+            let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
+            impactFeedback.impactOccurred()
+            onLongPress(tagData)
+        } onPressingChanged: { isPressing in
+            guard isDeletable else { return }
+            withAnimation(.easeInOut(duration: 0.2)) {
+                isLongPressing = isPressing
             }
         }
     }
@@ -108,21 +130,31 @@ extension String: IlluMefyTagDisplayable {
 // MARK: - Convenience Initializers
 extension IlluMefyFeaturedTag {
     // For Tag entities
-    init(tag: Tag?, onTapped: ((Tag) -> Void)? = nil) {
+    init(tag: Tag?, onTapped: ((Tag) -> Void)? = nil, onLongPress: ((Tag) -> Void)? = nil, isDeletable: Bool = false) {
         self.tagData = tag
         self.onTapped = { tagData in
             guard let tag = tagData as? Tag else { return }
             onTapped?(tag)
         }
+        self.onLongPress = { tagData in
+            guard let tag = tagData as? Tag else { return }
+            onLongPress?(tag)
+        }
+        self.isDeletable = isDeletable
     }
     
     // For String data
-    init(text: String?, onTapped: ((String) -> Void)? = nil) {
+    init(text: String?, onTapped: ((String) -> Void)? = nil, onLongPress: ((String) -> Void)? = nil, isDeletable: Bool = false) {
         self.tagData = text
         self.onTapped = { tagData in
             guard let text = tagData as? String else { return }
             onTapped?(text)
         }
+        self.onLongPress = { tagData in
+            guard let text = tagData as? String else { return }
+            onLongPress?(text)
+        }
+        self.isDeletable = isDeletable
     }
 }
 

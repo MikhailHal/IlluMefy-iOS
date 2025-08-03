@@ -304,13 +304,14 @@ struct CreatorDetailView: View {
                 HStack(spacing: Spacing.componentGrouping) {
                     IlluMefyAddTag()
                     ForEach(creator.relatedTag, id: \.self) { tag in
-                        IlluMefyFeaturedTag(text: tag)
-                            .onLongPressGesture {
-                                let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
-                                impactFeedback.impactOccurred()
-                                selectedTagForDeletion = tag
+                        IlluMefyFeaturedTag(
+                            text: tag,
+                            onLongPress: { tagText in
+                                selectedTagForDeletion = tagText
                                 showingTagDeleteConfirmation = true
-                            }
+                            },
+                            isDeletable: true
+                        )
                     }
                 }
                 .padding(.trailing, Spacing.screenEdgePadding)
