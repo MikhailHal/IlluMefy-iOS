@@ -170,9 +170,7 @@ struct CreatorDetailView: View {
             } placeholder: {
                 Rectangle()
                     .fill(Asset.Color.CreatorDetailCard.creatorDetailCardSectionBackground.swiftUIColor)
-                    .overlay(
-                        ProgressView()
-                    )
+                    .shimmering()
             }
             .frame(width: Size.creatorImageSize, height: Size.creatorImageSize)
             .clipShape(Circle())
