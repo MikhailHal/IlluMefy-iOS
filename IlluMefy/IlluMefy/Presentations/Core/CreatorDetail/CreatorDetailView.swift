@@ -130,12 +130,6 @@ struct CreatorDetailView: View {
                 // Tags section
                 tagsSection(creator: creator)
                 
-                // Tag registration section
-                tagRegistrationSection
-                
-                // Information correction section
-                informationCorrectionSection
-                
                 // Similar creators section
                 similarCreatorsSection(similarCreators: similarCreators)
             }
@@ -304,59 +298,6 @@ struct CreatorDetailView: View {
                 }
                 .padding(.trailing, Spacing.screenEdgePadding)
             }
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-    }
-    
-    private var tagRegistrationSection: some View {
-        VStack(alignment: .leading, spacing: Spacing.relatedComponentDivider) {
-            Text(L10n.CreatorDetail.tagApplication)
-                .font(.system(size: Typography.titleMedium, weight: .bold))
-                .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSectionTitle.swiftUIColor)
-            
-            Text(L10n.CreatorDetail.tagApplicationDescription)
-                .font(.system(size: Typography.bodyRegular))
-                .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSubtitle.swiftUIColor)
-                .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSubtitle.swiftUIColor)
-            
-            Button(action: {
-                let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
-                impactFeedback.impactOccurred()
-                showingTagApplicationTypeSelection = true
-            }, label: {
-                HStack {
-                    Text(L10n.CreatorDetail.tagApplicationButton)
-                        .font(.system(size: Typography.checkmark, weight: .medium))
-                        .frame(maxWidth: .infinity)
-                    Spacer()
-                }
-            }).illuMefyButtonStyle(isEnabled: true, size: .regular)
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-    }
-    
-    private var informationCorrectionSection: some View {
-        VStack(alignment: .leading, spacing: Spacing.relatedComponentDivider) {
-            Text(L10n.CreatorDetail.informationCorrection)
-                .font(.system(size: Typography.titleMedium, weight: .bold))
-                .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSectionTitle.swiftUIColor)
-            
-            Text(L10n.CreatorDetail.informationCorrectionDescription)
-                .font(.system(size: Typography.bodyRegular))
-                .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSubtitle.swiftUIColor)
-                .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSubtitle.swiftUIColor)
-            
-            Button(action: {
-                let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
-                impactFeedback.impactOccurred()
-                showingProfileCorrection = true
-            }, label: {
-                HStack {
-                    Text(L10n.CreatorDetail.profileCorrectionButton)
-                        .font(.system(size: Typography.checkmark, weight: .medium))
-                        .frame(maxWidth: .infinity)
-                }
-            }).illuMefyButtonStyle(isEnabled: true, size: .regular)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
