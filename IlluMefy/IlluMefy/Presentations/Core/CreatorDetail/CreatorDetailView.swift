@@ -165,36 +165,55 @@ struct CreatorDetailView: View {
             )
             
             // Creator name with favorite button
-            HStack(spacing: Spacing.relatedComponentDivider) {
-                Text(creator.name)
-                    .font(.system(size: Typography.titleLarge, weight: .bold))
-                    .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardTitle.swiftUIColor)
-                    .multilineTextAlignment(.center)
-                
-                Button(action: {
-                    let impactFeedback = UIImpactFeedbackGenerator(style: .heavy)
-                    impactFeedback.impactOccurred()
-                    withAnimation(.easeInOut(duration: AnimationDuration.heartBeat)) {
-                        viewModel.toggleFavorite()
-                    }
-                }, label: {
+            Text(creator.name)
+                .font(.system(size: Typography.titleLarge, weight: .bold))
+                .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardTitle.swiftUIColor)
+                .multilineTextAlignment(.center)
+            
+            Button(action: {
+                let impactFeedback = UIImpactFeedbackGenerator(style: .heavy)
+                impactFeedback.impactOccurred()
+                withAnimation(.easeInOut(duration: AnimationDuration.heartBeat)) {
+                    viewModel.toggleFavorite()
+                }
+            }, label: {
+                HStack(spacing: Spacing.componentGrouping) {
                     Image(systemName: viewModel.isFavorite ? "heart.fill" : "heart")
-                        .font(.title2)
-                        .foregroundColor(
+                        .font(.system(size: Typography.bodyRegular))
+                    Text(viewModel.isFavorite ? "お気に入り済み" : "お気に入りに追加")
+                        .font(.system(size: Typography.bodyRegular, weight: .medium))
+                }
+                .foregroundColor(
+                    viewModel.isFavorite
+                        ? .white
+                        : Asset.Color.CreatorDetailCard.creatorDetailCardTitle.swiftUIColor
+                )
+                .padding(.horizontal, Spacing.medium)
+                .padding(.vertical, Spacing.componentGrouping)
+                .background(
+                    Capsule()
+                        .fill(
                             viewModel.isFavorite
-                                ? Asset.Color.WarningText.warningLabelForground.swiftUIColor
-                                : Asset.Color.CreatorDetailCard.creatorDetailCardFavoriteInactive.swiftUIColor
+                            ? Asset.Color.CreatorDetailCard.creatorDetailCardFavorite.swiftUIColor
+                                : Asset.Color.CreatorDetailCard.creatorDetailCardFavorite.swiftUIColor.opacity(0.15)
                         )
-                        .scaleEffect(viewModel.isFavorite ? Effects.scaleHeart : Effects.visibleOpacity)
-                        .animation(
-                            .spring(
-                                response: AnimationParameters.springResponse,
-                                dampingFraction: AnimationParameters.springDamping
-                            ),
-                            value: viewModel.isFavorite
+                )
+                .overlay(
+                    Capsule()
+                        .stroke(
+                            Asset.Color.WarningText.warningLabelForground.swiftUIColor,
+                            lineWidth: viewModel.isFavorite ? 0 : 1
                         )
-                })
-            }
+                )
+                .scaleEffect(viewModel.isFavorite ? Effects.scaleHeart : Effects.visibleOpacity)
+                .animation(
+                    .spring(
+                        response: AnimationParameters.springResponse,
+                        dampingFraction: AnimationParameters.springDamping
+                    ),
+                    value: viewModel.isFavorite
+                )
+            })
         }
     }
     
@@ -323,17 +342,15 @@ struct CreatorDetailView: View {
                 .frame(width: Size.creatorImageSize, height: Size.creatorImageSize)
                 .shimmering()
             
-            HStack(spacing: Spacing.relatedComponentDivider) {
-                RoundedRectangle(cornerRadius: 4)
-                    .fill(Color.gray.opacity(Opacity.glow))
-                    .frame(width: 150, height: 28)
-                    .shimmering()
-                
-                Circle()
-                    .fill(Color.gray.opacity(Opacity.glow))
-                    .frame(width: 28, height: 28)
-                    .shimmering()
-            }
+            RoundedRectangle(cornerRadius: 4)
+                .fill(Color.gray.opacity(Opacity.glow))
+                .frame(width: 150, height: 28)
+                .shimmering()
+            
+            RoundedRectangle(cornerRadius: CornerRadius.extraLarge)
+                .fill(Color.gray.opacity(Opacity.glow))
+                .frame(width: 180, height: 40)
+                .shimmering()
             
             HStack {
                 RoundedRectangle(cornerRadius: 4)
