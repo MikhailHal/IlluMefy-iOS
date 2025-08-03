@@ -225,24 +225,6 @@ struct CreatorDetailView: View {
                         )
                 })
             }
-            
-            // Main platform indicator
-            HStack {
-                let (platform, _) = creator.mainPlatform()
-                if platform == .youtube {
-                    Image(systemName: platform.icon)
-                        .font(.system(size: Typography.bodyRegular))
-                        .foregroundColor(.red)
-                } else {
-                    Image(platform.icon)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: Size.smallIconSize, height: Size.smallIconSize)
-                }
-                Text(L10n.CreatorDetail.mainPlatform)
-                    .font(.caption)
-                    .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSubtitle.swiftUIColor)
-            }
         }
     }
     
