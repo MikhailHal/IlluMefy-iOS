@@ -290,10 +290,9 @@ struct CreatorDetailView: View {
             
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: Spacing.componentGrouping) {
+                    IlluMefyAddTag()
                     ForEach(creator.relatedTag, id: \.self) { tag in
-                        IlluMefyFeaturedTag(text: tag) { _ in
-                            // タグタップアクション（将来的に検索画面遷移等）
-                        }
+                        IlluMefyFeaturedTag(text: tag)
                     }
                 }
                 .padding(.trailing, Spacing.screenEdgePadding)
