@@ -127,7 +127,8 @@ extension Image {
         ],
         createdAt: Date().addingTimeInterval(-86400 * 30),
         updatedAt: Date().addingTimeInterval(-3600),
-        isActive: true
+        isActive: true,
+        favoriteCount: 100
     )
     
     HStack {

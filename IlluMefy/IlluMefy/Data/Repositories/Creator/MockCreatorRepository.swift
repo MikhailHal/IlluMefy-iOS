@@ -36,7 +36,8 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
             ],
             createdAt: Date().addingTimeInterval(-86400 * 30),
             updatedAt: Date().addingTimeInterval(-3600),
-            isActive: true
+            isActive: true,
+            favoriteCount: 100
         ),
         Creator(
             id: "creator_002", 
@@ -56,7 +57,8 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
             ],
             createdAt: Date().addingTimeInterval(-86400 * 60),
             updatedAt: Date().addingTimeInterval(-7200),
-            isActive: true
+            isActive: true,
+            favoriteCount: 100
         ),
         Creator(
             id: "creator_003",
@@ -79,7 +81,8 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
             ],
             createdAt: Date().addingTimeInterval(-86400 * 90),
             updatedAt: Date().addingTimeInterval(-86400),
-            isActive: true
+            isActive: true,
+            favoriteCount: 100
         ),
         Creator(
             id: "creator_004",
@@ -97,7 +100,8 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
             ],
             createdAt: Date().addingTimeInterval(-86400 * 45),
             updatedAt: Date().addingTimeInterval(-86400 * 5),
-            isActive: true
+            isActive: true,
+            favoriteCount: 100
         ),
         Creator(
             id: "creator_005",
@@ -117,7 +121,8 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
             ],
             createdAt: Date().addingTimeInterval(-86400 * 120),
             updatedAt: Date().addingTimeInterval(-86400 * 2),
-            isActive: true
+            isActive: true,
+            favoriteCount: 100
         ),
         Creator(
             id: "creator_006",
@@ -137,7 +142,8 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
             ],
             createdAt: Date().addingTimeInterval(-86400 * 15),
             updatedAt: Date().addingTimeInterval(-1800),
-            isActive: true
+            isActive: true,
+            favoriteCount: 100
         ),
         Creator(
             id: "creator_007",
@@ -157,7 +163,8 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
             ],
             createdAt: Date().addingTimeInterval(-86400 * 75),
             updatedAt: Date().addingTimeInterval(-86400 * 3),
-            isActive: true
+            isActive: true,
+            favoriteCount: 100
         ),
         Creator(
             id: "creator_008",
@@ -177,7 +184,8 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
             ],
             createdAt: Date().addingTimeInterval(-86400 * 180),
             updatedAt: Date().addingTimeInterval(-86400),
-            isActive: true
+            isActive: true,
+            favoriteCount: 100
         ),
         Creator(
             id: "creator_009",
@@ -197,7 +205,8 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
             ],
             createdAt: Date().addingTimeInterval(-86400 * 90),
             updatedAt: Date().addingTimeInterval(-7200),
-            isActive: true
+            isActive: true,
+            favoriteCount: 100
         )
     ]
     

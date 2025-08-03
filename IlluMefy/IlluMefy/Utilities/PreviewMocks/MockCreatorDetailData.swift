@@ -32,7 +32,8 @@ struct MockCreatorDetailData {
         ],
         createdAt: Date().addingTimeInterval(-86400 * 30),
         updatedAt: Date().addingTimeInterval(-3600),
-        isActive: true
+        isActive: true,
+        favoriteCount: 100
     )
     
     /// プレビュー用の類似クリエイターデータ
@@ -52,7 +53,8 @@ struct MockCreatorDetailData {
             ],
             createdAt: Date().addingTimeInterval(-86400 * 45),
             updatedAt: Date().addingTimeInterval(-7200),
-            isActive: true
+            isActive: true,
+            favoriteCount: 100
         ),
         Creator(
             id: "similar_002",
@@ -69,7 +71,8 @@ struct MockCreatorDetailData {
             ],
             createdAt: Date().addingTimeInterval(-86400 * 20),
             updatedAt: Date().addingTimeInterval(-1800),
-            isActive: true
+            isActive: true,
+            favoriteCount: 100
         ),
         Creator(
             id: "similar_003",
@@ -86,7 +89,8 @@ struct MockCreatorDetailData {
             ],
             createdAt: Date().addingTimeInterval(-86400 * 60),
             updatedAt: Date().addingTimeInterval(-3600 * 6),
-            isActive: true
+            isActive: true,
+            favoriteCount: 100
         )
     ]
 }

@@ -124,6 +124,9 @@ struct Creator: Equatable, Codable, Identifiable, Hashable {
     /// `false`: 活動停止中（非表示対象）
     let isActive: Bool
     
+    /// お気に入り数
+    let favoriteCount: Int
+    
     /// クリエイターが活動しているプラットフォーム一覧を取得
     /// 
     /// - Returns: プラットフォームの配列（順序は保証されません）
