@@ -314,11 +314,9 @@ struct CreatorDetailView: View {
                 .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSubtitle.swiftUIColor)
             
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: Spacing.relatedComponentDivider) {
+                HStack(spacing: Spacing.componentGrouping) {
                     ForEach(similarCreators) { similarCreator in
-                        SimilarCreatorCard(creator: similarCreator) {
-                            router.navigate(to: .creatorDetail(creatorId: similarCreator.id))
-                        }
+                        CreatorTile(creator: similarCreator)
                     }
                 }
                 .padding(.trailing, Spacing.screenEdgePadding)
