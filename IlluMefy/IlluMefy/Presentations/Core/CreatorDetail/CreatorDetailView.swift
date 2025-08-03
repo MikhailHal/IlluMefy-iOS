@@ -122,6 +122,8 @@ struct CreatorDetailView: View {
                 // Creator profile section
                 creatorProfileSection(creator: creator)
                 
+                detailSection(creator: creator)
+                
                 // Platform buttons section
                 platformButtonsSection(creator: creator)
                 
@@ -133,9 +135,6 @@ struct CreatorDetailView: View {
                 
                 // Information correction section
                 informationCorrectionSection
-                
-                // Stats section
-                statsSection(creator: creator)
                 
                 // Similar creators section
                 similarCreatorsSection(similarCreators: similarCreators)
@@ -247,6 +246,48 @@ struct CreatorDetailView: View {
         }
     }
     
+    private func detailSection(creator: Creator) -> some View {
+        HStack(spacing: Spacing.unrelatedComponentDivider) {
+            // 視聴回数
+            VStack(spacing: Spacing.relatedComponentDivider) {
+               Text(formatViewCount(creator.viewCount))
+                    .font(.system(size: Typography.bodyRegular, weight: .bold))
+                    .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSectionTitle.swiftUIColor)
+                Text("ページ\n閲覧者数")
+                    .multilineTextAlignment(.center)
+                     .font(.system(size: Typography.bodyRegular, weight: .bold))
+                     .foregroundColor(
+                        Asset.Color.CreatorDetailCard.creatorDetailCardSectionTitle.swiftUIColor.opacity(0.6)
+                     )
+            }.frame(maxWidth: .infinity)
+            
+            // クリック数
+            VStack(spacing: Spacing.relatedComponentDivider) {
+                Text(formatViewCount(creator.socialLinkClickCount))
+                    .font(.system(size: Typography.bodyRegular, weight: .bold))
+                    .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSectionTitle.swiftUIColor)
+                Text("SNSリンク\nタップ回数")
+                    .multilineTextAlignment(.center)
+                     .font(.system(size: Typography.bodyRegular, weight: .bold))
+                     .foregroundColor(
+                        Asset.Color.CreatorDetailCard.creatorDetailCardSectionTitle.swiftUIColor.opacity(0.6)
+                     )
+            }.frame(maxWidth: .infinity)
+            
+            // チャンネル登録者数
+            VStack(spacing: Spacing.relatedComponentDivider) {
+                Text(formatViewCount(creator.favoriteCount))
+                    .font(.system(size: Typography.bodyRegular, weight: .bold))
+                    .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSectionTitle.swiftUIColor)
+                Text("お気に入り\nユーザー数")
+                    .multilineTextAlignment(.center)
+                     .font(.system(size: Typography.bodyRegular, weight: .bold))
+                     .foregroundColor(
+                        Asset.Color.CreatorDetailCard.creatorDetailCardSectionTitle.swiftUIColor.opacity(0.6)
+                     )
+            }.frame(maxWidth: .infinity)
+        }
+    }
     private func platformButtonsSection(creator: Creator) -> some View {
         VStack(alignment: .leading, spacing: Spacing.relatedComponentDivider) {
             Text(L10n.CreatorDetail.snsLinks)
@@ -338,35 +379,6 @@ struct CreatorDetailView: View {
             }).illuMefyButtonStyle(isEnabled: true, size: .regular)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-    }
-    
-    private func statsSection(creator: Creator) -> some View {
-        VStack(spacing: Spacing.relatedComponentDivider) {
-            Text(L10n.CreatorDetail.statistics)
-                .font(.system(size: Typography.titleMedium, weight: .bold))
-                .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSectionTitle.swiftUIColor)
-                .frame(maxWidth: .infinity, alignment: .leading)
-            
-            HStack(spacing: Spacing.unrelatedComponentDivider) {
-                StatCard(
-                    title: L10n.CreatorDetail.totalViews,
-                    value: formatViewCount(creator.viewCount),
-                    icon: "eye.fill"
-                )
-                
-                StatCard(
-                    title: L10n.CreatorDetail.snsClicks,
-                    value: formatViewCount(creator.socialLinkClickCount),
-                    icon: "link"
-                )
-                
-                StatCard(
-                    title: L10n.CreatorDetail.platforms,
-                    value: "\(creator.platform.count)",
-                    icon: "square.grid.2x2"
-                )
-            }
-        }
     }
     
     private func similarCreatorsSection(similarCreators: [Creator]) -> some View {

@@ -88,39 +88,6 @@ struct PlatformButton: View {
     }
 }
 
-struct StatCard: View {
-    let title: String
-    let value: String
-    let icon: String
-    
-    var body: some View {
-        VStack(spacing: 8) {
-            Image(systemName: icon)
-                .font(.title2)
-                .foregroundColor(.primary.opacity(Opacity.overlayHeavy))
-            
-            Text(value)
-                .font(.title2)
-                .bold()
-            
-            Text(title)
-                .font(.caption)
-                .foregroundColor(.secondary)
-                .multilineTextAlignment(.center)
-        }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, Spacing.medium)
-        .background(
-            RoundedRectangle(cornerRadius: CornerRadius.large)
-                .fill(.ultraThinMaterial)
-        )
-        .overlay(
-            RoundedRectangle(cornerRadius: CornerRadius.large)
-                .stroke(.primary.opacity(Opacity.overlayLight), lineWidth: BorderWidth.medium)
-        )
-    }
-}
-
 // MARK: - TagChip Component
 
 struct TagChip: View {
