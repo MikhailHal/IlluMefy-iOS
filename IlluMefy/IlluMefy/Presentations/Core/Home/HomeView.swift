@@ -244,29 +244,32 @@ struct FeaturedTagTile: View {
     }
     
     private func normalTag(tag: Tag) -> some View {
-        Text("#\(tag.displayName)")
-            .font(.system(size: Typography.bodyRegular, weight: .medium))
-            .foregroundColor(Asset.Color.Tag.tagText.swiftUIColor)
-            .padding(.horizontal, Spacing.medium)
-            .padding(.vertical, Spacing.componentGrouping)
-            .background(
-                RoundedRectangle(cornerRadius: CornerRadius.tag)
-                    .fill(isPressed ? Asset.Color.Tag.tagBackgroundSelected.swiftUIColor : Asset.Color.Tag.tagBackground.swiftUIColor)
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: CornerRadius.tag)
-                    .stroke(Asset.Color.Tag.tagBorder.swiftUIColor, lineWidth: 1)
-            )
-            .scaleEffect(isPressed ? 0.95 : 1.0)
-            .animation(.easeInOut(duration: 0.1), value: isPressed)
-            .onTapGesture {
-                let impactFeedback = UIImpactFeedbackGenerator(style: .light)
-                impactFeedback.impactOccurred()
-                onTapped?(tag)
-            }
-            .onLongPressGesture(minimumDuration: 0, maximumDistance: .infinity) { pressing in
-                isPressed = pressing
-            } perform: {}
+        HStack(spacing: Spacing.relatedComponentDivider) {
+            Image(systemName: "tag")
+                .frame(maxWidth: 10)
+            Text("\(tag.displayName)")
+                .font(.system(size: Typography.bodyRegular, weight: .medium))
+                .foregroundColor(Asset.Color.Tag.tagText.swiftUIColor)
+        }
+        .padding(.horizontal, Spacing.medium)
+        .padding(.vertical, Spacing.componentGrouping)
+        .overlay(
+            RoundedRectangle(cornerRadius: CornerRadius.tag)
+                .stroke(Asset.Color.Tag.tagBorder.swiftUIColor, lineWidth: 1)
+        )
+        .background(
+            RoundedRectangle(cornerRadius: CornerRadius.tag)
+                .fill(LinearGradient(
+                    colors: [Asset.Color.Tag.tagBackgroundGradationStart.swiftUIColor, Asset.Color.Tag.tagBackgroundGradationEnd.swiftUIColor],
+                    startPoint: .leading,
+                    endPoint: .trailing)
+                )
+        )
+        .onTapGesture {
+            let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
+            impactFeedback.impactOccurred()
+            onTapped?(tag)
+        }
     }
     
     private var skeletonTag: some View {
