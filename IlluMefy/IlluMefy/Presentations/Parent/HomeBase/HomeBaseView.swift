@@ -66,6 +66,9 @@ private struct TabBarView: View {
                     Text(L10n.Navigation.settings)
                 }
                 .tag(4)
+        }.onChange(of: selectedTab) { _, _ in
+            let impactFeedback = UIImpactFeedbackGenerator(style: .light)
+            impactFeedback.impactOccurred()
         }
     }
 }
