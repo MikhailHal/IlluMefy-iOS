@@ -72,16 +72,16 @@ struct CreatorDetailView: View {
     // MARK: - State Views
     
     private var loadingView: some View {
-        VStack(spacing: Spacing.unrelatedComponentDivider) {
-            Spacer()
-            ProgressView()
-                .scaleEffect(Effects.scaleIcon)
-            Text(L10n.Common.loading)
-                .font(.headline)
-                .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSubtitle.swiftUIColor)
-            Spacer()
+        ScrollView {
+            VStack(spacing: Spacing.unrelatedComponentDivider) {
+                creatorProfileSectionSkeleton()
+                detailSectionSkeleton()
+                platformButtonsSectionSkeleton()
+                tagsSectionSkeleton()
+                similarCreatorsSectionSkeleton()
+            }
+            .padding(Spacing.screenEdgePadding)
         }
-        .padding(Spacing.screenEdgePadding)
     }
     
     private func errorView(title: String, message: String) -> some View {
@@ -311,6 +311,119 @@ struct CreatorDetailView: View {
             return String(format: "%.1fK", Double(count) / 1000)
         } else {
             return "\(count)"
+        }
+    }
+    
+    // MARK: - Skeleton Views
+    
+    private func creatorProfileSectionSkeleton() -> some View {
+        VStack(spacing: Spacing.relatedComponentDivider) {
+            Circle()
+                .fill(Color.gray.opacity(Opacity.glow))
+                .frame(width: Size.creatorImageSize, height: Size.creatorImageSize)
+                .shimmering()
+            
+            HStack(spacing: Spacing.relatedComponentDivider) {
+                RoundedRectangle(cornerRadius: 4)
+                    .fill(Color.gray.opacity(Opacity.glow))
+                    .frame(width: 150, height: 28)
+                    .shimmering()
+                
+                Circle()
+                    .fill(Color.gray.opacity(Opacity.glow))
+                    .frame(width: 28, height: 28)
+                    .shimmering()
+            }
+            
+            HStack {
+                RoundedRectangle(cornerRadius: 4)
+                    .fill(Color.gray.opacity(Opacity.glow))
+                    .frame(width: 100, height: 16)
+                    .shimmering()
+            }
+        }
+    }
+    
+    private func detailSectionSkeleton() -> some View {
+        HStack(spacing: Spacing.unrelatedComponentDivider) {
+            ForEach(0..<3, id: \.self) { _ in
+                VStack(spacing: Spacing.relatedComponentDivider) {
+                    RoundedRectangle(cornerRadius: 4)
+                        .fill(Color.gray.opacity(Opacity.glow))
+                        .frame(width: 60, height: 20)
+                        .shimmering()
+                    
+                    RoundedRectangle(cornerRadius: 4)
+                        .fill(Color.gray.opacity(Opacity.glow))
+                        .frame(width: 80, height: 32)
+                        .shimmering()
+                }
+                .frame(maxWidth: .infinity)
+            }
+        }
+    }
+    
+    private func platformButtonsSectionSkeleton() -> some View {
+        VStack(alignment: .leading, spacing: Spacing.relatedComponentDivider) {
+            RoundedRectangle(cornerRadius: 4)
+                .fill(Color.gray.opacity(Opacity.glow))
+                .frame(width: 120, height: 20)
+                .shimmering()
+            
+            LazyVGrid(columns: [
+                GridItem(.flexible()),
+                GridItem(.flexible())
+            ], spacing: Spacing.relatedComponentDivider) {
+                ForEach(0..<4, id: \.self) { _ in
+                    RoundedRectangle(cornerRadius: CornerRadius.large)
+                        .fill(Color.gray.opacity(Opacity.glow))
+                        .frame(height: 50)
+                        .shimmering()
+                }
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+    
+    private func tagsSectionSkeleton() -> some View {
+        VStack(alignment: .leading, spacing: Spacing.relatedComponentDivider) {
+            RoundedRectangle(cornerRadius: 4)
+                .fill(Color.gray.opacity(Opacity.glow))
+                .frame(width: 100, height: 20)
+                .shimmering()
+            
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: Spacing.componentGrouping) {
+                    ForEach(0..<5, id: \.self) { _ in
+                        IlluMefyFeaturedTag(tagData: nil)
+                    }
+                }
+                .padding(.trailing, Spacing.screenEdgePadding)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+    
+    private func similarCreatorsSectionSkeleton() -> some View {
+        VStack(alignment: .leading, spacing: Spacing.relatedComponentDivider) {
+            RoundedRectangle(cornerRadius: 4)
+                .fill(Color.gray.opacity(Opacity.glow))
+                .frame(width: 140, height: 20)
+                .shimmering()
+            
+            RoundedRectangle(cornerRadius: 4)
+                .fill(Color.gray.opacity(Opacity.glow))
+                .frame(width: 200, height: 16)
+                .shimmering()
+            
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: Spacing.componentGrouping) {
+                    ForEach(0..<3, id: \.self) { _ in
+                        CreatorTile(creator: nil)
+                    }
+                }
+                .padding(.trailing, Spacing.screenEdgePadding)
+            }
         }
     }
 }
