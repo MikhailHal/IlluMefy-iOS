@@ -54,10 +54,10 @@ private struct TabBarView: View {
                     Text(L10n.Navigation.search)
                 }
                 .tag(2)
-            SettingView()
+            NotificationView()
                 .tabItem {
-                    Image(systemName: "gearshape.fill")
-                    Text(L10n.Navigation.settings)
+                    Image(systemName: "megaphone.fill")
+                    Text(L10n.Navigation.notification)
                 }
                 .tag(3)
         }.onChange(of: selectedTab) { _, _ in
