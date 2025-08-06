@@ -66,6 +66,7 @@ struct NotificationView: View {
         HStack(spacing: 0) {
             ForEach(NotificationTab.allCases, id: \.self) { tab in
                 Button(action: {
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     selectedTab = tab
                 }, label: {
                     VStack(spacing: 8) {
