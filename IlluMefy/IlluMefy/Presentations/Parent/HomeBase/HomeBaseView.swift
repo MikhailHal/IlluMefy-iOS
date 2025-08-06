@@ -42,16 +42,16 @@ private struct TabBarView: View {
                     Text(L10n.Navigation.home)
                 }
                 .tag(0)
-            FavoriteView()
-                .tabItem {
-                    Image(systemName: "star.fill")
-                    Text(L10n.Navigation.favorite)
-                }
-                .tag(1)
             SearchView(viewModel: searchViewModel)
                 .tabItem {
                     Image(systemName: "sparkle.magnifyingglass")
                     Text(L10n.Navigation.search)
+                }
+                .tag(1)
+            FavoriteView()
+                .tabItem {
+                    Image(systemName: "star.fill")
+                    Text(L10n.Navigation.favorite)
                 }
                 .tag(2)
             NotificationView()
