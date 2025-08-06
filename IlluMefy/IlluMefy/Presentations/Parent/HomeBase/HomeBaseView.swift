@@ -54,18 +54,12 @@ private struct TabBarView: View {
                     Text(L10n.Navigation.search)
                 }
                 .tag(2)
-            AccountView()
-                .tabItem {
-                    Image(systemName: "person.fill")
-                    Text(L10n.Navigation.account)
-                }
-                .tag(3)
             SettingView()
                 .tabItem {
                     Image(systemName: "gearshape.fill")
                     Text(L10n.Navigation.settings)
                 }
-                .tag(4)
+                .tag(3)
         }.onChange(of: selectedTab) { _, _ in
             let impactFeedback = UIImpactFeedbackGenerator(style: .light)
             impactFeedback.impactOccurred()
