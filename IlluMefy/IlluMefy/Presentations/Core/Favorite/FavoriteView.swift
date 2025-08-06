@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Shimmer
 
 struct FavoriteView: View {
     @EnvironmentObject private var router: IlluMefyAppRouter
@@ -15,12 +16,10 @@ struct FavoriteView: View {
         VStack(spacing: 0) {
             // タブエリア
             tabBar
-            
             // コンテンツエリア
             ZStack {
-                Asset.Color.Application.Background.backgroundPrimary.swiftUIColor
-                    .ignoresSafeArea()
-                
+                // 背景
+                background
                 if viewModel.isLoading {
                     loadingView
                 } else if viewModel.favoriteCreators.isEmpty {
@@ -34,6 +33,15 @@ struct FavoriteView: View {
         .navigationBarTitleDisplayMode(.large)
         .task {
             await viewModel.loadFavoriteCreators()
+        }
+
+    }
+    
+    /// 背景
+    private var background: some View {
+        ZStack {
+            AnimatedGradientBackground()
+            FloatingParticlesView()
         }
     }
     
@@ -65,6 +73,7 @@ struct FavoriteView: View {
     private var favoriteCreatorsView: some View {
         ScrollView {
             LazyVGrid(columns: [
+                GridItem(.flexible(), spacing: 0),
                 GridItem(.flexible(), spacing: 0),
                 GridItem(.flexible(), spacing: 0)
             ], spacing: 0) {
@@ -135,12 +144,7 @@ struct FavoriteCreatorCard: View {
                             .resizable()
                             .aspectRatio(contentMode: .fill)
                     } placeholder: {
-                        Rectangle()
-                            .fill(Asset.Color.Application.Background.backgroundSecondary.swiftUIColor)
-                            .overlay(
-                                ProgressView()
-                                    .tint(Asset.Color.Application.textSecondary.swiftUIColor)
-                            )
+                        Rectangle().shimmering()
                     }
                     .frame(width: geometry.size.width, height: geometry.size.height)
                     .clipped()
@@ -187,7 +191,7 @@ struct FavoriteCreatorCard: View {
             }
             .buttonStyle(PlainButtonStyle())
         }
-        .aspectRatio(1.0, contentMode: .fit) // 正方形アスペクト比
+        .aspectRatio(1, contentMode: .fit)
     }
 }
 
