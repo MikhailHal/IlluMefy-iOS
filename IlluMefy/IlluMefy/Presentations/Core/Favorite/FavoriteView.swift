@@ -65,9 +65,17 @@ struct FavoriteView: View {
     }
     
     private var loadingView: some View {
-        ProgressView()
-            .scaleEffect(1.5)
-            .tint(Asset.Color.Application.textPrimary.swiftUIColor)
+        ScrollView {
+            LazyVGrid(columns: [
+                GridItem(.flexible(), spacing: 0),
+                GridItem(.flexible(), spacing: 0),
+                GridItem(.flexible(), spacing: 0)
+            ], spacing: 0) {
+                ForEach(0..<20, id: \.self) { _ in
+                    FavoriteCreatorCardSkeleton()
+                }
+            }
+        }
     }
     
     private var favoriteCreatorsView: some View {
@@ -190,6 +198,18 @@ struct FavoriteCreatorCard: View {
                 }
             }
             .buttonStyle(PlainButtonStyle())
+        }
+        .aspectRatio(1, contentMode: .fit)
+    }
+}
+
+struct FavoriteCreatorCardSkeleton: View {
+    var body: some View {
+        GeometryReader { geometry in
+            Rectangle()
+                .fill(Color.gray.opacity(Opacity.glow))
+                .shimmering()
+                .frame(width: geometry.size.width, height: geometry.size.height)
         }
         .aspectRatio(1, contentMode: .fit)
     }
