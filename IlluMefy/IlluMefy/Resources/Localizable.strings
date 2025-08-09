@@ -297,6 +297,15 @@
 "notification.title" = "お知らせ";
 "notification.summary" = "本画面では運営からのお知らせを記載します。\n1人で全て運営しているため、手が回らずご不便おかけすることも多いですが温かい目で見守っていただけますと励みになります！\n\nまた、「その他」→「お問い合わせ」より不具合や機能追加依頼などを送信いただけます！";
 
+/* Development Tab */
+"developmentTab.developing" = "🚀開発中";
+"developmentTab.planning" = "🗓️予定";
+
+/* Bug Tab */
+"bugTab.fixed" = "🟢修正済み";
+"bugTab.fixing" = "🔴修正中";
+"bugTab.planned" = "🟡修正予定";
+
 /* Common */
 "common.hello" = "Hello, World!";
 "common.previewContent" = "Preview Content";

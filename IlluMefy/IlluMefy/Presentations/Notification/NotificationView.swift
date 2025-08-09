@@ -112,14 +112,6 @@ struct NotificationView: View {
 
 // MARK: - Tab Content Views
 
-
-struct BugTabView: View {
-    var body: some View {
-        Text("不具合タブ - Hello World!")
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-    }
-}
-
 struct SettingsTabView: View {
     var body: some View {
         Text("その他タブ - Hello World!")
