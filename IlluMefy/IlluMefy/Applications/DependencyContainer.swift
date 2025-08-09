@@ -446,11 +446,11 @@ final class DependencyContainer: @unchecked Sendable {
         }.inObjectScope(.transient)
         
         // Setting screen
-        container.register(SettingViewModel.self) { resolver in
-            let getOperatorMessageUseCase = resolver.resolve((any GetOperatorMessageUseCaseProtocol).self)!
+        container.register(SettingTabViewModel.self) { resolver in
             let logoutUseCase = resolver.resolve((any LogoutUseCaseProtocol).self)!
+            let deleteUseCase = resolver.resolve((any DeleteAccountUseCaseProtocol).self)!
             return MainActor.assumeIsolated {
-                return SettingViewModel(getOperatorMessageUseCase: getOperatorMessageUseCase, logoutUseCase: logoutUseCase)
+                return SettingTabViewModel(logoutUseCase: logoutUseCase, deleteUseCase: deleteUseCase)
             }
         }.inObjectScope(.transient)
         

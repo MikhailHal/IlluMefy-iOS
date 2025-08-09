@@ -54,7 +54,7 @@ struct MoreView: View {
                     BugTabView()
                         .tag(MoreTab.bugs)
                     
-                    SettingsTabView()
+                    SettingTabView()
                         .tag(MoreTab.settings)
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))
@@ -107,15 +107,6 @@ struct MoreView: View {
             .padding(.horizontal, Spacing.screenEdgePadding)
             .padding(.bottom, Spacing.componentGrouping)
         }
-    }
-}
-
-// MARK: - Tab Content Views
-
-struct SettingsTabView: View {
-    var body: some View {
-        Text("その他タブ - Hello World!")
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
