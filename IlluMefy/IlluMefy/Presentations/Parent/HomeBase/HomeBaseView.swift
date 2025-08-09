@@ -54,10 +54,10 @@ private struct TabBarView: View {
                     Text(L10n.Navigation.favorite)
                 }
                 .tag(2)
-            NotificationView()
+            MoreView()
                 .tabItem {
-                    Image(systemName: "megaphone.fill")
-                    Text(L10n.Navigation.notification)
+                    Image(systemName: "ellipsis.circle.fill")
+                    Text(L10n.Navigation.more)
                 }
                 .tag(3)
         }.onChange(of: selectedTab) { _, _ in

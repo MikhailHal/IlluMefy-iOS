@@ -130,6 +130,7 @@
 "navigation.account" = "アカウント";
 "navigation.settings" = "設定";
 "navigation.notification" = "お知らせ";
+"navigation.more" = "その他";
 
 /* Home Screen */
 "home.popularCreators" = "人気クリエイター";
@@ -293,9 +294,9 @@
 "search.error.creatorSearchTitle" = "クリエイター検索エラー";
 "search.error.creatorSearchMessage" = "クリエイター検索中にエラーが発生しました";
 
-/* お知らせ・共有 */
-"notification.title" = "お知らせ";
-"notification.summary" = "本画面では運営からのお知らせを記載します。\n1人で全て運営しているため、手が回らずご不便おかけすることも多いですが温かい目で見守っていただけますと励みになります！\n\nまた、「その他」→「お問い合わせ」より不具合や機能追加依頼などを送信いただけます！";
+/* その他メニュー */
+"more.title" = "その他";
+"more.summary" = "1人で全て運営しているため、手が回らずご不便おかけすることも多いですが温かい目で見守っていただけますと励みになります！\n\nまた、「その他」→「お問い合わせ」より不具合や機能追加依頼などを送信いただけます！";
 
 /* Development Tab */
 "developmentTab.developing" = "🚀開発中";

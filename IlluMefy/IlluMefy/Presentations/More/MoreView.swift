@@ -1,5 +1,5 @@
 //
-//  NotificationView.swift
+//  MoreView.swift
 //  IlluMefy
 //
 //  Created by Haruto K. on 2025/08/06.
@@ -8,7 +8,7 @@
 import SwiftUI
 import Shimmer
 
-enum NotificationTab: CaseIterable {
+enum MoreTab: CaseIterable {
     case announcements
     case development
     case bugs
@@ -33,8 +33,8 @@ enum NotificationTab: CaseIterable {
     }
 }
 
-struct NotificationView: View {
-    @State private var selectedTab: NotificationTab = .announcements
+struct MoreView: View {
+    @State private var selectedTab: MoreTab = .announcements
     
     var body: some View {
         ZStack {
@@ -46,16 +46,16 @@ struct NotificationView: View {
                 
                 TabView(selection: $selectedTab) {
                     AnnouncementTabView()
-                        .tag(NotificationTab.announcements)
+                        .tag(MoreTab.announcements)
                     
                     DevelopmentTabView()
-                        .tag(NotificationTab.development)
+                        .tag(MoreTab.development)
                     
                     BugTabView()
-                        .tag(NotificationTab.bugs)
+                        .tag(MoreTab.bugs)
                     
                     SettingsTabView()
-                        .tag(NotificationTab.settings)
+                        .tag(MoreTab.settings)
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))
             }
@@ -64,7 +64,7 @@ struct NotificationView: View {
     
     private var tabBar: some View {
         HStack(spacing: 0) {
-            ForEach(NotificationTab.allCases, id: \.self) { tab in
+            ForEach(MoreTab.allCases, id: \.self) { tab in
                 Button(action: {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     selectedTab = tab
@@ -97,10 +97,10 @@ struct NotificationView: View {
     private var summary: some View {
         VStack(spacing: Spacing.relatedComponentDivider) {
             VStack(spacing: Spacing.relatedComponentDivider) {
-                Text(L10n.Notification.title)
+                Text(L10n.More.title)
                     .font(.system(size: Typography.titleMedium, weight: .bold))
                     .foregroundColor(Asset.Color.HomeSection.homeSectionTitle.swiftUIColor)
-                Text(L10n.Notification.summary)
+                Text(L10n.More.summary)
                     .font(.system(size: Typography.bodyRegular, weight: .bold))
                     .foregroundColor(Asset.Color.HomeSection.homeSectionTitle.swiftUIColor)
             }
@@ -120,5 +120,5 @@ struct SettingsTabView: View {
 }
 
 #Preview {
-    NotificationView()
+    MoreView()
 }
