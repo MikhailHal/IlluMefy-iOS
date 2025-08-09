@@ -327,6 +327,12 @@
 "settings.termsOfService" = "利用規約";
 "settings.deleteAccount" = "アカウント削除";
 
+/* Confirmation Dialog */
+"confirmationDialog.logout.title" = "ログアウト";
+"confirmationDialog.logout.message" = "ログアウトしてよろしいですか？\n再度アプリへのログインが必要となります。";
+"confirmationDialog.deleteAccount.title" = "アカウント削除";
+"confirmationDialog.deleteAccount.message" = "削除してよろしいですか？\nデータは全て削除されます。";
+
 /* Creator Detail - Tag Deletion */
 "creatorDetail.tagDeletionAlertTitle" = "タグ削除申請";
 "creatorDetail.tagDeletionConfirmYes" = "はい";

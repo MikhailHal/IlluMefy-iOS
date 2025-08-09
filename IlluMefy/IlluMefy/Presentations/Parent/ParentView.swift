@@ -46,6 +46,16 @@ struct ParentView: View {
             if router.isShowingLoadingIndicator {
                 IlluMefyLoadingDialog(isLoading: true, message: router.loadingMessage)
             }
+            if router.isShowingConfirmationDialog {
+                if let params = router.confirmationDialogParams {
+                    IlluMefyConfirmationDialog(
+                        title: params.title,
+                        message: params.message,
+                        onClickOk: params.onClickOk,
+                        onClickCancel: params.onClickCancel
+                    )
+                }
+            }
         }
         .onAppear {
             setupAuthStateListener()

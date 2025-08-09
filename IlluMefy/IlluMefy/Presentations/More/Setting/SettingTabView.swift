@@ -121,9 +121,15 @@ struct SettingTabView: View {
                 .foregroundColor(Asset.Color.Application.textPrimary.swiftUIColor.opacity(0.8))
             listItem(name: L10n.Settings.logout,
                      onClick: {
-                Task {
-                    await viewModel.logout()
-                }
+                router.showConfirmationDialog(
+                    title: L10n.ConfirmationDialog.Logout.title,
+                    message: L10n.ConfirmationDialog.Logout.message, onClickOk: {
+                        Task {
+                            await viewModel.logout()
+                        }
+                    },
+                    onClickCancel: {}
+                )
             },
                      icon: .chepron)
             Divider()
@@ -131,9 +137,15 @@ struct SettingTabView: View {
                 .background(.gray.opacity(0.2))
             listItem(name: L10n.Settings.deleteAccount,
                      onClick: {
-                Task {
-                    await viewModel.deleteAccount()
-                }
+                router.showConfirmationDialog(
+                    title: L10n.ConfirmationDialog.DeleteAccount.title,
+                    message: L10n.ConfirmationDialog.DeleteAccount.message, onClickOk: {
+                        Task {
+                            await viewModel.deleteAccount()
+                        }
+                    },
+                    onClickCancel: {}
+                )
             },
                      icon: .chepron)
         }

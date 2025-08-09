@@ -12,6 +12,8 @@ class IlluMefyAppRouter: ObservableObject {
     @Published var path = NavigationPath()
     @Published var isShowingLoadingIndicator = false
     @Published var loadingMessage: String?
+    @Published var isShowingConfirmationDialog: Bool = false
+    var confirmationDialogParams: IlluMefyConfirmationDialogParams?
     enum Destination: Hashable {
         case phoneNumberRegistration
         case home
@@ -34,5 +36,28 @@ class IlluMefyAppRouter: ObservableObject {
     }
     func hideLoading() {
         isShowingLoadingIndicator = false
+    }
+    
+    func showConfirmationDialog(
+        title: String,
+        message: String,
+        onClickOk: @escaping () -> Void,
+        onClickCancel: @escaping () -> Void
+    ) {
+        isShowingConfirmationDialog = true
+        let wrappedOnClickOk: () -> Void = {
+            onClickOk()
+            self.isShowingConfirmationDialog = false
+        }
+        let wrappedOnClickCancel: () -> Void = {
+            onClickCancel()
+            self.isShowingConfirmationDialog = false
+        }
+        confirmationDialogParams = IlluMefyConfirmationDialogParams(
+            title: title,
+            message: message,
+            onClickOk: wrappedOnClickOk,
+            onClickCancel: wrappedOnClickCancel
+        )
     }
 }
