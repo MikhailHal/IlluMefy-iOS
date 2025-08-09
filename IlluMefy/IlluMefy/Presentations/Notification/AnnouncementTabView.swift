@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Shimmer
 
 struct AnnouncementTabView: View {
     @State private var isLoading = false
@@ -45,7 +46,7 @@ IlluMefy v1.2.0をリリースしました！
                 loadingView
             } else {
                 Text(content)
-                    .font(.system(size: Typography.bodyRegular))
+                    .font(.body)
                     .foregroundColor(.primary)
                     .multilineTextAlignment(.leading)
                     .frame(maxWidth: .infinity, alignment: .leading)
