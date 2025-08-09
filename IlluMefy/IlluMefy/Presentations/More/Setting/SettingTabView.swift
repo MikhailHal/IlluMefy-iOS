@@ -64,11 +64,11 @@ struct SettingTabView: View {
     
     private var inquiry: some View {
         VStack(spacing: Spacing.relatedComponentDivider) {
-            Text("✉️お問い合わせ")
+            Text(L10n.Settings.sectionInquiry)
                 .font(.subheadline)
                 .foregroundColor(Asset.Color.Application.textPrimary.swiftUIColor.opacity(0.8))
             Spacer().frame(height: 1)
-            listItem(name: "バグ報告",
+            listItem(name: L10n.Settings.bugReport,
                      onClick: {
                 if let url = URL(string: "https://forms.gle/QE7jDyVwGKsP6J9x8") {
                     UIApplication.shared.open(url)
@@ -76,7 +76,7 @@ struct SettingTabView: View {
             },
                      icon: .externalLink)
             Divider()
-            listItem(name: "機能追加依頼",
+            listItem(name: L10n.Settings.featureRequest,
                      onClick: {
                 if let url = URL(string: "https://forms.gle/d1HTqbukaUGju4AP8") {
                     UIApplication.shared.open(url)
@@ -84,7 +84,7 @@ struct SettingTabView: View {
             },
                      icon: .externalLink)
             Divider()
-            listItem(name: "クリエイター投稿依頼",
+            listItem(name: L10n.Settings.creatorSubmission,
                      onClick: {
                 if let url = URL(string: "https://forms.gle/Gn8Q79VCL8kTNAe36") {
                     UIApplication.shared.open(url)
@@ -97,11 +97,11 @@ struct SettingTabView: View {
     
     private var useOfTerms: some View {
         VStack(spacing: Spacing.relatedComponentDivider) {
-            Text("📄規約")
+            Text(L10n.Settings.sectionTerms)
                 .font(.subheadline)
                 .foregroundColor(Asset.Color.Application.textPrimary.swiftUIColor.opacity(0.8))
             Spacer().frame(height: 1)
-            listItem(name: "利用規約",
+            listItem(name: L10n.Settings.termsOfService,
                      onClick: {
                 if let url = URL(string: "https://lying-rate-213.notion.site/IlluMefy-1fee5e0485cb80208497c1f1cca7e10b") {
                     UIApplication.shared.open(url)
@@ -116,10 +116,10 @@ struct SettingTabView: View {
     
     private var account: some View {
         VStack(spacing: Spacing.relatedComponentDivider) {
-            Text("🧍アカウント")
+            Text(L10n.Settings.sectionAccount)
                 .font(.subheadline)
                 .foregroundColor(Asset.Color.Application.textPrimary.swiftUIColor.opacity(0.8))
-            listItem(name: "ログアウト",
+            listItem(name: L10n.Settings.logout,
                      onClick: {
                 Task {
                     await viewModel.logout()
@@ -129,7 +129,7 @@ struct SettingTabView: View {
             Divider()
                 .frame(height: 2)
                 .background(.gray.opacity(0.2))
-            listItem(name: "アカウント削除",
+            listItem(name: L10n.Settings.deleteAccount,
                      onClick: {
                 Task {
                     await viewModel.deleteAccount()

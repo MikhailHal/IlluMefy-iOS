@@ -318,6 +318,14 @@
 /* Settings */
 "settings.logout" = "ログアウト";
 "settings.loggingOut" = "ログアウト中...";
+"settings.sectionInquiry" = "✉️お問い合わせ";
+"settings.sectionTerms" = "📄規約";
+"settings.sectionAccount" = "🧍アカウント";
+"settings.bugReport" = "バグ報告";
+"settings.featureRequest" = "機能追加依頼";
+"settings.creatorSubmission" = "クリエイター投稿依頼";
+"settings.termsOfService" = "利用規約";
+"settings.deleteAccount" = "アカウント削除";
 
 /* Creator Detail - Tag Deletion */
 "creatorDetail.tagDeletionAlertTitle" = "タグ削除申請";
