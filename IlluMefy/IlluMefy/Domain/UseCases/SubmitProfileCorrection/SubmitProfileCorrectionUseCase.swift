@@ -109,6 +109,8 @@ final class SubmitProfileCorrectionUseCase: SubmitProfileCorrectionUseCaseProtoc
             return .authenticationError
         case .serverError:
             return .serverError
+        case .notImplemented:
+            return .unknown("この機能はまだ実装されていません")
         case .unknown:
             return .unknown(error.localizedDescription)
         }

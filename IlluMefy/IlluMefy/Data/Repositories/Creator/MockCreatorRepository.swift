@@ -231,11 +231,107 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
         }
     }
     
-    func getPopularCreators(limit: Int) async throws -> [Creator] {
+    func getPopularCreators(limit: Int) async throws -> GetPopularCreatorsResponse {
         try await Task.sleep(nanoseconds: 300_000_000) // 0.3秒
-        return Array(mockCreators
+        
+        let popularCreators = Array(mockCreators
             .sorted { $0.viewCount > $1.viewCount }
             .prefix(limit))
+        
+        // CreatorをCreatorResponseに変換
+        let creatorResponses = popularCreators.map { creator in
+            convertCreatorToResponse(creator)
+        }
+        
+        return GetPopularCreatorsResponse(data: creatorResponses)
+    }
+    
+    // MARK: - Helper Methods
+    
+    /// CreatorをCreatorResponseに変換（Mock用）
+    private func convertCreatorToResponse(_ creator: Creator) -> CreatorResponse {
+        // プラットフォーム情報を変換
+        var platforms = PlatformsResponse(
+            youtube: nil,
+            twitch: nil,
+            tiktok: nil,
+            instagram: nil,
+            niconico: nil
+        )
+        
+        // 各プラットフォームのURL情報を構造化
+        for (platform, url) in creator.platform {
+            switch platform {
+            case .youtube:
+                // @usernameを抽出（簡易実装）
+                let username = url.replacingOccurrences(of: "https://youtube.com/@", with: "")
+                platforms = PlatformsResponse(
+                    youtube: YouTubePlatform(
+                        username: username,
+                        channelId: "UC\(creator.id)",
+                        subscriberCount: creator.viewCount / 10, // 適当な変換
+                        viewCount: creator.viewCount
+                    ),
+                    twitch: platforms.twitch,
+                    tiktok: platforms.tiktok,
+                    instagram: platforms.instagram,
+                    niconico: platforms.niconico
+                )
+            case .twitch:
+                platforms = PlatformsResponse(
+                    youtube: platforms.youtube,
+                    twitch: SocialLinkPlatform(socialLink: url),
+                    tiktok: platforms.tiktok,
+                    instagram: platforms.instagram,
+                    niconico: platforms.niconico
+                )
+            case .tiktok:
+                platforms = PlatformsResponse(
+                    youtube: platforms.youtube,
+                    twitch: platforms.twitch,
+                    tiktok: SocialLinkPlatform(socialLink: url),
+                    instagram: platforms.instagram,
+                    niconico: platforms.niconico
+                )
+            case .instagram:
+                platforms = PlatformsResponse(
+                    youtube: platforms.youtube,
+                    twitch: platforms.twitch,
+                    tiktok: platforms.tiktok,
+                    instagram: SocialLinkPlatform(socialLink: url),
+                    niconico: platforms.niconico
+                )
+            case .niconico:
+                platforms = PlatformsResponse(
+                    youtube: platforms.youtube,
+                    twitch: platforms.twitch,
+                    tiktok: platforms.tiktok,
+                    instagram: platforms.instagram,
+                    niconico: SocialLinkPlatform(socialLink: url)
+                )
+            case .x, .discord: // 未対応プラットフォームはスキップ
+                continue
+            }
+        }
+        
+        return CreatorResponse(
+            id: creator.id,
+            name: creator.name,
+            profileImageUrl: creator.thumbnailUrl,
+            description: creator.description ?? "",
+            favoriteCount: creator.favoriteCount,
+            platforms: platforms,
+            tags: creator.relatedTag,
+            tagNames: creator.relatedTag, // Mock用に同じ値を使用
+            createdAt: FirebaseTimestamp(
+                _seconds: Int(creator.createdAt.timeIntervalSince1970),
+                _nanoseconds: 0
+            ),
+            updatedAt: FirebaseTimestamp(
+                _seconds: Int(creator.updatedAt.timeIntervalSince1970),
+                _nanoseconds: 0
+            )
+        )
     }
     
     func getCreatorById(id: String) async throws -> Creator {

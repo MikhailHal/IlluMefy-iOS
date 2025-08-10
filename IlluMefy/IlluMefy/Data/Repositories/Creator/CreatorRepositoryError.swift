@@ -14,6 +14,7 @@ enum CreatorRepositoryError: Error, LocalizedError {
     case decodingError
     case unauthorized
     case serverError
+    case notImplemented
     case unknown(Error)
     
     var errorDescription: String? {
@@ -30,6 +31,8 @@ enum CreatorRepositoryError: Error, LocalizedError {
             return "認証が必要です"
         case .serverError:
             return "サーバーエラーが発生しました"
+        case .notImplemented:
+            return "この機能はまだ実装されていません"
         case .unknown(let error):
             return "エラーが発生しました: \(error.localizedDescription)"
         }
@@ -51,6 +54,8 @@ extension CreatorRepositoryError: RepositoryErrorProtocol {
             return 401
         case .serverError:
             return 500
+        case .notImplemented:
+            return -2000
         case .unknown:
             return -1
         }
@@ -73,7 +78,7 @@ extension CreatorRepositoryError: RepositoryErrorProtocol {
         switch self {
         case .networkError, .serverError:
             return true
-        case .notFound, .creatorNotFound, .decodingError, .unauthorized, .unknown:
+        case .notFound, .creatorNotFound, .decodingError, .unauthorized, .notImplemented, .unknown:
             return false
         }
     }

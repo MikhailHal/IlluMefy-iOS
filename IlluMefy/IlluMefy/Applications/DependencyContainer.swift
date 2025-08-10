@@ -39,9 +39,20 @@ final class DependencyContainer: @unchecked Sendable {
             let userLocalSettingsDataSource = resolver.resolve(UserLocalSettingsDataSource.self)!
             return UserPreferencesRepository(userLocalSettingsDataSource: userLocalSettingsDataSource)
         }.inObjectScope(.container)
+        // APIClient
+        container.register(ApiClient.self) { _ in
+            ApiClient()
+        }.inObjectScope(.container)
+        
         // the concrete type of MockCreatorRepository
         container.register(MockCreatorRepository.self) { _ in
             MockCreatorRepository()
+        }.inObjectScope(.container)
+        
+        // the concrete type of CreatorRepository
+        container.register(CreatorRepository.self) { resolver in
+            let apiClient = resolver.resolve(ApiClientProtocol.self)!
+            return CreatorRepository(apiClient: apiClient)
         }.inObjectScope(.container)
         
         // TagApplication repository
@@ -92,6 +103,10 @@ final class DependencyContainer: @unchecked Sendable {
     /// register all repositories
     ///
     private func registerRepositories() {
+        // ApiClient repository
+        container.register(ApiClientProtocol.self) { resolver in
+            resolver.resolve(ApiClient.self)!
+        }.inObjectScope(.transient)
         // UserLocalSettingsDataSource repository
         container.register(UserLocalSettingsDataSourceProtocol.self) { resolver in
             resolver.resolve(UserLocalSettingsDataSource.self)!
@@ -104,9 +119,9 @@ final class DependencyContainer: @unchecked Sendable {
         container.register(PhoneAuthRepositoryProtocol.self) { resolver in
             resolver.resolve(PhoneAuthRepository.self)!
         }.inObjectScope(.transient)
-        // Creator repository
+        // Creator repository - 本物のAPIを使用
         container.register(CreatorRepositoryProtocol.self) { resolver in
-            resolver.resolve(MockCreatorRepository.self)!
+            resolver.resolve(CreatorRepository.self)!
         }.inObjectScope(.transient)
         
         // TagApplication repository

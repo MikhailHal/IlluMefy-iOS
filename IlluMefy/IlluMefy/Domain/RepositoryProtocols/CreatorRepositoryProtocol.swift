@@ -58,7 +58,7 @@ protocol CreatorRepositoryProtocol {
     /// - Parameter limit: 取得する件数の上限
     /// - Returns: 人気順にソートされたクリエイターの配列
     /// - Throws: RepositoryError
-    func getPopularCreators(limit: Int) async throws -> [Creator]
+    func getPopularCreators(limit: Int) async throws -> GetPopularCreatorsResponse
     
     /// 指定IDのクリエイターを取得
     /// 

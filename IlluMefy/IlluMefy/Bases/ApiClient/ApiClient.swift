@@ -25,17 +25,20 @@ final class ApiClient: ApiClientProtocol {
         isRequiredAuth: Bool = true
     ) async throws -> T where T : Decodable, T : Encodable {
         // TODO: あとで環境切り替えを行うこと
-        let url = "http://127.0.0.1:5001/illumefy-dev/asia-northeast1/api" + endpoint
+        let url = "http://192.168.3.7:5001/illumefy-dev/asia-northeast1/api" + endpoint
         var headers: HTTPHeaders = [:]
         if isRequiredAuth { headers = try await makeHeader() }
-        return try await AF.request(
+        let result = try await AF.request(
             url,
             method: method,
             parameters: parameters,
             encoding: method == .get ? URLEncoding.default : JSONEncoding.default,
-            headers: headers)
-            .serializingDecodable(responseType)
-            .value
+            headers: headers
+        )
+        .serializingDecodable(responseType)
+        .value
+        
+        return result
     }
     
     func makeHeader() async throws -> HTTPHeaders {
