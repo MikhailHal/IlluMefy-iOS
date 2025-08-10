@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6452E7E02E3E4CB800EB925A /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = 6452E7DF2E3E4CB800EB925A /* Shimmer */; };
+		6452EA392E48AC2E00EB925A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 6452EA382E48AC2E00EB925A /* Alamofire */; };
 		64897F0E2DE8C00A00C10C85 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 64897F0D2DE8C00A00C10C85 /* FirebaseAuth */; };
 		64897F102DE8C00A00C10C85 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 64897F0F2DE8C00A00C10C85 /* FirebaseCore */; };
 		64897F122DE8C04E00C10C85 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 64897F112DE8C04E00C10C85 /* FirebaseAuth */; };
@@ -143,6 +144,7 @@
 				64EF86582D7601B900C9732A /* FirebaseStorage in Frameworks */,
 				64EF864C2D7601B900C9732A /* FirebaseAnalytics in Frameworks */,
 				64EF864E2D7601B900C9732A /* FirebaseAuth in Frameworks */,
+				6452EA392E48AC2E00EB925A /* Alamofire in Frameworks */,
 				64C1AE242D919D32005182B5 /* SwiftfulLoadingIndicators in Frameworks */,
 				6452E7E02E3E4CB800EB925A /* Shimmer in Frameworks */,
 			);
@@ -235,6 +237,7 @@
 				648FF53D2D8C5A4800340F3E /* Swinject */,
 				64C1AE232D919D32005182B5 /* SwiftfulLoadingIndicators */,
 				6452E7DF2E3E4CB800EB925A /* Shimmer */,
+				6452EA382E48AC2E00EB925A /* Alamofire */,
 			);
 			productName = Pencula;
 			productReference = 645EBCFE2D58F9C600AC7BAC /* IlluMefy.app */;
@@ -335,6 +338,7 @@
 				64D8B03F2DE89C2E0004566C /* XCRemoteSwiftPackageReference "Quick" */,
 				64D8B0462DE89D0A0004566C /* XCRemoteSwiftPackageReference "Nimble" */,
 				6452E7DE2E3E4CB800EB925A /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
+				6452EA372E48AC2E00EB925A /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 645EBCFF2D58F9C600AC7BAC /* Products */;
@@ -753,6 +757,14 @@
 				minimumVersion = 1.5.1;
 			};
 		};
+		6452EA372E48AC2E00EB925A /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.2;
+			};
+		};
 		648FF53C2D8C5A4800340F3E /* XCRemoteSwiftPackageReference "Swinject" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Swinject/Swinject.git";
@@ -824,6 +836,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 6452E7DE2E3E4CB800EB925A /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */;
 			productName = Shimmer;
+		};
+		6452EA382E48AC2E00EB925A /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6452EA372E48AC2E00EB925A /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
 		};
 		64897F0D2DE8C00A00C10C85 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
