@@ -30,34 +30,36 @@ class SearchCreatorsByTagsUseCaseSpec: QuickSpec {
             context("正常ケース") {
                 let testCreators = [
                     Creator(
-                        id: "creator1",
-                        name: "ゲームプレイヤー",
-                        thumbnailUrl: "https://example.com/thumb1.jpg",
-                        viewCount: 10000,
-                        socialLinkClickCount: 500,
-                        platformClickRatio: [.youtube: 1.0],
-                        relatedTag: ["fps", "game"],
-                        description: "FPSゲームの実況",
-                        platform: [.youtube: "https://youtube.com/creator1"],
-                        createdAt: Date().addingTimeInterval(-86400),
+                        id: "creator_001",
+                        name: "ゲーム実況者A",
+                        thumbnailUrl: "https://picsum.photos/200/200?random=1",
+                        socialLinkClickCount: 1500,
+                        tag: ["tag_007", "tag_011"],
+                        description: "FPSゲームをメインに実況しています。毎日20時から配信！",
+                        platform: [
+                            .youtube: "https://youtube.com/@gameplayerA",
+                            .twitch: "https://twitch.tv/gameplayerA",
+                            .x: "https://twitter.com/gameplayerA"
+                        ],
+                        createdAt: Date().addingTimeInterval(-86400 * 30),
                         updatedAt: Date().addingTimeInterval(-3600),
-                        isActive: true,
-                        favoriteCount: 0
+                        favoriteCount: 100
                     ),
                     Creator(
-                        id: "creator2",
-                        name: "Apexプレイヤー",
-                        thumbnailUrl: "https://example.com/thumb2.jpg",
-                        viewCount: 8000,
-                        socialLinkClickCount: 300,
-                        platformClickRatio: [.twitch: 1.0],
-                        relatedTag: ["apex", "fps"],
-                        description: "Apex Legendsの配信",
-                        platform: [.twitch: "https://twitch.tv/creator2"],
-                        createdAt: Date().addingTimeInterval(-86400 * 2),
-                        updatedAt: Date().addingTimeInterval(-7200),
-                        isActive: true,
-                        favoriteCount: 0
+                        id: "creator_001",
+                        name: "ゲーム実況者A",
+                        thumbnailUrl: "https://picsum.photos/200/200?random=1",
+                        socialLinkClickCount: 1500,
+                        tag: ["tag_007", "tag_011"],
+                        description: "FPSゲームをメインに実況しています。毎日20時から配信！",
+                        platform: [
+                            .youtube: "https://youtube.com/@gameplayerA",
+                            .twitch: "https://twitch.tv/gameplayerA",
+                            .x: "https://twitter.com/gameplayerA"
+                        ],
+                        createdAt: Date().addingTimeInterval(-86400 * 30),
+                        updatedAt: Date().addingTimeInterval(-3600),
+                        favoriteCount: 100
                     )
                 ]
                 

@@ -138,7 +138,7 @@ class TestMockCreatorRepository: CreatorRepositoryProtocol {
         return try await baseRepository.searchCreatorsByTags(tagIds: tagIds)
     }
     
-    func getPopularCreators(limit: Int) async throws -> [Creator] {
+    func getPopularCreators(limit: Int) async throws -> GetPopularCreatorsResponse {
         return try await baseRepository.getPopularCreators(limit: limit)
     }
     

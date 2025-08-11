@@ -34,25 +34,20 @@ final class MockGetCreatorDetailUseCase: GetCreatorDetailUseCaseProtocol {
         
         if shouldSucceed {
             let creator = mockCreator ?? Creator(
-                id: request.creatorId,
-                name: "Test Creator",
-                thumbnailUrl: "https://example.com/thumbnail.jpg",
-                viewCount: 1000,
-                socialLinkClickCount: 500,
-                platformClickRatio: [
-                    .youtube: 0.6,
-                    .x: 0.4
-                ],
-                relatedTag: ["tag1", "tag2"],
-                description: "Test self introduction",
+                id: "creator_001",
+                name: "ゲーム実況者A",
+                thumbnailUrl: "https://picsum.photos/200/200?random=1",
+                socialLinkClickCount: 1500,
+                tag: ["tag_007", "tag_011"],
+                description: "FPSゲームをメインに実況しています。毎日20時から配信！",
                 platform: [
-                    .youtube: "https://youtube.com/test",
-                    .x: "https://x.com/test"
+                    .youtube: "https://youtube.com/@gameplayerA",
+                    .twitch: "https://twitch.tv/gameplayerA",
+                    .x: "https://twitter.com/gameplayerA"
                 ],
-                createdAt: Date(),
-                updatedAt: Date(),
-                isActive: true,
-                favoriteCount: 0
+                createdAt: Date().addingTimeInterval(-86400 * 30),
+                updatedAt: Date().addingTimeInterval(-3600),
+                favoriteCount: 100
             )
             
             return GetCreatorDetailUseCaseResponse(

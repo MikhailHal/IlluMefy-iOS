@@ -25,7 +25,7 @@ class MockSearchCreatorsByTagsRepository: CreatorRepositoryProtocol {
         throw CreatorRepositoryError.networkError
     }
     
-    func getPopularCreators(limit: Int) async throws -> [Creator] {
+    func getPopularCreators(limit: Int) async throws -> GetPopularCreatorsResponse {
         throw CreatorRepositoryError.networkError
     }
     

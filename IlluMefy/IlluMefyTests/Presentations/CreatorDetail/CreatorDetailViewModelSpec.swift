@@ -62,57 +62,54 @@ final class CreatorDetailViewModelSpec: QuickSpec, @unchecked Sendable {
             context("loadCreatorDetail") {
                 context("when loading succeeds") {
                     let testCreator = Creator(
-                        id: "test-creator-id",
-                        name: "Test Creator Name",
-                        thumbnailUrl: "https://example.com/test.jpg",
-                        viewCount: 10000,
-                        socialLinkClickCount: 2000,
-                        platformClickRatio: [
-                            .youtube: 0.7,
-                            .x: 0.3
-                        ],
-                        relatedTag: ["Gaming", "Tech"],
-                        description: "This is a test creator",
+                        id: "creator_001",
+                        name: "ゲーム実況者A",
+                        thumbnailUrl: "https://picsum.photos/200/200?random=1",
+                        socialLinkClickCount: 1500,
+                        tag: ["tag_007", "tag_011"],
+                        description: "FPSゲームをメインに実況しています。毎日20時から配信！",
                         platform: [
-                            .youtube: "https://youtube.com/testchannel",
-                            .x: "https://x.com/testuser"
+                            .youtube: "https://youtube.com/@gameplayerA",
+                            .twitch: "https://twitch.tv/gameplayerA",
+                            .x: "https://twitter.com/gameplayerA"
                         ],
-                        createdAt: Date(),
-                        updatedAt: Date(),
-                        isActive: true,
-                        favoriteCount: 0
+                        createdAt: Date().addingTimeInterval(-86400 * 30),
+                        updatedAt: Date().addingTimeInterval(-3600),
+                        favoriteCount: 100
                     )
                     
                     let similarCreators = [
                         Creator(
-                            id: "similar-1",
-                            name: "Similar Creator 1",
-                            thumbnailUrl: "https://example.com/similar1.jpg",
-                            viewCount: 5000,
-                            socialLinkClickCount: 1000,
-                            platformClickRatio: [:],
-                            relatedTag: ["Gaming"],
-                            description: "",
-                            platform: [:],
-                            createdAt: Date(),
-                            updatedAt: Date(),
-                            isActive: true,
-                            favoriteCount: 0
+                            id: "creator_001",
+                            name: "ゲーム実況者A",
+                            thumbnailUrl: "https://picsum.photos/200/200?random=1",
+                            socialLinkClickCount: 1500,
+                            tag: ["tag_007", "tag_011"],
+                            description: "FPSゲームをメインに実況しています。毎日20時から配信！",
+                            platform: [
+                                .youtube: "https://youtube.com/@gameplayerA",
+                                .twitch: "https://twitch.tv/gameplayerA",
+                                .x: "https://twitter.com/gameplayerA"
+                            ],
+                            createdAt: Date().addingTimeInterval(-86400 * 30),
+                            updatedAt: Date().addingTimeInterval(-3600),
+                            favoriteCount: 100
                         ),
                         Creator(
-                            id: "similar-2",
-                            name: "Similar Creator 2",
-                            thumbnailUrl: "https://example.com/similar2.jpg",
-                            viewCount: 6000,
-                            socialLinkClickCount: 1200,
-                            platformClickRatio: [:],
-                            relatedTag: ["Tech"],
-                            description: "",
-                            platform: [:],
-                            createdAt: Date(),
-                            updatedAt: Date(),
-                            isActive: true,
-                            favoriteCount: 0
+                            id: "creator_001",
+                            name: "ゲーム実況者A",
+                            thumbnailUrl: "https://picsum.photos/200/200?random=1",
+                            socialLinkClickCount: 1500,
+                            tag: ["tag_007", "tag_011"],
+                            description: "FPSゲームをメインに実況しています。毎日20時から配信！",
+                            platform: [
+                                .youtube: "https://youtube.com/@gameplayerA",
+                                .twitch: "https://twitch.tv/gameplayerA",
+                                .x: "https://twitter.com/gameplayerA"
+                            ],
+                            createdAt: Date().addingTimeInterval(-86400 * 30),
+                            updatedAt: Date().addingTimeInterval(-3600),
+                            favoriteCount: 100
                         )
                     ]
                     
@@ -330,15 +327,12 @@ final class CreatorDetailViewModelSpec: QuickSpec, @unchecked Sendable {
                         id: "1",
                         name: "Test",
                         thumbnailUrl: "url",
-                        viewCount: 0,
                         socialLinkClickCount: 0,
-                        platformClickRatio: [:],
-                        relatedTag: [],
+                        tag: [],
                         description: "",
                         platform: [:],
                         createdAt: Date(),
                         updatedAt: Date(),
-                        isActive: true,
                         favoriteCount: 0
                     )
                     

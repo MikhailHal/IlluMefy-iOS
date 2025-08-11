@@ -74,13 +74,10 @@ class MockCreatorRepositorySpec: QuickSpec {
                     expect(firstCreator.id).toNot(beEmpty())
                     expect(firstCreator.name).toNot(beEmpty())
                     expect(firstCreator.thumbnailUrl).toNot(beEmpty())
-                    expect(firstCreator.viewCount).to(beGreaterThan(0))
                     expect(firstCreator.socialLinkClickCount).to(beGreaterThanOrEqualTo(0))
-                    expect(firstCreator.platformClickRatio).toNot(beEmpty())
-                    expect(firstCreator.relatedTag).toNot(beEmpty())
+                    expect(firstCreator.tag).toNot(beEmpty())
                     expect(firstCreator.description).toNot(beEmpty())
                     expect(firstCreator.platform).toNot(beEmpty())
-                    expect(firstCreator.isActive).to(beTrue())
                 }
             }
             
@@ -166,7 +163,7 @@ class MockCreatorRepositorySpec: QuickSpec {
                     
                     // すべてのクリエイターが指定されたタグを含んでいることを確認
                     for creator in result ?? [] {
-                        expect(creator.relatedTag).to(contain("tag_007"))
+                        expect(creator.tag).to(contain("tag_007"))
                     }
                 }
                 
@@ -220,7 +217,7 @@ class MockCreatorRepositorySpec: QuickSpec {
                     
                     // すべてのクリエイターがいずれかのタグを含んでいることを確認
                     for creator in result ?? [] {
-                        let hasTag = creator.relatedTag.contains { tagIds.contains($0) }
+                        let hasTag = creator.tag.contains { tagIds.contains($0) }
                         expect(hasTag).to(beTrue())
                     }
                 }
@@ -232,7 +229,7 @@ class MockCreatorRepositorySpec: QuickSpec {
                     let limit = 3
                     
                     // When
-                    var result: [Creator]?
+                    var result: GetPopularCreatorsResponse?
                     var error: Error?
                     
                     waitUntil(timeout: .seconds(5)) { done in
@@ -249,16 +246,17 @@ class MockCreatorRepositorySpec: QuickSpec {
                     // Then
                     expect(error).to(beNil())
                     expect(result).toNot(beNil())
-                    expect(result?.count).to(equal(limit))
+                    expect(result?.data.count).to(equal(limit))
                     
-                    // viewCountで降順にソートされていることを確認
-                    guard let creators = result, creators.count >= 2 else {
+                    // socialLinkClickCountで降順にソートされていることを確認（モックデータ経由なのでCreatorに変換してチェック）
+                    guard let creatorResponses = result?.data, creatorResponses.count >= 2 else {
                         fail("十分なクリエイターが取得できませんでした")
                         return
                     }
                     
+                    let creators = creatorResponses.map { $0.toCreator() }
                     for i in 0..<(creators.count - 1) {
-                        expect(creators[i].viewCount).to(beGreaterThanOrEqualTo(creators[i + 1].viewCount))
+                        expect(creators[i].socialLinkClickCount).to(beGreaterThanOrEqualTo(creators[i + 1].socialLinkClickCount))
                     }
                 }
                 
@@ -267,7 +265,7 @@ class MockCreatorRepositorySpec: QuickSpec {
                     let limit = 0
                     
                     // When
-                    var result: [Creator]?
+                    var result: GetPopularCreatorsResponse?
                     var error: Error?
                     
                     waitUntil(timeout: .seconds(5)) { done in
@@ -283,7 +281,7 @@ class MockCreatorRepositorySpec: QuickSpec {
                     
                     // Then
                     expect(error).to(beNil())
-                    expect(result).to(beEmpty())
+                    expect(result?.data).to(beEmpty())
                 }
                 
                 it("総クリエイター数より大きなlimitを指定しても全クリエイターが返る") {
@@ -291,7 +289,7 @@ class MockCreatorRepositorySpec: QuickSpec {
                     let limit = 1000
                     
                     // When
-                    var result: [Creator]?
+                    var result: GetPopularCreatorsResponse?
                     var error: Error?
                     
                     waitUntil(timeout: .seconds(5)) { done in
@@ -307,7 +305,7 @@ class MockCreatorRepositorySpec: QuickSpec {
                     
                     // Then
                     expect(error).to(beNil())
-                    expect(result?.count).to(equal(9)) // 総クリエイター数
+                    expect(result?.data.count).to(equal(9)) // 総クリエイター数
                 }
             }
             
@@ -556,9 +554,9 @@ class MockCreatorRepositorySpec: QuickSpec {
                         return
                     }
                     
-                    // viewCountで降順にソートされていることを確認
+                    // socialLinkClickCountで降順にソートされていることを確認（Creatorエンティティに変換してチェック）
                     for i in 0..<(creators.count - 1) {
-                        expect(creators[i].viewCount).to(beGreaterThanOrEqualTo(creators[i + 1].viewCount))
+                        expect(creators[i].socialLinkClickCount).to(beGreaterThanOrEqualTo(creators[i + 1].socialLinkClickCount))
                     }
                 }
                 
@@ -703,7 +701,7 @@ class MockCreatorRepositorySpec: QuickSpec {
                     // すべてのクリエイターが指定されたすべてのタグを含んでいることを確認
                     for creator in result?.creators ?? [] {
                         for tagId in tagIds {
-                            expect(creator.relatedTag).to(contain(tagId))
+                            expect(creator.tag).to(contain(tagId))
                         }
                     }
                 }
@@ -740,7 +738,7 @@ class MockCreatorRepositorySpec: QuickSpec {
                     
                     // すべてのクリエイターがいずれかのタグを含んでいることを確認
                     for creator in result?.creators ?? [] {
-                        let hasAnyTag = creator.relatedTag.contains { tagIds.contains($0) }
+                        let hasAnyTag = creator.tag.contains { tagIds.contains($0) }
                         expect(hasAnyTag).to(beTrue())
                     }
                 }
