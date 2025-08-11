@@ -449,13 +449,5 @@ final class DependencyContainer: @unchecked Sendable {
         container.register((any FavoriteViewModelProtocol).self) { resolver in
             resolver.resolve(FavoriteViewModel.self)!
         }.inObjectScope(.transient)
-        
-        // ContactSupport screen
-        container.register(ContactSupportViewModel.self) { resolver in
-            let submitContactSupportUseCase = resolver.resolve((any SubmitContactSupportUseCaseProtocol).self)!
-            return MainActor.assumeIsolated {
-                return ContactSupportViewModel(submitContactSupportUseCase: submitContactSupportUseCase)
-            }
-        }.inObjectScope(.transient)
     }
 }
