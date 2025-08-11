@@ -258,23 +258,16 @@ struct ProfileCorrectionView: View {
         id: "creator_001",
         name: "ゲーム実況者A",
         thumbnailUrl: "https://picsum.photos/200/200?random=1",
-        viewCount: 5000,
         socialLinkClickCount: 1500,
-        platformClickRatio: [
-            .youtube: 0.3,
-            .twitch: 0.2,
-            .tiktok: 0.5
-        ],
-        relatedTag: ["fps", "apex-legends", "valorant"],
+        tag: ["tag_007", "tag_011"],
         description: "FPSゲームをメインに実況しています。毎日20時から配信！",
         platform: [
             .youtube: "https://youtube.com/@gameplayerA",
             .twitch: "https://twitch.tv/gameplayerA",
-            .tiktok: "https://tiktok.com/gameplayerA"
+            .x: "https://twitter.com/gameplayerA"
         ],
         createdAt: Date().addingTimeInterval(-86400 * 30),
         updatedAt: Date().addingTimeInterval(-3600),
-        isActive: true,
         favoriteCount: 100
     )
     

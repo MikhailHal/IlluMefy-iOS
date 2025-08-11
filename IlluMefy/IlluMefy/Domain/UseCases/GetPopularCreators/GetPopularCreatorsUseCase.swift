@@ -24,16 +24,10 @@ final class GetPopularCreatorsUseCase: GetPopularCreatorsUseCaseProtocol {
     func execute(request: GetPopularCreatorsUseCaseRequest) async throws -> GetPopularCreatorsUseCaseResponse {
         do {
             let response = try await creatorRepository.getPopularCreators(limit: request.limit)
-            
-            // レスポンスをドメインエンティティに変換
             let creators = convertResponseToCreators(response)
-            
-            // ビジネスロジック: アクティブなクリエイターのみフィルタリング
-            let activeCreators = creators.filter { $0.isActive }
-            
             return GetPopularCreatorsUseCaseResponse(
-                creators: activeCreators,
-                hasMore: activeCreators.count == request.limit
+                creators: creators,
+                hasMore: creators.count == request.limit
             )
         } catch let error as CreatorRepositoryError {
             throw GetPopularCreatorsUseCaseError.repositoryError(error)
@@ -96,15 +90,12 @@ final class GetPopularCreatorsUseCase: GetPopularCreatorsUseCaseProtocol {
             id: response.id,
             name: response.name,
             thumbnailUrl: response.profileImageUrl,
-            viewCount: 0, // バックエンドにないのでデフォルト値
             socialLinkClickCount: 0, // バックエンドにないのでデフォルト値
-            platformClickRatio: platformClickRatio,
-            relatedTag: response.tags,
+            tag: response.tags,
             description: response.description,
             platform: platformMap,
             createdAt: response.createdAt.toDate,
             updatedAt: response.updatedAt.toDate,
-            isActive: true, // バックエンドにないのでデフォルトでtrue
             favoriteCount: response.favoriteCount
         )
     }

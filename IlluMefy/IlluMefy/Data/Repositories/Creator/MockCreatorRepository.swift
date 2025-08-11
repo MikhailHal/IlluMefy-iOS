@@ -21,13 +21,8 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
             id: "creator_001",
             name: "ゲーム実況者A",
             thumbnailUrl: "https://picsum.photos/200/200?random=1",
-            viewCount: 5000,
             socialLinkClickCount: 1500,
-            platformClickRatio: [
-                .youtube: 0.7,
-                .twitch: 0.3
-            ],
-            relatedTag: ["tag_007", "tag_011"],
+            tag: ["tag_007", "tag_011"],
             description: "FPSゲームをメインに実況しています。毎日20時から配信！",
             platform: [
                 .youtube: "https://youtube.com/@gameplayerA",
@@ -36,20 +31,14 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
             ],
             createdAt: Date().addingTimeInterval(-86400 * 30),
             updatedAt: Date().addingTimeInterval(-3600),
-            isActive: true,
             favoriteCount: 100
         ),
         Creator(
             id: "creator_002", 
             name: "VTuber B",
             thumbnailUrl: "https://picsum.photos/200/200?random=2",
-            viewCount: 9000,
             socialLinkClickCount: 2000,
-            platformClickRatio: [
-                .x: 0.6,
-                .youtube: 0.4
-            ],
-            relatedTag: ["tag_009", "tag_007", "tag_001", "tag_004"],
+            tag: ["tag_009", "tag_007", "tag_001", "tag_004"],
             description: "歌ってゲームして楽しく配信してます♪ アニメも大好き！",
             platform: [
                 .youtube: "https://youtube.com/@vtuberB",
@@ -57,21 +46,14 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
             ],
             createdAt: Date().addingTimeInterval(-86400 * 60),
             updatedAt: Date().addingTimeInterval(-7200),
-            isActive: true,
             favoriteCount: 100
         ),
         Creator(
             id: "creator_003",
             name: "プロゲーマーC",
             thumbnailUrl: "https://picsum.photos/200/200?random=3",
-            viewCount: 11000,
             socialLinkClickCount: 4000,
-            platformClickRatio: [
-                .instagram: 0.5,
-                .twitch: 0.3,
-                .youtube: 0.2
-            ],
-            relatedTag: ["tag_007", "tag_005", "tag_014"],
+            tag: ["tag_007", "tag_005", "tag_014"],
             description: "プロゲーマーとして活動中。大会実績多数。",
             platform: [
                 .twitch: "https://twitch.tv/progamerC",
@@ -81,39 +63,28 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
             ],
             createdAt: Date().addingTimeInterval(-86400 * 90),
             updatedAt: Date().addingTimeInterval(-86400),
-            isActive: true,
             favoriteCount: 100
         ),
         Creator(
             id: "creator_004",
             name: "カジュアル実況D",
             thumbnailUrl: "https://picsum.photos/200/200?random=4",
-            viewCount: 3000,
             socialLinkClickCount: 500,
-            platformClickRatio: [
-                .youtube: 1.0
-            ],
-            relatedTag: ["tag_001", "tag_013"],
+            tag: ["tag_001", "tag_013"],
             description: "マイクラ建築をまったり実況。初心者歓迎！",
             platform: [
                 .youtube: "https://youtube.com/@casualD"
             ],
             createdAt: Date().addingTimeInterval(-86400 * 45),
             updatedAt: Date().addingTimeInterval(-86400 * 5),
-            isActive: true,
             favoriteCount: 100
         ),
         Creator(
             id: "creator_005",
             name: "レトロゲーム愛好家E",
             thumbnailUrl: "https://picsum.photos/200/200?random=5",
-            viewCount: 10000,
             socialLinkClickCount: 800,
-            platformClickRatio: [
-                .niconico: 0.7,
-                .youtube: 0.3
-            ],
-            relatedTag: ["tag_001"],
+            tag: ["tag_001"],
             description: "レトロゲームのRTAやってます。週末配信。",
             platform: [
                 .youtube: "https://youtube.com/@retroE",
@@ -121,20 +92,14 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
             ],
             createdAt: Date().addingTimeInterval(-86400 * 120),
             updatedAt: Date().addingTimeInterval(-86400 * 2),
-            isActive: true,
             favoriteCount: 100
         ),
         Creator(
             id: "creator_006",
             name: "TikTokダンサーF",
             thumbnailUrl: "https://picsum.photos/200/200?random=6",
-            viewCount: 7500,
             socialLinkClickCount: 2500,
-            platformClickRatio: [
-                .tiktok: 0.8,
-                .instagram: 0.2
-            ],
-            relatedTag: ["tag_003"],
+            tag: ["tag_003"],
             description: "バズるダンス動画を毎日投稿！フォロー待ってます！",
             platform: [
                 .tiktok: "https://tiktok.com/@dancerF",
@@ -142,20 +107,14 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
             ],
             createdAt: Date().addingTimeInterval(-86400 * 15),
             updatedAt: Date().addingTimeInterval(-1800),
-            isActive: true,
             favoriteCount: 100
         ),
         Creator(
             id: "creator_007",
             name: "Discord司会者G",
             thumbnailUrl: "https://picsum.photos/200/200?random=7",
-            viewCount: 8000,
             socialLinkClickCount: 400,
-            platformClickRatio: [
-                .discord: 0.7,
-                .youtube: 0.3
-            ],
-            relatedTag: ["tag_005"],
+            tag: ["tag_005"],
             description: "ゲームコミュニティの運営とイベント司会をしています。",
             platform: [
                 .discord: "https://discord.gg/communityG",
@@ -163,20 +122,14 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
             ],
             createdAt: Date().addingTimeInterval(-86400 * 75),
             updatedAt: Date().addingTimeInterval(-86400 * 3),
-            isActive: true,
             favoriteCount: 100
         ),
         Creator(
             id: "creator_008",
             name: "アニメ評論家H",
             thumbnailUrl: "https://picsum.photos/200/200?random=8",
-            viewCount: 12000,
             socialLinkClickCount: 3000,
-            platformClickRatio: [
-                .youtube: 0.8,
-                .x: 0.2
-            ],
-            relatedTag: ["tag_004", "tag_012"],
+            tag: ["tag_004", "tag_012"],
             description: "今期アニメの感想と考察を毎週配信。ネタバレ注意！",
             platform: [
                 .youtube: "https://youtube.com/@animecriticH",
@@ -184,20 +137,14 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
             ],
             createdAt: Date().addingTimeInterval(-86400 * 180),
             updatedAt: Date().addingTimeInterval(-86400),
-            isActive: true,
             favoriteCount: 100
         ),
         Creator(
             id: "creator_009",
             name: "アニソンDJ_I",
             thumbnailUrl: "https://picsum.photos/200/200?random=9",
-            viewCount: 6500,
             socialLinkClickCount: 1800,
-            platformClickRatio: [
-                .twitch: 0.6,
-                .youtube: 0.4
-            ],
-            relatedTag: ["tag_004", "tag_003", "tag_010"],
+            tag: ["tag_004", "tag_003", "tag_010"],
             description: "アニソンRemixとDJ配信。毎週土曜日21時〜",
             platform: [
                 .twitch: "https://twitch.tv/anisongDJ",
@@ -205,7 +152,6 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
             ],
             createdAt: Date().addingTimeInterval(-86400 * 90),
             updatedAt: Date().addingTimeInterval(-7200),
-            isActive: true,
             favoriteCount: 100
         )
     ]
@@ -227,15 +173,16 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
         try await Task.sleep(nanoseconds: 400_000_000) // 0.4秒
         return mockCreators.filter { creator in
             // いずれかのタグが含まれていればヒット
-            !Set(creator.relatedTag).isDisjoint(with: Set(tagIds))
+            !Set(creator.tag).isDisjoint(with: Set(tagIds))
         }
     }
     
     func getPopularCreators(limit: Int) async throws -> GetPopularCreatorsResponse {
         try await Task.sleep(nanoseconds: 300_000_000) // 0.3秒
         
+        // socialLinkClickCountでソートして人気順を決定
         let popularCreators = Array(mockCreators
-            .sorted { $0.viewCount > $1.viewCount }
+            .sorted { $0.socialLinkClickCount > $1.socialLinkClickCount }
             .prefix(limit))
         
         // CreatorをCreatorResponseに変換
@@ -269,8 +216,8 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
                     youtube: YouTubePlatform(
                         username: username,
                         channelId: "UC\(creator.id)",
-                        subscriberCount: creator.viewCount / 10, // 適当な変換
-                        viewCount: creator.viewCount
+                        subscriberCount: creator.socialLinkClickCount * 100, // Mock用の推定値
+                        viewCount: creator.socialLinkClickCount * 500 // Mock用の推定値
                     ),
                     twitch: platforms.twitch,
                     tiktok: platforms.tiktok,
@@ -321,8 +268,8 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
             description: creator.description ?? "",
             favoriteCount: creator.favoriteCount,
             platforms: platforms,
-            tags: creator.relatedTag,
-            tagNames: creator.relatedTag, // Mock用に同じ値を使用
+            tags: creator.tag,
+            tagNames: creator.tag, // Mock用に同じ値を使用
             createdAt: FirebaseTimestamp(
                 _seconds: Int(creator.createdAt.timeIntervalSince1970),
                 _nanoseconds: 0
@@ -353,7 +300,7 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
         let similarCreators = mockCreators
             .filter { $0.id != creatorId } // 自分自身は除外
             .map { creator in
-                let commonTags = Set(creator.relatedTag).intersection(Set(targetCreator.relatedTag)).count
+                let commonTags = Set(creator.tag).intersection(Set(targetCreator.tag)).count
                 let commonPlatforms = Set(creator.platform.keys).intersection(Set(targetCreator.platform.keys)).count
                 let similarityScore = commonTags * 2 + commonPlatforms // タグの重みを高く設定
                 return (creator: creator, score: similarityScore)
@@ -415,7 +362,7 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
         
         // タグでフィルタリング
         let filteredCreators = mockCreators.filter { creator in
-            let creatorTags = Set(creator.relatedTag)
+            let creatorTags = Set(creator.tag)
             let searchTags = Set(tagIds)
             
             switch searchMode {
@@ -459,7 +406,7 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
     private func sortCreators(_ creators: [Creator], by sortOrder: CreatorSortOrder) -> [Creator] {
         switch sortOrder {
         case .popularity:
-            return creators.sorted { $0.viewCount > $1.viewCount }
+            return creators.sorted { $0.socialLinkClickCount > $1.socialLinkClickCount }
         case .newest:
             return creators.sorted { $0.createdAt > $1.createdAt }
         case .name:

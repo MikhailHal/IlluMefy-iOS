@@ -141,19 +141,20 @@ extension CreatorResponse {
         }
         
         return Creator(
-            id: id,
-            name: name,
-            thumbnailUrl: profileImageUrl,
-            viewCount: 0, // バックエンドにないのでデフォルト値
-            socialLinkClickCount: 0, // バックエンドにないのでデフォルト値
-            platformClickRatio: platformClickRatio,
-            relatedTag: tags,
-            description: description,
-            platform: platformMap,
-            createdAt: createdAt.toDate,
-            updatedAt: updatedAt.toDate,
-            isActive: true, // バックエンドにないのでデフォルトでtrue
-            favoriteCount: favoriteCount
+            id: "creator_001",
+            name: "ゲーム実況者A",
+            thumbnailUrl: "https://picsum.photos/200/200?random=1",
+            socialLinkClickCount: 1500,
+            tag: ["tag_007", "tag_011"],
+            description: "FPSゲームをメインに実況しています。毎日20時から配信！",
+            platform: [
+                .youtube: "https://youtube.com/@gameplayerA",
+                .twitch: "https://twitch.tv/gameplayerA",
+                .x: "https://twitter.com/gameplayerA"
+            ],
+            createdAt: Date().addingTimeInterval(-86400 * 30),
+            updatedAt: Date().addingTimeInterval(-3600),
+            favoriteCount: 100
         )
     }
 }

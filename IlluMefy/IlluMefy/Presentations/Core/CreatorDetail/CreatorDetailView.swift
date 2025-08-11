@@ -232,7 +232,7 @@ struct CreatorDetailView: View {
         HStack(spacing: Spacing.unrelatedComponentDivider) {
             // 視聴回数
             VStack(spacing: Spacing.relatedComponentDivider) {
-               Text(formatViewCount(creator.viewCount))
+               Text("1000")
                     .font(.system(size: Typography.bodyRegular, weight: .bold))
                     .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSectionTitle.swiftUIColor)
                 Text(L10n.CreatorDetail.pageViews)
@@ -303,7 +303,7 @@ struct CreatorDetailView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: Spacing.componentGrouping) {
                     IlluMefyAddTag()
-                    ForEach(creator.relatedTag, id: \.self) { tag in
+                    ForEach(creator.tag, id: \.self) { tag in
                         IlluMefyFeaturedTag(
                             text: tag,
                             onLongPress: { tagText in

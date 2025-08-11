@@ -145,7 +145,7 @@ final class ProfileCorrectionViewModel: ProfileCorrectionViewModelProtocol {
             // その他のSNSは複数の可能性があるため、空文字を返す
             return ""
         case .tags:
-            return creator.relatedTag.joined(separator: ", ")
+            return creator.tag.joined(separator: ", ")
         case .other:
             return ""
         }

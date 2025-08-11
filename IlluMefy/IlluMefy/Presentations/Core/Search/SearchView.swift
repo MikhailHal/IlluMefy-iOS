@@ -421,41 +421,6 @@ struct SearchCreatorCard: View {
                         endPoint: .bottom
                     )
                     
-                    // 右上にプラットフォームアイコンとタグ数
-                    VStack(alignment: .trailing, spacing: 4) {
-                        HStack(spacing: 4) {
-                            let platform = creator.mainPlatform().0
-                            if platform == .youtube {
-                                Image(systemName: platform.icon)
-                                    .font(.system(size: 12))
-                                    .foregroundColor(.red)
-                                    .shadow(radius: 1)
-                            } else {
-                                Image(platform.icon)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 12, height: 12)
-                                    .foregroundColor(.white)
-                                    .shadow(radius: 1)
-                            }
-                            
-                            if creator.platform.count > 1 {
-                                Text("+\(creator.platform.count - 1)")
-                                    .font(.system(size: 10, weight: .medium))
-                                    .foregroundColor(.white.opacity(0.9))
-                                    .shadow(radius: 1)
-                            }
-                        }
-                        
-                        // 視聴回数をコンパクトに表示
-                        Text(formatViewCount(creator.viewCount))
-                            .font(.system(size: 10))
-                            .foregroundColor(.white.opacity(0.8))
-                            .shadow(radius: 1)
-                    }
-                    .padding(6)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
-                    
                     // クリエイター情報（左下配置）
                     VStack(alignment: .leading, spacing: 2) {
                         Text(creator.name)
@@ -465,8 +430,8 @@ struct SearchCreatorCard: View {
                             .shadow(radius: 1)
                         
                         // タグ表示（1つだけコンパクトに）
-                        if !creator.relatedTag.isEmpty {
-                            let tags = viewModel.getTagsForIds(Array(creator.relatedTag.prefix(1)))
+                        if !creator.tag.isEmpty {
+                            let tags = viewModel.getTagsForIds(Array(creator.tag.prefix(1)))
                             if let firstTag = tags.first {
                                 Text("#\(firstTag.displayName)")
                                     .font(.system(size: 10))

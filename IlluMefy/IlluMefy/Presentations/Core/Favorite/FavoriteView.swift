@@ -130,24 +130,6 @@ struct FavoriteCreatorCard: View {
                             .foregroundColor(.white)
                             .lineLimit(1)
                             .shadow(radius: 1)
-                        
-                        let (platform, _) = creator.mainPlatform()
-                        HStack(spacing: 4) {
-                            if platform == .youtube {
-                                Image(systemName: platform.icon)
-                                    .font(.system(size: 10))
-                                    .foregroundColor(.red)
-                            } else {
-                                Image(platform.icon)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 10, height: 10)
-                            }
-                            Text(platform.displayName)
-                                .font(.system(size: 10))
-                                .foregroundColor(.white.opacity(0.9))
-                        }
-                        .shadow(radius: 1)
                     }
                     .padding(8)
                 }
