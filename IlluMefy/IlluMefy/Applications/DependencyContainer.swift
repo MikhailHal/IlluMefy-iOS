@@ -398,19 +398,6 @@ final class DependencyContainer: @unchecked Sendable {
                 )
             }
         }.inObjectScope(.transient)
-        
-        // TagApplication screen
-        container.register(TagApplicationViewModel.self) {(resolver, creator: Creator, applicationType: TagApplicationRequest.ApplicationType) in
-            let submitTagApplicationUseCase = resolver.resolve((any SubmitTagApplicationUseCaseProtocol).self)!
-            return MainActor.assumeIsolated {
-                return TagApplicationViewModel(
-                    creator: creator,
-                    applicationType: applicationType,
-                    submitTagApplicationUseCase: submitTagApplicationUseCase
-                )
-            }
-        }.inObjectScope(.transient)
-        
         // ProfileCorrection screen
         container.register(ProfileCorrectionViewModel.self) { (resolver, creator: Creator) in
             let submitProfileCorrectionUseCase = resolver.resolve((any SubmitProfileCorrectionUseCaseProtocol).self)!
