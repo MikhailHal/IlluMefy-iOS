@@ -41,11 +41,6 @@ struct CreatorDetailView: View {
             }
         }
         .background(Asset.Color.CreatorDetailCard.creatorDetailCardBackground.swiftUIColor)
-        .sheet(isPresented: $showingProfileCorrection) {
-            if case .loaded(let creator, _) = viewModel.state {
-                ProfileCorrectionView(creator: creator)
-            }
-        }
         .confirmationDialog(L10n.CreatorDetail.tagApplication, isPresented: $showingTagApplicationTypeSelection) {
             Button(L10n.CreatorDetail.tagAddApplication) {
                 tagApplicationType = .add

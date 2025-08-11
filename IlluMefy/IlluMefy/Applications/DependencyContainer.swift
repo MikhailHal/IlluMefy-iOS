@@ -398,16 +398,6 @@ final class DependencyContainer: @unchecked Sendable {
                 )
             }
         }.inObjectScope(.transient)
-        // ProfileCorrection screen
-        container.register(ProfileCorrectionViewModel.self) { (resolver, creator: Creator) in
-            let submitProfileCorrectionUseCase = resolver.resolve((any SubmitProfileCorrectionUseCaseProtocol).self)!
-            return MainActor.assumeIsolated {
-                return ProfileCorrectionViewModel(
-                    creator: creator,
-                    submitProfileCorrectionUseCase: submitProfileCorrectionUseCase
-                )
-            }
-        }.inObjectScope(.transient)
         
         // Search screen
         container.register(SearchViewModel.self) { resolver in
