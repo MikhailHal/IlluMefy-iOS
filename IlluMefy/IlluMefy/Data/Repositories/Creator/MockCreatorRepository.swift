@@ -185,7 +185,7 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
             .sorted { $0.socialLinkClickCount > $1.socialLinkClickCount }
             .prefix(limit))
         
-        // CreatorをCreatorResponseに変換
+        // CreatorをCreatorDataModelに変換
         let creatorResponses = popularCreators.map { creator in
             convertCreatorToResponse(creator)
         }
@@ -195,8 +195,8 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
     
     // MARK: - Helper Methods
     
-    /// CreatorをCreatorResponseに変換（Mock用）
-    private func convertCreatorToResponse(_ creator: Creator) -> CreatorResponse {
+    /// CreatorをCreatorDataModelに変換（Mock用）
+    private func convertCreatorToResponse(_ creator: Creator) -> CreatorDataModel {
         // プラットフォーム情報を変換
         var platforms = PlatformsResponse(
             youtube: nil,
@@ -213,7 +213,7 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
                 // @usernameを抽出（簡易実装）
                 let username = url.replacingOccurrences(of: "https://youtube.com/@", with: "")
                 platforms = PlatformsResponse(
-                    youtube: YouTubePlatform(
+                    youtube: YouTubeChannelDataModel(
                         username: username,
                         channelId: "UC\(creator.id)",
                         subscriberCount: creator.socialLinkClickCount * 100, // Mock用の推定値
@@ -261,7 +261,7 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
             }
         }
         
-        return CreatorResponse(
+        return CreatorDataModel(
             id: creator.id,
             name: creator.name,
             profileImageUrl: creator.thumbnailUrl,

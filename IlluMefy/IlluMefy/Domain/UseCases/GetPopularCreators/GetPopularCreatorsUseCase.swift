@@ -41,12 +41,12 @@ final class GetPopularCreatorsUseCase: GetPopularCreatorsUseCaseProtocol {
     /// GetPopularCreatorsResponseをCreatorの配列に変換
     private func convertResponseToCreators(_ response: GetPopularCreatorsResponse) -> [Creator] {
         return response.data.map { creatorResponse in
-            convertCreatorResponse(creatorResponse)
+            convertCreatorDataModel(creatorResponse)
         }
     }
     
-    /// CreatorResponseをCreatorドメインエンティティに変換
-    private func convertCreatorResponse(_ response: CreatorResponse) -> Creator {
+    /// CreatorDataModelをCreatorドメインエンティティに変換
+    private func convertCreatorDataModel(_ response: CreatorDataModel) -> Creator {
         // プラットフォームURLマップの構築
         var platformMap: [Platform: String] = [:]
         
