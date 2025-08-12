@@ -227,7 +227,7 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
             case .twitch:
                 platforms = PlatformsResponse(
                     youtube: platforms.youtube,
-                    twitch: SocialLinkPlatform(socialLink: url),
+                    twitch: SocialLinkPlatformResponse(socialLink: url),
                     tiktok: platforms.tiktok,
                     instagram: platforms.instagram,
                     niconico: platforms.niconico
@@ -236,7 +236,7 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
                 platforms = PlatformsResponse(
                     youtube: platforms.youtube,
                     twitch: platforms.twitch,
-                    tiktok: SocialLinkPlatform(socialLink: url),
+                    tiktok: SocialLinkPlatformResponse(socialLink: url),
                     instagram: platforms.instagram,
                     niconico: platforms.niconico
                 )
@@ -245,7 +245,7 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
                     youtube: platforms.youtube,
                     twitch: platforms.twitch,
                     tiktok: platforms.tiktok,
-                    instagram: SocialLinkPlatform(socialLink: url),
+                    instagram: SocialLinkPlatformResponse(socialLink: url),
                     niconico: platforms.niconico
                 )
             case .niconico:
@@ -254,7 +254,7 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
                     twitch: platforms.twitch,
                     tiktok: platforms.tiktok,
                     instagram: platforms.instagram,
-                    niconico: SocialLinkPlatform(socialLink: url)
+                    niconico: SocialLinkPlatformResponse(socialLink: url)
                 )
             case .x, .discord: // 未対応プラットフォームはスキップ
                 continue
