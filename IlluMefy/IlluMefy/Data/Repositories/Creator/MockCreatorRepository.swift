@@ -193,6 +193,22 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
         return GetPopularCreatorsResponse(data: creatorResponses)
     }
     
+    func getNewestCreators(limit: Int) async throws -> GetNewestCreatorsResponse {
+        try await Task.sleep(nanoseconds: 300_000_000) // 0.3秒
+        
+        // createdAtでソートして最新順を決定
+        let newestCreators = Array(mockCreators
+            .sorted { $0.createdAt > $1.createdAt }
+            .prefix(limit))
+        
+        // CreatorをCreatorDataModelに変換
+        let creatorResponses = newestCreators.map { creator in
+            convertCreatorToResponse(creator)
+        }
+        
+        return GetNewestCreatorsResponse(data: creatorResponses)
+    }
+    
     // MARK: - Helper Methods
     
     /// CreatorをCreatorDataModelに変換（Mock用）

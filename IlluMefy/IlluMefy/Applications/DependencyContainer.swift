@@ -199,6 +199,16 @@ final class DependencyContainer: @unchecked Sendable {
             resolver.resolve(GetPopularCreatorsUseCase.self)!
         }.inObjectScope(.transient)
         
+        // GetNewestCreators usecase
+        container.register(GetNewestCreatorsUseCase.self) { resolver in
+            let creatorRepository = resolver.resolve(CreatorRepositoryProtocol.self)!
+            return GetNewestCreatorsUseCase(creatorRepository: creatorRepository)
+        }.inObjectScope(.transient)
+        
+        container.register((any GetNewestCreatorsUseCaseProtocol).self) { resolver in
+            resolver.resolve(GetNewestCreatorsUseCase.self)!
+        }.inObjectScope(.transient)
+        
         // SearchCreatorsByTags usecase
         container.register(SearchCreatorsByTagsUseCase.self) { resolver in
             let creatorRepository = resolver.resolve(CreatorRepositoryProtocol.self)!
@@ -372,12 +382,12 @@ final class DependencyContainer: @unchecked Sendable {
         container.register(HomeViewModel.self) { resolver in
             let getPopularCreatorsUseCase = resolver.resolve((any GetPopularCreatorsUseCaseProtocol).self)!
             let searchCreatorsByTagsUseCase = resolver.resolve((any SearchCreatorsByTagsUseCaseProtocol).self)!
-            let getOperatorMessageUseCase = resolver.resolve((any GetOperatorMessageUseCaseProtocol).self)!
+            let getNewestCreatorsUseCase = resolver.resolve((any GetNewestCreatorsUseCaseProtocol).self)!
             return MainActor.assumeIsolated {
                 return HomeViewModel(
                     getPopularCreatorsUseCase: getPopularCreatorsUseCase,
                     searchCreatorsByTagsUseCase: searchCreatorsByTagsUseCase,
-                    getOperatorMessageUseCase: getOperatorMessageUseCase
+                    getNewestCreatorsUseCase: getNewestCreatorsUseCase
                 )
             }
         }.inObjectScope(.transient)

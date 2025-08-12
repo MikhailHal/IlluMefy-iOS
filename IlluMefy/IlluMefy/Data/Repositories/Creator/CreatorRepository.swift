@@ -51,6 +51,16 @@ final class CreatorRepository: CreatorRepositoryProtocol {
         )
     }
     
+    func getNewestCreators(limit: Int) async throws -> GetNewestCreatorsResponse {
+        return try await apiClient.request(
+            endpoint: "/creators/newest",
+            method: .get,
+            parameters: ["limit": limit],
+            responseType: GetNewestCreatorsResponse.self,
+            isRequiredAuth: false
+        )
+    }
+    
     func getCreatorById(id: String) async throws -> Creator {
         // TODO: 実装予定
         throw CreatorRepositoryError.notImplemented

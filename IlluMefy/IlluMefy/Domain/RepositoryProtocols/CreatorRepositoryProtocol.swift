@@ -60,6 +60,13 @@ protocol CreatorRepositoryProtocol {
     /// - Throws: RepositoryError
     func getPopularCreators(limit: Int) async throws -> GetPopularCreatorsResponse
     
+    /// 最新のクリエイターを取得
+    ///
+    /// - Parameter limit: 取得する件数の上限
+    /// - Returns: 人気順にソートされたクリエイターの配列
+    /// - Throws: RepositoryError
+    func getNewestCreators(limit: Int) async throws -> GetNewestCreatorsResponse
+    
     /// 指定IDのクリエイターを取得
     /// 
     /// - Parameter id: クリエイターID

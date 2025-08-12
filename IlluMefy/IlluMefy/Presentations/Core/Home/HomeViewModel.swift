@@ -22,23 +22,23 @@ final class HomeViewModel: HomeViewModelProtocol {
     // MARK: - Use Cases
     private let getPopularCreatorsUseCase: GetPopularCreatorsUseCaseProtocol
     private let searchCreatorsByTagsUseCase: SearchCreatorsByTagsUseCaseProtocol
-    private let getOperatorMessageUseCase: GetOperatorMessageUseCaseProtocol
+    private let getNewestCreatorsUseCase: GetNewestCreatorsUseCaseProtocol
     
     // MARK: - Initialization
     init(
         getPopularCreatorsUseCase: GetPopularCreatorsUseCaseProtocol,
         searchCreatorsByTagsUseCase: SearchCreatorsByTagsUseCaseProtocol,
-        getOperatorMessageUseCase: GetOperatorMessageUseCaseProtocol
+        getNewestCreatorsUseCase: GetNewestCreatorsUseCaseProtocol
     ) {
         self.getPopularCreatorsUseCase = getPopularCreatorsUseCase
         self.searchCreatorsByTagsUseCase = searchCreatorsByTagsUseCase
-        self.getOperatorMessageUseCase = getOperatorMessageUseCase
+        self.getNewestCreatorsUseCase = getNewestCreatorsUseCase
     }
     
     // MARK: - Public Methods
     func loadInitialData() async {
         await withErrorHandling {
-            await _ = (loadPopularCreators(), loadPopularTags(), loadRecommendedCreators(), loadNewArrivalCreators(), loadOperatorMessage())
+            await _ = (loadPopularCreators(), loadPopularTags(), loadRecommendedCreators(), loadNewArrivalCreators())
         }
     }
     
@@ -113,20 +113,9 @@ final class HomeViewModel: HomeViewModelProtocol {
     private func loadNewArrivalCreators() async {
         // Note: Implement new arrivals logic
         // For now, reusing popular creators logic
-        let request = GetPopularCreatorsUseCaseRequest(limit: 20)
-        let response = try? await getPopularCreatorsUseCase.execute(request: request)
+        let request = GetNewestCreatorsUseCaseRequest(limit: 20)
+        let response = try? await getNewestCreatorsUseCase.execute(request: request)
         newArrivalCreators = response?.creators ?? []
-    }
-    
-    private func loadOperatorMessage() async {
-        // 運営メッセージをサーバーから取得してキャッシュに保存
-        // エラーが発生してもアプリの動作には影響しないようにする
-        do {
-            _ = try await getOperatorMessageUseCase.fetchAndCacheOperatorMessage()
-        } catch {
-            // ログ出力（本番環境では適切なログシステムに送信）
-            print("Failed to load operator message: \(error)")
-        }
     }
     
     private func withErrorHandling(_ operation: () async throws -> Void) async {
