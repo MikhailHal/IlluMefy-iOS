@@ -29,6 +29,10 @@ class MockSearchCreatorsByTagsRepository: CreatorRepositoryProtocol {
         throw CreatorRepositoryError.networkError
     }
     
+    func getNewestCreators(limit: Int) async throws -> GetNewestCreatorsResponse {
+        throw CreatorRepositoryError.networkError
+    }
+    
     func getCreatorById(id: String) async throws -> Creator {
         throw CreatorRepositoryError.creatorNotFound
     }

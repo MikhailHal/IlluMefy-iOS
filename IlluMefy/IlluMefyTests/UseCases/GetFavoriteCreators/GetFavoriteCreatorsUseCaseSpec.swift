@@ -160,6 +160,10 @@ class TestMockCreatorRepository: CreatorRepositoryProtocol {
     func searchByTags(tagIds: [String], searchMode: TagSearchMode, sortOrder: CreatorSortOrder, offset: Int, limit: Int) async throws -> CreatorSearchResult {
         return try await baseRepository.searchByTags(tagIds: tagIds, searchMode: searchMode, sortOrder: sortOrder, offset: offset, limit: limit)
     }
+    
+    func getNewestCreators(limit: Int) async throws -> GetNewestCreatorsResponse {
+        return try await baseRepository.getNewestCreators(limit: limit)
+    }
 }
 
 class MockFavoriteRepository: FavoriteRepositoryProtocol {
