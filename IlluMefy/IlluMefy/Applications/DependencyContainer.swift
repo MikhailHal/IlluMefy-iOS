@@ -214,6 +214,16 @@ final class DependencyContainer: @unchecked Sendable {
             resolver.resolve(GetPopularTagsUseCase.self)!
         }.inObjectScope(.transient)
         
+        // GetTagListByTagIdList usecase
+        container.register(GetTagListByTagIdListUseCase.self) { resolver in
+            let tagRepository = resolver.resolve(TagRepositoryProtocol.self)!
+            return GetTagListByTagIdListUseCase(tagRepository: tagRepository)
+        }.inObjectScope(.transient)
+        
+        container.register((any GetTagListByTagIdListUseCaseProtocol).self) { resolver in
+            resolver.resolve(GetTagListByTagIdListUseCase.self)!
+        }.inObjectScope(.transient)
+        
         // SearchCreatorsByTags usecase
         container.register(SearchCreatorsByTagsUseCase.self) { resolver in
             let creatorRepository = resolver.resolve(CreatorRepositoryProtocol.self)!
@@ -386,11 +396,13 @@ final class DependencyContainer: @unchecked Sendable {
         // CreatorDetail screen
         container.register(CreatorDetailViewModel.self) { (resolver, creator: Creator) in
             let getCreatorDetailUseCase = resolver.resolve((any GetCreatorDetailUseCaseProtocol).self)!
+            let getTagListByTagIdListUseCase = resolver.resolve((any GetTagListByTagIdListUseCaseProtocol).self)!
             let favoriteRepository = resolver.resolve(FavoriteRepositoryProtocol.self)!
             return MainActor.assumeIsolated {
                 return CreatorDetailViewModel(
                     creator: creator,
                     getCreatorDetailUseCase: getCreatorDetailUseCase,
+                    getTagListByTagIdListUseCase: getTagListByTagIdListUseCase,
                     favoriteRepository: favoriteRepository
                 )
             }

@@ -22,15 +22,18 @@ final class CreatorDetailViewModel: CreatorDetailViewModelProtocol {
     
     // 依存関係
     private let getCreatorDetailUseCase: GetCreatorDetailUseCaseProtocol
+    private let getTagListByTagIdListUseCase: GetTagListByTagIdListUseCaseProtocol
     private let favoriteRepository: FavoriteRepositoryProtocol
 
     init(
         creator: Creator,
         getCreatorDetailUseCase: GetCreatorDetailUseCaseProtocol,
+        getTagListByTagIdListUseCase: GetTagListByTagIdListUseCaseProtocol,
         favoriteRepository: FavoriteRepositoryProtocol
     ) {
         self.creator = creator
         self.getCreatorDetailUseCase = getCreatorDetailUseCase
+        self.getTagListByTagIdListUseCase = getTagListByTagIdListUseCase
         self.favoriteRepository = favoriteRepository
         
         Task {
@@ -44,28 +47,18 @@ final class CreatorDetailViewModel: CreatorDetailViewModelProtocol {
         errorMessage = nil
         
         do {
-            // TODO: 実際のタグ取得処理を実装
-            // 一旦モックデータを返す
-            try await Task.sleep(nanoseconds: 500_000_000) // 0.5秒の遅延
+            // クリエイターのタグIDリストが空の場合は早期リターン
+            guard !creator.tag.isEmpty else {
+                tags = []
+                isLoadingTags = false
+                return
+            }
             
-            tags = [
-                Tag(
-                    id: "tag_001",
-                    displayName: "ゲーム",
-                    tagName: "game",
-                    clickedCount: 1500,
-                    createdAt: Date(),
-                    updatedAt: Date()
-                ),
-                Tag(
-                    id: "tag_007",
-                    displayName: "FPS",
-                    tagName: "fps",
-                    clickedCount: 500,
-                    createdAt: Date(),
-                    updatedAt: Date()
-                )
-            ]
+            // GetTagListByTagIdListUseCaseを使用してタグ情報を取得
+            let request = GetTagListByTagIdListUseCaseRequest(tagIdList: creator.tag)
+            let response = try await getTagListByTagIdListUseCase.execute(request: request)
+            
+            tags = response.tags
             isLoadingTags = false
         } catch {
             errorMessage = "タグの読み込みに失敗しました"
