@@ -135,7 +135,7 @@
 /* Home Screen */
 "home.popularCreators" = "人気クリエイター";
 "home.popularTags" = "人気タグ";
-"home.recommendedCreators" = "おすすめクリエイター";
+"home.recommendedCreators" = "おすすめクリエイター\n(開発中🔨)";
 "home.recentlyAddedCreators" = "最近追加されたクリエイター";
 "home.featuredContent" = "注目のコンテンツ";
 "home.viewProfile" = "プロフィールを見る";

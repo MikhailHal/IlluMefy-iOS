@@ -38,7 +38,7 @@ final class HomeViewModel: HomeViewModelProtocol {
     // MARK: - Public Methods
     func loadInitialData() async {
         await withErrorHandling {
-            await _ = (loadPopularCreators(), loadPopularTags(), loadRecommendedCreators(), loadNewArrivalCreators())
+            await _ = (loadPopularCreators(), loadPopularTags(), loadNewArrivalCreators())
         }
     }
     

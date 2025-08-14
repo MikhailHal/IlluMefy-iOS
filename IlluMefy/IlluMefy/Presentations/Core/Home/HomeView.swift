@@ -38,15 +38,15 @@ struct HomeView: View {
                     popularCreatorsSection
                         .padding(.bottom, Spacing.unrelatedComponentDivider)
                     
-                    // Recommended Creators Section
-                    sectionHeader(title: L10n.Home.recommendedCreators)
-                    recommendedCreatorsSection
-                        .padding(.bottom, Spacing.unrelatedComponentDivider)
-                    
                     // New Arrival Creators Section
                     sectionHeader(title: L10n.Home.recentlyAddedCreators)
                     newArrivalCreatorsSection
                         .padding(.bottom, Spacing.screenEdgePadding)
+                    
+                    // Recommended Creators Section
+                    sectionHeader(title: L10n.Home.recommendedCreators)
+                    recommendedCreatorsSection
+                        .padding(.bottom, Spacing.unrelatedComponentDivider)
                 }
             }
             .scrollIndicators(.hidden)
@@ -133,16 +133,10 @@ struct HomeView: View {
     }
     
     private var recommendedCreatorsSection: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
+        ScrollView {
             HStack(spacing: Spacing.componentGrouping) {
-                if viewModel.isLoading {
-                    ForEach(0..<5, id: \.self) { _ in
-                        CreatorTile(creator: nil)
-                    }
-                } else {
-                    ForEach(viewModel.recommendedCreators) { creator in
-                        CreatorTile(creator: creator)
-                    }
+                ForEach(0..<5, id: \.self) { _ in
+                    CreatorTile(creator: nil)
                 }
             }
             .padding(.horizontal, Spacing.screenEdgePadding)
