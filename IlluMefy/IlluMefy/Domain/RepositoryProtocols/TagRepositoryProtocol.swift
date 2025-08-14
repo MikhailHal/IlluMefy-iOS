@@ -34,4 +34,10 @@ protocol TagRepositoryProtocol {
     
     /// 人気タグを取得
     func getPopularTags(limit: Int) async throws -> GetPopularTagsResponse
+    
+    /// タグID一覧からタグ一覧を取得
+    ///
+    /// - Parameter tagIdList タグID一覧
+    /// - Returns タグ情報一覧
+    func getTagListByIdList(tagIdList: [String]) async throws -> GetTagListByIdListResponse
 }

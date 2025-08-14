@@ -9,7 +9,6 @@ import Foundation
 
 /// タグリポジトリの実装
 final class TagRepository: TagRepositoryProtocol {
-    
     // MARK: - Dependencies
     
     private let apiClient: ApiClientProtocol
@@ -43,6 +42,18 @@ final class TagRepository: TagRepositoryProtocol {
             method: .get,
             parameters: ["limit": limit],
             responseType: GetPopularTagsResponse.self,
+            isRequiredAuth: false
+        )
+        
+        return response
+    }
+    
+    func getTagListByIdList(tagIdList: [String]) async throws -> GetTagListByIdListResponse {
+        let response = try await apiClient.request(
+            endpoint: "/tags/by-ids",
+            method: .post,
+            parameters: ["tagIds": tagIdList],
+            responseType: GetTagListByIdListResponse.self,
             isRequiredAuth: false
         )
         

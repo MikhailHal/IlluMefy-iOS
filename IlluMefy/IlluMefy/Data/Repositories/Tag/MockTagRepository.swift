@@ -131,4 +131,25 @@ final class MockTagRepository: TagRepositoryProtocol {
         
         return GetPopularTagsResponse(data: tagDataModels)
     }
+    
+    func getTagListByIdList(tagIdList: [String]) async throws -> GetTagListByIdListResponse {
+        try await Task.sleep(nanoseconds: 150_000_000) // 0.15秒
+        
+        let matchingTags = mockTags.filter { tag in
+            tagIdList.contains(tag.id)
+        }
+        
+        let tagDataModels = matchingTags.map { tag in
+            TagDataModel(
+                id: tag.id,
+                name: tag.displayName,
+                description: "Mock description for \(tag.displayName)",
+                viewCount: tag.clickedCount,
+                createdAt: FirebaseTimestamp(_seconds: Int(tag.createdAt.timeIntervalSince1970), _nanoseconds: 0),
+                updatedAt: FirebaseTimestamp(_seconds: Int(tag.updatedAt.timeIntervalSince1970), _nanoseconds: 0)
+            )
+        }
+        
+        return GetTagListByIdListResponse(data: tagDataModels)
+    }
 }
