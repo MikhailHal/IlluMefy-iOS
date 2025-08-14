@@ -94,11 +94,6 @@ final class DependencyContainer: @unchecked Sendable {
             OperatorMessageRepository()
         }.inObjectScope(.container)
         
-        // ContactSupport repository
-        container.register(ContactSupportRepository.self) { _ in
-            ContactSupportRepository()
-        }.inObjectScope(.container)
-        
         // Auth repository
         container.register(AuthRepository.self) { _ in
             AuthRepository()
@@ -157,11 +152,6 @@ final class DependencyContainer: @unchecked Sendable {
         // OperatorMessage repository
         container.register(OperatorMessageRepositoryProtocol.self) { resolver in
             resolver.resolve(OperatorMessageRepository.self)!
-        }.inObjectScope(.transient)
-        
-        // ContactSupport repository
-        container.register(ContactSupportRepositoryProtocol.self) { resolver in
-            resolver.resolve(ContactSupportRepository.self)!
         }.inObjectScope(.transient)
         
         // Auth repository
@@ -328,26 +318,6 @@ final class DependencyContainer: @unchecked Sendable {
         
         container.register((any GetOperatorMessageUseCaseProtocol).self) { resolver in
             resolver.resolve(GetOperatorMessageUseCase.self)!
-        }.inObjectScope(.transient)
-        
-        // SubmitContactSupport usecase
-        container.register(SubmitContactSupportUseCase.self) { resolver in
-            let contactSupportRepository = resolver.resolve(ContactSupportRepositoryProtocol.self)!
-            return SubmitContactSupportUseCase(repository: contactSupportRepository)
-        }.inObjectScope(.transient)
-        
-        container.register((any SubmitContactSupportUseCaseProtocol).self) { resolver in
-            resolver.resolve(SubmitContactSupportUseCase.self)!
-        }.inObjectScope(.transient)
-        
-        // GetContactSupportHistory usecase
-        container.register(GetContactSupportHistoryUseCase.self) { resolver in
-            let contactSupportRepository = resolver.resolve(ContactSupportRepositoryProtocol.self)!
-            return GetContactSupportHistoryUseCase(repository: contactSupportRepository)
-        }.inObjectScope(.transient)
-        
-        container.register((any GetContactSupportHistoryUseCaseProtocol).self) { resolver in
-            resolver.resolve(GetContactSupportHistoryUseCase.self)!
         }.inObjectScope(.transient)
         
         // Logout usecase
