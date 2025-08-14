@@ -9,14 +9,13 @@ import SwiftUI
 import UIKit
 
 struct CreatorDetailView: View {
-    @StateObject private var viewModel: CreatorDetailViewModel
+    @State private var viewModel: CreatorDetailViewModel
     @Environment(\.dismiss) private var dismiss
     @State private var currentCreatorId: String
     @EnvironmentObject private var router: IlluMefyAppRouter
     @State private var showingTagApplication = false
     @State private var tagApplicationType: TagApplicationRequest.ApplicationType = .add
     @State private var showingTagApplicationTypeSelection = false
-    @State private var showingProfileCorrection = false
     @State private var showingTagDeleteConfirmation = false
     @State private var selectedTagForDeletion: String = ""
     
@@ -25,7 +24,7 @@ struct CreatorDetailView: View {
         guard let viewModel = container.container.resolve(CreatorDetailViewModel.self, argument: creatorId) else {
             fatalError("Failed to resolve CreatorDetailViewModel for creatorId: \(creatorId)")
         }
-        self._viewModel = StateObject(wrappedValue: viewModel)
+        self._viewModel = State(wrappedValue: viewModel)
         self._currentCreatorId = State(initialValue: creatorId)
     }
     
@@ -126,7 +125,7 @@ struct CreatorDetailView: View {
                 tagsSection(creator: creator)
                 
                 // Similar creators section
-                similarCreatorsSection(similarCreators: similarCreators)
+                /*similarCreatorsSection(similarCreators: similarCreators)*/
             }
             .padding(Spacing.screenEdgePadding)
         }
@@ -465,7 +464,7 @@ struct CreatorDetailView: View {
 
 #Preview("ローディング中") {
     struct MockLoadingView: View {
-        @StateObject private var viewModel = MockCreatorDetailViewModel()
+        @State private var viewModel = MockCreatorDetailViewModel()
         
         var body: some View {
             Group {
@@ -489,7 +488,7 @@ struct CreatorDetailView: View {
 
 #Preview("エラー表示") {
     struct MockErrorView: View {
-        @StateObject private var viewModel = MockCreatorDetailViewModel.mockError()
+        @State private var viewModel = MockCreatorDetailViewModel.mockError()
         
         var body: some View {
             Group {

@@ -8,18 +8,14 @@
 import Foundation
 
 @MainActor
+@Observable
 final class CreatorDetailViewModel: CreatorDetailViewModelProtocol {
-    
-    // MARK: - Published Properties
-    @Published var state: CreatorDetailViewState = .idle
-    @Published var isFavorite: Bool = false
-    
-    // MARK: - Private Properties
+    var state: CreatorDetailViewState = .idle
+    var isFavorite: Bool = false
     private let creatorId: String
     private let getCreatorDetailUseCase: GetCreatorDetailUseCaseProtocol
     private let favoriteRepository: FavoriteRepositoryProtocol
-    
-    // MARK: - Initialization
+
     init(
         creatorId: String,
         getCreatorDetailUseCase: GetCreatorDetailUseCaseProtocol,
@@ -29,8 +25,6 @@ final class CreatorDetailViewModel: CreatorDetailViewModelProtocol {
         self.getCreatorDetailUseCase = getCreatorDetailUseCase
         self.favoriteRepository = favoriteRepository
     }
-    
-    // MARK: - CreatorDetailViewModelProtocol
     
     func loadCreatorDetail() async {
         state = .loading

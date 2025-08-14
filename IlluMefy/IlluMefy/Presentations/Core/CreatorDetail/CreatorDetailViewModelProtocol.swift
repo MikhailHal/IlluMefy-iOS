@@ -13,7 +13,7 @@ import Foundation
  クリエイター詳細画面のビジネスロジックと状態管理のインターフェースを定義します。
  */
 @MainActor
-protocol CreatorDetailViewModelProtocol: ObservableObject {
+protocol CreatorDetailViewModelProtocol {
     /// 画面の状態
     var state: CreatorDetailViewState { get set }
     
