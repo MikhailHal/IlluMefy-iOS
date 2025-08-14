@@ -422,7 +422,7 @@ class MockTagRepositorySpec: QuickSpec {
                     expect(firstTag.updatedAt).toNot(beNil())
                 }
                 
-                it("親子関係が正しく設定されている") {
+                it("すべてのタグが適切に設定されている") {
                     // When
                     var result: [Tag]?
                     var error: Error?
@@ -445,15 +445,13 @@ class MockTagRepositorySpec: QuickSpec {
                         return
                     }
                     
-                    // "ゲーム"タグに子タグが設定されていることを確認
-                    let gameTag = tags.first { $0.displayName == "ゲーム" }
-                    expect(gameTag?.childTagIds).toNot(beEmpty())
-                    expect(gameTag?.childTagIds).to(contain("tag_007"))
-                    expect(gameTag?.childTagIds).to(contain("tag_008"))
-                    
-                    // "FPS"タグに親タグが設定されていることを確認
-                    let fpsTag = tags.first { $0.displayName == "FPS" }
-                    expect(fpsTag?.parentTagId).to(equal("tag_001"))
+                    // すべてのタグが適切に設定されていることを確認
+                    for tag in tags {
+                        expect(tag.id).toNot(beEmpty())
+                        expect(tag.displayName).toNot(beEmpty())
+                        expect(tag.tagName).toNot(beEmpty())
+                        expect(tag.clickedCount).to(beGreaterThanOrEqualTo(0))
+                    }
                 }
             }
             

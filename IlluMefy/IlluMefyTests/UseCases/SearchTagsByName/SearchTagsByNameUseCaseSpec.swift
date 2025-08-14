@@ -35,9 +35,7 @@ class SearchTagsByNameUseCaseSpec: QuickSpec {
                         tagName: "game",
                         clickedCount: 1500,
                         createdAt: Date().addingTimeInterval(-86400 * 30),
-                        updatedAt: Date().addingTimeInterval(-3600),
-                        parentTagId: nil,
-                        childTagIds: ["tag_007", "tag_008"]
+                        updatedAt: Date().addingTimeInterval(-3600)
                     ),
                     Tag(
                         id: "tag_007",
@@ -45,9 +43,7 @@ class SearchTagsByNameUseCaseSpec: QuickSpec {
                         tagName: "fps",
                         clickedCount: 500,
                         createdAt: Date().addingTimeInterval(-86400 * 20),
-                        updatedAt: Date().addingTimeInterval(-7200),
-                        parentTagId: "tag_001",
-                        childTagIds: []
+                        updatedAt: Date().addingTimeInterval(-7200)
                     )
                 ]
                 

@@ -214,6 +214,16 @@ final class DependencyContainer: @unchecked Sendable {
             resolver.resolve(GetNewestCreatorsUseCase.self)!
         }.inObjectScope(.transient)
         
+        // GetPopularTags usecase
+        container.register(GetPopularTagsUseCase.self) { resolver in
+            let tagRepository = resolver.resolve(TagRepositoryProtocol.self)!
+            return GetPopularTagsUseCase(tagRepository: tagRepository)
+        }.inObjectScope(.transient)
+        
+        container.register((any GetPopularTagsUseCaseProtocol).self) { resolver in
+            resolver.resolve(GetPopularTagsUseCase.self)!
+        }.inObjectScope(.transient)
+        
         // SearchCreatorsByTags usecase
         container.register(SearchCreatorsByTagsUseCase.self) { resolver in
             let creatorRepository = resolver.resolve(CreatorRepositoryProtocol.self)!

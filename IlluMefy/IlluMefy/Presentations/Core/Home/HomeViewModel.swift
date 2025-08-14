@@ -96,9 +96,7 @@ final class HomeViewModel: HomeViewModelProtocol {
             tagName: name,
             clickedCount: count,
             createdAt: Date(),
-            updatedAt: Date(),
-            parentTagId: nil,
-            childTagIds: []
+            updatedAt: Date()
         )
     }
     

@@ -13,20 +13,20 @@ final class MockTagRepository: TagRepositoryProtocol {
     // MARK: - Mock Data
     
     private let mockTags: [Tag] = [
-        Tag(id: "tag_001", displayName: "ゲーム", tagName: "game", clickedCount: 1500, createdAt: Date(), updatedAt: Date(), parentTagId: nil, childTagIds: ["tag_007", "tag_008"]),
-        Tag(id: "tag_002", displayName: "料理", tagName: "cooking", clickedCount: 800, createdAt: Date(), updatedAt: Date(), parentTagId: nil, childTagIds: []),
-        Tag(id: "tag_003", displayName: "音楽", tagName: "music", clickedCount: 900, createdAt: Date(), updatedAt: Date(), parentTagId: nil, childTagIds: []),
-        Tag(id: "tag_004", displayName: "アニメ", tagName: "anime", clickedCount: 1200, createdAt: Date(), updatedAt: Date(), parentTagId: nil, childTagIds: []),
-        Tag(id: "tag_005", displayName: "技術", tagName: "tech", clickedCount: 700, createdAt: Date(), updatedAt: Date(), parentTagId: nil, childTagIds: []),
-        Tag(id: "tag_006", displayName: "教育", tagName: "education", clickedCount: 600, createdAt: Date(), updatedAt: Date(), parentTagId: nil, childTagIds: []),
-        Tag(id: "tag_007", displayName: "FPS", tagName: "fps", clickedCount: 500, createdAt: Date(), updatedAt: Date(), parentTagId: "tag_001", childTagIds: []),
-        Tag(id: "tag_008", displayName: "RPG", tagName: "rpg", clickedCount: 400, createdAt: Date(), updatedAt: Date(), parentTagId: "tag_001", childTagIds: []),
-        Tag(id: "tag_009", displayName: "VTuber", tagName: "vtuber", clickedCount: 1100, createdAt: Date(), updatedAt: Date(), parentTagId: nil, childTagIds: []),
-        Tag(id: "tag_010", displayName: "配信", tagName: "streaming", clickedCount: 950, createdAt: Date(), updatedAt: Date(), parentTagId: nil, childTagIds: []),
-        Tag(id: "tag_011", displayName: "実況", tagName: "gameplay", clickedCount: 850, createdAt: Date(), updatedAt: Date(), parentTagId: nil, childTagIds: []),
-        Tag(id: "tag_012", displayName: "レビュー", tagName: "review", clickedCount: 650, createdAt: Date(), updatedAt: Date(), parentTagId: nil, childTagIds: []),
-        Tag(id: "tag_013", displayName: "マインクラフト", tagName: "minecraft", clickedCount: 750, createdAt: Date(), updatedAt: Date(), parentTagId: "tag_001", childTagIds: []),
-        Tag(id: "tag_014", displayName: "プロゲーマー", tagName: "professional", clickedCount: 300, createdAt: Date(), updatedAt: Date(), parentTagId: nil, childTagIds: [])
+        Tag(id: "tag_001", displayName: "ゲーム", tagName: "game", clickedCount: 1500, createdAt: Date(), updatedAt: Date()),
+        Tag(id: "tag_002", displayName: "料理", tagName: "cooking", clickedCount: 800, createdAt: Date(), updatedAt: Date()),
+        Tag(id: "tag_003", displayName: "音楽", tagName: "music", clickedCount: 900, createdAt: Date(), updatedAt: Date()),
+        Tag(id: "tag_004", displayName: "アニメ", tagName: "anime", clickedCount: 1200, createdAt: Date(), updatedAt: Date()),
+        Tag(id: "tag_005", displayName: "技術", tagName: "tech", clickedCount: 700, createdAt: Date(), updatedAt: Date()),
+        Tag(id: "tag_006", displayName: "教育", tagName: "education", clickedCount: 600, createdAt: Date(), updatedAt: Date()),
+        Tag(id: "tag_007", displayName: "FPS", tagName: "fps", clickedCount: 500, createdAt: Date(), updatedAt: Date()),
+        Tag(id: "tag_008", displayName: "RPG", tagName: "rpg", clickedCount: 400, createdAt: Date(), updatedAt: Date()),
+        Tag(id: "tag_009", displayName: "VTuber", tagName: "vtuber", clickedCount: 1100, createdAt: Date(), updatedAt: Date()),
+        Tag(id: "tag_010", displayName: "配信", tagName: "streaming", clickedCount: 950, createdAt: Date(), updatedAt: Date()),
+        Tag(id: "tag_011", displayName: "実況", tagName: "gameplay", clickedCount: 850, createdAt: Date(), updatedAt: Date()),
+        Tag(id: "tag_012", displayName: "レビュー", tagName: "review", clickedCount: 650, createdAt: Date(), updatedAt: Date()),
+        Tag(id: "tag_013", displayName: "マインクラフト", tagName: "minecraft", clickedCount: 750, createdAt: Date(), updatedAt: Date()),
+        Tag(id: "tag_014", displayName: "プロゲーマー", tagName: "professional", clickedCount: 300, createdAt: Date(), updatedAt: Date())
     ]
     
     // MARK: - TagRepositoryProtocol

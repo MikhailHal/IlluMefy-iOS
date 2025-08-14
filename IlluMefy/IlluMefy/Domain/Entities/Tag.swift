@@ -11,21 +11,7 @@ import Foundation
  タグエンティティ
  
  IlluMefyアプリにおけるタグ管理のコアエンティティです。
- 階層構造をサポートし、クリエイターの分類や検索に使用されます。
- 
- ## 階層構造
- 
- タグは単一の親と複数の子を持つ階層構造を形成できます：
- 
- ```
- ゲーム (ルートタグ)
- ├─ FPS
- │  ├─ Apex Legends
- │  └─ Valorant
- └─ RPG
-    ├─ FF14
-    └─ 原神
- ```
+ クリエイターの分類や検索に使用されます。
  
  ## 使用例
  
@@ -36,9 +22,7 @@ import Foundation
      tagName: "game",
      clickedCount: 1500,
      createdAt: Date(),
-     updatedAt: Date(),
-     parentTagId: nil,  // ルートタグ
-     childTagIds: ["fps", "rpg"]
+     updatedAt: Date()
  )
  ```
  */
@@ -71,20 +55,4 @@ struct Tag: Equatable, Codable, Identifiable, Hashable {
     
     /// タグが最後に更新された日時
     let updatedAt: Date
-    
-    /// 親タグのID
-    /// 
-    /// 階層構造における親タグの識別子です。
-    /// ルートタグの場合は`nil`となります。
-    /// 
-    /// - Note: 単一の親のみサポートします（多重継承なし）
-    let parentTagId: String?
-    
-    /// 子タグのIDリスト
-    /// 
-    /// 階層構造における直接の子タグの識別子リストです。
-    /// 末端タグの場合は空配列となります。
-    /// 
-    /// - Important: IDのみを保持することで循環参照を防いでいます
-    let childTagIds: [String]
 }

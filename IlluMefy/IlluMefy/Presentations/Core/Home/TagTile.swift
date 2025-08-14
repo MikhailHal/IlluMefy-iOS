@@ -92,9 +92,7 @@ struct TagTile: View {
             tagName: "fps",
             clickedCount: 1200,
             createdAt: Date(),
-            updatedAt: Date(),
-            parentTagId: nil,
-            childTagIds: []
+            updatedAt: Date()
         ))
         
         TagTile(tag: Tag(
@@ -103,9 +101,7 @@ struct TagTile: View {
             tagName: "vtuber",
             clickedCount: 890,
             createdAt: Date(),
-            updatedAt: Date(),
-            parentTagId: nil,
-            childTagIds: []
+            updatedAt: Date()
         ))
         
         TagTile(tag: Tag(
@@ -114,9 +110,7 @@ struct TagTile: View {
             tagName: "minecraft",
             clickedCount: 250,
             createdAt: Date(),
-            updatedAt: Date(),
-            parentTagId: nil,
-            childTagIds: []
+            updatedAt: Date()
         ))
     }
     .padding()
