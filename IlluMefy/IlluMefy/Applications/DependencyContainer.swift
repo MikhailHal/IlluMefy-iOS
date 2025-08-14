@@ -79,6 +79,11 @@ final class DependencyContainer: @unchecked Sendable {
             MockTagRepository()
         }.inObjectScope(.container)
         
+        container.register(TagRepository.self) { resolver in
+            let apiClient = resolver.resolve(ApiClientProtocol.self)!
+            return TagRepository(apiClient: apiClient)
+        }.inObjectScope(.container)
+        
         // Favorite repository
         container.register(FavoriteRepository.self) { _ in
             FavoriteRepository()
@@ -139,9 +144,9 @@ final class DependencyContainer: @unchecked Sendable {
             resolver.resolve(SearchHistoryRepository.self)!
         }.inObjectScope(.transient)
         
-        // Tag repository
+        // Tag repository - 本物のAPIを使用
         container.register(TagRepositoryProtocol.self) { resolver in
-            resolver.resolve(MockTagRepository.self)!
+            resolver.resolve(TagRepository.self)!
         }.inObjectScope(.transient)
         
         // Favorite repository

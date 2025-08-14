@@ -33,5 +33,5 @@ protocol TagRepositoryProtocol {
     func getAllTags() async throws -> [Tag]
     
     /// 人気タグを取得
-    func getPopularTags(limit: Int) async throws -> [Tag]
+    func getPopularTags(limit: Int) async throws -> GetPopularTagsResponse
 }

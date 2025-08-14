@@ -32,7 +32,7 @@ class MockSearchTagsByNameRepository: TagRepositoryProtocol {
         throw TagRepositoryError.networkError
     }
     
-    func getPopularTags(limit: Int) async throws -> [Tag] {
+    func getPopularTags(limit: Int) async throws -> GetPopularTagsResponse {
         throw TagRepositoryError.networkError
     }
 }

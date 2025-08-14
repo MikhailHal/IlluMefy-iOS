@@ -463,7 +463,7 @@ class MockTagRepositorySpec: QuickSpec {
                     let limit = 5
                     
                     // When
-                    var result: [Tag]?
+                    var result: GetPopularTagsResponse?
                     var error: Error?
                     
                     waitUntil(timeout: .seconds(5)) { done in
@@ -479,16 +479,16 @@ class MockTagRepositorySpec: QuickSpec {
                     
                     // Then
                     expect(error).to(beNil())
-                    expect(result?.count).to(equal(limit))
+                    expect(result?.data.count).to(equal(limit))
                     
                     // クリック数で降順にソートされていることを確認
-                    guard let tags = result, tags.count >= 2 else {
+                    guard let tags = result?.data, tags.count >= 2 else {
                         fail("十分なタグが取得できませんでした")
                         return
                     }
                     
                     for i in 0..<(tags.count - 1) {
-                        expect(tags[i].clickedCount).to(beGreaterThanOrEqualTo(tags[i + 1].clickedCount))
+                        expect(tags[i].viewCount).to(beGreaterThanOrEqualTo(tags[i + 1].viewCount))
                     }
                 }
                 
@@ -497,7 +497,7 @@ class MockTagRepositorySpec: QuickSpec {
                     let limit = 0
                     
                     // When
-                    var result: [Tag]?
+                    var result: GetPopularTagsResponse?
                     var error: Error?
                     
                     waitUntil(timeout: .seconds(5)) { done in
@@ -513,7 +513,7 @@ class MockTagRepositorySpec: QuickSpec {
                     
                     // Then
                     expect(error).to(beNil())
-                    expect(result).to(beEmpty())
+                    expect(result?.data).to(beEmpty())
                 }
                 
                 it("総タグ数より大きなlimitを指定しても全タグが返る") {
@@ -521,7 +521,7 @@ class MockTagRepositorySpec: QuickSpec {
                     let limit = 1000
                     
                     // When
-                    var result: [Tag]?
+                    var result: GetPopularTagsResponse?
                     var error: Error?
                     
                     waitUntil(timeout: .seconds(5)) { done in
@@ -537,7 +537,7 @@ class MockTagRepositorySpec: QuickSpec {
                     
                     // Then
                     expect(error).to(beNil())
-                    expect(result?.count).to(equal(14)) // 総タグ数
+                    expect(result?.data.count).to(equal(14)) // 総タグ数
                 }
                 
                 it("最も人気のあるタグが最初に返される") {
@@ -545,7 +545,7 @@ class MockTagRepositorySpec: QuickSpec {
                     let limit = 3
                     
                     // When
-                    var result: [Tag]?
+                    var result: GetPopularTagsResponse?
                     var error: Error?
                     
                     waitUntil(timeout: .seconds(5)) { done in
@@ -561,14 +561,14 @@ class MockTagRepositorySpec: QuickSpec {
                     
                     // Then
                     expect(error).to(beNil())
-                    guard let tags = result, tags.count >= 1 else {
+                    guard let tags = result?.data, tags.count >= 1 else {
                         fail("タグが取得できませんでした")
                         return
                     }
                     
                     // 最初のタグが最もクリック数が多いことを確認
-                    expect(tags[0].displayName).to(equal("ゲーム")) // クリック数1500で最多
-                    expect(tags[0].clickedCount).to(equal(1500))
+                    expect(tags[0].name).to(equal("ゲーム")) // クリック数1500で最多
+                    expect(tags[0].viewCount).to(equal(1500))
                 }
             }
         }

@@ -111,10 +111,24 @@ final class MockTagRepository: TagRepositoryProtocol {
         return mockTags.sorted { $0.clickedCount > $1.clickedCount }
     }
     
-    func getPopularTags(limit: Int) async throws -> [Tag] {
+    func getPopularTags(limit: Int) async throws -> GetPopularTagsResponse {
         try await Task.sleep(nanoseconds: 200_000_000) // 0.2秒
-        return Array(mockTags
+        
+        let sortedTags = Array(mockTags
             .sorted { $0.clickedCount > $1.clickedCount }
             .prefix(limit))
+        
+        let tagDataModels = sortedTags.map { tag in
+            TagDataModel(
+                id: tag.id,
+                name: tag.displayName,
+                description: "Mock description for \(tag.displayName)",
+                viewCount: tag.clickedCount,
+                createdAt: FirebaseTimestamp(_seconds: Int(tag.createdAt.timeIntervalSince1970), _nanoseconds: 0),
+                updatedAt: FirebaseTimestamp(_seconds: Int(tag.updatedAt.timeIntervalSince1970), _nanoseconds: 0)
+            )
+        }
+        
+        return GetPopularTagsResponse(data: tagDataModels)
     }
 }
