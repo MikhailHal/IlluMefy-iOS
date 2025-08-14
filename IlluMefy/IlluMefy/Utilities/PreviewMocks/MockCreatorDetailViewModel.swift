@@ -9,29 +9,58 @@ import Foundation
 
 /// CreatorDetail画面のプレビュー用モックViewModel
 @MainActor
+@Observable
 final class MockCreatorDetailViewModel: CreatorDetailViewModelProtocol {
     
-    @Published var state: CreatorDetailViewState = .idle
-    @Published var isFavorite: Bool = false
+    // 表示データ
+    var creator: Creator
+    var tags: [Tag] = []
+    var similarCreators: [Creator] = []
     
-    private let mockCreator: Creator
-    private let mockSimilarCreators: [Creator]
+    // 状態フラグ
+    var isLoadingTags = false
+    var isFavorite = false
+    var errorMessage: String?
     
     init(
         creator: Creator = MockCreatorDetailData.sampleCreator,
         similarCreators: [Creator] = MockCreatorDetailData.similarCreators
     ) {
-        self.mockCreator = creator
-        self.mockSimilarCreators = similarCreators
+        self.creator = creator
+        self.similarCreators = similarCreators
+        
+        // 初期化時にタグを読み込む
+        Task {
+            await loadTags()
+        }
     }
     
-    func loadCreatorDetail() async {
-        state = .loading
+    func loadTags() async {
+        isLoadingTags = true
+        errorMessage = nil
         
         // シミュレート遅延
         try? await Task.sleep(nanoseconds: 500_000_000) // 0.5秒
         
-        state = .loaded(creator: mockCreator, similarCreators: mockSimilarCreators)
+        tags = [
+            Tag(
+                id: "tag_001",
+                displayName: "ゲーム",
+                tagName: "game",
+                clickedCount: 1500,
+                createdAt: Date(),
+                updatedAt: Date()
+            ),
+            Tag(
+                id: "tag_007",
+                displayName: "FPS",
+                tagName: "fps",
+                clickedCount: 500,
+                createdAt: Date(),
+                updatedAt: Date()
+            )
+        ]
+        isLoadingTags = false
     }
     
     func toggleFavorite() {
@@ -41,7 +70,7 @@ final class MockCreatorDetailViewModel: CreatorDetailViewModelProtocol {
     // エラー状態のモック
     static func mockError() -> MockCreatorDetailViewModel {
         let viewModel = MockCreatorDetailViewModel()
-        viewModel.state = .error(title: "テストエラー", message: "これはプレビュー用のエラー表示です")
+        viewModel.errorMessage = "これはプレビュー用のエラー表示です"
         return viewModel
     }
 }

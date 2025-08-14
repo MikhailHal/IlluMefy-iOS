@@ -14,26 +14,27 @@ import Foundation
  */
 @MainActor
 protocol CreatorDetailViewModelProtocol {
-    /// 画面の状態
-    var state: CreatorDetailViewState { get set }
+    /// クリエイター情報
+    var creator: Creator { get }
+    
+    /// タグ情報
+    var tags: [Tag] { get set }
+    
+    /// 類似クリエイター
+    var similarCreators: [Creator] { get set }
+    
+    /// ローディング状態
+    var isLoadingTags: Bool { get set }
     
     /// お気に入り状態
     var isFavorite: Bool { get set }
     
+    /// エラーメッセージ
+    var errorMessage: String? { get set }
+    
+    /// タグ情報を読み込む
+    func loadTags() async
+    
     /// お気に入り状態を切り替える
     func toggleFavorite()
-}
-
-/**
- クリエイター詳細画面の状態
- */
-enum CreatorDetailViewState: Equatable {
-    /// 初期状態
-    case idle
-    /// 読み込み中
-    case loading
-    /// 読み込み完了
-    case loaded(creator: Creator, similarCreators: [Creator])
-    /// エラー
-    case error(title: String, message: String)
 }

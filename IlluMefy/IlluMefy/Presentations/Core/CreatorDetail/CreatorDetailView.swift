@@ -27,15 +27,30 @@ struct CreatorDetailView: View {
     }
     
     var body: some View {
-        Group {
-            switch viewModel.state {
-            case .idle, .loading:
-                loadingView
-            case .loaded(let creator, let similarCreators):
-                contentView(creator: creator, similarCreators: similarCreators)
-            case .error(let title, let message):
-                errorView(title: title, message: message)
+        ScrollView {
+            VStack(spacing: Spacing.unrelatedComponentDivider) {
+                // プロフィール
+                creatorProfileSection(creator: viewModel.creator)
+                
+                // 詳細情報
+                detailSection(creator: viewModel.creator)
+                
+                // 各種SNS
+                platformButtonsSection(creator: viewModel.creator)
+                
+                // タグ
+                if viewModel.isLoadingTags {
+                    tagsSectionSkeleton()
+                } else if !viewModel.tags.isEmpty {
+                    tagsSection(tags: viewModel.tags)
+                }
+                
+                // エラーメッセージがあれば表示
+                if let errorMessage = viewModel.errorMessage {
+                    errorBanner(message: errorMessage)
+                }
             }
+            .padding(Spacing.screenEdgePadding)
         }
         .background(Asset.Color.CreatorDetailCard.creatorDetailCardBackground.swiftUIColor)
         .confirmationDialog(L10n.CreatorDetail.tagApplication, isPresented: $showingTagApplicationTypeSelection) {
@@ -64,66 +79,23 @@ struct CreatorDetailView: View {
         }
     }
     
-    // MARK: - State Views
-    
-    private var loadingView: some View {
-        ScrollView {
-            VStack(spacing: Spacing.unrelatedComponentDivider) {
-                creatorProfileSectionSkeleton()
-                detailSectionSkeleton()
-                platformButtonsSectionSkeleton()
-                tagsSectionSkeleton()
-                similarCreatorsSectionSkeleton()
-            }
-            .padding(Spacing.screenEdgePadding)
-        }
-    }
-    
-    private func errorView(title: String, message: String) -> some View {
-        VStack(spacing: Spacing.unrelatedComponentDivider) {
-            Spacer()
-            Image(systemName: "exclamationmark.triangle")
-                .font(.system(size: Typography.titleExtraLarge))
-                .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardFavoriteActive.swiftUIColor)
-            Text(title)
-                .font(.title2)
-                .bold()
-            Text(message)
-                .font(.body)
-                .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSubtitle.swiftUIColor)
-                .multilineTextAlignment(.center)
-            Button(L10n.Common.retry) {
-                let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
-                impactFeedback.impactOccurred()
-            }
-            .buttonStyle(.borderedProminent)
-            Spacer()
-        }
-        .padding(Spacing.screenEdgePadding)
-    }
-    
-    private func contentView(creator: Creator, similarCreators: [Creator]) -> some View {
-        ScrollView {
-            VStack(spacing: Spacing.unrelatedComponentDivider) {
-                // Creator profile section
-                creatorProfileSection(creator: creator)
-                
-                detailSection(creator: creator)
-                
-                // Platform buttons section
-                platformButtonsSection(creator: creator)
-                
-                // Tags section
-                tagsSection(creator: creator)
-                
-                // Similar creators section
-                /*similarCreatorsSection(similarCreators: similarCreators)*/
-            }
-            .padding(Spacing.screenEdgePadding)
-        }
-    }
-    
     // MARK: - View Components
+    
+    private func errorBanner(message: String) -> some View {
+        HStack {
+            Image(systemName: "exclamationmark.triangle")
+                .foregroundColor(.orange)
+            Text(message)
+                .font(.caption)
+                .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSubtitle.swiftUIColor)
+            Spacer()
+        }
+        .padding(Spacing.relatedComponentDivider)
+        .background(
+            RoundedRectangle(cornerRadius: CornerRadius.small)
+                .fill(Asset.Color.CreatorDetailCard.creatorDetailCardSectionBackground.swiftUIColor)
+        )
+    }
     private func creatorProfileSection(creator: Creator) -> some View {
         VStack(spacing: Spacing.relatedComponentDivider) {
             AsyncImage(url: URL(string: creator.thumbnailUrl)) { image in
@@ -155,7 +127,6 @@ struct CreatorDetailView: View {
                 y: Shadow.offsetYMedium
             )
             
-            // Creator name with favorite button
             Text(creator.name)
                 .font(.system(size: Typography.titleLarge, weight: .bold))
                 .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardTitle.swiftUIColor)
@@ -270,7 +241,7 @@ struct CreatorDetailView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
     }
     
-    private func tagsSection(creator: Creator) -> some View {
+    private func tagsSection(tags: [Tag]) -> some View {
         VStack(alignment: .leading, spacing: Spacing.relatedComponentDivider) {
             Text(L10n.CreatorDetail.relatedTags)
                 .font(.system(size: Typography.titleMedium, weight: .bold))
@@ -283,9 +254,9 @@ struct CreatorDetailView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: Spacing.componentGrouping) {
                     IlluMefyAddTag()
-                    ForEach(creator.tag, id: \.self) { tag in
+                    ForEach(tags) { tag in
                         IlluMefyFeaturedTag(
-                            text: tag,
+                            text: tag.displayName,
                             onLongPress: { tagText in
                                 selectedTagForDeletion = tagText
                                 showingTagDeleteConfirmation = true
@@ -475,18 +446,12 @@ struct CreatorDetailView: View {
         @State private var viewModel = MockCreatorDetailViewModel()
         
         var body: some View {
-            Group {
-                switch viewModel.state {
-                case .loading:
-                    Text(L10n.Common.loading)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .background(Asset.Color.CreatorDetailCard.creatorDetailCardBackground.swiftUIColor)
-                default:
-                    Text(L10n.Common.loadingState)
-                }
-            }
-            .onAppear {
-                viewModel.state = .loading
+            if viewModel.isLoadingTags {
+                Text(L10n.Common.loading)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(Asset.Color.CreatorDetailCard.creatorDetailCardBackground.swiftUIColor)
+            } else {
+                Text(L10n.Common.loadingState)
             }
         }
     }
@@ -499,31 +464,28 @@ struct CreatorDetailView: View {
         @State private var viewModel = MockCreatorDetailViewModel.mockError()
         
         var body: some View {
-            Group {
-                switch viewModel.state {
-                case .error(let title, let message):
-                    VStack(spacing: 16) {
-                        Image(systemName: "exclamationmark.triangle")
-                            .font(.system(size: Typography.titleExtraLarge))
-                            .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardFavoriteActive.swiftUIColor)
-                        Text(title)
-                            .font(.title2)
-                            .bold()
-                        Text(message)
-                            .font(.body)
-                            .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSubtitle.swiftUIColor)
-                            .multilineTextAlignment(.center)
-                        Button(L10n.Common.retry) {
-                            // Dummy action
-                        }
-                        .buttonStyle(.borderedProminent)
+            if let errorMessage = viewModel.errorMessage {
+                VStack(spacing: 16) {
+                    Image(systemName: "exclamationmark.triangle")
+                        .font(.system(size: Typography.titleExtraLarge))
+                        .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardFavoriteActive.swiftUIColor)
+                    Text("エラー")
+                        .font(.title2)
+                        .bold()
+                    Text(errorMessage)
+                        .font(.body)
+                        .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSubtitle.swiftUIColor)
+                        .multilineTextAlignment(.center)
+                    Button(L10n.Common.retry) {
+                        // Dummy action
                     }
-                    .padding()
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background(Asset.Color.CreatorDetailCard.creatorDetailCardBackground.swiftUIColor)
-                default:
-                    Text(L10n.Common.errorState)
+                    .buttonStyle(.borderedProminent)
                 }
+                .padding()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Asset.Color.CreatorDetailCard.creatorDetailCardBackground.swiftUIColor)
+            } else {
+                Text(L10n.Common.errorState)
             }
         }
     }
