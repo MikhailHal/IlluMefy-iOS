@@ -23,16 +23,19 @@ final class HomeViewModel: HomeViewModelProtocol {
     private let getPopularCreatorsUseCase: GetPopularCreatorsUseCaseProtocol
     private let searchCreatorsByTagsUseCase: SearchCreatorsByTagsUseCaseProtocol
     private let getNewestCreatorsUseCase: GetNewestCreatorsUseCaseProtocol
+    private let getPopularTagsUseCase: GetPopularTagsUseCaseProtocol
     
     // MARK: - Initialization
     init(
         getPopularCreatorsUseCase: GetPopularCreatorsUseCaseProtocol,
         searchCreatorsByTagsUseCase: SearchCreatorsByTagsUseCaseProtocol,
-        getNewestCreatorsUseCase: GetNewestCreatorsUseCaseProtocol
+        getNewestCreatorsUseCase: GetNewestCreatorsUseCaseProtocol,
+        getPopularTagsUseCase: GetPopularTagsUseCaseProtocol
     ) {
         self.getPopularCreatorsUseCase = getPopularCreatorsUseCase
         self.searchCreatorsByTagsUseCase = searchCreatorsByTagsUseCase
         self.getNewestCreatorsUseCase = getNewestCreatorsUseCase
+        self.getPopularTagsUseCase = getPopularTagsUseCase
     }
     
     // MARK: - Public Methods
@@ -70,47 +73,18 @@ final class HomeViewModel: HomeViewModelProtocol {
     }
     
     private func loadPopularTags() async {
-        // Note: Implement when tag use case is available
-        // For now, using mock data
-        popularTags = createMockTags()
-    }
-    
-    private func createMockTags() -> [Tag] {
-        return [
-            createTag(id: "tag_007", display: "FPS", name: "fps", count: 500),
-            createTag(id: "tag_009", display: "VTuber", name: "vtuber", count: 1100),
-            createTag(id: "tag_013", display: "マインクラフト", name: "minecraft", count: 750),
-            createTag(id: "tag_001", display: "ゲーム", name: "gaming", count: 1200),
-            createTag(id: "tag_008", display: "RPG", name: "rpg", count: 400),
-            createTag(id: "tag_011", display: "実況", name: "gameplay", count: 850),
-            createTag(id: "tag_010", display: "配信", name: "streaming", count: 950),
-            createTag(id: "tag_014", display: "プロゲーマー", name: "professional", count: 300),
-            createTag(id: "tag_005", display: "技術", name: "tech", count: 700)
-        ]
-    }
-    
-    private func createTag(id: String, display: String, name: String, count: Int) -> Tag {
-        return Tag(
-            id: id,
-            displayName: display,
-            tagName: name,
-            clickedCount: count,
-            createdAt: Date(),
-            updatedAt: Date()
-        )
+        let request = GetPopularTagsUseCaseRequest(limit: 10)
+        let response = try? await getPopularTagsUseCase.execute(request: request)
+        popularTags = response?.tags ?? []
     }
     
     private func loadRecommendedCreators() async {
-        // Note: Implement recommendation logic
-        // For now, reusing popular creators logic
         let request = GetPopularCreatorsUseCaseRequest(limit: 20)
         let response = try? await getPopularCreatorsUseCase.execute(request: request)
         recommendedCreators = response?.creators ?? []
     }
     
     private func loadNewArrivalCreators() async {
-        // Note: Implement new arrivals logic
-        // For now, reusing popular creators logic
         let request = GetNewestCreatorsUseCaseRequest(limit: 20)
         let response = try? await getNewestCreatorsUseCase.execute(request: request)
         newArrivalCreators = response?.creators ?? []

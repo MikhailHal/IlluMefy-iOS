@@ -34,7 +34,7 @@ private struct TabBarView: View {
     var body: some View {
         TabView(selection: $selectedTab) {
             HomeView(onTagTapped: { tag in
-                selectedTab = 2
+                selectedTab = 1
                 searchViewModel.searchWithTag(tag)
             })
                 .tabItem {

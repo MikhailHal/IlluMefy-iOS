@@ -398,11 +398,13 @@ final class DependencyContainer: @unchecked Sendable {
             let getPopularCreatorsUseCase = resolver.resolve((any GetPopularCreatorsUseCaseProtocol).self)!
             let searchCreatorsByTagsUseCase = resolver.resolve((any SearchCreatorsByTagsUseCaseProtocol).self)!
             let getNewestCreatorsUseCase = resolver.resolve((any GetNewestCreatorsUseCaseProtocol).self)!
+            let getPopularTagsUseCase = resolver.resolve((any GetPopularTagsUseCaseProtocol).self)!
             return MainActor.assumeIsolated {
                 return HomeViewModel(
                     getPopularCreatorsUseCase: getPopularCreatorsUseCase,
                     searchCreatorsByTagsUseCase: searchCreatorsByTagsUseCase,
-                    getNewestCreatorsUseCase: getNewestCreatorsUseCase
+                    getNewestCreatorsUseCase: getNewestCreatorsUseCase,
+                    getPopularTagsUseCase: getPopularTagsUseCase
                 )
             }
         }.inObjectScope(.transient)
