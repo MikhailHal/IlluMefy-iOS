@@ -85,7 +85,7 @@ struct FavoriteView: View {
             ], spacing: 0) {
                 ForEach(viewModel.favoriteCreators) { creator in
                     FavoriteCreatorCard(creator: creator) {
-                        router.navigate(to: .creatorDetail(creatorId: creator.id))
+                        router.navigate(to: .creatorDetail(creator: creator))
                     }
                 }
             }

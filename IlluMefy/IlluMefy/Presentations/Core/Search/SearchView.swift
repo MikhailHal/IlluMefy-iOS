@@ -391,7 +391,7 @@ struct SearchCreatorCard: View {
             Button(action: {
                 let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
                 impactFeedback.impactOccurred()
-                router.navigate(to: .creatorDetail(creatorId: creator.id))
+                router.navigate(to: .creatorDetail(creator: creator))
             }, label: {
                 ZStack(alignment: .bottomLeading) {
                     // 背景画像（TikTok風の全面表示）

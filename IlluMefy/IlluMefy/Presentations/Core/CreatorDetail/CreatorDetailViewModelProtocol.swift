@@ -20,9 +20,6 @@ protocol CreatorDetailViewModelProtocol {
     /// お気に入り状態
     var isFavorite: Bool { get set }
     
-    /// クリエイター詳細情報を読み込む
-    func loadCreatorDetail() async
-    
     /// お気に入り状態を切り替える
     func toggleFavorite()
 }

@@ -11,7 +11,6 @@ import UIKit
 struct CreatorDetailView: View {
     @State private var viewModel: CreatorDetailViewModel
     @Environment(\.dismiss) private var dismiss
-    @State private var currentCreatorId: String
     @EnvironmentObject private var router: IlluMefyAppRouter
     @State private var showingTagApplication = false
     @State private var tagApplicationType: TagApplicationRequest.ApplicationType = .add
@@ -19,13 +18,12 @@ struct CreatorDetailView: View {
     @State private var showingTagDeleteConfirmation = false
     @State private var selectedTagForDeletion: String = ""
     
-    init(creatorId: String) {
+    init(creator: Creator) {
         let container = DependencyContainer.shared
-        guard let viewModel = container.container.resolve(CreatorDetailViewModel.self, argument: creatorId) else {
-            fatalError("Failed to resolve CreatorDetailViewModel for creatorId: \(creatorId)")
+        guard let viewModel = container.container.resolve(CreatorDetailViewModel.self, argument: creator) else {
+            fatalError("Failed to resolve CreatorDetailViewModel for creatorId: \(creator.id)")
         }
         self._viewModel = State(wrappedValue: viewModel)
-        self._currentCreatorId = State(initialValue: creatorId)
     }
     
     var body: some View {
@@ -64,9 +62,6 @@ struct CreatorDetailView: View {
         } message: {
             Text(L10n.CreatorDetail.tagDeletionConfirmMessage(selectedTagForDeletion))
         }
-        .task {
-            await viewModel.loadCreatorDetail()
-        }
     }
     
     // MARK: - State Views
@@ -100,9 +95,6 @@ struct CreatorDetailView: View {
             Button(L10n.Common.retry) {
                 let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
                 impactFeedback.impactOccurred()
-                Task {
-                    await viewModel.loadCreatorDetail()
-                }
             }
             .buttonStyle(.borderedProminent)
             Spacer()
@@ -134,7 +126,6 @@ struct CreatorDetailView: View {
     // MARK: - View Components
     private func creatorProfileSection(creator: Creator) -> some View {
         VStack(spacing: Spacing.relatedComponentDivider) {
-            // Creator image
             AsyncImage(url: URL(string: creator.thumbnailUrl)) { image in
                 image
                     .resizable()
@@ -458,7 +449,24 @@ struct CreatorDetailView: View {
 
 #Preview("正常表示") {
     NavigationStack {
-        CreatorDetailView(creatorId: "creator_001")
+        let mockCreator = Creator(
+            id: "creator_001",
+            name: "ゲーム実況者A",
+            thumbnailUrl: "https://picsum.photos/200/200?random=1",
+            socialLinkClickCount: 1500,
+            tag: ["tag_007", "tag_011"],
+            description: "FPSゲームをメインに実況しています。毎日20時から配信！",
+            platform: [
+                .youtube: "https://youtube.com/@gameplayerA",
+                .twitch: "https://twitch.tv/gameplayerA",
+                .x: "https://twitter.com/gameplayerA"
+            ],
+            createdAt: Date().addingTimeInterval(-86400 * 30),
+            updatedAt: Date().addingTimeInterval(-3600),
+            favoriteCount: 100
+        )
+        
+        CreatorDetailView(creator: mockCreator)
     }
 }
 

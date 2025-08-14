@@ -12,48 +12,31 @@ import Foundation
 final class CreatorDetailViewModel: CreatorDetailViewModelProtocol {
     var state: CreatorDetailViewState = .idle
     var isFavorite: Bool = false
-    private let creatorId: String
+    private let creator: Creator
     private let getCreatorDetailUseCase: GetCreatorDetailUseCaseProtocol
     private let favoriteRepository: FavoriteRepositoryProtocol
 
     init(
-        creatorId: String,
+        creator: Creator,
         getCreatorDetailUseCase: GetCreatorDetailUseCaseProtocol,
         favoriteRepository: FavoriteRepositoryProtocol
     ) {
-        self.creatorId = creatorId
+        self.creator = creator
         self.getCreatorDetailUseCase = getCreatorDetailUseCase
         self.favoriteRepository = favoriteRepository
-    }
-    
-    func loadCreatorDetail() async {
-        state = .loading
-        
-        do {
-            let request = GetCreatorDetailUseCaseRequest(creatorId: creatorId)
-            let response = try await getCreatorDetailUseCase.execute(request: request)
-            
-            // お気に入り状態を確認
-            isFavorite = try await favoriteRepository.isFavorite(creatorId: creatorId)
-            
-            state = .loaded(creator: response.creator, similarCreators: response.similarCreators)
-        } catch GetCreatorDetailUseCaseError.creatorNotFound {
-            state = .error(title: "クリエイターが見つかりません", message: "指定されたクリエイターは存在しないか、削除された可能性があります。")
-        } catch {
-            state = .error(title: "読み込みエラー", message: "クリエイター情報の読み込みに失敗しました。もう一度お試しください。")
-        }
+        self.state = .loaded(creator: creator, similarCreators: [creator])
     }
     
     func toggleFavorite() {
         Task {
             do {
-                if isFavorite {
-                    try await favoriteRepository.removeFavoriteCreator(creatorId: creatorId)
-                } else {
-                    try await favoriteRepository.addFavoriteCreator(creatorId: creatorId)
-                }
                 // 成功したらUIを更新
                 isFavorite.toggle()
+                if isFavorite {
+                    try await favoriteRepository.removeFavoriteCreator(creatorId: creator.id)
+                } else {
+                    try await favoriteRepository.addFavoriteCreator(creatorId: creator.id)
+                }
             } catch {
                 // エラーが発生した場合は変更を戻す
                 print("Failed to toggle favorite: \(error)")

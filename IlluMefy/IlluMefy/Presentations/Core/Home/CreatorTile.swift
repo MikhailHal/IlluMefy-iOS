@@ -54,7 +54,7 @@ struct CreatorTile: View {
         .onTapGesture {
             let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
             impactFeedback.impactOccurred()
-            router.navigate(to: .creatorDetail(creatorId: creator!.id))
+            router.navigate(to: .creatorDetail(creator: creator!))
         }
     }
     

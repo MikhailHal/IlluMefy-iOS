@@ -199,7 +199,7 @@ struct FeaturedCreatorView: View {
                     Button(action: {
                         let impactFeedback = UIImpactFeedbackGenerator(style: .heavy)
                         impactFeedback.impactOccurred()
-                        router.navigate(to: .creatorDetail(creatorId: creator.id))
+                        router.navigate(to: .creatorDetail(creator: creator))
                     }, label: {
                         HStack(spacing: Spacing.relatedComponentDivider) {
                             Image(systemName: "play.fill")
