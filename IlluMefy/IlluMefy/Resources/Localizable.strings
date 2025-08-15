@@ -346,6 +346,5 @@
 "favorite.favorited" = "お気に入り済み";
 
 /* Creator Detail - Statistics */
-"creatorDetail.pageViews" = "ページ\n閲覧者数";
-"creatorDetail.snsLinkTaps" = "SNSリンク\nタップ回数";
+"creatorDetail.numberOfViews" = "視聴回数";
 "creatorDetail.favoriteUsers" = "お気に入り\nユーザー数";

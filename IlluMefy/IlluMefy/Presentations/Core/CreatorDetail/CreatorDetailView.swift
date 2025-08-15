@@ -184,10 +184,10 @@ struct CreatorDetailView: View {
         HStack(spacing: Spacing.unrelatedComponentDivider) {
             // 視聴回数
             VStack(spacing: Spacing.relatedComponentDivider) {
-               Text("1000")
+                Text(formatViewCount(creator.youtube?.numberOfViews ?? 0))
                     .font(.system(size: Typography.bodyRegular, weight: .bold))
                     .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSectionTitle.swiftUIColor)
-                Text(L10n.CreatorDetail.pageViews)
+                Text(L10n.CreatorDetail.numberOfViews)
                     .multilineTextAlignment(.center)
                      .font(.system(size: Typography.bodyRegular, weight: .bold))
                      .foregroundColor(
@@ -196,17 +196,8 @@ struct CreatorDetailView: View {
             }.frame(maxWidth: .infinity)
             
             // クリック数
-            VStack(spacing: Spacing.relatedComponentDivider) {
-                Text(formatViewCount(creator.socialLinkClickCount))
-                    .font(.system(size: Typography.bodyRegular, weight: .bold))
-                    .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSectionTitle.swiftUIColor)
-                Text(L10n.CreatorDetail.snsLinkTaps)
-                    .multilineTextAlignment(.center)
-                     .font(.system(size: Typography.bodyRegular, weight: .bold))
-                     .foregroundColor(
-                        Asset.Color.CreatorDetailCard.creatorDetailCardSectionTitle.swiftUIColor.opacity(0.6)
-                     )
-            }.frame(maxWidth: .infinity)
+            Divider()
+                .frame(height: 50)
             
             // チャンネル登録者数
             VStack(spacing: Spacing.relatedComponentDivider) {
