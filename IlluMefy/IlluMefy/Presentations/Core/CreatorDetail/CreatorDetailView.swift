@@ -228,16 +228,12 @@ struct CreatorDetailView: View {
                 .font(.system(size: Typography.titleMedium, weight: .bold))
                 .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSectionTitle.swiftUIColor)
             
-            /*LazyVGrid(columns: [
-                GridItem(.flexible()),
-                GridItem(.flexible())
-            ], spacing: Spacing.relatedComponentDivider) {
-                ForEach(Array(creator.platform.keys), id: \.self) { platform in
-                    if let url = creator.platform[platform] {
-                        PlatformButton(platform: platform, url: url)
-                    }
-                }
-            }*/
+            if let channel = creator.youtube {
+                PlatformButton(
+                    icon: channel.platformIcon(),
+                    url: channel.channelUrl()
+                )
+            }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }

@@ -160,6 +160,7 @@
 "creatorDetail.snsClicks" = "SNSクリック";
 "creatorDetail.platforms" = "プラットフォーム";
 "creatorDetail.edit" = "編集";
+"creatorDetail.openYouTube" = "YouTubeで開く";
 
 /* Platform Names */
 "platform.youtube" = "YouTube";
