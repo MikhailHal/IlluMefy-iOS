@@ -409,7 +409,7 @@ struct CreatorDetailView: View {
             Text(L10n.CreatorDetail.tagDeletionInstruction)
                 .font(.system(size: Typography.captionSmall))
                 .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSubtitle.swiftUIColor)
-            WrappingHStack(0..<15, spacing: .constant(Spacing.relatedComponentDivider)) { _ in
+            WrappingHStack(0..<50, spacing: .constant(Spacing.relatedComponentDivider)) { _ in
                 RoundedRectangle(cornerRadius: CornerRadius.tag)
                     .fill(Color.gray.opacity(Opacity.glow))
                     .frame(width: 100, height: 25)
