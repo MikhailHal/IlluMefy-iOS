@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		6452E7E02E3E4CB800EB925A /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = 6452E7DF2E3E4CB800EB925A /* Shimmer */; };
 		6452EA392E48AC2E00EB925A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 6452EA382E48AC2E00EB925A /* Alamofire */; };
+		6452ED1B2E4EC71B00EB925A /* WrappingHStack in Frameworks */ = {isa = PBXBuildFile; productRef = 6452ED1A2E4EC71B00EB925A /* WrappingHStack */; };
 		64897F0E2DE8C00A00C10C85 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 64897F0D2DE8C00A00C10C85 /* FirebaseAuth */; };
 		64897F102DE8C00A00C10C85 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 64897F0F2DE8C00A00C10C85 /* FirebaseCore */; };
 		64897F122DE8C04E00C10C85 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 64897F112DE8C04E00C10C85 /* FirebaseAuth */; };
@@ -136,6 +137,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				64EF86562D7601B900C9732A /* FirebaseMessaging in Frameworks */,
+				6452ED1B2E4EC71B00EB925A /* WrappingHStack in Frameworks */,
 				64EF865A2D7601B900C9732A /* FirebaseVertexAI in Frameworks */,
 				64EF86502D7601B900C9732A /* FirebaseCrashlytics in Frameworks */,
 				64EF86522D7601B900C9732A /* FirebaseFirestore in Frameworks */,
@@ -238,6 +240,7 @@
 				64C1AE232D919D32005182B5 /* SwiftfulLoadingIndicators */,
 				6452E7DF2E3E4CB800EB925A /* Shimmer */,
 				6452EA382E48AC2E00EB925A /* Alamofire */,
+				6452ED1A2E4EC71B00EB925A /* WrappingHStack */,
 			);
 			productName = Pencula;
 			productReference = 645EBCFE2D58F9C600AC7BAC /* IlluMefy.app */;
@@ -339,6 +342,7 @@
 				64D8B0462DE89D0A0004566C /* XCRemoteSwiftPackageReference "Nimble" */,
 				6452E7DE2E3E4CB800EB925A /* XCRemoteSwiftPackageReference "SwiftUI-Shimmer" */,
 				6452EA372E48AC2E00EB925A /* XCRemoteSwiftPackageReference "Alamofire" */,
+				6452ED192E4EC71B00EB925A /* XCRemoteSwiftPackageReference "WrappingHStack" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 645EBCFF2D58F9C600AC7BAC /* Products */;
@@ -765,6 +769,14 @@
 				minimumVersion = 5.10.2;
 			};
 		};
+		6452ED192E4EC71B00EB925A /* XCRemoteSwiftPackageReference "WrappingHStack" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/dkk/WrappingHStack";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.2.11;
+			};
+		};
 		648FF53C2D8C5A4800340F3E /* XCRemoteSwiftPackageReference "Swinject" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Swinject/Swinject.git";
@@ -841,6 +853,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 6452EA372E48AC2E00EB925A /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		6452ED1A2E4EC71B00EB925A /* WrappingHStack */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6452ED192E4EC71B00EB925A /* XCRemoteSwiftPackageReference "WrappingHStack" */;
+			productName = WrappingHStack;
 		};
 		64897F0D2DE8C00A00C10C85 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import UIKit
+import WrappingHStack
 
 struct CreatorDetailView: View {
     @State private var viewModel: CreatorDetailViewModel
@@ -251,24 +252,48 @@ struct CreatorDetailView: View {
                 .font(.system(size: Typography.captionSmall))
                 .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSubtitle.swiftUIColor)
             
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: Spacing.componentGrouping) {
+            WrappingHStack(displayItems(from: tags), spacing: .constant(Spacing.componentGrouping)) { item in
+                switch item {
+                case .addButton:
                     IlluMefyAddTag()
-                    ForEach(tags) { tag in
-                        IlluMefyFeaturedTag(
-                            text: tag.displayName,
-                            onLongPress: { tagText in
-                                selectedTagForDeletion = tagText
-                                showingTagDeleteConfirmation = true
-                            },
-                            isDeletable: true
-                        )
-                    }
+                        .onTapGesture {
+                            showingTagApplicationTypeSelection = true
+                        }
+                        .padding(.vertical, Spacing.componentGrouping)
+                case .tag(let tag):
+                    IlluMefyFeaturedTag(
+                        text: tag.displayName,
+                        onLongPress: { tagText in
+                            selectedTagForDeletion = tagText
+                            showingTagDeleteConfirmation = true
+                        },
+                        isDeletable: true
+                    )
+                    .padding(.vertical, Spacing.componentGrouping)
                 }
-                .padding(.trailing, Spacing.screenEdgePadding)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+    }
+    
+    // タグ表示用のアイテム型定義
+    private enum TagDisplayItem: Identifiable {
+        case addButton
+        case tag(Tag)
+        
+        var id: String {
+            switch self {
+            case .addButton:
+                return "add_button"
+            case .tag(let tag):
+                return tag.id
+            }
+        }
+    }
+    
+    // タグ配列から表示用アイテム配列を生成
+    private func displayItems(from tags: [Tag]) -> [TagDisplayItem] {
+        [.addButton] + tags.map { .tag($0) }
     }
     
     private func similarCreatorsSection(similarCreators: [Creator]) -> some View {
@@ -377,21 +402,21 @@ struct CreatorDetailView: View {
     
     private func tagsSectionSkeleton() -> some View {
         VStack(alignment: .leading, spacing: Spacing.relatedComponentDivider) {
-            RoundedRectangle(cornerRadius: 4)
-                .fill(Color.gray.opacity(Opacity.glow))
-                .frame(width: 100, height: 20)
-                .shimmering()
+            Text(L10n.CreatorDetail.relatedTags)
+                .font(.system(size: Typography.titleMedium, weight: .bold))
+                .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSectionTitle.swiftUIColor)
             
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: Spacing.componentGrouping) {
-                    ForEach(0..<5, id: \.self) { _ in
-                        IlluMefyFeaturedTag(tagData: nil)
-                    }
-                }
-                .padding(.trailing, Spacing.screenEdgePadding)
+            Text(L10n.CreatorDetail.tagDeletionInstruction)
+                .font(.system(size: Typography.captionSmall))
+                .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSubtitle.swiftUIColor)
+            WrappingHStack(0..<15, spacing: .constant(Spacing.relatedComponentDivider)) { _ in
+                RoundedRectangle(cornerRadius: CornerRadius.tag)
+                    .fill(Color.gray.opacity(Opacity.glow))
+                    .frame(width: 100, height: 25)
+                    .shimmering()
+                    .padding(.vertical, 4)
             }
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
+        }.frame(maxWidth: .infinity, alignment: .leading)
     }
     
     private func similarCreatorsSectionSkeleton() -> some View {
