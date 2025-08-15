@@ -69,6 +69,17 @@ extension CreatorDataModel {
             platformMap[.niconico] = niconico.socialLink
         }
         
+        // YouTubeチャンネル情報の構築
+        var youtubeChannel: YouTubeChannelDomainModel? = nil
+        if let youtube = platforms.youtube {
+            youtubeChannel = YouTubeChannelDomainModel(
+                channelId: youtube.channelId,
+                channelName: youtube.username,
+                subscriberCount: youtube.subscriberCount,
+                numberOfViews: youtube.viewCount
+            )
+        }
+        
         return Creator(
             id: id,
             name: name,
@@ -77,6 +88,7 @@ extension CreatorDataModel {
             tag: tags,
             description: description,
             platform: platformMap,
+            youtube: youtubeChannel,
             createdAt: createdAt.toDate,
             updatedAt: updatedAt.toDate,
             favoriteCount: favoriteCount

@@ -23,6 +23,7 @@ struct MockCreatorDetailData {
             .twitch: "https://twitch.tv/gameplayerA",
             .x: "https://twitter.com/gameplayerA"
         ],
+        youtube: nil,
         createdAt: Date().addingTimeInterval(-86400 * 30),
         updatedAt: Date().addingTimeInterval(-3600),
         favoriteCount: 100
@@ -42,6 +43,7 @@ struct MockCreatorDetailData {
                 .twitch: "https://twitch.tv/gameplayerA",
                 .x: "https://twitter.com/gameplayerA"
             ],
+            youtube: nil,
             createdAt: Date().addingTimeInterval(-86400 * 30),
             updatedAt: Date().addingTimeInterval(-3600),
             favoriteCount: 100
@@ -58,6 +60,7 @@ struct MockCreatorDetailData {
                 .twitch: "https://twitch.tv/gameplayerA",
                 .x: "https://twitter.com/gameplayerA"
             ],
+            youtube: nil,
             createdAt: Date().addingTimeInterval(-86400 * 30),
             updatedAt: Date().addingTimeInterval(-3600),
             favoriteCount: 100
@@ -74,6 +77,7 @@ struct MockCreatorDetailData {
                 .twitch: "https://twitch.tv/gameplayerA",
                 .x: "https://twitter.com/gameplayerA"
             ],
+            youtube: nil,
             createdAt: Date().addingTimeInterval(-86400 * 30),
             updatedAt: Date().addingTimeInterval(-3600),
             favoriteCount: 100

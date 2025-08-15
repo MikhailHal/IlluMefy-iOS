@@ -62,6 +62,9 @@ struct Creator: Equatable, Codable, Identifiable, Hashable {
     /// ```
     let platform: [PlatformDomainModel: String]
     
+    /// YouTubeチャンネル情報
+    let youtube: YouTubeChannelDomainModel?
+    
     /// クリエイターがアプリに登録された日時
     let createdAt: Date
     

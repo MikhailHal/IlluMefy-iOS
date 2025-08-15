@@ -49,11 +49,19 @@ final class GetPopularCreatorsUseCase: GetPopularCreatorsUseCaseProtocol {
     private func convertCreatorDataModel(_ response: CreatorDataModel) -> Creator {
         // プラットフォームURLマップの構築
         var platformMap: [PlatformDomainModel: String] = [:]
+        var youtubeChannel: YouTubeChannelDomainModel?
         
         // YouTube
         if let youtube = response.platforms.youtube {
             let youtubeUrl = "https://youtube.com/@\(youtube.username)"
             platformMap[.youtube] = youtubeUrl
+            
+            youtubeChannel = YouTubeChannelDomainModel(
+                channelId: youtube.channelId,
+                channelName: youtube.username,
+                subscriberCount: youtube.subscriberCount,
+                numberOfViews: youtube.viewCount
+            )
         }
         
         // Twitch
@@ -94,6 +102,7 @@ final class GetPopularCreatorsUseCase: GetPopularCreatorsUseCaseProtocol {
             tag: response.tags,
             description: response.description,
             platform: platformMap,
+            youtube: youtubeChannel,
             createdAt: response.createdAt.toDate,
             updatedAt: response.updatedAt.toDate,
             favoriteCount: response.favoriteCount

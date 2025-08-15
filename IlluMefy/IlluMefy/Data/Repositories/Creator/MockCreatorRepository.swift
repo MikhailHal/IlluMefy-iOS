@@ -29,6 +29,12 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
                 .twitch: "https://twitch.tv/gameplayerA",
                 .x: "https://twitter.com/gameplayerA"
             ],
+            youtube: YouTubeChannelDomainModel(
+                channelId: "UCgameplayerA",
+                channelName: "gameplayerA",
+                subscriberCount: 150000,
+                numberOfViews: 5000000
+            ),
             createdAt: Date().addingTimeInterval(-86400 * 30),
             updatedAt: Date().addingTimeInterval(-3600),
             favoriteCount: 100
@@ -44,6 +50,12 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
                 .youtube: "https://youtube.com/@vtuberB",
                 .x: "https://twitter.com/vtuberB"
             ],
+            youtube: YouTubeChannelDomainModel(
+                channelId: "UCvtuberB",
+                channelName: "vtuberB",
+                subscriberCount: 200000,
+                numberOfViews: 8000000
+            ),
             createdAt: Date().addingTimeInterval(-86400 * 60),
             updatedAt: Date().addingTimeInterval(-7200),
             favoriteCount: 100
@@ -61,6 +73,12 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
                 .x: "https://twitter.com/progamerC",
                 .instagram: "https://instagram.com/progamerC"
             ],
+            youtube: YouTubeChannelDomainModel(
+                channelId: "UCprogamerC",
+                channelName: "progamerC",
+                subscriberCount: 400000,
+                numberOfViews: 15000000
+            ),
             createdAt: Date().addingTimeInterval(-86400 * 90),
             updatedAt: Date().addingTimeInterval(-86400),
             favoriteCount: 100
@@ -75,6 +93,12 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
             platform: [
                 .youtube: "https://youtube.com/@casualD"
             ],
+            youtube: YouTubeChannelDomainModel(
+                channelId: "UCcasualD",
+                channelName: "casualD",
+                subscriberCount: 50000,
+                numberOfViews: 2000000
+            ),
             createdAt: Date().addingTimeInterval(-86400 * 45),
             updatedAt: Date().addingTimeInterval(-86400 * 5),
             favoriteCount: 100
@@ -90,6 +114,12 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
                 .youtube: "https://youtube.com/@retroE",
                 .niconico: "https://www.nicovideo.jp/user/12345678"
             ],
+            youtube: YouTubeChannelDomainModel(
+                channelId: "UCretroE",
+                channelName: "retroE",
+                subscriberCount: 80000,
+                numberOfViews: 3000000
+            ),
             createdAt: Date().addingTimeInterval(-86400 * 120),
             updatedAt: Date().addingTimeInterval(-86400 * 2),
             favoriteCount: 100
@@ -105,6 +135,7 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
                 .tiktok: "https://tiktok.com/@dancerF",
                 .instagram: "https://instagram.com/dancerF"
             ],
+            youtube: nil,
             createdAt: Date().addingTimeInterval(-86400 * 15),
             updatedAt: Date().addingTimeInterval(-1800),
             favoriteCount: 100
@@ -120,6 +151,12 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
                 .discord: "https://discord.gg/communityG",
                 .youtube: "https://youtube.com/@hostG"
             ],
+            youtube: YouTubeChannelDomainModel(
+                channelId: "UChostG",
+                channelName: "hostG",
+                subscriberCount: 40000,
+                numberOfViews: 1200000
+            ),
             createdAt: Date().addingTimeInterval(-86400 * 75),
             updatedAt: Date().addingTimeInterval(-86400 * 3),
             favoriteCount: 100
@@ -135,6 +172,12 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
                 .youtube: "https://youtube.com/@animecriticH",
                 .x: "https://twitter.com/animecriticH"
             ],
+            youtube: YouTubeChannelDomainModel(
+                channelId: "UCanimecriticH",
+                channelName: "animecriticH",
+                subscriberCount: 300000,
+                numberOfViews: 12000000
+            ),
             createdAt: Date().addingTimeInterval(-86400 * 180),
             updatedAt: Date().addingTimeInterval(-86400),
             favoriteCount: 100
@@ -150,6 +193,12 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
                 .twitch: "https://twitch.tv/anisongDJ",
                 .youtube: "https://youtube.com/@anisongDJ"
             ],
+            youtube: YouTubeChannelDomainModel(
+                channelId: "UCanisongDJ",
+                channelName: "anisongDJ",
+                subscriberCount: 180000,
+                numberOfViews: 7000000
+            ),
             createdAt: Date().addingTimeInterval(-86400 * 90),
             updatedAt: Date().addingTimeInterval(-7200),
             favoriteCount: 100

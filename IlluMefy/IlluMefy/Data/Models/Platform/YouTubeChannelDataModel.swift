@@ -13,5 +13,5 @@ struct YouTubeChannelDataModel: Codable {
     /// チャンネル登録者数
     let subscriberCount: Int
     /// 総視聴回数
-    let viewCount: Int?
+    let viewCount: Int
 }
