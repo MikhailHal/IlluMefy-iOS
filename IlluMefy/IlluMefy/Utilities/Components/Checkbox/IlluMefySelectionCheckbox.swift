@@ -172,12 +172,12 @@ struct IlluMefySelectionCheckbox<T: Hashable>: View {
 
 #Preview("Multi Column") {
     struct PreviewWrapper: View {
-        @State private var selectedPlatforms: Set<Platform> = [.youtube]
+        @State private var selectedPlatforms: Set<PlatformDomainModel> = [.youtube]
         
         var body: some View {
             IlluMefySelectionCheckbox(
                 title: "プラットフォーム",
-                items: Platform.allCases.map { platform in
+                items: PlatformDomainModel.allCases.map { platform in
                     .init(value: platform, label: platform.displayName)
                 },
                 selectedItems: $selectedPlatforms,

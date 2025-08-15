@@ -41,7 +41,7 @@ extension CreatorDataModel {
     /// CreatorDataModelからドメインのCreatorエンティティへ変換
     func toCreator() -> Creator {
         // プラットフォームURLマップの構築
-        var platformMap: [Platform: String] = [:]
+        var platformMap: [PlatformDomainModel: String] = [:]
         
         // YouTube
         if let youtube = platforms.youtube {

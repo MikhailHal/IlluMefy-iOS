@@ -60,7 +60,7 @@ struct Creator: Equatable, Codable, Identifiable, Hashable {
     ///     .twitch: "https://twitch.tv/creator"
     /// ]
     /// ```
-    let platform: [Platform: String]
+    let platform: [PlatformDomainModel: String]
     
     /// クリエイターがアプリに登録された日時
     let createdAt: Date

@@ -11,7 +11,7 @@ import UIKit
 // MARK: - Supporting Views
 
 struct PlatformButton: View {
-    let platform: Platform
+    let platform: PlatformDomainModel
     let url: String
     @State private var isPressed = false
     
@@ -68,7 +68,7 @@ struct PlatformButton: View {
         } perform: {}
     }
     
-    private func platformDisplayName(_ platform: Platform) -> String {
+    private func platformDisplayName(_ platform: PlatformDomainModel) -> String {
         switch platform {
         case .youtube:
             return L10n.Platform.youtube

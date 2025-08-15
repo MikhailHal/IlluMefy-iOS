@@ -48,7 +48,7 @@ final class GetPopularCreatorsUseCase: GetPopularCreatorsUseCaseProtocol {
     /// CreatorDataModelをCreatorドメインエンティティに変換
     private func convertCreatorDataModel(_ response: CreatorDataModel) -> Creator {
         // プラットフォームURLマップの構築
-        var platformMap: [Platform: String] = [:]
+        var platformMap: [PlatformDomainModel: String] = [:]
         
         // YouTube
         if let youtube = response.platforms.youtube {
@@ -77,7 +77,7 @@ final class GetPopularCreatorsUseCase: GetPopularCreatorsUseCaseProtocol {
         }
         
         // プラットフォームクリック率（バックエンドにないので均等配分）
-        var platformClickRatio: [Platform: Double] = [:]
+        var platformClickRatio: [PlatformDomainModel: Double] = [:]
         let platformCount = Double(platformMap.count)
         if platformCount > 0 {
             let ratio = 1.0 / platformCount

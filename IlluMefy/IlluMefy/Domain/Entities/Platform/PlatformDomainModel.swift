@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Platform: String, CaseIterable, Codable {
+enum PlatformDomainModel: String, CaseIterable, Codable {
     case youtube
     case twitch
     case tiktok

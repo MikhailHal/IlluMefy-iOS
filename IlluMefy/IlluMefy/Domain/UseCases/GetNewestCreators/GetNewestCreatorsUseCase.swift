@@ -48,7 +48,7 @@ final class GetNewestCreatorsUseCase: GetNewestCreatorsUseCaseProtocol {
     /// CreatorDataModelをCreatorドメインエンティティに変換
     private func convertCreatorDataModel(_ response: CreatorDataModel) -> Creator {
         // プラットフォームURLマップの構築
-        var platformMap: [Platform: String] = [:]
+        var platformMap: [PlatformDomainModel: String] = [:]
         
         // YouTube
         if let youtube = response.platforms.youtube {
