@@ -49,19 +49,6 @@ struct Creator: Equatable, Codable, Identifiable, Hashable {
     /// プロフィールページで表示されます。
     let description: String?
     
-    /// プラットフォーム別のURLマップ
-    /// 
-    /// 各プラットフォームでのプロフィールURLを保持します。
-    /// キーがプラットフォーム、値がそのプラットフォームでのURLです。
-    /// 
-    /// ```swift
-    /// [
-    ///     .youtube: "https://youtube.com/@creator",
-    ///     .twitch: "https://twitch.tv/creator"
-    /// ]
-    /// ```
-    let platform: [PlatformDomainModel: String]
-    
     /// YouTubeチャンネル情報
     let youtube: YouTubeChannelDomainModel?
     

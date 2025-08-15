@@ -47,41 +47,15 @@ final class GetNewestCreatorsUseCase: GetNewestCreatorsUseCaseProtocol {
     
     /// CreatorDataModelをCreatorドメインエンティティに変換
     private func convertCreatorDataModel(_ response: CreatorDataModel) -> Creator {
-        // プラットフォームURLマップの構築
-        var platformMap: [PlatformDomainModel: String] = [:]
+        // YouTubeチャンネル情報の構築
         var youtubeChannel: YouTubeChannelDomainModel? = nil
-        
-        // YouTube
         if let youtube = response.platforms.youtube {
-            let youtubeUrl = "https://youtube.com/@\(youtube.username)"
-            platformMap[.youtube] = youtubeUrl
-            
             youtubeChannel = YouTubeChannelDomainModel(
                 channelId: youtube.channelId,
                 channelName: youtube.username,
                 subscriberCount: youtube.subscriberCount,
                 numberOfViews: youtube.viewCount
             )
-        }
-        
-        // Twitch
-        if let twitch = response.platforms.twitch {
-            platformMap[.twitch] = twitch.socialLink
-        }
-        
-        // TikTok
-        if let tiktok = response.platforms.tiktok {
-            platformMap[.tiktok] = tiktok.socialLink
-        }
-        
-        // Instagram
-        if let instagram = response.platforms.instagram {
-            platformMap[.instagram] = instagram.socialLink
-        }
-        
-        // ニコニコ動画
-        if let niconico = response.platforms.niconico {
-            platformMap[.niconico] = niconico.socialLink
         }
         
         return Creator(
@@ -91,7 +65,6 @@ final class GetNewestCreatorsUseCase: GetNewestCreatorsUseCaseProtocol {
             socialLinkClickCount: 0, // バックエンドにないのでデフォルト値
             tag: response.tags,
             description: response.description,
-            platform: platformMap,
             youtube: youtubeChannel,
             createdAt: response.createdAt.toDate,
             updatedAt: response.updatedAt.toDate,

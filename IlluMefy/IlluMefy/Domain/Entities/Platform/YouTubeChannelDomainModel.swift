@@ -21,4 +21,9 @@ struct YouTubeChannelDomainModel: Equatable, Codable, Hashable {
     func channelUrl() -> URL {
         URL(string: "https://www.youtube.com/channel/\(channelId)")!
     }
+    
+    /// プラットフォームアイコン
+    func platformIcon() -> String {
+        return "play.rectangle.fill"
+    }
 }

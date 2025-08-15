@@ -40,34 +40,6 @@ struct CreatorDataModel: Codable {
 extension CreatorDataModel {
     /// CreatorDataModelからドメインのCreatorエンティティへ変換
     func toCreator() -> Creator {
-        // プラットフォームURLマップの構築
-        var platformMap: [PlatformDomainModel: String] = [:]
-        
-        // YouTube
-        if let youtube = platforms.youtube {
-            let youtubeUrl = "https://youtube.com/@\(youtube.username)"
-            platformMap[.youtube] = youtubeUrl
-        }
-        
-        // Twitch
-        if let twitch = platforms.twitch {
-            platformMap[.twitch] = twitch.socialLink
-        }
-        
-        // TikTok
-        if let tiktok = platforms.tiktok {
-            platformMap[.tiktok] = tiktok.socialLink
-        }
-        
-        // Instagram
-        if let instagram = platforms.instagram {
-            platformMap[.instagram] = instagram.socialLink
-        }
-        
-        // ニコニコ動画
-        if let niconico = platforms.niconico {
-            platformMap[.niconico] = niconico.socialLink
-        }
         
         // YouTubeチャンネル情報の構築
         var youtubeChannel: YouTubeChannelDomainModel? = nil
@@ -87,7 +59,6 @@ extension CreatorDataModel {
             socialLinkClickCount: 0,
             tag: tags,
             description: description,
-            platform: platformMap,
             youtube: youtubeChannel,
             createdAt: createdAt.toDate,
             updatedAt: updatedAt.toDate,

@@ -47,51 +47,15 @@ final class GetPopularCreatorsUseCase: GetPopularCreatorsUseCaseProtocol {
     
     /// CreatorDataModelをCreatorドメインエンティティに変換
     private func convertCreatorDataModel(_ response: CreatorDataModel) -> Creator {
-        // プラットフォームURLマップの構築
-        var platformMap: [PlatformDomainModel: String] = [:]
+        // YouTubeチャンネル情報の構築
         var youtubeChannel: YouTubeChannelDomainModel?
-        
-        // YouTube
         if let youtube = response.platforms.youtube {
-            let youtubeUrl = "https://youtube.com/@\(youtube.username)"
-            platformMap[.youtube] = youtubeUrl
-            
             youtubeChannel = YouTubeChannelDomainModel(
                 channelId: youtube.channelId,
                 channelName: youtube.username,
                 subscriberCount: youtube.subscriberCount,
                 numberOfViews: youtube.viewCount
             )
-        }
-        
-        // Twitch
-        if let twitch = response.platforms.twitch {
-            platformMap[.twitch] = twitch.socialLink
-        }
-        
-        // TikTok
-        if let tiktok = response.platforms.tiktok {
-            platformMap[.tiktok] = tiktok.socialLink
-        }
-        
-        // Instagram
-        if let instagram = response.platforms.instagram {
-            platformMap[.instagram] = instagram.socialLink
-        }
-        
-        // ニコニコ動画
-        if let niconico = response.platforms.niconico {
-            platformMap[.niconico] = niconico.socialLink
-        }
-        
-        // プラットフォームクリック率（バックエンドにないので均等配分）
-        var platformClickRatio: [PlatformDomainModel: Double] = [:]
-        let platformCount = Double(platformMap.count)
-        if platformCount > 0 {
-            let ratio = 1.0 / platformCount
-            for platform in platformMap.keys {
-                platformClickRatio[platform] = ratio
-            }
         }
         
         return Creator(
@@ -101,7 +65,6 @@ final class GetPopularCreatorsUseCase: GetPopularCreatorsUseCaseProtocol {
             socialLinkClickCount: 0, // バックエンドにないのでデフォルト値
             tag: response.tags,
             description: response.description,
-            platform: platformMap,
             youtube: youtubeChannel,
             createdAt: response.createdAt.toDate,
             updatedAt: response.updatedAt.toDate,

@@ -228,7 +228,7 @@ struct CreatorDetailView: View {
                 .font(.system(size: Typography.titleMedium, weight: .bold))
                 .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSectionTitle.swiftUIColor)
             
-            LazyVGrid(columns: [
+            /*LazyVGrid(columns: [
                 GridItem(.flexible()),
                 GridItem(.flexible())
             ], spacing: Spacing.relatedComponentDivider) {
@@ -237,7 +237,7 @@ struct CreatorDetailView: View {
                         PlatformButton(platform: platform, url: url)
                     }
                 }
-            }
+            }*/
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
@@ -452,11 +452,6 @@ struct CreatorDetailView: View {
             socialLinkClickCount: 1500,
             tag: ["tag_007", "tag_011"],
             description: "FPSゲームをメインに実況しています。毎日20時から配信！",
-            platform: [
-                .youtube: "https://youtube.com/@gameplayerA",
-                .twitch: "https://twitch.tv/gameplayerA",
-                .x: "https://twitter.com/gameplayerA"
-            ],
             youtube: nil,
             createdAt: Date().addingTimeInterval(-86400 * 30),
             updatedAt: Date().addingTimeInterval(-3600),

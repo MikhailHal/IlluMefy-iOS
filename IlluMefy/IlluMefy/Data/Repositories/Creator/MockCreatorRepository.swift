@@ -24,11 +24,6 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
             socialLinkClickCount: 1500,
             tag: ["tag_007", "tag_011"],
             description: "FPSゲームをメインに実況しています。毎日20時から配信！",
-            platform: [
-                .youtube: "https://youtube.com/@gameplayerA",
-                .twitch: "https://twitch.tv/gameplayerA",
-                .x: "https://twitter.com/gameplayerA"
-            ],
             youtube: YouTubeChannelDomainModel(
                 channelId: "UCgameplayerA",
                 channelName: "gameplayerA",
@@ -46,10 +41,6 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
             socialLinkClickCount: 2000,
             tag: ["tag_009", "tag_007", "tag_001", "tag_004"],
             description: "歌ってゲームして楽しく配信してます♪ アニメも大好き！",
-            platform: [
-                .youtube: "https://youtube.com/@vtuberB",
-                .x: "https://twitter.com/vtuberB"
-            ],
             youtube: YouTubeChannelDomainModel(
                 channelId: "UCvtuberB",
                 channelName: "vtuberB",
@@ -67,12 +58,6 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
             socialLinkClickCount: 4000,
             tag: ["tag_007", "tag_005", "tag_014"],
             description: "プロゲーマーとして活動中。大会実績多数。",
-            platform: [
-                .twitch: "https://twitch.tv/progamerC",
-                .youtube: "https://youtube.com/@progamerC",
-                .x: "https://twitter.com/progamerC",
-                .instagram: "https://instagram.com/progamerC"
-            ],
             youtube: YouTubeChannelDomainModel(
                 channelId: "UCprogamerC",
                 channelName: "progamerC",
@@ -90,9 +75,6 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
             socialLinkClickCount: 500,
             tag: ["tag_001", "tag_013"],
             description: "マイクラ建築をまったり実況。初心者歓迎！",
-            platform: [
-                .youtube: "https://youtube.com/@casualD"
-            ],
             youtube: YouTubeChannelDomainModel(
                 channelId: "UCcasualD",
                 channelName: "casualD",
@@ -110,10 +92,6 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
             socialLinkClickCount: 800,
             tag: ["tag_001"],
             description: "レトロゲームのRTAやってます。週末配信。",
-            platform: [
-                .youtube: "https://youtube.com/@retroE",
-                .niconico: "https://www.nicovideo.jp/user/12345678"
-            ],
             youtube: YouTubeChannelDomainModel(
                 channelId: "UCretroE",
                 channelName: "retroE",
@@ -131,10 +109,6 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
             socialLinkClickCount: 2500,
             tag: ["tag_003"],
             description: "バズるダンス動画を毎日投稿！フォロー待ってます！",
-            platform: [
-                .tiktok: "https://tiktok.com/@dancerF",
-                .instagram: "https://instagram.com/dancerF"
-            ],
             youtube: nil,
             createdAt: Date().addingTimeInterval(-86400 * 15),
             updatedAt: Date().addingTimeInterval(-1800),
@@ -147,10 +121,6 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
             socialLinkClickCount: 400,
             tag: ["tag_005"],
             description: "ゲームコミュニティの運営とイベント司会をしています。",
-            platform: [
-                .discord: "https://discord.gg/communityG",
-                .youtube: "https://youtube.com/@hostG"
-            ],
             youtube: YouTubeChannelDomainModel(
                 channelId: "UChostG",
                 channelName: "hostG",
@@ -168,10 +138,6 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
             socialLinkClickCount: 3000,
             tag: ["tag_004", "tag_012"],
             description: "今期アニメの感想と考察を毎週配信。ネタバレ注意！",
-            platform: [
-                .youtube: "https://youtube.com/@animecriticH",
-                .x: "https://twitter.com/animecriticH"
-            ],
             youtube: YouTubeChannelDomainModel(
                 channelId: "UCanimecriticH",
                 channelName: "animecriticH",
@@ -189,10 +155,6 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
             socialLinkClickCount: 1800,
             tag: ["tag_004", "tag_003", "tag_010"],
             description: "アニソンRemixとDJ配信。毎週土曜日21時〜",
-            platform: [
-                .twitch: "https://twitch.tv/anisongDJ",
-                .youtube: "https://youtube.com/@anisongDJ"
-            ],
             youtube: YouTubeChannelDomainModel(
                 channelId: "UCanisongDJ",
                 channelName: "anisongDJ",
@@ -271,59 +233,20 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
             niconico: nil
         )
         
-        // 各プラットフォームのURL情報を構造化
-        for (platform, url) in creator.platform {
-            switch platform {
-            case .youtube:
-                // @usernameを抽出（簡易実装）
-                let username = url.replacingOccurrences(of: "https://youtube.com/@", with: "")
-                platforms = PlatformsResponse(
-                    youtube: YouTubeChannelDataModel(
-                        username: username,
-                        channelId: "UC\(creator.id)",
-                        subscriberCount: creator.socialLinkClickCount * 100, // Mock用の推定値
-                        viewCount: creator.socialLinkClickCount * 500 // Mock用の推定値
-                    ),
-                    twitch: platforms.twitch,
-                    tiktok: platforms.tiktok,
-                    instagram: platforms.instagram,
-                    niconico: platforms.niconico
-                )
-            case .twitch:
-                platforms = PlatformsResponse(
-                    youtube: platforms.youtube,
-                    twitch: SocialLinkPlatformResponse(socialLink: url),
-                    tiktok: platforms.tiktok,
-                    instagram: platforms.instagram,
-                    niconico: platforms.niconico
-                )
-            case .tiktok:
-                platforms = PlatformsResponse(
-                    youtube: platforms.youtube,
-                    twitch: platforms.twitch,
-                    tiktok: SocialLinkPlatformResponse(socialLink: url),
-                    instagram: platforms.instagram,
-                    niconico: platforms.niconico
-                )
-            case .instagram:
-                platforms = PlatformsResponse(
-                    youtube: platforms.youtube,
-                    twitch: platforms.twitch,
-                    tiktok: platforms.tiktok,
-                    instagram: SocialLinkPlatformResponse(socialLink: url),
-                    niconico: platforms.niconico
-                )
-            case .niconico:
-                platforms = PlatformsResponse(
-                    youtube: platforms.youtube,
-                    twitch: platforms.twitch,
-                    tiktok: platforms.tiktok,
-                    instagram: platforms.instagram,
-                    niconico: SocialLinkPlatformResponse(socialLink: url)
-                )
-            case .x, .discord: // 未対応プラットフォームはスキップ
-                continue
-            }
+        // YouTubeチャンネル情報を構造化
+        if let youtube = creator.youtube {
+            platforms = PlatformsResponse(
+                youtube: YouTubeChannelDataModel(
+                    username: youtube.channelName,
+                    channelId: youtube.channelId,
+                    subscriberCount: youtube.subscriberCount,
+                    viewCount: youtube.numberOfViews
+                ),
+                twitch: nil,
+                tiktok: nil,
+                instagram: nil,
+                niconico: nil
+            )
         }
         
         return CreatorDataModel(
@@ -361,13 +284,13 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
             throw CreatorRepositoryError.creatorNotFound
         }
         
-        // 類似度計算：共通タグ数とプラットフォーム重複度で評価
+        // 類似度計算：共通タグ数とYouTubeチャンネル有無で評価
         let similarCreators = mockCreators
             .filter { $0.id != creatorId } // 自分自身は除外
             .map { creator in
                 let commonTags = Set(creator.tag).intersection(Set(targetCreator.tag)).count
-                let commonPlatforms = Set(creator.platform.keys).intersection(Set(targetCreator.platform.keys)).count
-                let similarityScore = commonTags * 2 + commonPlatforms // タグの重みを高く設定
+                let youtubeBonus = (creator.youtube != nil && targetCreator.youtube != nil) ? 1 : 0
+                let similarityScore = commonTags * 2 + youtubeBonus // タグの重みを高く設定
                 return (creator: creator, score: similarityScore)
             }
             .sorted { $0.score > $1.score }

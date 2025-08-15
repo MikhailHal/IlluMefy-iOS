@@ -10,6 +10,7 @@ import UIKit
 
 // MARK: - Supporting Views
 
+/*
 struct PlatformButton: View {
     let platform: PlatformDomainModel
     let url: String
@@ -87,3 +88,4 @@ struct PlatformButton: View {
         }
     }
 }
+*/
