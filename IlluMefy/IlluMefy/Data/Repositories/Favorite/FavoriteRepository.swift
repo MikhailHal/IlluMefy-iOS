@@ -50,7 +50,14 @@ final class FavoriteRepository: FavoriteRepositoryProtocol {
         )
     }
     
-    func isFavorite(creatorId: String) async throws -> Bool {
-        return true
+    func isFavorite(creatorId: String) async throws -> Bool {        
+        let response: IsFavoriteResponse = try await apiClient.request(
+            endpoint: "/users/favorites/\(creatorId)/check",
+            method: .get,
+            parameters: nil,
+            responseType: IsFavoriteResponse.self,
+            isRequiredAuth: true
+        )
+        return response.data.isFavorite
     }
 }
