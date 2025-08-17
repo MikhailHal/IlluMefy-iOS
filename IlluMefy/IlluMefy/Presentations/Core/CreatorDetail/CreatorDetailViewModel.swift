@@ -16,7 +16,8 @@ final class CreatorDetailViewModel: CreatorDetailViewModelProtocol {
     var similarCreators: [Creator] = []
     
     // 状態フラグ
-    var isLoadingTags = false
+    var isLoadingTags = true
+    var isLoadingFavoriteStauts = true
     var isFavorite = false
     var errorMessage: String?
     
@@ -68,10 +69,13 @@ final class CreatorDetailViewModel: CreatorDetailViewModelProtocol {
     
     private func checkFavoriteStatus() async {
         do {
+            isLoadingFavoriteStauts = true
             isFavorite = try await favoriteRepository.isFavorite(creatorId: creator.id)
+            isLoadingFavoriteStauts = false
         } catch {
             // エラーの場合はfalseとして扱う
             isFavorite = false
+            isLoadingFavoriteStauts = false
         }
     }
     

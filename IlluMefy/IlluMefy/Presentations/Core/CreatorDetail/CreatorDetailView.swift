@@ -133,50 +133,54 @@ struct CreatorDetailView: View {
                 .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardTitle.swiftUIColor)
                 .multilineTextAlignment(.center)
             
-            Button(action: {
-                let impactFeedback = UIImpactFeedbackGenerator(style: .heavy)
-                impactFeedback.impactOccurred()
-                withAnimation(.easeInOut(duration: AnimationDuration.heartBeat)) {
-                    viewModel.toggleFavorite()
-                }
-            }, label: {
-                HStack(spacing: Spacing.componentGrouping) {
-                    Image(systemName: viewModel.isFavorite ? "heart.fill" : "heart")
-                        .font(.system(size: Typography.bodyRegular))
-                    Text(viewModel.isFavorite ? L10n.Favorite.favorited : L10n.Favorite.addToFavorite)
-                        .font(.system(size: Typography.bodyRegular, weight: .medium))
-                }
-                .foregroundColor(
-                    viewModel.isFavorite
-                        ? .white
-                        : Asset.Color.CreatorDetailCard.creatorDetailCardTitle.swiftUIColor
-                )
-                .padding(.horizontal, Spacing.medium)
-                .padding(.vertical, Spacing.componentGrouping)
-                .background(
-                    Capsule()
-                        .fill(
-                            viewModel.isFavorite
-                            ? Asset.Color.CreatorDetailCard.creatorDetailCardFavorite.swiftUIColor
-                                : Asset.Color.CreatorDetailCard.creatorDetailCardFavorite.swiftUIColor.opacity(0.15)
-                        )
-                )
-                .overlay(
-                    Capsule()
-                        .stroke(
-                            Asset.Color.WarningText.warningLabelForground.swiftUIColor,
-                            lineWidth: viewModel.isFavorite ? 0 : 1
-                        )
-                )
-                .scaleEffect(viewModel.isFavorite ? Effects.scaleHeart : Effects.visibleOpacity)
-                .animation(
-                    .spring(
-                        response: AnimationParameters.springResponse,
-                        dampingFraction: AnimationParameters.springDamping
-                    ),
-                    value: viewModel.isFavorite
-                )
-            })
+            if viewModel.isLoadingFavoriteStauts {
+                favoriteButtonSkeleton()
+            } else {
+                Button(action: {
+                    let impactFeedback = UIImpactFeedbackGenerator(style: .heavy)
+                    impactFeedback.impactOccurred()
+                    withAnimation(.easeInOut(duration: AnimationDuration.heartBeat)) {
+                        viewModel.toggleFavorite()
+                    }
+                }, label: {
+                    HStack(spacing: Spacing.componentGrouping) {
+                        Image(systemName: viewModel.isFavorite ? "heart.fill" : "heart")
+                            .font(.system(size: Typography.bodyRegular))
+                        Text(viewModel.isFavorite ? L10n.Favorite.favorited : L10n.Favorite.addToFavorite)
+                            .font(.system(size: Typography.bodyRegular, weight: .medium))
+                    }
+                    .foregroundColor(
+                        viewModel.isFavorite
+                            ? .white
+                            : Asset.Color.CreatorDetailCard.creatorDetailCardTitle.swiftUIColor
+                    )
+                    .padding(.horizontal, Spacing.medium)
+                    .padding(.vertical, Spacing.componentGrouping)
+                    .background(
+                        Capsule()
+                            .fill(
+                                viewModel.isFavorite
+                                ? Asset.Color.CreatorDetailCard.creatorDetailCardFavorite.swiftUIColor
+                                    : Asset.Color.CreatorDetailCard.creatorDetailCardFavorite.swiftUIColor.opacity(0.15)
+                            )
+                    )
+                    .overlay(
+                        Capsule()
+                            .stroke(
+                                Asset.Color.WarningText.warningLabelForground.swiftUIColor,
+                                lineWidth: viewModel.isFavorite ? 0 : 1
+                            )
+                    )
+                    .scaleEffect(viewModel.isFavorite ? Effects.scaleHeart : Effects.visibleOpacity)
+                    .animation(
+                        .spring(
+                            response: AnimationParameters.springResponse,
+                            dampingFraction: AnimationParameters.springDamping
+                        ),
+                        value: viewModel.isFavorite
+                    )
+                })
+            }
         }
     }
     
@@ -319,6 +323,13 @@ struct CreatorDetailView: View {
     }
     
     // MARK: - Skeleton Views
+    
+    private func favoriteButtonSkeleton() -> some View {
+        Capsule()
+            .fill(Color.gray.opacity(Opacity.glow))
+            .frame(width: 180, height: 40)
+            .shimmering()
+    }
     
     private func creatorProfileSectionSkeleton() -> some View {
         VStack(spacing: Spacing.relatedComponentDivider) {
