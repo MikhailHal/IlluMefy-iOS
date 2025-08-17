@@ -358,6 +358,16 @@ final class DependencyContainer: @unchecked Sendable {
             resolver.resolve(DeleteAccountUseCase.self)!
         }.inObjectScope(.transient)
         
+        // ToggleFavoriteCreator usecase
+        container.register(ToggleFavoriteCreatorUseCase.self) { resolver in
+            let favoriteRepository = resolver.resolve(FavoriteRepositoryProtocol.self)!
+            return ToggleFavoriteCreatorUseCase(favoriteRepository: favoriteRepository)
+        }.inObjectScope(.transient)
+        
+        container.register((any ToggleFavoriteCreatorUseCaseProtocol).self) { resolver in
+            resolver.resolve(ToggleFavoriteCreatorUseCase.self)!
+        }.inObjectScope(.transient)
+        
     }
     ///
     /// register all view-models
@@ -398,12 +408,14 @@ final class DependencyContainer: @unchecked Sendable {
             let getCreatorDetailUseCase = resolver.resolve((any GetCreatorDetailUseCaseProtocol).self)!
             let getTagListByTagIdListUseCase = resolver.resolve((any GetTagListByTagIdListUseCaseProtocol).self)!
             let favoriteRepository = resolver.resolve(FavoriteRepositoryProtocol.self)!
+            let toggleFavoriteCreatorUseCase = resolver.resolve((any ToggleFavoriteCreatorUseCaseProtocol).self)!
             return MainActor.assumeIsolated {
                 return CreatorDetailViewModel(
                     creator: creator,
                     getCreatorDetailUseCase: getCreatorDetailUseCase,
                     getTagListByTagIdListUseCase: getTagListByTagIdListUseCase,
-                    favoriteRepository: favoriteRepository
+                    favoriteRepository: favoriteRepository,
+                    toggleFavoriteCreatorUseCase: toggleFavoriteCreatorUseCase
                 )
             }
         }.inObjectScope(.transient)

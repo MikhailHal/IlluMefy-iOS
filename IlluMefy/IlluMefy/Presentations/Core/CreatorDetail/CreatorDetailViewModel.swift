@@ -25,17 +25,20 @@ final class CreatorDetailViewModel: CreatorDetailViewModelProtocol {
     private let getCreatorDetailUseCase: GetCreatorDetailUseCaseProtocol
     private let getTagListByTagIdListUseCase: GetTagListByTagIdListUseCaseProtocol
     private let favoriteRepository: FavoriteRepositoryProtocol
+    private let toggleFavoriteCreatorUseCase: ToggleFavoriteCreatorUseCaseProtocol
 
     init(
         creator: Creator,
         getCreatorDetailUseCase: GetCreatorDetailUseCaseProtocol,
         getTagListByTagIdListUseCase: GetTagListByTagIdListUseCaseProtocol,
-        favoriteRepository: FavoriteRepositoryProtocol
+        favoriteRepository: FavoriteRepositoryProtocol,
+        toggleFavoriteCreatorUseCase: ToggleFavoriteCreatorUseCaseProtocol
     ) {
         self.creator = creator
         self.getCreatorDetailUseCase = getCreatorDetailUseCase
         self.getTagListByTagIdListUseCase = getTagListByTagIdListUseCase
         self.favoriteRepository = favoriteRepository
+        self.toggleFavoriteCreatorUseCase = toggleFavoriteCreatorUseCase
         
         Task {
             await loadTags()
@@ -82,13 +85,12 @@ final class CreatorDetailViewModel: CreatorDetailViewModelProtocol {
     func toggleFavorite() {
         Task {
             do {
-                if isFavorite {
-                    try await favoriteRepository.removeFavoriteCreator(creatorId: creator.id)
-                    isFavorite = false
-                } else {
-                    try await favoriteRepository.addFavoriteCreator(creatorId: creator.id)
-                    isFavorite = true
-                }
+                let request = ToggleFavoriteCreatorUseCaseRequest(
+                    creatorId: creator.id,
+                    shouldAddToFavorites: !isFavorite
+                )
+                let response = try await toggleFavoriteCreatorUseCase.execute(request: request)
+                isFavorite = response.isNowFavorite
             } catch {
                 errorMessage = "お気に入りの更新に失敗しました"
             }
