@@ -205,7 +205,7 @@ struct CreatorDetailView: View {
             
             // チャンネル登録者数
             VStack(spacing: Spacing.relatedComponentDivider) {
-                Text(formatViewCount(creator.favoriteCount))
+                Text(formatViewCount(viewModel.favoriteCount))
                     .font(.system(size: Typography.bodyRegular, weight: .bold))
                     .foregroundColor(Asset.Color.CreatorDetailCard.creatorDetailCardSectionTitle.swiftUIColor)
                 Text(L10n.CreatorDetail.favoriteUsers)

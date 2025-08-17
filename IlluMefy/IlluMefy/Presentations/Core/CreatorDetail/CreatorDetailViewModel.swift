@@ -20,6 +20,7 @@ final class CreatorDetailViewModel: CreatorDetailViewModelProtocol {
     var isLoadingFavoriteStauts = true
     var isFavorite = false
     var errorMessage: String?
+    var favoriteCount: Int = 0
     
     // 依存関係
     private let getCreatorDetailUseCase: GetCreatorDetailUseCaseProtocol
@@ -35,6 +36,7 @@ final class CreatorDetailViewModel: CreatorDetailViewModelProtocol {
         checkAlreadyFavoriteCreatorUseCase: CheckAlreadyFavoriteCreatorUseCaseProtocol
     ) {
         self.creator = creator
+        self.favoriteCount = creator.favoriteCount
         self.getCreatorDetailUseCase = getCreatorDetailUseCase
         self.getTagListByTagIdListUseCase = getTagListByTagIdListUseCase
         self.toggleFavoriteCreatorUseCase = toggleFavoriteCreatorUseCase
@@ -93,6 +95,12 @@ final class CreatorDetailViewModel: CreatorDetailViewModelProtocol {
                 )
                 let response = try await toggleFavoriteCreatorUseCase.execute(request: request)
                 isFavorite = response.isNowFavorite
+                // 数字変更を即座に反映
+                if isFavorite {
+                    favoriteCount += 1
+                } else {
+                    favoriteCount -= 1
+                }
             } catch {
                 errorMessage = "お気に入りの更新に失敗しました"
             }
