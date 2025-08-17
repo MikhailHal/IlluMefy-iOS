@@ -9,6 +9,7 @@ import Alamofire
 ///
 protocol ApiClientProtocol {
     func makeHeader() async throws -> HTTPHeaders
+    func makeEncoding(method: HTTPMethod) -> any ParameterEncoding
     func request<T: Codable>(
         /** エンドポイントURL(ドメイン部分は不要) */
         endpoint: String,

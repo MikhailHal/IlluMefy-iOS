@@ -9,41 +9,42 @@ import Foundation
 
 /// お気に入りリポジトリの実装
 final class FavoriteRepository: FavoriteRepositoryProtocol {
-    private let userDefaults: UserDefaults
-    private let favoritesKey: String
+    private let apiClient: ApiClientProtocol
     
-    init(userDefaults: UserDefaults = UserDefaults.standard, favoritesKey: String = "IlluMefy_FavoriteCreatorIds") {
-        self.userDefaults = userDefaults
-        self.favoritesKey = favoritesKey
+    init(apiClient: ApiClientProtocol = DependencyContainer.shared.container.resolve(ApiClientProtocol.self)!) {
+        self.apiClient = apiClient
     }
     
     func getFavoriteCreatorIds() async throws -> [String] {
-        let stored = userDefaults.stringArray(forKey: favoritesKey) ?? []
-        // モック用に既存データがない場合のみデフォルトのお気に入りを追加
-        if stored.isEmpty {
-            let mockFavorites = ["creator_001", "creator_004", "creator_007"]
-            userDefaults.set(mockFavorites, forKey: favoritesKey)
-            return mockFavorites
+        struct FavoritesResponse: Codable {
+            let data: [String]
         }
-        return stored
+        
+        let response: FavoritesResponse = try await apiClient.request(
+            endpoint: "/users/favorites",
+            method: .get,
+            parameters: nil,
+            responseType: FavoritesResponse.self,
+            isRequiredAuth: true
+        )
+        return response.data
     }
     
     func addFavoriteCreator(creatorId: String) async throws {
-        var favorites = try await getFavoriteCreatorIds()
-        if !favorites.contains(creatorId) {
-            favorites.insert(creatorId, at: 0) // 新しいものを先頭に
-            userDefaults.set(favorites, forKey: favoritesKey)
-        }
+        let _: EmptyResponse = try await apiClient.request(
+            endpoint: "/users/favorites/\(creatorId)",
+            method: .post,
+            parameters: nil,
+            responseType: EmptyResponse.self,
+            isRequiredAuth: true
+        )
     }
     
     func removeFavoriteCreator(creatorId: String) async throws {
-        var favorites = try await getFavoriteCreatorIds()
-        favorites.removeAll { $0 == creatorId }
-        userDefaults.set(favorites, forKey: favoritesKey)
+        print("")
     }
     
     func isFavorite(creatorId: String) async throws -> Bool {
-        let favorites = try await getFavoriteCreatorIds()
-        return favorites.contains(creatorId)
+        return true
     }
 }

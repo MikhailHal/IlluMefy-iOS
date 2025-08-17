@@ -19,20 +19,20 @@ final class ApiClient: ApiClientProtocol {
     /// - parameter isRequiredAuth 認証必須かどうか
     func request<T>(
         endpoint: String,
-        method: Alamofire.HTTPMethod,
+        method: HTTPMethod,
         parameters: [String: Any]?,
         responseType: T.Type,
         isRequiredAuth: Bool = true
     ) async throws -> T where T: Decodable, T: Encodable {
         // TODO: あとで環境切り替えを行うこと
-        let url = "http://192.168.3.7:5001/illumefy-dev/asia-northeast1/api" + endpoint
+        let url = "http://172.20.10.3:5001/illumefy-dev/asia-northeast1/api" + endpoint
         var headers: HTTPHeaders = [:]
         if isRequiredAuth { headers = try await makeHeader() }
         let result = try await AF.request(
             url,
             method: method,
             parameters: parameters,
-            encoding: method == .get ? URLEncoding.default : JSONEncoding.default,
+            encoding: makeEncoding(method: method),
             headers: headers
         )
         .serializingDecodable(responseType)
@@ -41,6 +41,9 @@ final class ApiClient: ApiClientProtocol {
         return result
     }
     
+    /// ヘッダ作成
+    ///
+    /// - Returns ヘッダ一覧
     func makeHeader() async throws -> HTTPHeaders {
         var headers: HTTPHeaders = [:]
         guard let user = Auth.auth().currentUser else {
@@ -49,5 +52,18 @@ final class ApiClient: ApiClientProtocol {
         let idToken = try await user.getIDToken()
         headers["Authorization"] = "Bearer \(idToken)"
         return headers
+    }
+    
+    /// エンコーディングの種類を返却
+    ///
+    /// - Parameter method HTTP操作メソッド
+    /// - Returns エンコーディング種類
+    func makeEncoding(method: HTTPMethod) -> any ParameterEncoding {
+        switch (method) {
+        case .get:
+            return URLEncoding.default
+        default:
+            return JSONEncoding.default
+        }
     }
 }
