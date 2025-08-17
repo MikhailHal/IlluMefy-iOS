@@ -41,7 +41,13 @@ final class FavoriteRepository: FavoriteRepositoryProtocol {
     }
     
     func removeFavoriteCreator(creatorId: String) async throws {
-        print("")
+        let _: EmptyResponse = try await apiClient.request(
+            endpoint: "/users/favorites/\(creatorId)",
+            method: .delete,
+            parameters: nil,
+            responseType: EmptyResponse.self,
+            isRequiredAuth: true
+        )
     }
     
     func isFavorite(creatorId: String) async throws -> Bool {
