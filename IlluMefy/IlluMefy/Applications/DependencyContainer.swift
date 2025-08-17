@@ -368,6 +368,16 @@ final class DependencyContainer: @unchecked Sendable {
             resolver.resolve(ToggleFavoriteCreatorUseCase.self)!
         }.inObjectScope(.transient)
         
+        // CheckAlreadyFavoriteCreator usecase
+        container.register(CheckAlreadyFavoriteCreatorUseCase.self) { resolver in
+            let favoriteRepository = resolver.resolve(FavoriteRepositoryProtocol.self)!
+            return CheckAlreadyFavoriteCreatorUseCase(favoriteRepository: favoriteRepository)
+        }.inObjectScope(.transient)
+        
+        container.register((any CheckAlreadyFavoriteCreatorUseCaseProtocol).self) { resolver in
+            resolver.resolve(CheckAlreadyFavoriteCreatorUseCase.self)!
+        }.inObjectScope(.transient)
+        
     }
     ///
     /// register all view-models
@@ -407,15 +417,15 @@ final class DependencyContainer: @unchecked Sendable {
         container.register(CreatorDetailViewModel.self) { (resolver, creator: Creator) in
             let getCreatorDetailUseCase = resolver.resolve((any GetCreatorDetailUseCaseProtocol).self)!
             let getTagListByTagIdListUseCase = resolver.resolve((any GetTagListByTagIdListUseCaseProtocol).self)!
-            let favoriteRepository = resolver.resolve(FavoriteRepositoryProtocol.self)!
             let toggleFavoriteCreatorUseCase = resolver.resolve((any ToggleFavoriteCreatorUseCaseProtocol).self)!
+            let checkAlreadyFavoriteCreatorUseCase = resolver.resolve((any CheckAlreadyFavoriteCreatorUseCaseProtocol).self)!
             return MainActor.assumeIsolated {
                 return CreatorDetailViewModel(
                     creator: creator,
                     getCreatorDetailUseCase: getCreatorDetailUseCase,
                     getTagListByTagIdListUseCase: getTagListByTagIdListUseCase,
-                    favoriteRepository: favoriteRepository,
-                    toggleFavoriteCreatorUseCase: toggleFavoriteCreatorUseCase
+                    toggleFavoriteCreatorUseCase: toggleFavoriteCreatorUseCase,
+                    checkAlreadyFavoriteCreatorUseCase: checkAlreadyFavoriteCreatorUseCase
                 )
             }
         }.inObjectScope(.transient)

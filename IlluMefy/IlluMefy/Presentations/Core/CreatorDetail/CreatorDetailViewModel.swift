@@ -24,21 +24,21 @@ final class CreatorDetailViewModel: CreatorDetailViewModelProtocol {
     // 依存関係
     private let getCreatorDetailUseCase: GetCreatorDetailUseCaseProtocol
     private let getTagListByTagIdListUseCase: GetTagListByTagIdListUseCaseProtocol
-    private let favoriteRepository: FavoriteRepositoryProtocol
     private let toggleFavoriteCreatorUseCase: ToggleFavoriteCreatorUseCaseProtocol
+    private let checkAlreadyFavoriteCreatorUseCase: CheckAlreadyFavoriteCreatorUseCaseProtocol
 
     init(
         creator: Creator,
         getCreatorDetailUseCase: GetCreatorDetailUseCaseProtocol,
         getTagListByTagIdListUseCase: GetTagListByTagIdListUseCaseProtocol,
-        favoriteRepository: FavoriteRepositoryProtocol,
-        toggleFavoriteCreatorUseCase: ToggleFavoriteCreatorUseCaseProtocol
+        toggleFavoriteCreatorUseCase: ToggleFavoriteCreatorUseCaseProtocol,
+        checkAlreadyFavoriteCreatorUseCase: CheckAlreadyFavoriteCreatorUseCaseProtocol
     ) {
         self.creator = creator
         self.getCreatorDetailUseCase = getCreatorDetailUseCase
         self.getTagListByTagIdListUseCase = getTagListByTagIdListUseCase
-        self.favoriteRepository = favoriteRepository
         self.toggleFavoriteCreatorUseCase = toggleFavoriteCreatorUseCase
+        self.checkAlreadyFavoriteCreatorUseCase = checkAlreadyFavoriteCreatorUseCase
         
         Task {
             await loadTags()
@@ -73,7 +73,9 @@ final class CreatorDetailViewModel: CreatorDetailViewModelProtocol {
     private func checkFavoriteStatus() async {
         do {
             isLoadingFavoriteStauts = true
-            isFavorite = try await favoriteRepository.isFavorite(creatorId: creator.id)
+            let request = CheckAlreadyFavoriteCreatorUseCaseRequest(creatorId: creator.id)
+            let response = try await checkAlreadyFavoriteCreatorUseCase.execute(request: request)
+            isFavorite = response.isFavorite
             isLoadingFavoriteStauts = false
         } catch {
             // エラーの場合はfalseとして扱う
