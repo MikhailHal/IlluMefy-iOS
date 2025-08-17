@@ -7,6 +7,7 @@
 import SwiftUI
 import UIKit
 import Shimmer
+import WrappingHStack
 
 struct HomeView: View {
     @StateObject private var viewModel =
@@ -99,19 +100,20 @@ struct HomeView: View {
     // MARK: - Content Sections
     
     private var popularTagsSection: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: Spacing.componentGrouping) {
-                if viewModel.isLoading {
-                    ForEach(0..<6, id: \.self) { _ in
-                        IlluMefyFeaturedTag(tag: nil, onTapped: onTagTapped)
-                    }
-                } else {
-                    ForEach(viewModel.popularTags) { tag in
-                        IlluMefyFeaturedTag(tag: tag, onTapped: onTagTapped)
-                    }
+        VStack(spacing: 0) {
+            if viewModel.isLoading {
+                WrappingHStack(0..<10, spacing: .constant(Spacing.unrelatedComponentDivider), lineSpacing: Spacing.componentGrouping) { _ in
+                    IlluMefyFeaturedTag(tag: nil, onTapped: onTagTapped)
+                        .padding(.vertical, Spacing.extraSmall)
                 }
+                .padding(.horizontal, Spacing.screenEdgePadding)
+            } else {
+                WrappingHStack(viewModel.popularTags, spacing: .constant(Spacing.componentGrouping), lineSpacing: Spacing.componentGrouping) { tag in
+                    IlluMefyFeaturedTag(tag: tag, onTapped: onTagTapped)
+                        .padding(.vertical, Spacing.extraSmall)
+                }
+                .padding(.horizontal, Spacing.screenEdgePadding)
             }
-            .padding(.horizontal, Spacing.screenEdgePadding)
         }
     }
     
