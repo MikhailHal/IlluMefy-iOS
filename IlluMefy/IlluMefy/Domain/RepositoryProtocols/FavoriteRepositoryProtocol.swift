@@ -10,7 +10,7 @@ import Foundation
 /// お気に入りリポジトリプロトコル
 protocol FavoriteRepositoryProtocol {
     /// お気に入りクリエイターIDの一覧を取得
-    func getFavoriteCreatorIds() async throws -> [String]
+    func getFavoriteCreator() async throws -> GetFavoriteCreatorListResponse
     
     /// クリエイターをお気に入りに追加
     func addFavoriteCreator(creatorId: String) async throws
