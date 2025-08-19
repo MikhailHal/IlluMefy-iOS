@@ -25,7 +25,7 @@ final class ApiClient: ApiClientProtocol {
         isRequiredAuth: Bool = true
     ) async throws -> T where T: Decodable, T: Encodable {
         // TODO: あとで環境切り替えを行うこと
-        let url = "http://172.20.10.3:5001/illumefy-dev/asia-northeast1/api" + endpoint
+        let url = "http://192.168.3.8:5001/illumefy-dev/asia-northeast1/api" + endpoint
         var headers: HTTPHeaders = [:]
         if isRequiredAuth { headers = try await makeHeader() }
         let result = try await AF.request(

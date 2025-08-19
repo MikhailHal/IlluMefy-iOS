@@ -303,10 +303,8 @@ final class DependencyContainer: @unchecked Sendable {
         // GetFavoriteCreators usecase
         container.register((any GetFavoriteCreatorsUseCaseProtocol).self) { resolver in
             let favoriteRepository = resolver.resolve(FavoriteRepositoryProtocol.self)!
-            let creatorRepository = resolver.resolve(CreatorRepositoryProtocol.self)!
             return GetFavoriteCreatorsUseCase(
                 favoriteRepository: favoriteRepository,
-                creatorRepository: creatorRepository
             )
         }.inObjectScope(.transient)
         
