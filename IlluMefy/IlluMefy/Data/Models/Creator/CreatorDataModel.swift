@@ -42,7 +42,7 @@ extension CreatorDataModel {
     func toCreator() -> Creator {
         
         // YouTubeチャンネル情報の構築
-        var youtubeChannel: YouTubeChannelDomainModel? = nil
+        var youtubeChannel: YouTubeChannelDomainModel?
         if let youtube = platforms.youtube {
             youtubeChannel = YouTubeChannelDomainModel(
                 channelId: youtube.channelId,

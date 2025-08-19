@@ -40,35 +40,6 @@ final class GetPopularCreatorsUseCase: GetPopularCreatorsUseCaseProtocol {
     
     /// GetPopularCreatorsResponseをCreatorの配列に変換
     private func convertResponseToCreators(_ response: GetPopularCreatorsResponse) -> [Creator] {
-        return response.data.map { creatorResponse in
-            convertCreatorDataModel(creatorResponse)
-        }
-    }
-    
-    /// CreatorDataModelをCreatorドメインエンティティに変換
-    private func convertCreatorDataModel(_ response: CreatorDataModel) -> Creator {
-        // YouTubeチャンネル情報の構築
-        var youtubeChannel: YouTubeChannelDomainModel?
-        if let youtube = response.platforms.youtube {
-            youtubeChannel = YouTubeChannelDomainModel(
-                channelId: youtube.channelId,
-                channelName: youtube.username,
-                subscriberCount: youtube.subscriberCount,
-                numberOfViews: youtube.viewCount
-            )
-        }
-        
-        return Creator(
-            id: response.id,
-            name: response.name,
-            thumbnailUrl: response.profileImageUrl,
-            socialLinkClickCount: 0, // バックエンドにないのでデフォルト値
-            tag: response.tags,
-            description: response.description,
-            youtube: youtubeChannel,
-            createdAt: response.createdAt.toDate,
-            updatedAt: response.updatedAt.toDate,
-            favoriteCount: response.favoriteCount
-        )
+        return response.data.map { $0.toCreator() }
     }
 }
