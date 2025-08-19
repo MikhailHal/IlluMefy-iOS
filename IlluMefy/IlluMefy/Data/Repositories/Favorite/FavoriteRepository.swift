@@ -10,12 +10,23 @@ import Foundation
 /// お気に入りリポジトリの実装
 final class FavoriteRepository: FavoriteRepositoryProtocol {
     private let apiClient: ApiClientProtocol
+    private var cache: GetFavoriteCreatorListResponse?
+    private var cacheTimestamp: Date?
+    private let cacheValidDuration: TimeInterval = 300 // 5分
     
     init(apiClient: ApiClientProtocol = DependencyContainer.shared.container.resolve(ApiClientProtocol.self)!) {
         self.apiClient = apiClient
     }
     
+    private var isCacheValid: Bool {
+        guard let timestamp = cacheTimestamp else { return false }
+        return Date().timeIntervalSince(timestamp) < cacheValidDuration
+    }
+    
     func getFavoriteCreator() async throws -> GetFavoriteCreatorListResponse {
+        if isCacheValid, let cachedResponse = cache {
+            return cachedResponse
+        }
         let response: GetFavoriteCreatorListResponse = try await apiClient.request(
             endpoint: "/users/favorite-creator-list",
             method: .get,
@@ -23,6 +34,8 @@ final class FavoriteRepository: FavoriteRepositoryProtocol {
             responseType: GetFavoriteCreatorListResponse.self,
             isRequiredAuth: true
         )
+        cache = response
+        cacheTimestamp = Date()
         return response
     }
     
@@ -34,6 +47,7 @@ final class FavoriteRepository: FavoriteRepositoryProtocol {
             responseType: EmptyResponse.self,
             isRequiredAuth: true
         )
+        self.cacheTimestamp = nil
     }
     
     func removeFavoriteCreator(creatorId: String) async throws {
@@ -44,6 +58,7 @@ final class FavoriteRepository: FavoriteRepositoryProtocol {
             responseType: EmptyResponse.self,
             isRequiredAuth: true
         )
+        self.cacheTimestamp = nil
     }
     
     func isFavorite(creatorId: String) async throws -> Bool {        
