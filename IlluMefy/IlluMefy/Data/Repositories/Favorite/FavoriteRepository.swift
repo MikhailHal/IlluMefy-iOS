@@ -15,19 +15,15 @@ final class FavoriteRepository: FavoriteRepositoryProtocol {
         self.apiClient = apiClient
     }
     
-    func getFavoriteCreatorIds() async throws -> [String] {
-        struct FavoritesResponse: Codable {
-            let data: [String]
-        }
-        
-        let response: FavoritesResponse = try await apiClient.request(
-            endpoint: "/users/favorites",
+    func getFavoriteCreator() async throws -> GetFavoriteCreatorListResponse {
+        let response: GetFavoriteCreatorListResponse = try await apiClient.request(
+            endpoint: "/users/favorite-creator-list",
             method: .get,
             parameters: nil,
-            responseType: FavoritesResponse.self,
+            responseType: GetFavoriteCreatorListResponse.self,
             isRequiredAuth: true
         )
-        return response.data
+        return response
     }
     
     func addFavoriteCreator(creatorId: String) async throws {
