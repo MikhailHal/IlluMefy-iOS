@@ -389,6 +389,12 @@ final class MockCreatorRepository: CreatorRepositoryProtocol {
         )
     }
     
+    // MARK: - Cache Management
+    
+    func clearCache() {
+        // Mock implementation - no actual cache to clear
+    }
+    
     // MARK: - Helper Methods
     
     private func sortCreators(_ creators: [Creator], by sortOrder: CreatorSortOrder) -> [Creator] {

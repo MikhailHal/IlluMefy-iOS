@@ -18,10 +18,39 @@ final class CreatorRepository: CreatorRepositoryProtocol {
     
     private let apiClient: ApiClientProtocol
     
+    // MARK: - Cache Properties
+    
+    private var popularCreatorsCache: GetPopularCreatorsResponse?
+    private var popularCreatorsCacheTimestamp: Date?
+    private var newestCreatorsCache: GetNewestCreatorsResponse?
+    private var newestCreatorsCacheTimestamp: Date?
+    private let cacheValidDuration: TimeInterval = 600 // 10分
+    
     // MARK: - Initialization
     
     init(apiClient: ApiClientProtocol) {
         self.apiClient = apiClient
+    }
+    
+    // MARK: - Cache Helpers
+    
+    private var isPopularCreatorsCacheValid: Bool {
+        guard let timestamp = popularCreatorsCacheTimestamp else { return false }
+        return Date().timeIntervalSince(timestamp) < cacheValidDuration
+    }
+    
+    private var isNewestCreatorsCacheValid: Bool {
+        guard let timestamp = newestCreatorsCacheTimestamp else { return false }
+        return Date().timeIntervalSince(timestamp) < cacheValidDuration
+    }
+    
+    // MARK: - Cache Management
+    
+    func clearCache() {
+        popularCreatorsCache = nil
+        popularCreatorsCacheTimestamp = nil
+        newestCreatorsCache = nil
+        newestCreatorsCacheTimestamp = nil
     }
     
     // MARK: - CreatorRepositoryProtocol
@@ -42,23 +71,39 @@ final class CreatorRepository: CreatorRepositoryProtocol {
     }
     
     func getPopularCreators(limit: Int) async throws -> GetPopularCreatorsResponse {
-        return try await apiClient.request(
+        if isPopularCreatorsCacheValid, let cachedResponse = popularCreatorsCache {
+            return cachedResponse
+        }
+        
+        let response = try await apiClient.request(
             endpoint: "/creators/popular",
             method: .get,
             parameters: ["limit": limit],
             responseType: GetPopularCreatorsResponse.self,
             isRequiredAuth: false
         )
+        
+        popularCreatorsCache = response
+        popularCreatorsCacheTimestamp = Date()
+        return response
     }
     
     func getNewestCreators(limit: Int) async throws -> GetNewestCreatorsResponse {
-        return try await apiClient.request(
+        if isNewestCreatorsCacheValid, let cachedResponse = newestCreatorsCache {
+            return cachedResponse
+        }
+        
+        let response = try await apiClient.request(
             endpoint: "/creators/newest",
             method: .get,
             parameters: ["limit": limit],
             responseType: GetNewestCreatorsResponse.self,
             isRequiredAuth: false
         )
+        
+        newestCreatorsCache = response
+        newestCreatorsCacheTimestamp = Date()
+        return response
     }
     
     func getCreatorById(id: String) async throws -> Creator {

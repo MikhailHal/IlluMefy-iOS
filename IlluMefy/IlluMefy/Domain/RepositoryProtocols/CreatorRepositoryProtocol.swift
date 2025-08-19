@@ -97,4 +97,7 @@ protocol CreatorRepositoryProtocol {
         offset: Int,
         limit: Int
     ) async throws -> CreatorSearchResult
+    
+    /// キャッシュをクリア
+    func clearCache()
 }

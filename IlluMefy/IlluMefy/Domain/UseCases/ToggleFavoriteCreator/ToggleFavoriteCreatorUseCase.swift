@@ -9,9 +9,11 @@ import Foundation
 
 final class ToggleFavoriteCreatorUseCase: ToggleFavoriteCreatorUseCaseProtocol {
     private let favoriteRepository: FavoriteRepositoryProtocol
+    private let creatorRepository: CreatorRepositoryProtocol
     
-    init(favoriteRepository: FavoriteRepositoryProtocol) {
+    init(favoriteRepository: FavoriteRepositoryProtocol, creatorRepository: CreatorRepositoryProtocol) {
         self.favoriteRepository = favoriteRepository
+        self.creatorRepository = creatorRepository
     }
     
     func execute(request: ToggleFavoriteCreatorUseCaseRequest) async throws -> ToggleFavoriteCreatorUseCaseResponse {
@@ -22,9 +24,11 @@ final class ToggleFavoriteCreatorUseCase: ToggleFavoriteCreatorUseCaseProtocol {
         do {
             if request.shouldAddToFavorites {
                 try await favoriteRepository.addFavoriteCreator(creatorId: request.creatorId)
+                creatorRepository.clearCache()
                 return ToggleFavoriteCreatorUseCaseResponse(isNowFavorite: true)
             } else {
                 try await favoriteRepository.removeFavoriteCreator(creatorId: request.creatorId)
+                creatorRepository.clearCache()
                 return ToggleFavoriteCreatorUseCaseResponse(isNowFavorite: false)
             }
         } catch {

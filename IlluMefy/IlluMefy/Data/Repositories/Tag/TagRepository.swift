@@ -13,10 +13,23 @@ final class TagRepository: TagRepositoryProtocol {
     
     private let apiClient: ApiClientProtocol
     
+    // MARK: - Cache Properties
+    
+    private var popularTagsCache: GetPopularTagsResponse?
+    private var popularTagsCacheTimestamp: Date?
+    private let cacheValidDuration: TimeInterval = 600 // 10分
+    
     // MARK: - Initialization
     
     init(apiClient: ApiClientProtocol) {
         self.apiClient = apiClient
+    }
+    
+    // MARK: - Cache Helper
+    
+    private var isPopularTagsCacheValid: Bool {
+        guard let timestamp = popularTagsCacheTimestamp else { return false }
+        return Date().timeIntervalSince(timestamp) < cacheValidDuration
     }
     
     // MARK: - TagRepositoryProtocol
@@ -37,6 +50,10 @@ final class TagRepository: TagRepositoryProtocol {
     }
     
     func getPopularTags(limit: Int) async throws -> GetPopularTagsResponse {
+        if isPopularTagsCacheValid, let cachedResponse = popularTagsCache {
+            return cachedResponse
+        }
+        
         let response = try await apiClient.request(
             endpoint: "/tags/popular",
             method: .get,
@@ -45,6 +62,8 @@ final class TagRepository: TagRepositoryProtocol {
             isRequiredAuth: false
         )
         
+        popularTagsCache = response
+        popularTagsCacheTimestamp = Date()
         return response
     }
     
