@@ -10,6 +10,7 @@
 		6452E7E02E3E4CB800EB925A /* Shimmer in Frameworks */ = {isa = PBXBuildFile; productRef = 6452E7DF2E3E4CB800EB925A /* Shimmer */; };
 		6452EA392E48AC2E00EB925A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 6452EA382E48AC2E00EB925A /* Alamofire */; };
 		6452ED1B2E4EC71B00EB925A /* WrappingHStack in Frameworks */ = {isa = PBXBuildFile; productRef = 6452ED1A2E4EC71B00EB925A /* WrappingHStack */; };
+		6452ED532E577F0400EB925A /* FirebaseRemoteConfig in Frameworks */ = {isa = PBXBuildFile; productRef = 6452ED522E577F0400EB925A /* FirebaseRemoteConfig */; };
 		64897F0E2DE8C00A00C10C85 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 64897F0D2DE8C00A00C10C85 /* FirebaseAuth */; };
 		64897F102DE8C00A00C10C85 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 64897F0F2DE8C00A00C10C85 /* FirebaseCore */; };
 		64897F122DE8C04E00C10C85 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 64897F112DE8C04E00C10C85 /* FirebaseAuth */; };
@@ -139,6 +140,7 @@
 				64EF86562D7601B900C9732A /* FirebaseMessaging in Frameworks */,
 				6452ED1B2E4EC71B00EB925A /* WrappingHStack in Frameworks */,
 				64EF865A2D7601B900C9732A /* FirebaseVertexAI in Frameworks */,
+				6452ED532E577F0400EB925A /* FirebaseRemoteConfig in Frameworks */,
 				64EF86502D7601B900C9732A /* FirebaseCrashlytics in Frameworks */,
 				64EF86522D7601B900C9732A /* FirebaseFirestore in Frameworks */,
 				64EF86542D7601B900C9732A /* FirebaseFunctions in Frameworks */,
@@ -241,6 +243,7 @@
 				6452E7DF2E3E4CB800EB925A /* Shimmer */,
 				6452EA382E48AC2E00EB925A /* Alamofire */,
 				6452ED1A2E4EC71B00EB925A /* WrappingHStack */,
+				6452ED522E577F0400EB925A /* FirebaseRemoteConfig */,
 			);
 			productName = Pencula;
 			productReference = 645EBCFE2D58F9C600AC7BAC /* IlluMefy.app */;
@@ -858,6 +861,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 6452ED192E4EC71B00EB925A /* XCRemoteSwiftPackageReference "WrappingHStack" */;
 			productName = WrappingHStack;
+		};
+		6452ED522E577F0400EB925A /* FirebaseRemoteConfig */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 64EF864A2D7601B900C9732A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseRemoteConfig;
 		};
 		64897F0D2DE8C00A00C10C85 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;

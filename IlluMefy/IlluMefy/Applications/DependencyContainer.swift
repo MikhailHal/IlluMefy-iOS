@@ -49,6 +49,11 @@ final class DependencyContainer: @unchecked Sendable {
             MockCreatorRepository()
         }.inObjectScope(.container)
         
+        // Firebase Remote Config
+        container.register(FirebaseRemoteConfigProtocol.self) { _ in
+            FirebaseRemoteConfig()
+        }.inObjectScope(.container)
+        
         // the concrete type of CreatorRepository
         container.register(CreatorRepository.self) { resolver in
             let apiClient = resolver.resolve(ApiClientProtocol.self)!
