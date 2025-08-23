@@ -302,6 +302,7 @@
 /* Development Tab */
 "developmentTab.developing" = "🚀開発中";
 "developmentTab.planning" = "🗓️予定";
+"developmentTab.noStatus" = "開発状況は現在ありません";
 
 /* Bug Tab */
 "bugTab.fixed" = "🟢修正済み";

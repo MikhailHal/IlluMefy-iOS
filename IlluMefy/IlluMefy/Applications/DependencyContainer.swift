@@ -102,6 +102,14 @@ final class DependencyContainer: @unchecked Sendable {
             }
         }.inObjectScope(.container)
         
+        // 開発状況
+        container.register(DevelopmentStatusRepository.self) { resolver in
+            let firebaseRemoteConfig = resolver.resolve(FirebaseRemoteConfigProtocol.self)!
+            return MainActor.assumeIsolated {
+                return DevelopmentStatusRepository(firebaseRemoteConfig: firebaseRemoteConfig)
+            }
+        }.inObjectScope(.container)
+        
         // Auth repository
         container.register(AuthRepository.self) { _ in
             AuthRepository()
@@ -160,6 +168,11 @@ final class DependencyContainer: @unchecked Sendable {
         // OperatorMessage repository
         container.register(OfficialNotificationRepositoryProtocol.self) { resolver in
             resolver.resolve(OfficialNotificationRepository.self)!
+        }.inObjectScope(.transient)
+        
+        // DevelopmentStatus repository
+        container.register(DevelopmentStatusRepositoryProtocol.self) { resolver in
+            resolver.resolve(DevelopmentStatusRepository.self)!
         }.inObjectScope(.transient)
         
         // Auth repository
@@ -336,6 +349,16 @@ final class DependencyContainer: @unchecked Sendable {
             resolver.resolve(GetOfficialNotificationUseCase.self)!
         }.inObjectScope(.transient)
         
+        // GetDevelopmentStatus usecase
+        container.register(GetDevelopmentStatusUseCase.self) { resolver in
+            let developmentStatusRepository = resolver.resolve(DevelopmentStatusRepositoryProtocol.self)!
+            return GetDevelopmentStatusUseCase(repository: developmentStatusRepository)
+        }.inObjectScope(.transient)
+        
+        container.register((any GetDevelopmentStatusUseCaseProtocol).self) { resolver in
+            resolver.resolve(GetDevelopmentStatusUseCase.self)!
+        }.inObjectScope(.transient)
+        
         // Logout usecase
         container.register(LogoutUseCase.self) { resolver in
             let authRepository = resolver.resolve(AuthRepositoryProtocol.self)!
@@ -494,6 +517,18 @@ final class DependencyContainer: @unchecked Sendable {
             return MainActor.assumeIsolated {
                 return NotificationTabViewViewModel(getOfficialNotificationUseCase: getNotificationUseCase)
             }
+        }.inObjectScope(.transient)
+        
+        // 開発状況
+        container.register(DevelopmentTabViewViewModel.self) { resolver in
+            let getDevelopmentStatusUseCase = resolver.resolve((any GetDevelopmentStatusUseCaseProtocol).self)!
+            return MainActor.assumeIsolated {
+                return DevelopmentTabViewViewModel(getDevelopmentStatusUseCase: getDevelopmentStatusUseCase)
+            }
+        }.inObjectScope(.transient)
+        
+        container.register((any DevelopmentTabViewViewModelProtocol).self) { resolver in
+            resolver.resolve(DevelopmentTabViewViewModel.self)!
         }.inObjectScope(.transient)
     }
 }
