@@ -11,7 +11,4 @@ import Foundation
 protocol OfficialNotificationRepositoryProtocol {
     /// サーバーから公式通知を取得
     func fetchOfficialNotification() async throws -> OfficialNotification?
-    
-    /// キャッシュされた公式通知を取得
-    func getCachedOfficialNotification() -> OfficialNotification?
 }

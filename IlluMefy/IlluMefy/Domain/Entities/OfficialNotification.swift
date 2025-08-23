@@ -9,17 +9,5 @@ import Foundation
 
 /// 公式通知の情報
 struct OfficialNotification: Equatable {
-    let title: String
     let content: String
-    let updatedAt: Date
-    let isNew: Bool
-    
-    /// 更新日を表示用にフォーマット
-    var formattedUpdatedAt: String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .short
-        formatter.locale = Locale(identifier: "ja_JP")
-        return formatter.string(from: updatedAt)
-    }
 }

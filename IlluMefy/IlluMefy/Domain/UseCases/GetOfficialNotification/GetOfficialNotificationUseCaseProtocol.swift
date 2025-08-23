@@ -9,9 +9,6 @@ import Foundation
 
 /// 公式通知取得UseCaseのプロトコル
 protocol GetOfficialNotificationUseCaseProtocol {
-    /// サーバーから公式通知を取得してキャッシュに保存
-    func fetchAndCacheOfficialNotification() async throws -> OfficialNotification?
-    
-    /// キャッシュされた公式通知を取得
-    func getCachedOfficialNotification() -> OfficialNotification?
+    /// サーバーから公式通知を取得
+    func fetchOfficialNotification() async throws -> OfficialNotification?
 }

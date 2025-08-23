@@ -20,12 +20,7 @@ final class GetOfficialNotificationUseCase: GetOfficialNotificationUseCaseProtoc
     
     // MARK: - GetOfficialNotificationUseCaseProtocol
     
-    func fetchAndCacheOfficialNotification() async throws -> OfficialNotification? {
-        // サーバーから最新の通知を取得し、自動的にキャッシュ
+    func fetchOfficialNotification() async throws -> OfficialNotification? {
         return try await officialNotificationRepository.fetchOfficialNotification()
-    }
-    
-    func getCachedOfficialNotification() -> OfficialNotification? {
-        return officialNotificationRepository.getCachedOfficialNotification()
     }
 }
