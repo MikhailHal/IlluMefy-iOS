@@ -94,9 +94,12 @@ final class DependencyContainer: @unchecked Sendable {
             FavoriteRepository()
         }.inObjectScope(.container)
         
-        // OperatorMessage repository
-        container.register(OfficialNotificationRepository.self) { _ in
-            OfficialNotificationRepository()
+        // 運営からのお知らせ
+        container.register(OfficialNotificationRepository.self) { resolver in
+            let firebaseRemoteConfig = resolver.resolve(FirebaseRemoteConfigProtocol.self)!
+            return MainActor.assumeIsolated {
+                return OfficialNotificationRepository(firebaseRemoteConfig: firebaseRemoteConfig)
+            }
         }.inObjectScope(.container)
         
         // Auth repository

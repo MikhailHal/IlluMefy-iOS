@@ -6,13 +6,20 @@
 //
 
 import Foundation
+import FirebaseRemoteConfig
 
 /// 公式お知らせリポジトリ
 final class OfficialNotificationRepository: OfficialNotificationRepositoryProtocol {
+    let announcementKey = "announcement_content"
+    let firebaseRemoteConfig: FirebaseRemoteConfigProtocol
     
+    init(firebaseRemoteConfig: FirebaseRemoteConfigProtocol) {
+        self.firebaseRemoteConfig = firebaseRemoteConfig
+    }
     func fetchOfficialNotification() async throws -> OfficialNotification {
+        let content = self.firebaseRemoteConfig.fetchValue(key: announcementKey) as String? ?? ""
         let notification = OfficialNotification(
-            content: "",
+            content: content,
         )
         return notification
     }
