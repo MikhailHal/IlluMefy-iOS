@@ -4,7 +4,7 @@
 //
 //  Created by Haruto K. on 2025/03/20.
 //  Updated on 2025/04/04.
-//
+//TODO: 日本語に変えてこう
 
 import Swinject
 
@@ -483,6 +483,14 @@ final class DependencyContainer: @unchecked Sendable {
         
         container.register((any FavoriteViewModelProtocol).self) { resolver in
             resolver.resolve(FavoriteViewModel.self)!
+        }.inObjectScope(.transient)
+        
+        // 公式からのお知らせ
+        container.register((any NotificationTabViewViewModelProtocol).self) { resolver in
+            let getNotificationUseCase = resolver.resolve((any GetOfficialNotificationUseCaseProtocol).self)!
+            return MainActor.assumeIsolated {
+                return NotificationTabViewViewModel(getOfficialNotificationUseCase: getNotificationUseCase)
+            }
         }.inObjectScope(.transient)
     }
 }

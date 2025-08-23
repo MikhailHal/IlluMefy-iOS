@@ -10,5 +10,5 @@ import Foundation
 /// 公式お知らせリポジトリのプロトコル
 protocol OfficialNotificationRepositoryProtocol {
     /// サーバーから公式通知を取得
-    func fetchOfficialNotification() async throws -> OfficialNotification?
+    func fetchOfficialNotification() async throws -> OfficialNotification
 }

@@ -20,7 +20,7 @@ final class GetOfficialNotificationUseCase: GetOfficialNotificationUseCaseProtoc
     
     // MARK: - GetOfficialNotificationUseCaseProtocol
     
-    func fetchOfficialNotification() async throws -> OfficialNotification? {
+    func fetchOfficialNotification() async throws -> OfficialNotification {
         return try await officialNotificationRepository.fetchOfficialNotification()
     }
 }

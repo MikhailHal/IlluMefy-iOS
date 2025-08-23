@@ -45,7 +45,7 @@ struct MoreView: View {
                 tabBar
                 
                 TabView(selection: $selectedTab) {
-                    AnnouncementTabView()
+                    NotificationTabView()
                         .tag(MoreTab.announcements)
                     
                     DevelopmentTabView()

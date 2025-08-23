@@ -10,35 +10,8 @@ import Shimmer
 
 struct NotificationTabView: View {
     @State private var isLoading = false
-    @State private var content = """
-IlluMefy v1.2.0をリリースしました！
-
-新機能：
-・タグ削除機能を追加
-・検索フィルター機能を改善
-・お気に入り機能の安定性向上
-・パフォーマンスの大幅改善
-
-不具合修正：
-・iOS17でのスクロール問題を修正
-・特定の画像が表示されない問題を解解決
-・ログイン時の安定性を向上
-
-今後の予定：
-・プッシュ通知機能（v1.3で予定）
-・ダークモード対応（検討中）
-・iPad対応（検討中）
-
-今後の予定：
-・プッシュ通知機能（v1.3で予定）
-・ダークモード対応（検討中）
-・iPad対応（検討中）
-
-いつもIlluMefyをご利用いただき、ありがとうございます。
-今後ともよろしくお願いいたします！
-
-運営チーム一同
-"""
+    @State private var viewModel: NotificationTabViewViewModelProtocol = DependencyContainer.shared.resolve(NotificationTabViewViewModelProtocol.self)!
+    @State private var content: String = ""
     
     var body: some View {
         ScrollView {
@@ -51,6 +24,10 @@ IlluMefy v1.2.0をリリースしました！
                     .multilineTextAlignment(.leading)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(Spacing.screenEdgePadding)
+            }
+        }.onAppear {
+            Task {
+                try content = await viewModel.getNotification()
             }
         }
     }

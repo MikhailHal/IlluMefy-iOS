@@ -7,5 +7,5 @@
 @MainActor
 protocol NotificationTabViewViewModelProtocol {
     /// お知らせ取得処理
-    func getNotification()-> String
+    func getNotification() async throws -> String
 }

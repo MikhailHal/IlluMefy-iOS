@@ -10,7 +10,7 @@ import Foundation
 /// 公式お知らせリポジトリ
 final class OfficialNotificationRepository: OfficialNotificationRepositoryProtocol {
     
-    func fetchOfficialNotification() async throws -> OfficialNotification? {
+    func fetchOfficialNotification() async throws -> OfficialNotification {
         let notification = OfficialNotification(
             content: "",
         )
