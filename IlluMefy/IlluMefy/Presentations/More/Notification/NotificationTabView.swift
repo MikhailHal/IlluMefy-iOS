@@ -1,5 +1,5 @@
 //
-//  AnnouncementTabView.swift
+//  NotificationTabView.swift
 //  IlluMefy
 //
 //  Created by Haruto K. on 2025/08/09.
@@ -8,7 +8,7 @@
 import SwiftUI
 import Shimmer
 
-struct AnnouncementTabView: View {
+struct NotificationTabView: View {
     @State private var isLoading = false
     @State private var content = """
 IlluMefy v1.2.0をリリースしました！
