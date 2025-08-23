@@ -95,8 +95,8 @@ final class DependencyContainer: @unchecked Sendable {
         }.inObjectScope(.container)
         
         // OperatorMessage repository
-        container.register(OperatorMessageRepository.self) { _ in
-            OperatorMessageRepository()
+        container.register(OfficialNotificationRepository.self) { _ in
+            OfficialNotificationRepository()
         }.inObjectScope(.container)
         
         // Auth repository
@@ -155,8 +155,8 @@ final class DependencyContainer: @unchecked Sendable {
         }.inObjectScope(.transient)
         
         // OperatorMessage repository
-        container.register(OperatorMessageRepositoryProtocol.self) { resolver in
-            resolver.resolve(OperatorMessageRepository.self)!
+        container.register(OfficialNotificationRepositoryProtocol.self) { resolver in
+            resolver.resolve(OfficialNotificationRepository.self)!
         }.inObjectScope(.transient)
         
         // Auth repository
@@ -323,14 +323,14 @@ final class DependencyContainer: @unchecked Sendable {
             resolver.resolve(SearchTagsByNameUseCase.self)!
         }.inObjectScope(.transient)
         
-        // GetOperatorMessage usecase
-        container.register(GetOperatorMessageUseCase.self) { resolver in
-            let operatorMessageRepository = resolver.resolve(OperatorMessageRepositoryProtocol.self)!
-            return GetOperatorMessageUseCase(operatorMessageRepository: operatorMessageRepository)
+        // GetOfficialNotification usecase
+        container.register(GetOfficialNotificationUseCase.self) { resolver in
+            let officialNotificationRepository = resolver.resolve(OfficialNotificationRepositoryProtocol.self)!
+            return GetOfficialNotificationUseCase(officialNotificationRepository: officialNotificationRepository)
         }.inObjectScope(.transient)
         
-        container.register((any GetOperatorMessageUseCaseProtocol).self) { resolver in
-            resolver.resolve(GetOperatorMessageUseCase.self)!
+        container.register((any GetOfficialNotificationUseCaseProtocol).self) { resolver in
+            resolver.resolve(GetOfficialNotificationUseCase.self)!
         }.inObjectScope(.transient)
         
         // Logout usecase

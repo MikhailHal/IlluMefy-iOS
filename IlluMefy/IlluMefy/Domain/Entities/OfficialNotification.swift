@@ -1,5 +1,5 @@
 //
-//  OperatorMessage.swift
+//  OfficialNotification.swift
 //  IlluMefy
 //
 //  Created by Assistant on 2025/06/27.
@@ -7,8 +7,8 @@
 
 import Foundation
 
-/// 運営メッセージの情報
-struct OperatorMessage: Equatable {
+/// 公式通知の情報
+struct OfficialNotification: Equatable {
     let title: String
     let content: String
     let updatedAt: Date
