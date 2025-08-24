@@ -21,11 +21,11 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         return true
     }
     
-    // Firebase初期化を先に
-    FirebaseApp.configure()
-    
     // App Check設定（Firebase初期化後）
     setupAppCheck()
+      
+    // Firebase初期化
+    FirebaseApp.configure()
     
     // APNs通知設定
     UNUserNotificationCenter.current().delegate = self
@@ -55,24 +55,13 @@ class AppDelegate: NSObject, UIApplicationDelegate {
       ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
   }
   
+  /// AppCheckの初期化
+  ///
+  /// DEBUGモード時はデバッグファクトリを用いて、実行時は実際のトークンを使用する
   private func setupAppCheck() {
   #if DEBUG
   let providerFactory = AppCheckDebugProviderFactory()
   AppCheck.setAppCheckProviderFactory(providerFactory)
-
-  // デバッグトークンを出力
-  Task {
-      do {
-          let token = try await AppCheck.appCheck().token(forcingRefresh: true)
-          print("========================================")
-          print("App Check Debug Token:")
-          print(token.token)
-          print("Firebase Consoleに登録してください")
-          print("========================================")
-      } catch {
-          print("App Check Token取得エラー: \(error)")
-      }
-  }
   #else
   let provider = AppAttestProvider(app: FirebaseApp.app()!)
   AppCheck.setAppCheckProviderFactory(provider)
