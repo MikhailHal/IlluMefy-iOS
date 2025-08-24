@@ -308,6 +308,7 @@
 "bugTab.fixed" = "🟢修正済み";
 "bugTab.fixing" = "🔴修正中";
 "bugTab.planned" = "🟡修正予定";
+"bugTab.noStatus" = "バグ状況は現在ありません";
 
 /* Common */
 "common.hello" = "Hello, World!";

@@ -110,6 +110,14 @@ final class DependencyContainer: @unchecked Sendable {
             }
         }.inObjectScope(.container)
         
+        // バグ状況
+        container.register(BugStatusRepository.self) { resolver in
+            let firebaseRemoteConfig = resolver.resolve(FirebaseRemoteConfigProtocol.self)!
+            return MainActor.assumeIsolated {
+                return BugStatusRepository(firebaseRemoteConfig: firebaseRemoteConfig)
+            }
+        }.inObjectScope(.container)
+        
         // Auth repository
         container.register(AuthRepository.self) { _ in
             AuthRepository()
@@ -173,6 +181,11 @@ final class DependencyContainer: @unchecked Sendable {
         // DevelopmentStatus repository
         container.register(DevelopmentStatusRepositoryProtocol.self) { resolver in
             resolver.resolve(DevelopmentStatusRepository.self)!
+        }.inObjectScope(.transient)
+        
+        // BugStatus repository
+        container.register(BugStatusRepositoryProtocol.self) { resolver in
+            resolver.resolve(BugStatusRepository.self)!
         }.inObjectScope(.transient)
         
         // Auth repository
@@ -359,6 +372,16 @@ final class DependencyContainer: @unchecked Sendable {
             resolver.resolve(GetDevelopmentStatusUseCase.self)!
         }.inObjectScope(.transient)
         
+        // GetBugStatus usecase
+        container.register(GetBugStatusUseCase.self) { resolver in
+            let bugStatusRepository = resolver.resolve(BugStatusRepositoryProtocol.self)!
+            return GetBugStatusUseCase(repository: bugStatusRepository)
+        }.inObjectScope(.transient)
+        
+        container.register((any GetBugStatusUseCaseProtocol).self) { resolver in
+            resolver.resolve(GetBugStatusUseCase.self)!
+        }.inObjectScope(.transient)
+        
         // Logout usecase
         container.register(LogoutUseCase.self) { resolver in
             let authRepository = resolver.resolve(AuthRepositoryProtocol.self)!
@@ -529,6 +552,18 @@ final class DependencyContainer: @unchecked Sendable {
         
         container.register((any DevelopmentTabViewViewModelProtocol).self) { resolver in
             resolver.resolve(DevelopmentTabViewViewModel.self)!
+        }.inObjectScope(.transient)
+        
+        // バグ状況
+        container.register(BugTabViewViewModel.self) { resolver in
+            let getBugStatusUseCase = resolver.resolve((any GetBugStatusUseCaseProtocol).self)!
+            return MainActor.assumeIsolated {
+                return BugTabViewViewModel(getBugStatusUseCase: getBugStatusUseCase)
+            }
+        }.inObjectScope(.transient)
+        
+        container.register((any BugTabViewViewModelProtocol).self) { resolver in
+            resolver.resolve(BugTabViewViewModel.self)!
         }.inObjectScope(.transient)
     }
 }
