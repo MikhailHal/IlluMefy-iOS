@@ -12,6 +12,16 @@ import FirebaseAuth
 import UserNotifications
 import FirebaseAppCheck
 
+class IlluMefyAppCheckProviderFactory: NSObject, AppCheckProviderFactory {
+  func createProvider(with app: FirebaseApp) -> AppCheckProvider? {
+    #if DEBUG
+    return AppCheckDebugProvider(app: app)
+    #else
+    return AppAttestProvider(app: app)
+    #endif
+  }
+}
+
 class AppDelegate: NSObject, UIApplicationDelegate {
   /// アプリ起動時
   func application(_ application: UIApplication,
@@ -59,13 +69,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
   ///
   /// DEBUGモード時はデバッグファクトリを用いて、実行時は実際のトークンを使用する
   private func setupAppCheck() {
-  #if DEBUG
-  let providerFactory = AppCheckDebugProviderFactory()
-  AppCheck.setAppCheckProviderFactory(providerFactory)
-  #else
-  let provider = AppAttestProvider(app: FirebaseApp.app()!)
-  AppCheck.setAppCheckProviderFactory(provider)
-  #endif
+    let providerFactory = IlluMefyAppCheckProviderFactory()
+    AppCheck.setAppCheckProviderFactory(providerFactory)
   }
 }
 
