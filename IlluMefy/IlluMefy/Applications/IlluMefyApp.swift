@@ -10,6 +10,7 @@ import SwiftData
 import FirebaseCore
 import FirebaseAuth
 import UserNotifications
+import FirebaseAppCheck
 
 class AppDelegate: NSObject, UIApplicationDelegate {
   /// アプリ起動時
@@ -20,7 +21,12 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         return true
     }
     
+    // Firebase初期化を先に
     FirebaseApp.configure()
+    
+    // App Check設定（Firebase初期化後）
+    setupAppCheck()
+    
     // APNs通知設定
     UNUserNotificationCenter.current().delegate = self
     // プッシュ通知受信許可
@@ -41,13 +47,37 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     completionHandler(.noData)
   }
     
-    /// デバッグやプレビューモードかどうかの判定
-    /// - Returns true: デバッグ状態
-    /// - Returns false: 非デバッグ状態
-    private func isDebugOrPreviewMode() -> Bool {
-        return ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1" ||
-        ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
-    }
+  /// デバッグやプレビューモードかどうかの判定
+  /// - Returns true: デバッグ状態
+  /// - Returns false: 非デバッグ状態
+  private func isDebugOrPreviewMode() -> Bool {
+      return ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1" ||
+      ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
+  }
+  
+  private func setupAppCheck() {
+  #if DEBUG
+  let providerFactory = AppCheckDebugProviderFactory()
+  AppCheck.setAppCheckProviderFactory(providerFactory)
+
+  // デバッグトークンを出力
+  Task {
+      do {
+          let token = try await AppCheck.appCheck().token(forcingRefresh: true)
+          print("========================================")
+          print("App Check Debug Token:")
+          print(token.token)
+          print("Firebase Consoleに登録してください")
+          print("========================================")
+      } catch {
+          print("App Check Token取得エラー: \(error)")
+      }
+  }
+  #else
+  let provider = AppAttestProvider(app: FirebaseApp.app()!)
+  AppCheck.setAppCheckProviderFactory(provider)
+  #endif
+  }
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {

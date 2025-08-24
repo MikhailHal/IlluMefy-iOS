@@ -27,6 +27,7 @@
 		64EF86562D7601B900C9732A /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 64EF86552D7601B900C9732A /* FirebaseMessaging */; };
 		64EF86582D7601B900C9732A /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 64EF86572D7601B900C9732A /* FirebaseStorage */; };
 		64EF865A2D7601B900C9732A /* FirebaseVertexAI in Frameworks */ = {isa = PBXBuildFile; productRef = 64EF86592D7601B900C9732A /* FirebaseVertexAI */; };
+		64EFB2002E5B5D0C00FC3AC6 /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 64EFB1FF2E5B5D0C00FC3AC6 /* FirebaseAppCheck */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -150,6 +151,7 @@
 				64EF864E2D7601B900C9732A /* FirebaseAuth in Frameworks */,
 				6452EA392E48AC2E00EB925A /* Alamofire in Frameworks */,
 				64C1AE242D919D32005182B5 /* SwiftfulLoadingIndicators in Frameworks */,
+				64EFB2002E5B5D0C00FC3AC6 /* FirebaseAppCheck in Frameworks */,
 				6452E7E02E3E4CB800EB925A /* Shimmer in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -244,6 +246,7 @@
 				6452EA382E48AC2E00EB925A /* Alamofire */,
 				6452ED1A2E4EC71B00EB925A /* WrappingHStack */,
 				6452ED522E577F0400EB925A /* FirebaseRemoteConfig */,
+				64EFB1FF2E5B5D0C00FC3AC6 /* FirebaseAppCheck */,
 			);
 			productName = Pencula;
 			productReference = 645EBCFE2D58F9C600AC7BAC /* IlluMefy.app */;
@@ -951,6 +954,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 64EF864A2D7601B900C9732A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseVertexAI;
+		};
+		64EFB1FF2E5B5D0C00FC3AC6 /* FirebaseAppCheck */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 64EF864A2D7601B900C9732A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAppCheck;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
