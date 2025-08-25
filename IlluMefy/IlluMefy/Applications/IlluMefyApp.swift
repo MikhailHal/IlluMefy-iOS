@@ -27,7 +27,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
   func application(_ application: UIApplication,
                    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
     // デバッグ時は初期化処理は行わない
-    if isDebugOrPreviewMode() {
+    if isPreviewMode() {
         return true
     }
     
@@ -46,7 +46,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
   
   // APNsからトークンを受信
   func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-    Auth.auth().setAPNSToken(deviceToken, type: .unknown)
+      //TODO: 環境切り替え時、type引数も変えること
+      Auth.auth().setAPNSToken(deviceToken, type: .sandbox)
   }
   
   // サイレントプッシュ通知を受信
@@ -57,10 +58,10 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     completionHandler(.noData)
   }
     
-  /// デバッグやプレビューモードかどうかの判定
+  /// プレビューモードかどうかの判定
   /// - Returns true: デバッグ状態
   /// - Returns false: 非デバッグ状態
-  private func isDebugOrPreviewMode() -> Bool {
+  private func isPreviewMode() -> Bool {
       return ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1" ||
       ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
   }
