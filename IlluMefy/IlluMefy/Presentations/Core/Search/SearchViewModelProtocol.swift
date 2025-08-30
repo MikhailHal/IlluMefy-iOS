@@ -11,7 +11,7 @@ import Foundation
 @MainActor
 protocol SearchViewModelProtocol {
     var searchText: String { get set }
-    var suggestions: [Tag] { get }
+    var suggestions: [TagSuggestion] { get }
     var selectedTags: [Tag] { get }
     var state: SearchState { get }
     var searchHistory: [String] { get }
@@ -19,16 +19,8 @@ protocol SearchViewModelProtocol {
     var hasMore: Bool { get }
     
     func search() async
-    func loadMore() async
-    func clearSearch()
-    func selectFromHistory(_ query: String)
-    func addTagsFromHistory(_ query: String)
-    func deleteFromHistory(_ query: String) async
+    func getSuggestions() async
     func clearHistory() async
-    func selectTag(_ tag: Tag)
-    func removeTag(_ tag: Tag)
-    func clearAllTags()
-    func addSelectedTag()
-    func addSelectedTagFromSuggestion(_ tag: Tag)
-    func searchWithTag(_ tag: Tag)
+    func addSearchHistory () async
+    func loadMore() async -> [Creator]
 }

@@ -12,19 +12,12 @@ import Observation
 @MainActor
 @Observable
 final class SearchViewModel: SearchViewModelProtocol {
+    
     // MARK: - Observable Properties
-    var searchText: String = "" {
-        didSet {
-            onSearchTextChanged()
-        }
-    }
+    var searchText: String = ""
+    var selectedTags: [Tag] = []
     var isEditing: Bool = false
-    private(set) var suggestions: [Tag] = []
-    private(set) var selectedTags: [Tag] = [] {
-        didSet {
-            onSelectedTagsChanged()
-        }
-    }
+    var suggestions: [TagSuggestion] = []
     private(set) var state: SearchState = .initial
     private(set) var searchHistory: [String] = []
     private(set) var isLoading = false
@@ -59,92 +52,6 @@ final class SearchViewModel: SearchViewModelProtocol {
         self.saveSearchHistoryUseCase = saveSearchHistoryUseCase
         self.getSearchHistoryUseCase = getSearchHistoryUseCase
         self.clearSearchHistoryUseCase = clearSearchHistoryUseCase
-        
-        loadSearchHistory()
-        loadAllTags()
-    }
-    
-    // MARK: - Private Methods
-    private func onSearchTextChanged() {
-        // 既存のタスクをキャンセル
-        searchTextDebounceTask?.cancel()
-        
-        // 新しいdebounceタスクを開始
-        searchTextDebounceTask = Task { @MainActor in
-            try? await Task.sleep(nanoseconds: 100_000_000) // 100ms
-            if !Task.isCancelled {
-                updateSuggestions(query: searchText)
-            }
-        }
-    }
-    
-    private func onSelectedTagsChanged() {
-        // 既存のタスクをキャンセル
-        selectedTagsDebounceTask?.cancel()
-        
-        // 新しいdebounceタスクを開始
-        selectedTagsDebounceTask = Task { @MainActor in
-            try? await Task.sleep(nanoseconds: 500_000_000) // 500ms
-            if !Task.isCancelled {
-                await performSearch()
-            }
-        }
-    }
-    
-    private func loadSearchHistory() {
-        Task {
-            do {
-                let history = try await getSearchHistoryUseCase.execute()
-                await MainActor.run {
-                    self.searchHistory = history
-                }
-            } catch {
-            }
-        }
-    }
-    
-    private func loadAllTags() {
-        Task {
-            await loadAllTagsAsync()
-        }
-    }
-    
-    private func loadAllTagsAsync() async {
-        do {
-            // 全タグを取得してキャッシュ
-            let result = try await searchTagsByNameUseCase.execute(
-                request: SearchTagsByNameUseCaseRequest(
-                    andQuery: "",
-                    orQuery: "",
-                    offset: 0,
-                    limit: 1000 // 大きな値で全タグを取得
-                )
-            )
-            await MainActor.run {
-                self.allTags = result.tags
-            }
-        } catch {
-        }
-    }
-    
-    private func updateSuggestions(query: String) {
-        suggestions = tagSuggestionService.generateSuggestions(
-            query: query,
-            allTags: allTags,
-            selectedTags: selectedTags
-        )
-    }
-    
-    private func performSearch() async {
-        // 選択されたタグがない場合は初期状態に戻す
-        guard !selectedTags.isEmpty else {
-            state = .initial
-            currentCreators = []
-            hasMore = false
-            return
-        }
-        
-        await search()
     }
     
     // MARK: - Public Methods
@@ -155,222 +62,26 @@ final class SearchViewModel: SearchViewModelProtocol {
         currentOffset = 0
         currentCreators = []
         
-        await searchCreatorsBySelectedTags()
-        
         isLoading = false
-    }
-    
-    private func searchCreatorsBySelectedTags() async {
-        do {
-            // 選択されたタグを全て含むクリエイターを検索（AND検索）
-            let tagIds = selectedTags.map { $0.id }
-            
-            let request = SearchCreatorsByTagsUseCaseRequest(
-                tagIds: tagIds,
-                searchMode: .all,
-                offset: currentOffset,
-                limit: pageSize
-            )
-            let result = try await searchCreatorsByTagsUseCase.execute(request: request)
-            
-            // 検索履歴に保存
-            let searchQuery = buildSearchQueryForHistory()
-            if !searchQuery.isEmpty {
-                try await saveSearchHistoryUseCase.execute(query: searchQuery)
-                loadSearchHistory()
-            }
-            
-            currentCreators = result.creators
-            hasMore = result.hasMore
-            totalCount = result.totalCount
-            
-            if result.creators.isEmpty {
-                state = .empty
-            } else {
-                state = .loadedCreators(result.creators)
-            }
-        } catch let error as SearchCreatorsByTagsUseCaseError {
-            state = .error(error.title, error.message)
-        } catch {
-            state = .error(L10n.Search.Error.creatorSearchTitle, L10n.Search.Error.creatorSearchMessage)
-        }
-    }
-    
-    private func buildSearchQueryForHistory() -> String {
-        return selectedTags.map { $0.displayName }.joined(separator: ",")
-    }
-    
-    func loadMore() async {
-        guard hasMore && !isLoading else { return }
-        
-        isLoading = true
-        currentOffset += pageSize
-        
-        do {
-            let tagIds = selectedTags.map { $0.id }
-            let request = SearchCreatorsByTagsUseCaseRequest(
-                tagIds: tagIds,
-                searchMode: .all,
-                offset: currentOffset,
-                limit: pageSize
-            )
-            let result = try await searchCreatorsByTagsUseCase.execute(request: request)
-            
-            // 既存の結果に追加
-            currentCreators.append(contentsOf: result.creators)
-            hasMore = result.hasMore
-            state = .loadedCreators(currentCreators)
-            
-        } catch {
-            // エラーは無視してローディングだけ停止
-        }
-        
-        isLoading = false
-    }
-    
-    func clearSearch() {
-        searchText = ""
-        selectedTags = []
-        suggestions = []
-        state = .initial
-        currentCreators = []
-        hasMore = false
-        currentOffset = 0
-        totalCount = 0
-    }
-    
-    func selectFromHistory(_ query: String) {
-        // 履歴からの復元は簡略化のため省略
-        // 必要に応じて実装
-    }
-    
-    func addTagsFromHistory(_ query: String) {
-        // 履歴クエリはカンマ区切りのタグ名の形式
-        let tagNames = query.split(separator: ",").map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
-        
-        var tagsToAdd: [Tag] = []
-        for tagName in tagNames {
-            // タグ名に一致するタグを検索
-            if let matchingTag = allTags.first(where: { tag in
-                tag.displayName == tagName
-            }) {
-                // 重複チェック
-                if !selectedTags.contains(where: { $0.id == matchingTag.id }) {
-                    tagsToAdd.append(matchingTag)
-                }
-            }
-        }
-        
-        // テキストをクリア
-        searchText = ""
-        suggestions = []
-        
-        // タグを一度に追加
-        if !tagsToAdd.isEmpty {
-            selectedTags.append(contentsOf: tagsToAdd)
-        }
-    }
-    
-    // MARK: - Tag Helper Methods
-    
-    /// タグIDから表示名を取得
-    func getTagDisplayName(for tagId: String) -> String {
-        allTags.first { $0.id == tagId }?.displayName ?? tagId
-    }
-    
-    /// 複数のタグIDからTag配列を取得
-    func getTagsForIds(_ tagIds: [String]) -> [Tag] {
-        tagIds.compactMap { tagId in
-            allTags.first { $0.id == tagId }
-        }
-    }
-    
-    // MARK: - Tag Selection Methods
-    
-    func selectTag(_ tag: Tag) {
-        // オートコンプリート：選択されたタグ名をテキストフィールドに設定
-        searchText = tag.displayName
-        
-        // 候補を非表示
-        suggestions = []
-    }
-    
-    func addSelectedTagFromSuggestion(_ tag: Tag) {
-        // 重複チェック
-        guard !selectedTags.contains(where: { $0.id == tag.id }) else { return }
-        
-        // タグを選択リストに直接追加
-        selectedTags.append(tag)
-        
-        // テキストと候補をクリア
-        searchText = ""
-        suggestions = []
-    }
-    
-    func addSelectedTag() {
-        let trimmedText = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
-        
-        // 正規化して一致するタグを探す
-        guard let matchingTag = allTags.first(where: { tag in
-            let normalizedDisplayName = tagSuggestionService.normalizeJapaneseText(tag.displayName)
-            let normalizedQuery = tagSuggestionService.normalizeJapaneseText(trimmedText)
-            return normalizedDisplayName.lowercased() == normalizedQuery.lowercased()
-        }) else { return }
-        
-        // 重複チェック
-        guard !selectedTags.contains(where: { $0.id == matchingTag.id }) else { return }
-        
-        // タグを選択リストに追加
-        selectedTags.append(matchingTag)
-        
-        // テキストをクリア
-        searchText = ""
-        suggestions = []
-    }
-    
-    func removeTag(_ tag: Tag) {
-        selectedTags.removeAll { $0.id == tag.id }
-    }
-    
-    func clearAllTags() {
-        selectedTags.removeAll()
-        state = .initial
-        currentCreators = []
-        hasMore = false
-        currentOffset = 0
-        totalCount = 0
-    }
-    
-    func deleteFromHistory(_ query: String) async {
-        do {
-            try await saveSearchHistoryUseCase.execute(query: query)
-            loadSearchHistory()
-        } catch {
-        }
     }
     
     func clearHistory() async {
-        do {
-            try await clearSearchHistoryUseCase.execute()
-            loadSearchHistory()
-        } catch {
-        }
+        return
     }
     
-    func searchWithTag(_ tag: Tag) {
-        if allTags.isEmpty {
-            Task {
-                await loadAllTagsAsync()
-                await MainActor.run {
-                    self.searchWithTag(tag)
-                }
-            }
-            return
-        }
-        
-        // 既存のタグをクリアして新しいタグを設定
-        selectedTags.append(tag)
-        searchText = ""
-        suggestions = []
+    func addSearchHistory(tag: Tag) async {
+        return
+    }
+    
+    func loadMore() async -> [Creator] {
+        return []
+    }
+    
+    func getSuggestions() async {
+        return
+    }
+    
+    func addSearchHistory() async {
+        return
     }
 }

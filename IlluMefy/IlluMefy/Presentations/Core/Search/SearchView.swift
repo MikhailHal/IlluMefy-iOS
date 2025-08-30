@@ -68,7 +68,7 @@ struct SearchView: View {
                         Button(action: {
                             let impactFeedback = UIImpactFeedbackGenerator(style: .light)
                             impactFeedback.impactOccurred()
-                            viewModel.addTagsFromHistory(query)
+                            //viewModel.addTagsFromHistory(query)
                         }, label: {
                             Text(query)
                                 .font(.caption)
@@ -278,17 +278,6 @@ struct SearchCreatorCard: View {
                             .foregroundColor(.white)
                             .lineLimit(1)
                             .shadow(radius: 1)
-                        
-                        // タグ表示（1つだけコンパクトに）
-                        if !creator.tag.isEmpty {
-                            let tags = viewModel.getTagsForIds(Array(creator.tag.prefix(1)))
-                            if let firstTag = tags.first {
-                                Text("#\(firstTag.displayName)")
-                                    .font(.system(size: 10))
-                                    .foregroundColor(.white.opacity(0.9))
-                                    .shadow(radius: 1)
-                            }
-                        }
                     }
                     .padding(8)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)

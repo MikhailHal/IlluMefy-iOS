@@ -35,7 +35,6 @@ private struct TabBarView: View {
         TabView(selection: $selectedTab) {
             HomeView(onTagTapped: { tag in
                 selectedTab = 1
-                searchViewModel.searchWithTag(tag)
             })
                 .tabItem {
                     Image(systemName: "house.fill")
