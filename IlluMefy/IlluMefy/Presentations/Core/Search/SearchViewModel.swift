@@ -6,20 +6,29 @@
 //
 
 import Foundation
-import Combine
+import Observation
 
 /// 検索ViewModel
 @MainActor
+@Observable
 final class SearchViewModel: SearchViewModelProtocol {
-    // MARK: - Published Properties
-    @Published var searchText: String = ""
-    @Published private(set) var suggestions: [Tag] = []
-    @Published private(set) var selectedTags: [Tag] = []
-    @Published private(set) var state: SearchState = .initial
-    @Published private(set) var searchHistory: [String] = []
-    @Published private(set) var isLoading = false
-    @Published private(set) var hasMore = false
-    @Published private(set) var totalCount = 0
+    // MARK: - Observable Properties
+    var searchText: String = "" {
+        didSet {
+            onSearchTextChanged()
+        }
+    }
+    private(set) var suggestions: [Tag] = []
+    private(set) var selectedTags: [Tag] = [] {
+        didSet {
+            onSelectedTagsChanged()
+        }
+    }
+    private(set) var state: SearchState = .initial
+    private(set) var searchHistory: [String] = []
+    private(set) var isLoading = false
+    private(set) var hasMore = false
+    private(set) var totalCount = 0
     
     // MARK: - Private Properties
     private let searchTagsByNameUseCase: SearchTagsByNameUseCaseProtocol
@@ -29,11 +38,12 @@ final class SearchViewModel: SearchViewModelProtocol {
     private let clearSearchHistoryUseCase: ClearSearchHistoryUseCase
     private let tagSuggestionService = TagSuggestionService()
     
-    private var cancellables = Set<AnyCancellable>()
     private var currentCreators: [Creator] = []
     private var currentOffset = 0
     private let pageSize = 20
     private var allTags: [Tag] = []
+    private var searchTextDebounceTask: Task<Void, Never>?
+    private var selectedTagsDebounceTask: Task<Void, Never>?
     
     // MARK: - Initialization
     init(
@@ -49,31 +59,35 @@ final class SearchViewModel: SearchViewModelProtocol {
         self.getSearchHistoryUseCase = getSearchHistoryUseCase
         self.clearSearchHistoryUseCase = clearSearchHistoryUseCase
         
-        setupBindings()
         loadSearchHistory()
         loadAllTags()
     }
     
     // MARK: - Private Methods
-    private func setupBindings() {
-        // 検索テキストのオートコンプリート（リアルタイム検索のためdebounceを短縮）
-        $searchText
-            .debounce(for: .milliseconds(100), scheduler: RunLoop.main)
-            .removeDuplicates()
-            .sink { [weak self] query in
-                self?.updateSuggestions(query: query)
-            }
-            .store(in: &cancellables)
+    private func onSearchTextChanged() {
+        // 既存のタスクをキャンセル
+        searchTextDebounceTask?.cancel()
         
-        // 選択されたタグの変更を監視して検索実行
-        $selectedTags
-            .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
-            .sink { [weak self] _ in
-                Task { @MainActor in
-                    await self?.performSearch()
-                }
+        // 新しいdebounceタスクを開始
+        searchTextDebounceTask = Task { @MainActor in
+            try? await Task.sleep(nanoseconds: 100_000_000) // 100ms
+            if !Task.isCancelled {
+                updateSuggestions(query: searchText)
             }
-            .store(in: &cancellables)
+        }
+    }
+    
+    private func onSelectedTagsChanged() {
+        // 既存のタスクをキャンセル
+        selectedTagsDebounceTask?.cancel()
+        
+        // 新しいdebounceタスクを開始
+        selectedTagsDebounceTask = Task { @MainActor in
+            try? await Task.sleep(nanoseconds: 500_000_000) // 500ms
+            if !Task.isCancelled {
+                await performSearch()
+            }
+        }
     }
     
     private func loadSearchHistory() {
@@ -250,7 +264,7 @@ final class SearchViewModel: SearchViewModelProtocol {
         searchText = ""
         suggestions = []
         
-        // タグを一度に追加（Combineのバインディングが1回だけ実行される）
+        // タグを一度に追加
         if !tagsToAdd.isEmpty {
             selectedTags.append(contentsOf: tagsToAdd)
         }

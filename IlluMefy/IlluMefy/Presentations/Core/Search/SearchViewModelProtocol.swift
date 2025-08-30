@@ -9,7 +9,7 @@ import Foundation
 
 /// 検索ViewModelプロトコル
 @MainActor
-protocol SearchViewModelProtocol: ObservableObject {
+protocol SearchViewModelProtocol {
     var searchText: String { get set }
     var suggestions: [Tag] { get }
     var selectedTags: [Tag] { get }

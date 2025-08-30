@@ -23,7 +23,7 @@ struct HomeBaseView: View {
 
 private struct TabBarView: View {
     @State private var selectedTab: Int = 0
-    @StateObject private var searchViewModel = DependencyContainer.shared.resolve(SearchViewModel.self)!
+    @State private var searchViewModel = DependencyContainer.shared.resolve(SearchViewModel.self)!
     
     init() {
         let appearance: UITabBarAppearance = UITabBarAppearance()
