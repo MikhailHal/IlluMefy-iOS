@@ -24,30 +24,17 @@ struct SearchView: View {
                 
                 switch viewModel.state {
                 case .initial:
-                    loadingView
+                    initialStateView
                 case .editing(let suggestions):
-                    ZStack {
-                        hitListSection
-                        Asset.Color.Application.Background.backgroundSecondary.swiftUIColor.opacity(0.7)
-                            .ignoresSafeArea()
-                        
-                        suggestionsList(suggestions: suggestions)
-                    }
+                    editingStateView(suggestions: suggestions)
                 case .searching:
-                    loadingView
+                    searchingStateView
                 case .showingResults(let creators):
-                    VStack(spacing: Spacing.relatedComponentDivider) {
-                        if !viewModel.selectedTags.isEmpty {
-                            selectedTagsView(tags: viewModel.selectedTags, onRemove: {tag in
-                                viewModel.onTappedTagForDeletion(tag: tag)
-                            })
-                        }
-                        creatorResultsView(creators: creators)
-                    }
+                    resultsStateView(creators: creators)
                 case .empty:
-                    emptyStateView
+                    emptyStateViewContent
                 case .error(let title, let message):
-                    errorView(title: title, message: message)
+                    errorStateView(title: title, message: message)
                 }
             }
         }
@@ -277,6 +264,81 @@ struct SearchView: View {
 }
 
 extension SearchView {
+    
+    // MARK: - State Views
+    
+    private var initialStateView: some View {
+        loadingView
+    }
+    
+    private func editingStateView(suggestions: [TagSuggestion]) -> some View {
+        ZStack {
+            hitListSection
+            Asset.Color.Application.Background.backgroundSecondary.swiftUIColor.opacity(0.7)
+                .ignoresSafeArea()
+            
+            suggestionsList(suggestions: suggestions)
+        }
+    }
+    
+    private var searchingStateView: some View {
+        VStack(spacing: Spacing.relatedComponentDivider) {
+            if !viewModel.selectedTags.isEmpty {
+                selectedTagsView(tags: viewModel.selectedTags, onRemove: { tag in
+                    viewModel.onTappedTagForDeletion(tag: tag)
+                })
+            }
+            
+            if viewModel.totalCount > 0 {
+                HStack {
+                    Text(L10n.Search.resultsCount(viewModel.totalCount))
+                        .font(.subheadline)
+                        .fontWeight(.medium)
+                        .foregroundColor(Asset.Color.SearchResult.searchResultTitle.swiftUIColor)
+                    Spacer()
+                }
+                .padding(.horizontal, Spacing.screenEdgePadding)
+            }
+            
+            loadingView
+        }
+    }
+    
+    private func resultsStateView(creators: [Creator]) -> some View {
+        VStack(spacing: Spacing.relatedComponentDivider) {
+            if !viewModel.selectedTags.isEmpty {
+                selectedTagsView(tags: viewModel.selectedTags, onRemove: { tag in
+                    viewModel.onTappedTagForDeletion(tag: tag)
+                })
+            }
+            creatorResultsView(creators: creators)
+        }
+    }
+    
+    private var emptyStateViewContent: some View {
+        VStack(spacing: Spacing.relatedComponentDivider) {
+            if !viewModel.selectedTags.isEmpty {
+                selectedTagsView(tags: viewModel.selectedTags, onRemove: { tag in
+                    viewModel.onTappedTagForDeletion(tag: tag)
+                })
+            }
+            
+            emptyStateView
+        }
+    }
+    
+    private func errorStateView(title: String, message: String) -> some View {
+        VStack(spacing: Spacing.relatedComponentDivider) {
+            if !viewModel.selectedTags.isEmpty {
+                selectedTagsView(tags: viewModel.selectedTags, onRemove: { tag in
+                    viewModel.onTappedTagForDeletion(tag: tag)
+                })
+            }
+            
+            errorView(title: title, message: message)
+        }
+    }
+    
     private var emptyStateView: some View {
         VStack(spacing: Spacing.unrelatedComponentDivider) {
             Spacer()

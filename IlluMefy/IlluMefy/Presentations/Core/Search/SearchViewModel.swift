@@ -190,11 +190,16 @@ final class SearchViewModel: SearchViewModelProtocol {
     func onTappedTagForDeletion(tag: Tag) {
         selectedTags.remove(at: selectedTags.firstIndex(of: tag)!)
         
-        // タグが全て削除された場合は人気クリエイターを表示
         if selectedTags.isEmpty {
+            // タグが全て削除された場合は人気クリエイターを表示
             Task {
                 let popularCreators = await getPopularCreatorList()
                 state = .showingResults(creators: popularCreators)
+            }
+        } else {
+            // まだタグが残っている場合は再検索を実行
+            Task {
+                await search()
             }
         }
     }
