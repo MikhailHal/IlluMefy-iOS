@@ -11,13 +11,12 @@ import Foundation
 @MainActor
 protocol SearchViewModelProtocol {
     var searchText: String { get set }
-    var suggestions: [TagSuggestion] { get }
     var selectedTags: [Tag] { get }
     var state: SearchState { get }
     var searchHistory: [String] { get }
     var isLoading: Bool { get }
     var hasMore: Bool { get }
-    var popularCreatorList: [Creator] { get }
+    var hitList: [Creator] { get }
     
     func search() async
     func getSuggestions(query: String) async

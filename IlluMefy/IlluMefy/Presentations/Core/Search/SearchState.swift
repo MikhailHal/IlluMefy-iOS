@@ -8,11 +8,11 @@
 import Foundation
 
 /// 検索画面の状態
-enum SearchState {
+enum SearchState: Equatable {
     case initial
-    case loadedPopularCreators([Creator])
+    case editing(suggestions: [TagSuggestion])
     case searching
-    case loadedCreators([Creator])
+    case showingResults(creators: [Creator])
     case empty
     case error(String, String) // title, message
 }

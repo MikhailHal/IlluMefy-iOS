@@ -16,9 +16,7 @@ final class SearchViewModel: SearchViewModelProtocol {
     // MARK: - Observable Properties
     var searchText: String = ""
     var selectedTags: [Tag] = []
-    var isEditing: Bool = false
-    var suggestions: [TagSuggestion] = []
-    var popularCreatorList = [] as [Creator]
+    var hitList = [] as [Creator]
     private(set) var state: SearchState = .initial
     private(set) var searchHistory: [String] = []
     private(set) var isLoading = false
@@ -31,7 +29,6 @@ final class SearchViewModel: SearchViewModelProtocol {
     private let saveSearchHistoryUseCase: SaveSearchHistoryUseCase
     private let getSearchHistoryUseCase: GetSearchHistoryUseCase
     private let clearSearchHistoryUseCase: ClearSearchHistoryUseCase
-    private let tagSuggestionService = TagSuggestionService()
     private let getPopularCreatorsUseCase: GetPopularCreatorsUseCaseProtocol
     private let searchTagsWithAlgoliaUseCase: SearchTagsWithAlgoliaUseCaseProtocol
     
@@ -86,7 +83,8 @@ final class SearchViewModel: SearchViewModelProtocol {
     
     func getSuggestions(query: String) async {
         guard !query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-            suggestions = []
+            // クエリが空の場合はhitListを表示
+            state = .showingResults(creators: hitList)
             return
         }
         
@@ -97,12 +95,13 @@ final class SearchViewModel: SearchViewModelProtocol {
             )
             let tags = try await searchTagsWithAlgoliaUseCase.execute(request: request)
             
-            suggestions = tags.map { tag in
+            let suggestions = tags.map { tag in
                 TagSuggestion(tag: tag)
             }
+            state = .editing(suggestions: suggestions)
         } catch {
             print("Error fetching suggestions: \(error)")
-            suggestions = []
+            state = .editing(suggestions: [])
         }
     }
     
@@ -111,16 +110,24 @@ final class SearchViewModel: SearchViewModelProtocol {
     }
     
     func onTappedSuggestion(tag: Tag) {
+        searchText = ""
         selectedTags.append(tag)
+        state = .searching
+        Task {
+            let response = await getPopularCreatorList()
+            state = .showingResults(creators: response)
+        }
     }
     
     func getPopularCreatorList() async -> [Creator] {
         let request = GetPopularCreatorsUseCaseRequest(limit: 20)
         var response: [Creator] = []
         do {
-            state = .searching
             response = try await getPopularCreatorsUseCase.execute(request: request).creators
-            state = .loadedPopularCreators(response)
+            hitList = response // hitListを更新
+            if selectedTags.isEmpty && searchText.isEmpty {
+                state = .showingResults(creators: response)
+            }
         } catch {
             print(error)
         }

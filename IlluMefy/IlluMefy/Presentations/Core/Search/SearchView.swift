@@ -12,6 +12,7 @@ struct SearchView: View {
     @EnvironmentObject private var router: IlluMefyAppRouter
     @State private var viewModel: SearchViewModel =
     DependencyContainer.shared.resolve(SearchViewModel.self)!
+    @State private var isEditing = false
     
     var body: some View {
         ZStack {
@@ -20,20 +21,32 @@ struct SearchView: View {
             
             VStack(spacing: 0) {
                 searchBarSection
-                ZStack {
-                    hitListSection
-                    if viewModel.isEditing {
+                
+                switch viewModel.state {
+                case .initial:
+                    loadingView
+                case .editing(let suggestions):
+                    ZStack {
+                        hitListSection
                         Asset.Color.Application.Background.backgroundSecondary.swiftUIColor.opacity(0.7)
                             .ignoresSafeArea()
                             .transition(.opacity)
                         
-                        suggestionsSectiopn
+                        suggestionsList(suggestions: suggestions)
                             .transition(.move(edge: .bottom).combined(with: .opacity))
                     }
+                case .searching:
+                    loadingView
+                case .showingResults(let creators):
+                    creatorResultsView(creators: creators)
+                case .empty:
+                    emptyStateView
+                case .error(let title, let message):
+                    errorView(title: title, message: message)
                 }
             }
         }
-        .animation(.easeInOut(duration: 0.3), value: viewModel.isEditing)
+        .animation(.easeInOut(duration: 0.3), value: viewModel.state)
         .onTapGesture {
             hideKeyboard()
         }
@@ -49,7 +62,7 @@ struct SearchView: View {
     private var searchBarSection: some View {
         SearchBar(
             text: $viewModel.searchText,
-            isEditing: $viewModel.isEditing,
+            isEditing: $isEditing,
             searchBarStyle: SearchBarStyle(),
             onChange: { newValue in
                 Task {
@@ -59,13 +72,21 @@ struct SearchView: View {
         )
         .padding(.horizontal, Spacing.screenEdgePadding)
         .padding(.top, Spacing.screenEdgePadding)
+        .onChange(of: isEditing) { _, newValue in
+            if !newValue && viewModel.searchText.isEmpty {
+                // 編集終了かつテキストが空の場合はhitListを表示
+                Task {
+                    await viewModel.getSuggestions(query: "")
+                }
+            }
+        }
     }
     
-    private var suggestionsSectiopn: some View {
-        if viewModel.suggestions.isEmpty {
+    private func suggestionsList(suggestions: [TagSuggestion]) -> some View {
+        if suggestions.isEmpty {
             return AnyView(EmptyView())
         }
-        return AnyView(List(viewModel.suggestions) { suggestion in
+        return AnyView(List(suggestions) { suggestion in
             SuggestionRow(
                 suggestion: suggestion,
                 onSelection: { tag in
@@ -123,20 +144,8 @@ struct SearchView: View {
     
     private var hitListSection: some View {
         Group {
-            switch viewModel.state {
-            case .initial:
-                loadingView
-            case .loadedPopularCreators(let creators):
-                creatorResultsView(creators: creators)
-            case .searching:
-                loadingView
-            case .loadedCreators(let creators):
-                creatorResultsView(creators: creators)
-            case .empty:
-                emptyStateView
-            case .error(let title, let message):
-                errorView(title: title, message: message)
-            }
+            // editing状態では表示されないためEmptyViewでOK
+            EmptyView()
         }.padding(.top, Spacing.unrelatedComponentDivider)
     }
     

@@ -8,7 +8,7 @@
 import Foundation
 
 /// タグ検索候補表示用Viewモデル
-public struct TagSuggestion: Identifiable {
+public struct TagSuggestion: Identifiable, Equatable {
     public let id: String
     let name: String
     let tag: Tag
