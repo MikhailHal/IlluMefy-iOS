@@ -30,10 +30,8 @@ struct SearchView: View {
                         hitListSection
                         Asset.Color.Application.Background.backgroundSecondary.swiftUIColor.opacity(0.7)
                             .ignoresSafeArea()
-                            .transition(.opacity)
                         
                         suggestionsList(suggestions: suggestions)
-                            .transition(.move(edge: .bottom).combined(with: .opacity))
                     }
                 case .searching:
                     loadingView
@@ -53,7 +51,6 @@ struct SearchView: View {
                 }
             }
         }
-        .animation(.easeInOut(duration: 0.3), value: viewModel.state)
         .onTapGesture {
             hideKeyboard()
         }
