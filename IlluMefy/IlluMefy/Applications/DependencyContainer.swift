@@ -22,6 +22,15 @@ final class DependencyContainer: @unchecked Sendable {
     func resolve<T>(_ serviceType: T.Type) -> T? {
         return container.resolve(serviceType)
     }
+    
+    /// Algoliaの初期化処理
+    func initializeAlgolia() async {
+        guard let algoliaRepository = resolve(AlgoliaRepositoryProtocol.self) as? AlgoliaRepository else {
+            print("Failed to resolve AlgoliaRepository")
+            return
+        }
+        await algoliaRepository.initialize()
+    }
     ///
     /// make concrete type of objects
     ///
@@ -122,6 +131,14 @@ final class DependencyContainer: @unchecked Sendable {
         container.register(AuthRepository.self) { _ in
             AuthRepository()
         }.inObjectScope(.container)
+        
+        // Algolia repository
+        container.register(AlgoliaRepository.self) { resolver in
+            let firebaseRemoteConfig = resolver.resolve(FirebaseRemoteConfigProtocol.self)!
+            return MainActor.assumeIsolated {
+                return AlgoliaRepository(firebaseRemoteConfig: firebaseRemoteConfig)
+            }
+        }.inObjectScope(.container)
     }
     ///
     /// register all repositories
@@ -191,6 +208,11 @@ final class DependencyContainer: @unchecked Sendable {
         // Auth repository
         container.register(AuthRepositoryProtocol.self) { resolver in
             resolver.resolve(AuthRepository.self)!
+        }.inObjectScope(.transient)
+        
+        // Algolia repository
+        container.register(AlgoliaRepositoryProtocol.self) { resolver in
+            resolver.resolve(AlgoliaRepository.self)!
         }.inObjectScope(.transient)
     }
     ///
@@ -429,6 +451,16 @@ final class DependencyContainer: @unchecked Sendable {
         
         container.register((any CheckAlreadyFavoriteCreatorUseCaseProtocol).self) { resolver in
             resolver.resolve(CheckAlreadyFavoriteCreatorUseCase.self)!
+        }.inObjectScope(.transient)
+        
+        // SearchTagsWithAlgolia usecase
+        container.register(SearchTagsWithAlgoliaUseCase.self) { resolver in
+            let algoliaRepository = resolver.resolve(AlgoliaRepositoryProtocol.self)!
+            return SearchTagsWithAlgoliaUseCase(algoliaRepository: algoliaRepository)
+        }.inObjectScope(.transient)
+        
+        container.register(SearchTagsWithAlgoliaUseCaseProtocol.self) { resolver in
+            resolver.resolve(SearchTagsWithAlgoliaUseCase.self)!
         }.inObjectScope(.transient)
         
     }

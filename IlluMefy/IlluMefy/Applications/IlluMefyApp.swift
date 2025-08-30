@@ -97,6 +97,14 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 struct IlluMefyApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @StateObject private var router = IlluMefyAppRouter()
+    
+    init() {
+        // Algoliaの初期化をバックグラウンドで開始
+        Task {
+            await DependencyContainer.shared.initializeAlgolia()
+        }
+    }
+    
     var body: some Scene {
         WindowGroup {
             ParentView().environmentObject(router)
