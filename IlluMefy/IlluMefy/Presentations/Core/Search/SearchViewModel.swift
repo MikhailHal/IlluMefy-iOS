@@ -18,6 +18,7 @@ final class SearchViewModel: SearchViewModelProtocol {
     var selectedTags: [Tag] = []
     var isEditing: Bool = false
     var suggestions: [TagSuggestion] = []
+    var popularCreatorList = [] as [Creator]
     private(set) var state: SearchState = .initial
     private(set) var searchHistory: [String] = []
     private(set) var isLoading = false
@@ -31,6 +32,7 @@ final class SearchViewModel: SearchViewModelProtocol {
     private let getSearchHistoryUseCase: GetSearchHistoryUseCase
     private let clearSearchHistoryUseCase: ClearSearchHistoryUseCase
     private let tagSuggestionService = TagSuggestionService()
+    private let getPopularCreatorsUseCase: GetPopularCreatorsUseCaseProtocol
     
     private var currentCreators: [Creator] = []
     private var currentOffset = 0
@@ -45,13 +47,15 @@ final class SearchViewModel: SearchViewModelProtocol {
         searchCreatorsByTagsUseCase: SearchCreatorsByTagsUseCaseProtocol,
         saveSearchHistoryUseCase: SaveSearchHistoryUseCase,
         getSearchHistoryUseCase: GetSearchHistoryUseCase,
-        clearSearchHistoryUseCase: ClearSearchHistoryUseCase
+        clearSearchHistoryUseCase: ClearSearchHistoryUseCase,
+        getPopularCreatorsUseCase: GetPopularCreatorsUseCaseProtocol
     ) {
         self.searchTagsByNameUseCase = searchTagsByNameUseCase
         self.searchCreatorsByTagsUseCase = searchCreatorsByTagsUseCase
         self.saveSearchHistoryUseCase = saveSearchHistoryUseCase
         self.getSearchHistoryUseCase = getSearchHistoryUseCase
         self.clearSearchHistoryUseCase = clearSearchHistoryUseCase
+        self.getPopularCreatorsUseCase = getPopularCreatorsUseCase
     }
     
     // MARK: - Public Methods
@@ -87,5 +91,17 @@ final class SearchViewModel: SearchViewModelProtocol {
     
     func onTappedSuggestion(tag: Tag) {
         selectedTags.append(tag)
+    }
+    
+    func getPopularCreatorList() async -> [Creator] {
+        let request = GetPopularCreatorsUseCaseRequest(limit: 20)
+        var response: [Creator] = []
+        do {
+            response = try await getPopularCreatorsUseCase.execute(request: request).creators
+            state = .loadedPopularCreators(response)
+        } catch {
+            print(error)
+        }
+        return response
     }
 }

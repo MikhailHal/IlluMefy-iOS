@@ -10,6 +10,7 @@ import Foundation
 /// 検索画面の状態
 enum SearchState {
     case initial
+    case loadedPopularCreators([Creator])
     case searching
     case loadedCreators([Creator])
     case empty

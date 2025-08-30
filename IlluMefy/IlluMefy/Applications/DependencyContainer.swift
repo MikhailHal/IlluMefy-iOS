@@ -490,13 +490,15 @@ final class DependencyContainer: @unchecked Sendable {
             let saveSearchHistoryUseCase = resolver.resolve(SaveSearchHistoryUseCase.self)!
             let getSearchHistoryUseCase = resolver.resolve(GetSearchHistoryUseCase.self)!
             let clearSearchHistoryUseCase = resolver.resolve(ClearSearchHistoryUseCase.self)!
+            let getPopularCreatorsUseCase = resolver.resolve(GetPopularCreatorsUseCase.self)!
             return MainActor.assumeIsolated {
                 return SearchViewModel(
                     searchTagsByNameUseCase: searchTagsByNameUseCase,
                     searchCreatorsByTagsUseCase: searchCreatorsByTagsUseCase,
                     saveSearchHistoryUseCase: saveSearchHistoryUseCase,
                     getSearchHistoryUseCase: getSearchHistoryUseCase,
-                    clearSearchHistoryUseCase: clearSearchHistoryUseCase
+                    clearSearchHistoryUseCase: clearSearchHistoryUseCase,
+                    getPopularCreatorsUseCase: getPopularCreatorsUseCase,
                 )
             }
         }.inObjectScope(.transient)

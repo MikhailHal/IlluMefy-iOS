@@ -26,6 +26,11 @@ struct SearchView: View {
         .onTapGesture {
             hideKeyboard()
         }
+        .onAppear {
+            Task {
+                await viewModel.getPopularCreatorList()
+            }
+        }
     }
     
     // MARK: - View Components
@@ -105,6 +110,8 @@ struct SearchView: View {
             switch viewModel.state {
             case .initial:
                 initialStateView
+            case .loadedPopularCreators(let creators):
+                creatorResultsView(creators: creators)
             case .searching:
                 loadingView
             case .loadedCreators(let creators):
@@ -114,22 +121,22 @@ struct SearchView: View {
             case .error(let title, let message):
                 errorView(title: title, message: message)
             }
-        }
+        }.padding(.top, Spacing.unrelatedComponentDivider)
     }
     
     private var initialStateView: some View {
-        VStack(spacing: Spacing.unrelatedComponentDivider) {
-            Spacer()
-            Image(systemName: "magnifyingglass")
-                .font(.system(size: Typography.titleExtraLarge))
-                .foregroundColor(Asset.Color.SearchEmpty.searchEmptyIcon.swiftUIColor)
-            Text(L10n.Search.searchPrompt)
-                .font(.headline)
-                .foregroundColor(Asset.Color.SearchEmpty.searchEmptyTitle.swiftUIColor)
-                .multilineTextAlignment(.center)
-            Spacer()
+        ScrollView {
+            LazyVGrid(columns: [
+                GridItem(.flexible(), spacing: 0),
+                GridItem(.flexible(), spacing: 0),
+                GridItem(.flexible(), spacing: 0)
+            ], spacing: 0) {
+                ForEach(0..<20) { _ in
+                    SearchResultCreatorCardSkeleton()
+                }
+            }
+            .padding(0)
         }
-        .padding(Spacing.screenEdgePadding)
     }
     
     private var loadingView: some View {

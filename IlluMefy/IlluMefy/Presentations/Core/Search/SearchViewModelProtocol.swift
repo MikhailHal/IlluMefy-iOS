@@ -17,11 +17,13 @@ protocol SearchViewModelProtocol {
     var searchHistory: [String] { get }
     var isLoading: Bool { get }
     var hasMore: Bool { get }
+    var popularCreatorList: [Creator] { get }
     
     func search() async
     func getSuggestions() async
     func clearHistory() async
     func addSearchHistory () async
     func loadMore() async -> [Creator]
+    func getPopularCreatorList() async -> [Creator]
     func onTappedSuggestion (tag: Tag)
 }
