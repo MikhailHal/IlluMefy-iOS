@@ -23,4 +23,5 @@ protocol SearchViewModelProtocol {
     func clearHistory() async
     func addSearchHistory () async
     func loadMore() async -> [Creator]
+    func onTappedSuggestion (tag: Tag)
 }

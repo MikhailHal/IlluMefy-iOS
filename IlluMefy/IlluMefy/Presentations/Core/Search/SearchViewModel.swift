@@ -84,4 +84,8 @@ final class SearchViewModel: SearchViewModelProtocol {
     func addSearchHistory() async {
         return
     }
+    
+    func onTappedSuggestion(tag: Tag) {
+        selectedTags.append(tag)
+    }
 }

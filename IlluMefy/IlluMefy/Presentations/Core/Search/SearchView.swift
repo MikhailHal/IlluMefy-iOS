@@ -19,6 +19,7 @@ struct SearchView: View {
             
             VStack(spacing: 0) {
                 searchBarSection
+                suggestionsSectiopn
                 mainContentSection
             }
         }
@@ -37,6 +38,20 @@ struct SearchView: View {
         )
         .padding(.horizontal, Spacing.screenEdgePadding)
         .padding(.top, Spacing.screenEdgePadding)
+    }
+    
+    private var suggestionsSectiopn: some View {
+        if viewModel.suggestions.isEmpty {
+            return AnyView(EmptyView())
+        }
+        return AnyView(List(viewModel.suggestions) { suggestion in
+            SuggestionRow(
+                suggestion: suggestion,
+                onSelection: { tag in
+                    viewModel.onTappedSuggestion(tag: tag)
+                }
+            )
+        })
     }
     
     private var searchHistorySection: some View {
