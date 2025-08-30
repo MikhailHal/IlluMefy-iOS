@@ -19,7 +19,7 @@ struct SearchView: View {
             Asset.Color.Application.Background.backgroundPrimary.swiftUIColor
                 .ignoresSafeArea()
             
-            VStack(spacing: 0) {
+            VStack(spacing: Spacing.relatedComponentDivider) {
                 searchBarSection
                 
                 switch viewModel.state {
@@ -38,7 +38,12 @@ struct SearchView: View {
                 case .searching:
                     loadingView
                 case .showingResults(let creators):
-                    creatorResultsView(creators: creators)
+                    VStack(spacing: Spacing.relatedComponentDivider) {
+                        if !viewModel.selectedTags.isEmpty {
+                            selectedTagsView(tags: viewModel.selectedTags, onRemove: {_ in})
+                        }
+                        creatorResultsView(creators: creators)
+                    }
                 case .empty:
                     emptyStateView
                 case .error(let title, let message):
@@ -175,8 +180,8 @@ struct SearchView: View {
                 ForEach(tags, id: \.id) { tag in
                     HStack(spacing: Spacing.componentGrouping / 2) {
                         Text(tag.displayName)
-                            .font(.caption)
-                            .foregroundColor(Asset.Color.SearchTag.searchTagText.swiftUIColor)
+                            .font(.system(size: Typography.bodyRegular, weight: .medium))
+                            .foregroundColor(Asset.Color.Tag.tagText.swiftUIColor)
                         
                         Button(action: {
                             let impactFeedback = UIImpactFeedbackGenerator(style: .light)
@@ -189,15 +194,15 @@ struct SearchView: View {
                         })
                         .buttonStyle(PlainButtonStyle())
                     }
-                    .padding(.horizontal, Spacing.componentGrouping)
-                    .padding(.vertical, Spacing.relatedComponentDivider)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 4)
                     .background(Asset.Color.SearchTag.searchTagBackgroundSelected.swiftUIColor)
                     .cornerRadius(CornerRadius.tag)
                 }
             }
             .padding(.horizontal, Spacing.screenEdgePadding)
         }
-        .frame(maxHeight: 40)
+        .frame(height: 50)
     }
     
     private func creatorResultsView(creators: [Creator]) -> some View {
