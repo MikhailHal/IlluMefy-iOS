@@ -40,7 +40,12 @@ struct SearchView: View {
         SearchBar(
             text: $viewModel.searchText,
             isEditing: $viewModel.isEditing,
-            searchBarStyle: SearchBarStyle()
+            searchBarStyle: SearchBarStyle(),
+            onChange: { newValue in
+                Task {
+                    await viewModel.getSuggestions(query: newValue)
+                }
+            }
         )
         .padding(.horizontal, Spacing.screenEdgePadding)
         .padding(.top, Spacing.screenEdgePadding)

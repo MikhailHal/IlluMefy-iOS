@@ -23,7 +23,7 @@ final class AlgoliaRepository: AlgoliaRepositoryProtocol {
         guard client == nil else { return }
         
         guard let appId: String = firebaseRemoteConfig.fetchValue(key: "algolia_app_id"),
-              let searchKey: String = firebaseRemoteConfig.fetchValue(key: "algolia_search_key"),
+              let searchKey: String = firebaseRemoteConfig.fetchValue(key: "algolia_search_api_key"),
               !appId.isEmpty && !searchKey.isEmpty else {
             print("Algolia configuration not found in Remote Config")
             return

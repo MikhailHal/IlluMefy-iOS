@@ -135,9 +135,7 @@ final class DependencyContainer: @unchecked Sendable {
         // Algolia repository
         container.register(AlgoliaRepository.self) { resolver in
             let firebaseRemoteConfig = resolver.resolve(FirebaseRemoteConfigProtocol.self)!
-            return MainActor.assumeIsolated {
-                return AlgoliaRepository(firebaseRemoteConfig: firebaseRemoteConfig)
-            }
+            return AlgoliaRepository(firebaseRemoteConfig: firebaseRemoteConfig)
         }.inObjectScope(.container)
     }
     ///
@@ -523,6 +521,7 @@ final class DependencyContainer: @unchecked Sendable {
             let getSearchHistoryUseCase = resolver.resolve(GetSearchHistoryUseCase.self)!
             let clearSearchHistoryUseCase = resolver.resolve(ClearSearchHistoryUseCase.self)!
             let getPopularCreatorsUseCase = resolver.resolve(GetPopularCreatorsUseCase.self)!
+            let searchTagsWithAlgoliaUseCase = resolver.resolve((any SearchTagsWithAlgoliaUseCaseProtocol).self)!
             return MainActor.assumeIsolated {
                 return SearchViewModel(
                     searchTagsByNameUseCase: searchTagsByNameUseCase,
@@ -531,6 +530,7 @@ final class DependencyContainer: @unchecked Sendable {
                     getSearchHistoryUseCase: getSearchHistoryUseCase,
                     clearSearchHistoryUseCase: clearSearchHistoryUseCase,
                     getPopularCreatorsUseCase: getPopularCreatorsUseCase,
+                    searchTagsWithAlgoliaUseCase: searchTagsWithAlgoliaUseCase
                 )
             }
         }.inObjectScope(.transient)

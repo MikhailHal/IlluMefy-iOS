@@ -33,6 +33,7 @@ final class SearchViewModel: SearchViewModelProtocol {
     private let clearSearchHistoryUseCase: ClearSearchHistoryUseCase
     private let tagSuggestionService = TagSuggestionService()
     private let getPopularCreatorsUseCase: GetPopularCreatorsUseCaseProtocol
+    private let searchTagsWithAlgoliaUseCase: SearchTagsWithAlgoliaUseCaseProtocol
     
     private var currentCreators: [Creator] = []
     private var currentOffset = 0
@@ -48,7 +49,8 @@ final class SearchViewModel: SearchViewModelProtocol {
         saveSearchHistoryUseCase: SaveSearchHistoryUseCase,
         getSearchHistoryUseCase: GetSearchHistoryUseCase,
         clearSearchHistoryUseCase: ClearSearchHistoryUseCase,
-        getPopularCreatorsUseCase: GetPopularCreatorsUseCaseProtocol
+        getPopularCreatorsUseCase: GetPopularCreatorsUseCaseProtocol,
+        searchTagsWithAlgoliaUseCase: SearchTagsWithAlgoliaUseCaseProtocol
     ) {
         self.searchTagsByNameUseCase = searchTagsByNameUseCase
         self.searchCreatorsByTagsUseCase = searchCreatorsByTagsUseCase
@@ -56,6 +58,7 @@ final class SearchViewModel: SearchViewModelProtocol {
         self.getSearchHistoryUseCase = getSearchHistoryUseCase
         self.clearSearchHistoryUseCase = clearSearchHistoryUseCase
         self.getPopularCreatorsUseCase = getPopularCreatorsUseCase
+        self.searchTagsWithAlgoliaUseCase = searchTagsWithAlgoliaUseCase
     }
     
     // MARK: - Public Methods
@@ -81,8 +84,26 @@ final class SearchViewModel: SearchViewModelProtocol {
         return []
     }
     
-    func getSuggestions() async {
-        return
+    func getSuggestions(query: String) async {
+        guard !query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            suggestions = []
+            return
+        }
+        
+        do {
+            let request = SearchTagsWithAlgoliaUseCaseRequest(
+                query: query,
+                limit: 20
+            )
+            let tags = try await searchTagsWithAlgoliaUseCase.execute(request: request)
+            
+            suggestions = tags.map { tag in
+                TagSuggestion(tag: tag)
+            }
+        } catch {
+            print("Error fetching suggestions: \(error)")
+            suggestions = []
+        }
     }
     
     func addSearchHistory() async {

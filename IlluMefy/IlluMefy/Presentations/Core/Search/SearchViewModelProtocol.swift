@@ -20,7 +20,7 @@ protocol SearchViewModelProtocol {
     var popularCreatorList: [Creator] { get }
     
     func search() async
-    func getSuggestions() async
+    func getSuggestions(query: String) async
     func clearHistory() async
     func addSearchHistory () async
     func loadMore() async -> [Creator]
