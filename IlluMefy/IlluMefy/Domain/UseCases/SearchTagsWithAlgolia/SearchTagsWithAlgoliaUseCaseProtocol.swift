@@ -9,5 +9,5 @@ import Foundation
 
 /// Algoliaタグ検索UseCaseプロトコル
 protocol SearchTagsWithAlgoliaUseCaseProtocol {
-    func execute(request: SearchTagsWithAlgoliaUseCaseRequest) async throws -> SearchTagsWithAlgoliaUseCaseResponse
+    func execute(request: SearchTagsWithAlgoliaUseCaseRequest) async throws -> [Tag]
 }

@@ -15,15 +15,14 @@ final class SearchTagsWithAlgoliaUseCase: SearchTagsWithAlgoliaUseCaseProtocol {
         self.algoliaRepository = algoliaRepository
     }
     
-    func execute(request: SearchTagsWithAlgoliaUseCaseRequest) async throws -> SearchTagsWithAlgoliaUseCaseResponse {
+    func execute(request: SearchTagsWithAlgoliaUseCaseRequest) async throws -> [Tag] {
         let searchResponse = try await algoliaRepository.searchTags(
             query: request.query,
             limit: request.limit
         )
         
-        // SearchTagItemからTagに変換してからTagSuggestionに変換
-        let suggestions = searchResponse.tags.map { tagItem in
-            let tag = Tag(
+        return searchResponse.tags.map { tagItem in
+            Tag(
                 id: tagItem.objectID.rawValue,
                 displayName: tagItem.name,
                 tagName: tagItem.name,
@@ -31,12 +30,6 @@ final class SearchTagsWithAlgoliaUseCase: SearchTagsWithAlgoliaUseCaseProtocol {
                 createdAt: Date(),
                 updatedAt: Date()
             )
-            return TagSuggestion(tag: tag)
         }
-        
-        return SearchTagsWithAlgoliaUseCaseResponse(
-            suggestions: suggestions,
-            totalCount: searchResponse.totalCount
-        )
     }
 }
