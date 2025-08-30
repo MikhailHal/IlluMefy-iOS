@@ -20,17 +20,21 @@ public struct SearchBar: View {
   private let placeholder: String
   private let searchBarStyle: SearchBarStyle
   private var onSubmit: () -> Void
+  private var onChange: ((String) -> Void)
 
   public init(text: Binding<String>,
               isEditing: Binding<Bool>,
               searchBarStyle: SearchBarStyle,
               placeholder: String = "Search ...",
-              onSubmit: @escaping () -> Void = {}) {
+              onSubmit: @escaping () -> Void = {},
+              onChange: @escaping (String) -> Void = {_ in },
+  ) {
     _text = text
     _isEditing = isEditing
     self.placeholder = placeholder
     self.searchBarStyle = searchBarStyle
     self.onSubmit = onSubmit
+    self.onChange = onChange
   }
 
   public var body: some View {
@@ -48,6 +52,9 @@ public struct SearchBar: View {
       .focused($isFocused)
       .onChange(of: isFocused) { _, newValue in
         isEditing = newValue
+      }
+      .onChange(of: text) { _, newValue in
+        onChange(newValue)
       }
       if isEditing {
         Button(action: {
