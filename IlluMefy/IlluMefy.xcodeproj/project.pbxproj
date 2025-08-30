@@ -30,6 +30,7 @@
 		64EF865A2D7601B900C9732A /* FirebaseVertexAI in Frameworks */ = {isa = PBXBuildFile; productRef = 64EF86592D7601B900C9732A /* FirebaseVertexAI */; };
 		64EFB2002E5B5D0C00FC3AC6 /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 64EFB1FF2E5B5D0C00FC3AC6 /* FirebaseAppCheck */; };
 		64FD9D992E629E9A00F123C3 /* InstantSearchSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 64FD9D982E629E9A00F123C3 /* InstantSearchSwiftUI */; };
+		64FD9DAD2E631DF600F123C3 /* AlgoliaSearchClient in Frameworks */ = {isa = PBXBuildFile; productRef = 64FD9DAC2E631DF600F123C3 /* AlgoliaSearchClient */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -143,6 +144,7 @@
 				64EF86562D7601B900C9732A /* FirebaseMessaging in Frameworks */,
 				64FD9D992E629E9A00F123C3 /* InstantSearchSwiftUI in Frameworks */,
 				6452ED1B2E4EC71B00EB925A /* WrappingHStack in Frameworks */,
+				64FD9DAD2E631DF600F123C3 /* AlgoliaSearchClient in Frameworks */,
 				64EF865A2D7601B900C9732A /* FirebaseVertexAI in Frameworks */,
 				6452ED532E577F0400EB925A /* FirebaseRemoteConfig in Frameworks */,
 				64EF86502D7601B900C9732A /* FirebaseCrashlytics in Frameworks */,
@@ -253,6 +255,7 @@
 				64EFB1FF2E5B5D0C00FC3AC6 /* FirebaseAppCheck */,
 				647F595E2E5C985500EB54FF /* RecaptchaEnterprise */,
 				64FD9D982E629E9A00F123C3 /* InstantSearchSwiftUI */,
+				64FD9DAC2E631DF600F123C3 /* AlgoliaSearchClient */,
 			);
 			productName = Pencula;
 			productReference = 645EBCFE2D58F9C600AC7BAC /* IlluMefy.app */;
@@ -357,6 +360,7 @@
 				6452ED192E4EC71B00EB925A /* XCRemoteSwiftPackageReference "WrappingHStack" */,
 				647F595D2E5C985500EB54FF /* XCRemoteSwiftPackageReference "recaptcha-enterprise-mobile-sdk" */,
 				64FD9D972E629E9A00F123C3 /* XCRemoteSwiftPackageReference "instantsearch-ios" */,
+				64FD9DAB2E631DF600F123C3 /* XCRemoteSwiftPackageReference "algoliasearch-client-swift" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 645EBCFF2D58F9C600AC7BAC /* Products */;
@@ -871,6 +875,14 @@
 				minimumVersion = 7.27.0;
 			};
 		};
+		64FD9DAB2E631DF600F123C3 /* XCRemoteSwiftPackageReference "algoliasearch-client-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/algolia/algoliasearch-client-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.27.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -993,6 +1005,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 64FD9D972E629E9A00F123C3 /* XCRemoteSwiftPackageReference "instantsearch-ios" */;
 			productName = InstantSearchSwiftUI;
+		};
+		64FD9DAC2E631DF600F123C3 /* AlgoliaSearchClient */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 64FD9DAB2E631DF600F123C3 /* XCRemoteSwiftPackageReference "algoliasearch-client-swift" */;
+			productName = AlgoliaSearchClient;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
