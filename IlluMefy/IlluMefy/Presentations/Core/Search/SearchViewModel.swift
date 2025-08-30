@@ -97,6 +97,7 @@ final class SearchViewModel: SearchViewModelProtocol {
         let request = GetPopularCreatorsUseCaseRequest(limit: 20)
         var response: [Creator] = []
         do {
+            state = .searching
             response = try await getPopularCreatorsUseCase.execute(request: request).creators
             state = .loadedPopularCreators(response)
         } catch {

@@ -9,6 +9,7 @@ import SwiftUI
 import UIKit
 
 struct SearchView: View {
+    @EnvironmentObject private var router: IlluMefyAppRouter
     @State private var viewModel: SearchViewModel =
     DependencyContainer.shared.resolve(SearchViewModel.self)!
     
@@ -109,7 +110,7 @@ struct SearchView: View {
         Group {
             switch viewModel.state {
             case .initial:
-                initialStateView
+                loadingView
             case .loadedPopularCreators(let creators):
                 creatorResultsView(creators: creators)
             case .searching:
@@ -124,7 +125,7 @@ struct SearchView: View {
         }.padding(.top, Spacing.unrelatedComponentDivider)
     }
     
-    private var initialStateView: some View {
+    private var loadingView: some View {
         ScrollView {
             LazyVGrid(columns: [
                 GridItem(.flexible(), spacing: 0),
@@ -137,19 +138,6 @@ struct SearchView: View {
             }
             .padding(0)
         }
-    }
-    
-    private var loadingView: some View {
-        VStack(spacing: Spacing.unrelatedComponentDivider) {
-            Spacer()
-            ProgressView()
-                .scaleEffect(Effects.scaleIcon)
-            Text(L10n.Common.loading)
-                .font(.headline)
-                .foregroundColor(Asset.Color.SearchEmpty.searchEmptyTitle.swiftUIColor)
-            Spacer()
-        }
-        .padding(Spacing.screenEdgePadding)
     }
     
     // MARK: - Helper Views
@@ -222,7 +210,11 @@ struct SearchView: View {
                     GridItem(.flexible(), spacing: 0)
                 ], spacing: 0) {
                     ForEach(creators) { creator in
-                        SearchResultCreatorCard(creator: creator, onTap: {})
+                        SearchResultCreatorCard(creator: creator, onTap: {
+                            let impactFeedback = UIImpactFeedbackGenerator(style: .heavy)
+                            impactFeedback.impactOccurred()
+                            router.navigate(to: .creatorDetail(creator: creator))
+                        })
                     }
                     
                     // Load More Indicator
