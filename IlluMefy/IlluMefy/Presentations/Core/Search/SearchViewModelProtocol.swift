@@ -25,4 +25,5 @@ protocol SearchViewModelProtocol {
     func loadMore() async -> [Creator]
     func getPopularCreatorList() async -> [Creator]
     func onTappedSuggestion (tag: Tag)
+    func onTappedTagForDeletion (tag: Tag)
 }

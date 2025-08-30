@@ -133,4 +133,8 @@ final class SearchViewModel: SearchViewModelProtocol {
         }
         return response
     }
+    
+    func onTappedTagForDeletion(tag: Tag) {
+        selectedTags.remove(at: selectedTags.firstIndex(of: tag)!)
+    }
 }

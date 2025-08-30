@@ -40,7 +40,9 @@ struct SearchView: View {
                 case .showingResults(let creators):
                     VStack(spacing: Spacing.relatedComponentDivider) {
                         if !viewModel.selectedTags.isEmpty {
-                            selectedTagsView(tags: viewModel.selectedTags, onRemove: {_ in})
+                            selectedTagsView(tags: viewModel.selectedTags, onRemove: {tag in
+                                viewModel.onTappedTagForDeletion(tag: tag)
+                            })
                         }
                         creatorResultsView(creators: creators)
                     }
