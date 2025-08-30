@@ -38,6 +38,11 @@ final class AlgoliaRepository: AlgoliaRepositoryProtocol {
             throw AlgoliaError.notInitialized
         }
         
+        // 空クエリの場合は空結果を返す（Algoliaは空クエリで全件返すため）
+        guard !query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            return SearchTagsResponse(tags: [], totalCount: 0)
+        }
+        
         return try await withCheckedThrowingContinuation { continuation in
             let indexName = IndexName(rawValue: "tags")
             let index = client.index(withName: indexName)
@@ -52,6 +57,14 @@ final class AlgoliaRepository: AlgoliaRepositoryProtocol {
                 case .success(let response):
                     do {
                         let algoliaHits: [SearchTagItem] = try response.extractHits()
+                        
+                        // 検索結果が空の場合は空リストを返す
+                        guard !algoliaHits.isEmpty else {
+                            let emptyResponse = SearchTagsResponse(tags: [], totalCount: 0)
+                            continuation.resume(returning: emptyResponse)
+                            return
+                        }
+                        
                         let searchResponse = SearchTagsResponse(
                             tags: algoliaHits,
                             totalCount: algoliaHits.count

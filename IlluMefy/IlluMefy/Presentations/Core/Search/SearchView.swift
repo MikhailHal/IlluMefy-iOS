@@ -55,6 +55,9 @@ struct SearchView: View {
             text: $viewModel.searchText,
             isEditing: $isEditing,
             searchBarStyle: SearchBarStyle(),
+            onSubmit: {
+                // Enterキー押下時は何もしない（タグ選択を強制）
+            },
             onChange: { newValue in
                 Task {
                     if newValue.isEmpty {
