@@ -20,10 +20,20 @@ struct SearchView: View {
             
             VStack(spacing: 0) {
                 searchBarSection
-                suggestionsSectiopn
-                hitListSection
+                ZStack {
+                    hitListSection
+                    if viewModel.isEditing {
+                        Asset.Color.Application.Background.backgroundSecondary.swiftUIColor.opacity(0.7)
+                            .ignoresSafeArea()
+                            .transition(.opacity)
+                        
+                        suggestionsSectiopn
+                            .transition(.move(edge: .bottom).combined(with: .opacity))
+                    }
+                }
             }
         }
+        .animation(.easeInOut(duration: 0.3), value: viewModel.isEditing)
         .onTapGesture {
             hideKeyboard()
         }
