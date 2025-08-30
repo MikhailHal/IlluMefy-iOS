@@ -20,7 +20,7 @@ struct SearchView: View {
             VStack(spacing: 0) {
                 searchBarSection
                 suggestionsSectiopn
-                mainContentSection
+                hitListSection
             }
         }
         .onTapGesture {
@@ -100,7 +100,7 @@ struct SearchView: View {
         }
     }
     
-    private var mainContentSection: some View {
+    private var hitListSection: some View {
         Group {
             switch viewModel.state {
             case .initial:
@@ -215,7 +215,7 @@ struct SearchView: View {
                     GridItem(.flexible(), spacing: 0)
                 ], spacing: 0) {
                     ForEach(creators) { creator in
-                        SearchCreatorCard(creator: creator, viewModel: viewModel)
+                        SearchResultCreatorCard(creator: creator, onTap: {})
                     }
                     
                     // Load More Indicator
@@ -244,74 +244,6 @@ struct SearchView: View {
         }
     }
     
-}
-
-struct SearchCreatorCard: View {
-    let creator: Creator
-    let viewModel: SearchViewModel
-    @EnvironmentObject private var router: IlluMefyAppRouter
-    
-    var body: some View {
-        GeometryReader { geometry in
-            Button(action: {
-                let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
-                impactFeedback.impactOccurred()
-                router.navigate(to: .creatorDetail(creator: creator))
-            }, label: {
-                ZStack(alignment: .bottomLeading) {
-                    // 背景画像（TikTok風の全面表示）
-                    AsyncImage(url: URL(string: creator.thumbnailUrl)) { image in
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                    } placeholder: {
-                        Rectangle()
-                            .fill(Asset.Color.Application.Background.backgroundSecondary.swiftUIColor)
-                            .overlay(
-                                ProgressView()
-                                    .tint(Asset.Color.Application.textSecondary.swiftUIColor)
-                            )
-                    }
-                    .frame(width: geometry.size.width, height: geometry.size.height)
-                    .clipped()
-                    
-                    // グラデーションオーバーレイ（テキストの可読性向上）
-                    LinearGradient(
-                        gradient: Gradient(colors: [
-                            Color.black.opacity(0.0),
-                            Color.black.opacity(0.3),
-                            Color.black.opacity(0.7)
-                        ]),
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
-                    
-                    // クリエイター情報（左下配置）
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(creator.name)
-                            .font(.system(size: 12, weight: .semibold))
-                            .foregroundColor(.white)
-                            .lineLimit(1)
-                            .shadow(radius: 1)
-                    }
-                    .padding(8)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
-                }
-            })
-            .buttonStyle(PlainButtonStyle())
-        }
-        .aspectRatio(9/16, contentMode: .fit) // TikTok風の縦長アスペクト比
-    }
-    
-    private func formatViewCount(_ count: Int) -> String {
-        if count >= 1000000 {
-            return String(format: "%.1fM", Double(count) / 1000000)
-        } else if count >= 1000 {
-            return String(format: "%.1fK", Double(count) / 1000)
-        } else {
-            return "\(count)"
-        }
-    }
 }
 
 extension SearchView {
