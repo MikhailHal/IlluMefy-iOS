@@ -12,7 +12,7 @@ import Foundation
 protocol SearchViewModelProtocol {
     var searchText: String { get set }
     var selectedTags: [Tag] { get }
-    var state: SearchState { get }
+    var state: SearchState { get set }
     var searchHistory: [String] { get }
     var isLoading: Bool { get }
     var hasMore: Bool { get }

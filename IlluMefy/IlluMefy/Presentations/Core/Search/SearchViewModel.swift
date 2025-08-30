@@ -17,7 +17,7 @@ final class SearchViewModel: SearchViewModelProtocol {
     var searchText: String = ""
     var selectedTags: [Tag] = []
     var hitList = [] as [Creator]
-    private(set) var state: SearchState = .initial
+    var state: SearchState = .initial
     private(set) var searchHistory: [String] = []
     private(set) var isLoading = false
     private(set) var hasMore = false
@@ -66,8 +66,10 @@ final class SearchViewModel: SearchViewModelProtocol {
         currentCreators = []
         
         guard !selectedTags.isEmpty else {
+            // タグが選択されていない場合は人気クリエイターを表示
+            let popularCreators = await getPopularCreatorList()
+            state = .showingResults(creators: popularCreators)
             isLoading = false
-            state = .empty
             return
         }
         
@@ -137,8 +139,7 @@ final class SearchViewModel: SearchViewModelProtocol {
     
     func getSuggestions(query: String) async {
         guard !query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-            // クエリが空の場合はhitListを表示
-            state = .showingResults(creators: hitList)
+            // クエリが空の場合は何もしない
             return
         }
         
@@ -188,5 +189,13 @@ final class SearchViewModel: SearchViewModelProtocol {
     
     func onTappedTagForDeletion(tag: Tag) {
         selectedTags.remove(at: selectedTags.firstIndex(of: tag)!)
+        
+        // タグが全て削除された場合は人気クリエイターを表示
+        if selectedTags.isEmpty {
+            Task {
+                let popularCreators = await getPopularCreatorList()
+                state = .showingResults(creators: popularCreators)
+            }
+        }
     }
 }

@@ -73,20 +73,23 @@ struct SearchView: View {
             searchBarStyle: SearchBarStyle(),
             onChange: { newValue in
                 Task {
-                    await viewModel.getSuggestions(query: newValue)
+                    if newValue.isEmpty {
+                        if viewModel.selectedTags.isEmpty {
+                            // テキストもタグも空なら人気クリエイター取得
+                            let popularCreators = await viewModel.getPopularCreatorList()
+                            viewModel.state = .showingResults(creators: popularCreators)
+                        } else {
+                            // タグが選択されている場合はhitListを表示
+                            viewModel.state = .showingResults(creators: viewModel.hitList)
+                        }
+                    } else {
+                        await viewModel.getSuggestions(query: newValue)
+                    }
                 }
             }
         )
         .padding(.horizontal, Spacing.screenEdgePadding)
         .padding(.top, Spacing.screenEdgePadding)
-        .onChange(of: isEditing) { _, newValue in
-            if !newValue && viewModel.searchText.isEmpty {
-                // 編集終了かつテキストが空の場合はhitListを表示
-                Task {
-                    await viewModel.getSuggestions(query: "")
-                }
-            }
-        }
     }
     
     private func suggestionsList(suggestions: [TagSuggestion]) -> some View {
