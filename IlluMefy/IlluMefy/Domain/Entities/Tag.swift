@@ -26,10 +26,10 @@ import Foundation
  )
  ```
  */
-struct Tag: Equatable, Codable, Identifiable, Hashable {
+public struct Tag: Equatable, Codable, Identifiable, Hashable {
     
     /// タグの一意識別子
-    let id: String
+    public let id: String
     
     /// ユーザーに表示される名前
     /// 
