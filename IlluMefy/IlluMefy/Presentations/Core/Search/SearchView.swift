@@ -72,7 +72,7 @@ struct SearchView: View {
                     viewModel.onTappedSuggestion(tag: tag)
                 }
             )
-        })
+        }.listStyle(.plain))
     }
     
     private var searchHistorySection: some View {
