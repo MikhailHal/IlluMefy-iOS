@@ -7,6 +7,7 @@
 //TODO: 日本語に変えてこう
 
 import Swinject
+import Foundation
 
 final class DependencyContainer: @unchecked Sendable {
     static let shared = DependencyContainer()
@@ -134,8 +135,19 @@ final class DependencyContainer: @unchecked Sendable {
         
         // Algolia repository
         container.register(AlgoliaRepository.self) { resolver in
-            let firebaseRemoteConfig = resolver.resolve(FirebaseRemoteConfigProtocol.self)!
-            return AlgoliaRepository(firebaseRemoteConfig: firebaseRemoteConfig)
+            // プレビューモードではダミーのFirebaseRemoteConfigを使用
+            if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1" {
+                // プレビュー用のモック実装
+                class MockFirebaseRemoteConfig: FirebaseRemoteConfigProtocol {
+                    func fetchValue<T>(key: String) -> T? {
+                        return nil // プレビューでは何も返さない
+                    }
+                }
+                return AlgoliaRepository(firebaseRemoteConfig: MockFirebaseRemoteConfig())
+            } else {
+                let firebaseRemoteConfig = resolver.resolve(FirebaseRemoteConfigProtocol.self)!
+                return AlgoliaRepository(firebaseRemoteConfig: firebaseRemoteConfig)
+            }
         }.inObjectScope(.container)
     }
     ///
