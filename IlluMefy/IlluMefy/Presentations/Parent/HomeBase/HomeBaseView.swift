@@ -42,7 +42,7 @@ private struct TabBarView: View {
                     Text(L10n.Navigation.home)
                 }
                 .tag(0)
-            SearchView(viewModel: searchViewModel)
+            SearchView()
                 .tabItem {
                     Image(systemName: "sparkle.magnifyingglass")
                     Text(L10n.Navigation.search)

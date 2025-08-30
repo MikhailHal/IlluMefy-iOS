@@ -9,23 +9,11 @@ import SwiftUI
 import UIKit
 
 struct SearchView: View {
-    @State private var viewModel: SearchViewModel
-    
-    init(viewModel: SearchViewModel? = nil) {
-        if let viewModel = viewModel {
-            self._viewModel = State(initialValue: viewModel)
-        } else {
-            let container = DependencyContainer.shared
-            guard let resolvedViewModel = container.container.resolve(SearchViewModel.self) else {
-                fatalError("Failed to resolve SearchViewModel")
-            }
-            self._viewModel = State(initialValue: resolvedViewModel)
-        }
-    }
+    @State private var viewModel: SearchViewModel =
+    DependencyContainer.shared.resolve(SearchViewModel.self)!
     
     var body: some View {
         ZStack {
-            // Netflix-style dark background
             Asset.Color.Application.Background.backgroundPrimary.swiftUIColor
                 .ignoresSafeArea()
             
