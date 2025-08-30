@@ -317,6 +317,7 @@
 "common.viewCount" = "%d 回視聴";
 "common.viewCountThousand" = "%@K 回視聴";
 "common.viewCountMillion" = "%@M 回視聴";
+"common.error" = "エラー";
 
 /* Settings */
 "settings.logout" = "ログアウト";

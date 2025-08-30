@@ -60,11 +60,37 @@ final class SearchViewModel: SearchViewModelProtocol {
     
     // MARK: - Public Methods
     func search() async {
-        
         isLoading = true
         state = .searching
         currentOffset = 0
         currentCreators = []
+        
+        guard !selectedTags.isEmpty else {
+            isLoading = false
+            state = .empty
+            return
+        }
+        
+        do {
+            let request = SearchCreatorsByTagsUseCaseRequest(
+                tagIds: selectedTags.map { $0.id },
+                searchMode: .any,
+                sortOrder: .popularity,
+                offset: 0,
+                limit: pageSize
+            )
+            
+            let response = try await searchCreatorsByTagsUseCase.execute(request: request)
+            currentCreators = response.creators
+            totalCount = response.totalCount
+            hasMore = response.hasMore
+            currentOffset = response.creators.count
+            
+            state = response.creators.isEmpty ? .empty : .showingResults(creators: response.creators)
+        } catch {
+            print("Search error: \(error)")
+            state = .error(L10n.Common.error, error.localizedDescription)
+        }
         
         isLoading = false
     }
@@ -78,7 +104,35 @@ final class SearchViewModel: SearchViewModelProtocol {
     }
     
     func loadMore() async -> [Creator] {
-        return []
+        guard hasMore && !isLoading else { return [] }
+        
+        isLoading = true
+        
+        do {
+            let request = SearchCreatorsByTagsUseCaseRequest(
+                tagIds: selectedTags.map { $0.id },
+                searchMode: .all,
+                sortOrder: .popularity,
+                offset: currentOffset,
+                limit: pageSize
+            )
+            
+            let response = try await searchCreatorsByTagsUseCase.execute(request: request)
+            let newCreators = response.creators
+            
+            currentCreators.append(contentsOf: newCreators)
+            currentOffset += newCreators.count
+            hasMore = response.hasMore
+            
+            state = .showingResults(creators: currentCreators)
+            
+            isLoading = false
+            return newCreators
+        } catch {
+            print("Load more error: \(error)")
+            isLoading = false
+            return []
+        }
     }
     
     func getSuggestions(query: String) async {
@@ -112,10 +166,8 @@ final class SearchViewModel: SearchViewModelProtocol {
     func onTappedSuggestion(tag: Tag) {
         searchText = ""
         selectedTags.append(tag)
-        state = .searching
         Task {
-            let response = await getPopularCreatorList()
-            state = .showingResults(creators: response)
+            await search()
         }
     }
     

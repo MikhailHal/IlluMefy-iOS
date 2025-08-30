@@ -11,7 +11,6 @@ import Foundation
  タグによるクリエイター検索ユースケース
  
  指定されたタグに関連するクリエイターを検索します。
- フォークソノミーによるタグ検索の中核機能です。
  */
 final class SearchCreatorsByTagsUseCase: SearchCreatorsByTagsUseCaseProtocol {
     

@@ -133,7 +133,23 @@ final class CreatorRepository: CreatorRepositoryProtocol {
         offset: Int,
         limit: Int
     ) async throws -> CreatorSearchResult {
-        // TODO: 実装予定
-        throw CreatorRepositoryError.notImplemented
+        let parameters: [String: Any] = [
+            "q": tagIds.joined(separator: ","),
+            "limit": limit
+        ]
+        
+        let response = try await apiClient.request(
+            endpoint: "/creators/search",
+            method: .get,
+            parameters: parameters,
+            responseType: SearchCreatorsByTagsResponse.self,
+            isRequiredAuth: false
+        )
+        
+        return CreatorSearchResult(
+            creators: response.data.map { $0.toCreator() },
+            totalCount: response.data.count,
+            hasMore: false // Backend doesn't support pagination yet
+        )
     }
 }

@@ -8,7 +8,7 @@
 import Foundation
 
 /// タグ検索モード
-public enum TagSearchMode {
+public enum TagSearchMode: String {
     case all    // AND検索 - すべてのタグを含む
     case any    // OR検索 - いずれかのタグを含む
 }

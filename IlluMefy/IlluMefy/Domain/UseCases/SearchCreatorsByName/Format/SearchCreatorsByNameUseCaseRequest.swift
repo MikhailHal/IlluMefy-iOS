@@ -35,8 +35,8 @@ struct SearchCreatorsByNameUseCaseRequest {
 }
 
 /// クリエイターのソート順
-public enum CreatorSortOrder {
-    case popularity // 人気順
-    case newest     // 新着順
-    case name       // 名前順（五十音）
+public enum CreatorSortOrder: String {
+    case popularity = "popularity" // 人気順
+    case newest = "newest"         // 新着順
+    case name = "name"             // 名前順（五十音）
 }
