@@ -18,6 +18,7 @@ final class SearchViewModel: SearchViewModelProtocol {
             onSearchTextChanged()
         }
     }
+    var isEditing: Bool = false
     private(set) var suggestions: [Tag] = []
     private(set) var selectedTags: [Tag] = [] {
         didSet {
