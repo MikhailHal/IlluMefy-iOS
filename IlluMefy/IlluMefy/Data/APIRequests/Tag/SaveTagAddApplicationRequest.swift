@@ -15,15 +15,19 @@ struct SaveTagAddApplicationRequest: Codable {
     /// ユーザーUID
     let userUid: String
     
+    /// クリエイターID
+    let creatorId: String
+    
     /// 申請日時
     let createdAt: Date
     
     /// 審査状況
     let state: String
     
-    init(name: String, userUid: String, createdAt: Date = Date(), state: String = "Not Processed") {
+    init(name: String, userUid: String, creatorId: String, createdAt: Date = Date(), state: String = "Not Processed") {
         self.name = name.trimmingCharacters(in: .whitespacesAndNewlines)
         self.userUid = userUid
+        self.creatorId = creatorId
         self.createdAt = createdAt
         self.state = state
     }

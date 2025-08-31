@@ -14,6 +14,8 @@ struct TagAddApplication {
     let name: String
     /** ユーザーuid*/
     let userUid: String
+    /** クリエイターid */
+    let creatorId: String
     /** 申請日時*/
     let createdAt: Date
     /** 審査状況*/

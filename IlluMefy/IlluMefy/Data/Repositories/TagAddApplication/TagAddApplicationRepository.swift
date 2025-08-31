@@ -18,6 +18,7 @@ class TagAddApplicationRepository: TagAddApplicationRepositoryProtocol {
             let documentData: [String: Any] = [
                 "name": request.name,
                 "userUid": request.userUid,
+                "creatorId": request.creatorId,
                 "createdAt": Timestamp(date: request.createdAt),
                 "state": request.state
             ]

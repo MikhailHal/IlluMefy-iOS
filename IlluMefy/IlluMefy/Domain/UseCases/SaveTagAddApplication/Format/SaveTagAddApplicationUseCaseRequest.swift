@@ -15,9 +15,13 @@ struct SaveTagAddApplicationUseCaseRequest {
     /// ユーザーUID
     let userUid: String
     
-    init(tagName: String, userUid: String) {
+    /// クリエイターID
+    let creatorId: String
+    
+    init(tagName: String, userUid: String, creatorId: String) {
         self.tagName = tagName
         self.userUid = userUid
+        self.creatorId = creatorId
     }
     
     /// リクエストのバリデーション
@@ -30,6 +34,10 @@ struct SaveTagAddApplicationUseCaseRequest {
         
         if userUid.isEmpty {
             throw SaveTagAddApplicationUseCaseError.invalidUserUid
+        }
+        
+        if creatorId.isEmpty {
+            throw SaveTagAddApplicationUseCaseError.invalidCreatorId
         }
     }
 }

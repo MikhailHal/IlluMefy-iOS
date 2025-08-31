@@ -29,12 +29,14 @@ class SaveTagAddApplicationUseCase: SaveTagAddApplicationUseCaseProtocol {
             let tagAddApplication = TagAddApplication(
                 name: request.tagName,
                 userUid: request.userUid,
-                createdAt: Date(),
+                creatorId: request.creatorId,
+                createdAt: Date()
             )
         
             let repositoryRequest = SaveTagAddApplicationRequest(
                 name: tagAddApplication.name,
                 userUid: tagAddApplication.userUid,
+                creatorId: tagAddApplication.creatorId,
                 createdAt: tagAddApplication.createdAt,
                 state: tagAddApplication.state
             )

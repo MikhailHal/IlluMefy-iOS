@@ -116,7 +116,8 @@ final class CreatorDetailViewModel: CreatorDetailViewModelProtocol {
         do {
             let request = SaveTagAddApplicationUseCaseRequest(
                 tagName: tagName,
-                userUid: Auth.auth().currentUser!.uid
+                userUid: Auth.auth().currentUser!.uid,
+                creatorId: creator.id
             )
             
             try await saveTagAddApplicationUseCase.execute(request)
