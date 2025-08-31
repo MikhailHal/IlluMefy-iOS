@@ -254,6 +254,9 @@ struct CreatorDetailView: View {
                 case .tag(let tag):
                     IlluMefyFeaturedTag(
                         text: tag.displayName,
+                        onTapped: { _ in
+                            router.navigate(to: .search(tag: tag))
+                        },
                         onLongPress: { tagText in
                             selectedTagForDeletion = tagText
                             showingTagDeleteConfirmation = true

@@ -38,6 +38,8 @@ struct ParentView: View {
                         PhoneVerificationView(verificationID: verificationID, phoneNumber: phoneNumber)
                     case .creatorDetail(let creator):
                         CreatorDetailView(creator: creator)
+                    case .search(let tag):
+                        SearchView(initialTag: tag)
                     }
                 }
             }.environmentObject(router)
