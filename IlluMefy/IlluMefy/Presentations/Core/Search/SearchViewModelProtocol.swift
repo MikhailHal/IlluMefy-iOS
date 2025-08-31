@@ -18,6 +18,7 @@ protocol SearchViewModelProtocol {
     var hasMore: Bool { get }
     var hitList: [Creator] { get }
     
+    func initialize(with initialTag: Tag?)
     func search() async
     func getSuggestions(query: String) async
     func clearHistory() async

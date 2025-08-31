@@ -59,6 +59,21 @@ final class SearchViewModel: SearchViewModelProtocol {
     }
     
     // MARK: - Public Methods
+    
+    /// 初期化処理（初期タグがある場合は設定して検索、ない場合は人気クリエイター取得）
+    func initialize(with initialTag: Tag? = nil) {
+        if let initialTag = initialTag {
+            selectedTags = [initialTag]
+            Task {
+                await search()
+            }
+        } else {
+            Task {
+                await getPopularCreatorList()
+            }
+        }
+    }
+    
     func search() async {
         isLoading = true
         state = .searching

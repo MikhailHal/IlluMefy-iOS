@@ -14,6 +14,12 @@ struct SearchView: View {
     DependencyContainer.shared.resolve(SearchViewModel.self)!
     @State private var isEditing = false
     
+    private let initialTag: Tag?
+    
+    init(initialTag: Tag? = nil) {
+        self.initialTag = initialTag
+    }
+    
     var body: some View {
         ZStack {
             Asset.Color.Application.Background.backgroundPrimary.swiftUIColor
@@ -42,9 +48,7 @@ struct SearchView: View {
             hideKeyboard()
         }
         .onAppear {
-            Task {
-                await viewModel.getPopularCreatorList()
-            }
+            viewModel.initialize(with: initialTag)
         }
     }
     

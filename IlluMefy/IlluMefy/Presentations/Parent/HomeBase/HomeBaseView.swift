@@ -23,7 +23,7 @@ struct HomeBaseView: View {
 
 private struct TabBarView: View {
     @State private var selectedTab: Int = 0
-    @State private var searchViewModel = DependencyContainer.shared.resolve(SearchViewModel.self)!
+    @State private var selectedTagForSearch: Tag?
     
     init() {
         let appearance: UITabBarAppearance = UITabBarAppearance()
@@ -34,6 +34,7 @@ private struct TabBarView: View {
     var body: some View {
         TabView(selection: $selectedTab) {
             HomeView(onTagTapped: { tag in
+                selectedTagForSearch = tag
                 selectedTab = 1
             })
                 .tabItem {
@@ -41,12 +42,13 @@ private struct TabBarView: View {
                     Text(L10n.Navigation.home)
                 }
                 .tag(0)
-            SearchView()
+            SearchView(initialTag: selectedTagForSearch)
                 .tabItem {
                     Image(systemName: "sparkle.magnifyingglass")
                     Text(L10n.Navigation.search)
                 }
                 .tag(1)
+                .onAppear { selectedTagForSearch = nil }
             FavoriteView()
                 .tabItem {
                     Image(systemName: "star.fill")
