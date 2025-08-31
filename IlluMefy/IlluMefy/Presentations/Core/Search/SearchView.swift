@@ -22,8 +22,7 @@ struct SearchView: View {
     
     var body: some View {
         ZStack {
-            Asset.Color.Application.Background.backgroundPrimary.swiftUIColor
-                .ignoresSafeArea()
+            background.ignoresSafeArea()
             
             VStack(spacing: Spacing.relatedComponentDivider) {
                 searchBarSection
@@ -53,6 +52,13 @@ struct SearchView: View {
     }
     
     // MARK: - View Components
+    
+    private var background: some View {
+        ZStack {
+            AnimatedGradientBackground()
+            FloatingParticlesView()
+        }
+    }
     
     private var searchBarSection: some View {
         SearchBar(
