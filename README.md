@@ -12,11 +12,6 @@ Firebase認証、リアルタイムデータ同期、AIを活用したスマー�
 * **クリエイター発見**: タグベースの高度な検索とフィルタリング
 * **お気に入り管理**: パーソナルクリエイターコレクション
 * **コミュニティタグ**: ユーザー参加型のタグ編集と管理
-* **リアルタイム同期**: 即座のデータ更新とオフライン対応
-* **スマート検索**: AI駆動の関連クリエイター推薦
-* **ダークモード対応**: システム設定に応じた自動切り替え
-* **アクセシビリティ**: VoiceOverとDynamic Type完全対応
-* **パフォーマンス最適化**: 画像キャッシングと遅延読み込み
 
 ## 🔍 現在のステータス
 IlluMefy iOSは活発に開発中です。  
@@ -24,40 +19,47 @@ IlluMefy iOSは活発に開発中です。
 
 ## このアプリで使用されているもの
 ### 基本情報
-Language: Swift 5.9  
-Framework: SwiftUI  
-Minimum iOS Version: 17.0  
-Architecture: Clean Architecture + MVVM  
-Dependency Injection: Swinject  
-Resource Management: SwiftGen
+IDE: Xcode (Ver 16.2)  
+Language: Swift 5 (SwiftGenの互換性問題が解決されるまでSwift 6にはアップデートしない)  
+Architecture: Clean Architecture + Router  
+Package Manager: SPM (Swift Package Manager)  
+Static Analysis: SwiftLint  
+CI/CD: GitHub Actions
 
-### サービス・SDK
-* Firebase SDK
-* Firebase Authentication
-* Firebase Firestore
-* Firebase Storage
-* Firebase Analytics
-* Firebase Crashlytics
+### Capabilities
+* Background Modes
+* Push Notifications
 
 ### ライブラリ
-#### UI Framework
-* SwiftUI - 宣言的UIフレームワーク
+#### UI
+* SwiftUI
+* SwiftfulLoadingIndicators
+* SwiftUI Shimmer
+* WrappingHStack
 
-#### アーキテクチャ・依存性注入
-* Swinject - Swift用依存性注入コンテナ
+#### Logic
+##### Firebase
+* Firebase Authentication
+* Firebase Cloud Functions
+* Firebase Crashlytics
+* Firebase Analytics
+* Firebase Storage
 
-#### 非同期処理
-* Swift Concurrency - async/awaitとactor model
+##### Resources
+* SwiftGen
 
-#### リソース管理
-* SwiftGen - 型安全なリソースアクセス生成ツール
+##### Logic Test
+* Quick
+* Nimble
 
-#### 開発ツール
-* SwiftLint - Swiftコード品質とスタイル管理
-* Xcode 15.0+ - 開発環境
+##### UI Test
+* hogehoge
+
+##### Other
+* Combine
 
 ### アーキテクチャ
-アプリはClean Architecture + MVVMパターンに従います：
+アプリはClean Architecture + Routerパターンに従います：
 - **Presentation Layer**: SwiftUIビューとViewModels
 - **Domain Layer**: ビジネスロジックとUseCases  
 - **Data Layer**: リポジトリとデータソース
