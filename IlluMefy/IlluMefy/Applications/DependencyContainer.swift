@@ -85,6 +85,11 @@ final class DependencyContainer: @unchecked Sendable {
             TagRemoveApplicationRepository()
         }.inObjectScope(.container)
         
+        // TagViewCount repository
+        container.register(TagViewCountRepository.self) { _ in
+            TagViewCountRepository()
+        }.inObjectScope(.container)
+        
         // ProfileCorrection repository
         container.register(ProfileCorrectionRepository.self) { _ in
             ProfileCorrectionRepository()
@@ -198,6 +203,11 @@ final class DependencyContainer: @unchecked Sendable {
         // TagRemoveApplication repository
         container.register(TagRemoveApplicationRepositoryProtocol.self) { resolver in
             resolver.resolve(TagRemoveApplicationRepository.self)!
+        }.inObjectScope(.transient)
+        
+        // TagViewCount repository
+        container.register(TagViewCountRepositoryProtocol.self) { resolver in
+            resolver.resolve(TagViewCountRepository.self)!
         }.inObjectScope(.transient)
         
         // ProfileCorrection repository
@@ -362,6 +372,16 @@ final class DependencyContainer: @unchecked Sendable {
         
         container.register((any SaveTagRemoveApplicationUseCaseProtocol).self) { resolver in
             resolver.resolve(SaveTagRemoveApplicationUseCase.self)!
+        }.inObjectScope(.transient)
+        
+        // IncrementTagViewCount usecase
+        container.register(IncrementTagViewCountUseCase.self) { resolver in
+            let repository = resolver.resolve(TagViewCountRepositoryProtocol.self)!
+            return IncrementTagViewCountUseCase(repository: repository)
+        }.inObjectScope(.transient)
+        
+        container.register((any IncrementTagViewCountUseCaseProtocol).self) { resolver in
+            resolver.resolve(IncrementTagViewCountUseCase.self)!
         }.inObjectScope(.transient)
         
         // SubmitProfileCorrection usecase
@@ -534,12 +554,14 @@ final class DependencyContainer: @unchecked Sendable {
             let searchCreatorsByTagsUseCase = resolver.resolve((any SearchCreatorsByTagsUseCaseProtocol).self)!
             let getNewestCreatorsUseCase = resolver.resolve((any GetNewestCreatorsUseCaseProtocol).self)!
             let getPopularTagsUseCase = resolver.resolve((any GetPopularTagsUseCaseProtocol).self)!
+            let incrementTagViewCountUseCase = resolver.resolve((any IncrementTagViewCountUseCaseProtocol).self)!
             return MainActor.assumeIsolated {
                 return HomeViewModel(
                     getPopularCreatorsUseCase: getPopularCreatorsUseCase,
                     searchCreatorsByTagsUseCase: searchCreatorsByTagsUseCase,
                     getNewestCreatorsUseCase: getNewestCreatorsUseCase,
-                    getPopularTagsUseCase: getPopularTagsUseCase
+                    getPopularTagsUseCase: getPopularTagsUseCase,
+                    incrementTagViewCountUseCase: incrementTagViewCountUseCase
                 )
             }
         }.inObjectScope(.transient)

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import FirebaseAuth
 import Combine
 
 @MainActor
@@ -24,18 +25,21 @@ final class HomeViewModel: HomeViewModelProtocol {
     private let searchCreatorsByTagsUseCase: SearchCreatorsByTagsUseCaseProtocol
     private let getNewestCreatorsUseCase: GetNewestCreatorsUseCaseProtocol
     private let getPopularTagsUseCase: GetPopularTagsUseCaseProtocol
+    private let incrementTagViewCountUseCase: IncrementTagViewCountUseCaseProtocol
     
     // MARK: - Initialization
     init(
         getPopularCreatorsUseCase: GetPopularCreatorsUseCaseProtocol,
         searchCreatorsByTagsUseCase: SearchCreatorsByTagsUseCaseProtocol,
         getNewestCreatorsUseCase: GetNewestCreatorsUseCaseProtocol,
-        getPopularTagsUseCase: GetPopularTagsUseCaseProtocol
+        getPopularTagsUseCase: GetPopularTagsUseCaseProtocol,
+        incrementTagViewCountUseCase: IncrementTagViewCountUseCaseProtocol
     ) {
         self.getPopularCreatorsUseCase = getPopularCreatorsUseCase
         self.searchCreatorsByTagsUseCase = searchCreatorsByTagsUseCase
         self.getNewestCreatorsUseCase = getNewestCreatorsUseCase
         self.getPopularTagsUseCase = getPopularTagsUseCase
+        self.incrementTagViewCountUseCase = incrementTagViewCountUseCase
     }
     
     // MARK: - Public Methods
@@ -99,6 +103,16 @@ final class HomeViewModel: HomeViewModelProtocol {
             error = nil
         } catch {
             self.error = error
+        }
+    }
+    
+    /// タグの閲覧数をインクリメント
+    func incrementTagViewCount(for tag: Tag) async {
+        do {
+            let request = IncrementTagViewCountUseCaseRequest(tagId: tag.id)
+            try await incrementTagViewCountUseCase.execute(request)
+        } catch {
+            print("[HomeViewModel] Failed to increment tag view count: \(error.localizedDescription)")
         }
     }
 }

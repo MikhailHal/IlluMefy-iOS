@@ -36,6 +36,11 @@ private struct TabBarView: View {
             HomeView(onTagTapped: { tag in
                 selectedTagForSearch = tag
                 selectedTab = 1
+                Task {
+                    if let homeViewModel = DependencyContainer.shared.resolve(HomeViewModel.self) {
+                        await homeViewModel.incrementTagViewCount(for: tag)
+                    }
+                }
             })
                 .tabItem {
                     Image(systemName: "house.fill")
