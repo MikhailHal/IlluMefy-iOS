@@ -75,6 +75,11 @@ final class DependencyContainer: @unchecked Sendable {
             TagApplicationRepository()
         }.inObjectScope(.container)
         
+        // TagAddApplication repository
+        container.register(TagAddApplicationRepository.self) { _ in
+            TagAddApplicationRepository()
+        }.inObjectScope(.container)
+        
         // ProfileCorrection repository
         container.register(ProfileCorrectionRepository.self) { _ in
             ProfileCorrectionRepository()
@@ -178,6 +183,11 @@ final class DependencyContainer: @unchecked Sendable {
         // TagApplication repository
         container.register(TagApplicationRepositoryProtocol.self) { resolver in
             resolver.resolve(TagApplicationRepository.self)!
+        }.inObjectScope(.transient)
+        
+        // TagAddApplication repository
+        container.register(TagAddApplicationRepositoryProtocol.self) { resolver in
+            resolver.resolve(TagAddApplicationRepository.self)!
         }.inObjectScope(.transient)
         
         // ProfileCorrection repository
@@ -322,6 +332,16 @@ final class DependencyContainer: @unchecked Sendable {
         
         container.register((any SubmitTagApplicationUseCaseProtocol).self) { resolver in
             resolver.resolve(SubmitTagApplicationUseCase.self)!
+        }.inObjectScope(.transient)
+        
+        // SaveTagAddApplication usecase
+        container.register(SaveTagAddApplicationUseCase.self) { resolver in
+            let repository = resolver.resolve(TagAddApplicationRepositoryProtocol.self)!
+            return SaveTagAddApplicationUseCase(repository: repository)
+        }.inObjectScope(.transient)
+        
+        container.register((any SaveTagAddApplicationUseCaseProtocol).self) { resolver in
+            resolver.resolve(SaveTagAddApplicationUseCase.self)!
         }.inObjectScope(.transient)
         
         // SubmitProfileCorrection usecase
