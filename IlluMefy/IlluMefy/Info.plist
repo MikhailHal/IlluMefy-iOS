@@ -13,6 +13,8 @@
 			</array>
 		</dict>
 	</array>
+	<key>CFBundleDisplayName</key>
+	<string>$(APP_DISPLAY_NAME)</string>
 	<key>FirebaseAppDelegateProxyEnabled</key>
 	<true/>
 	<key>UIBackgroundModes</key>
