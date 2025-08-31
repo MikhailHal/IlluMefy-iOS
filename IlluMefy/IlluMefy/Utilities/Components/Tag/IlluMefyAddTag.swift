@@ -4,25 +4,15 @@ import Shimmer
 // MARK: - Add Tag Component
 struct IlluMefyAddTag: View {
     @State private var isPressed = false
-    @State private var isEditing = false
     @State private var tagText = ""
-    @FocusState private var isFocused: Bool
     
-    let onAdd: ((String) -> Void)?
+    let onTap: (() -> Void)?
     
-    init(onAdd: ((String) -> Void)? = nil) {
-        self.onAdd = onAdd
+    init(onTap: (() -> Void)? = nil) {
+        self.onTap = onTap
     }
     
     var body: some View {
-        if isEditing {
-            editingView
-        } else {
-            addButton
-        }
-    }
-    
-    private var addButton: some View {
         HStack(spacing: Spacing.relatedComponentDivider) {
             Image(systemName: "plus")
                 .frame(maxWidth: 10)
@@ -45,80 +35,14 @@ struct IlluMefyAddTag: View {
         .onTapGesture {
             let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
             impactFeedback.impactOccurred()
-            
-            withAnimation(.easeInOut(duration: AnimationDuration.buttonPress)) {
-                isPressed = true
-            }
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + AnimationDuration.buttonPress) {
-                isPressed = false
-                isEditing = true
-                isFocused = true
-            }
+            onTap?()
         }
-    }
-    
-    private var editingView: some View {
-        HStack(spacing: Spacing.relatedComponentDivider) {
-            TextField("タグ名を入力", text: $tagText)
-                .font(.system(size: Typography.bodyRegular, weight: .medium))
-                .foregroundColor(Asset.Color.Tag.tagText.swiftUIColor)
-                .focused($isFocused)
-                .onSubmit {
-                    submitTag()
-                }
-            
-            Button(action: submitTag) {
-                Image(systemName: "checkmark.circle.fill")
-                    .foregroundColor(.green)
-            }
-            
-            Button(action: cancelEditing) {
-                Image(systemName: "xmark.circle.fill")
-                    .foregroundColor(.red.opacity(0.7))
-            }
-        }
-        .padding(.horizontal, Spacing.medium)
-        .padding(.vertical, Spacing.componentGrouping)
-        .overlay(
-            RoundedRectangle(cornerRadius: CornerRadius.tag)
-                .stroke(Asset.Color.Tag.tagBorder.swiftUIColor, lineWidth: 2)
-        )
-        .onAppear {
-            isFocused = true
-        }
-    }
-    
-    private func submitTag() {
-        guard !tagText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-            cancelEditing()
-            return
-        }
-        
-        let impactFeedback = UIImpactFeedbackGenerator(style: .light)
-        impactFeedback.impactOccurred()
-        
-        onAdd?(tagText)
-        tagText = ""
-        isEditing = false
-        isFocused = false
-    }
-    
-    private func cancelEditing() {
-        let impactFeedback = UIImpactFeedbackGenerator(style: .light)
-        impactFeedback.impactOccurred()
-        
-        tagText = ""
-        isEditing = false
-        isFocused = false
     }
 }
 
 #Preview("Add Button") {
     VStack(spacing: 16) {
-        IlluMefyAddTag { tagName in
-            print("Added tag: \(tagName)")
-        }
+        IlluMefyAddTag { }
     }
     .padding()
 }
@@ -134,9 +58,7 @@ struct IlluMefyAddTag: View {
                         IlluMefyFeaturedTag(text: tag)
                     }
                     
-                    IlluMefyAddTag { tagName in
-                        tags.append(tagName)
-                    }
+                    IlluMefyAddTag { }
                 }
             }
             .padding()
