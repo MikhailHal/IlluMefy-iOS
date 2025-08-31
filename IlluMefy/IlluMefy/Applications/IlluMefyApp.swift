@@ -46,8 +46,12 @@ class AppDelegate: NSObject, UIApplicationDelegate {
   
   // APNsからトークンを受信
   func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-      //TODO: 環境切り替え時、type引数も変えること
+      // 環境に応じてAPNsトークンタイプを自動切り替え
+      #if DEBUG
       Auth.auth().setAPNSToken(deviceToken, type: .sandbox)
+      #else
+      Auth.auth().setAPNSToken(deviceToken, type: .prod)
+      #endif
   }
   
   // サイレントプッシュ通知を受信
