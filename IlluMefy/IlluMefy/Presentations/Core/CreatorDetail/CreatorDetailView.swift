@@ -13,9 +13,7 @@ struct CreatorDetailView: View {
     @State private var viewModel: CreatorDetailViewModel
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var router: IlluMefyAppRouter
-    @State private var showingTagApplication = false
-    @State private var tagApplicationType: TagApplicationRequest.ApplicationType = .add
-    @State private var showingTagApplicationTypeSelection = false
+    @State private var isPresentedTagAddApplication = false
     @State private var showingTagDeleteConfirmation = false
     @State private var selectedTagForDeletion: String = ""
     
@@ -54,29 +52,21 @@ struct CreatorDetailView: View {
             .padding(Spacing.screenEdgePadding)
         }
         .background(Asset.Color.CreatorDetailCard.creatorDetailCardBackground.swiftUIColor)
-        .confirmationDialog(L10n.CreatorDetail.tagApplication, isPresented: $showingTagApplicationTypeSelection) {
-            Button(L10n.CreatorDetail.tagAddApplication) {
-                tagApplicationType = .add
-                showingTagApplication = true
+        .overlay {
+            if isPresentedTagAddApplication {
+                IlluMefyTextInputDialog(
+                    title: L10n.CreatorDetail.tagApplication,
+                    message: "追加したいタグ名を入力してください",
+                    placeholder: "タグ名",
+                    onSubmit: { tagName in
+                        // TODO: タグ追加処理
+                        print("Tag to add: \(tagName)")
+                    },
+                    onCancel: {
+                        isPresentedTagAddApplication = false
+                    }
+                )
             }
-            
-            Button(L10n.CreatorDetail.tagDeleteApplication) {
-                tagApplicationType = .remove
-                showingTagApplication = true
-            }
-            
-            Button(L10n.Common.cancel, role: .cancel) { }
-        } message: {
-            Text(L10n.CreatorDetail.tagApplicationTypeSelection)
-        }
-        .alert(L10n.CreatorDetail.tagDeletionAlertTitle, isPresented: $showingTagDeleteConfirmation) {
-            Button(L10n.CreatorDetail.tagDeletionConfirmYes, role: .destructive) {
-                tagApplicationType = .remove
-                showingTagApplication = true
-            }
-            Button(L10n.CreatorDetail.tagDeletionConfirmNo, role: .cancel) { }
-        } message: {
-            Text(L10n.CreatorDetail.tagDeletionConfirmMessage(selectedTagForDeletion))
         }
     }
     
@@ -246,10 +236,9 @@ struct CreatorDetailView: View {
             WrappingHStack(displayItems(from: tags), spacing: .constant(Spacing.componentGrouping)) { item in
                 switch item {
                 case .addButton:
-                    IlluMefyAddTag()
-                        .onTapGesture {
-                            showingTagApplicationTypeSelection = true
-                        }
+                    IlluMefyAddTag {
+                        isPresentedTagAddApplication = true
+                    }
                         .padding(.vertical, Spacing.componentGrouping)
                 case .tag(let tag):
                     IlluMefyFeaturedTag(
