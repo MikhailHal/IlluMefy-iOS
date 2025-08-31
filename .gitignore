@@ -45,6 +45,9 @@ iOSInjectionProject/
 
 !*.xcodeproj/xcshareddata/
 
+# Firebase configuration files
 GoogleService-Info.plist
+GoogleService-Info-Dev.plist
+GoogleService-Info-Prod.plist
 
 Generated/

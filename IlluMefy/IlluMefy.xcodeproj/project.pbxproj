@@ -220,6 +220,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 645EBD242D58F9C800AC7BAC /* Build configuration list for PBXNativeTarget "IlluMefy" */;
 			buildPhases = (
+				644309C32E64459F005B4583 /* ShellScript */,
 				64B09B132DCFC0910063D00A /* Run Script */,
 				645EBCFA2D58F9C600AC7BAC /* Sources */,
 				645EBCFB2D58F9C600AC7BAC /* Frameworks */,
@@ -395,6 +396,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		644309C32E64459F005B4583 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ \"${CONFIGURATION}\" = \"Debug\" ];\nthen\n  echo \"Using Development Firebase config\"\n  cp \"${SRCROOT}/IlluMefy/GoogleService-Info-Dev.plist\" \"${SRCROOT}/IlluMefy/GoogleService-Info.plist\"\nelse\n  echo \"Using Production Firebase config\"\n  cp \"${SRCROOT}/IlluMefy/GoogleService-Info-Prod.plist\" \"${SRCROOT}/IlluMefy/GoogleService-Info.plist\"\nfi\n";
+		};
 		64B09B132DCFC0910063D00A /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
