@@ -16,6 +16,7 @@ struct CreatorDetailView: View {
     @State private var isPresentedTagAddApplication = false
     @State private var showingTagDeleteConfirmation = false
     @State private var selectedTagForDeletion: String = ""
+    @State private var showingTagApplicationSuccess = false
     
     init(creator: Creator) {
         let container = DependencyContainer.shared
@@ -61,6 +62,9 @@ struct CreatorDetailView: View {
                     onSubmit: { tagName in
                         Task {
                             await viewModel.submitTagAddApplication(tagName: tagName)
+                            isPresentedTagAddApplication = false
+                            hideKeyboard()
+                            showingTagApplicationSuccess = true
                         }
                     },
                     onCancel: {
@@ -68,6 +72,11 @@ struct CreatorDetailView: View {
                     }
                 )
             }
+        }
+        .alert("申請完了", isPresented: $showingTagApplicationSuccess) {
+            Button("OK") { }
+        } message: {
+            Text("タグの追加申請を受け付けました。\n審査後に反映されます。")
         }
     }
     
@@ -431,6 +440,12 @@ struct CreatorDetailView: View {
                 .padding(.trailing, Spacing.screenEdgePadding)
             }
         }
+    }
+    
+    // MARK: - Helper Methods
+    
+    private func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
 
