@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import FirebaseAuth
 
 @MainActor
 @Observable
@@ -27,13 +28,15 @@ final class CreatorDetailViewModel: CreatorDetailViewModelProtocol {
     private let getTagListByTagIdListUseCase: GetTagListByTagIdListUseCaseProtocol
     private let toggleFavoriteCreatorUseCase: ToggleFavoriteCreatorUseCaseProtocol
     private let checkAlreadyFavoriteCreatorUseCase: CheckAlreadyFavoriteCreatorUseCaseProtocol
+    private let saveTagAddApplicationUseCase: SaveTagAddApplicationUseCaseProtocol
 
     init(
         creator: Creator,
         getCreatorDetailUseCase: GetCreatorDetailUseCaseProtocol,
         getTagListByTagIdListUseCase: GetTagListByTagIdListUseCaseProtocol,
         toggleFavoriteCreatorUseCase: ToggleFavoriteCreatorUseCaseProtocol,
-        checkAlreadyFavoriteCreatorUseCase: CheckAlreadyFavoriteCreatorUseCaseProtocol
+        checkAlreadyFavoriteCreatorUseCase: CheckAlreadyFavoriteCreatorUseCaseProtocol,
+        saveTagAddApplicationUseCase: SaveTagAddApplicationUseCaseProtocol
     ) {
         self.creator = creator
         self.favoriteCount = creator.favoriteCount
@@ -41,6 +44,7 @@ final class CreatorDetailViewModel: CreatorDetailViewModelProtocol {
         self.getTagListByTagIdListUseCase = getTagListByTagIdListUseCase
         self.toggleFavoriteCreatorUseCase = toggleFavoriteCreatorUseCase
         self.checkAlreadyFavoriteCreatorUseCase = checkAlreadyFavoriteCreatorUseCase
+        self.saveTagAddApplicationUseCase = saveTagAddApplicationUseCase
         
         Task {
             await loadTags()
@@ -104,6 +108,22 @@ final class CreatorDetailViewModel: CreatorDetailViewModelProtocol {
             } catch {
                 errorMessage = "お気に入りの更新に失敗しました"
             }
+        }
+    }
+    
+    /// タグ追加申請を送信
+    func submitTagAddApplication(tagName: String) async {
+        do {
+            let request = SaveTagAddApplicationUseCaseRequest(
+                tagName: tagName,
+                userUid: Auth.auth().currentUser!.uid
+            )
+            
+            try await saveTagAddApplicationUseCase.execute(request)
+        } catch let error as SaveTagAddApplicationUseCaseError {
+            errorMessage = error.localizedDescription
+        } catch {
+            errorMessage = "タグ申請の送信に失敗しました"
         }
     }
 }

@@ -534,13 +534,15 @@ final class DependencyContainer: @unchecked Sendable {
             let getTagListByTagIdListUseCase = resolver.resolve((any GetTagListByTagIdListUseCaseProtocol).self)!
             let toggleFavoriteCreatorUseCase = resolver.resolve((any ToggleFavoriteCreatorUseCaseProtocol).self)!
             let checkAlreadyFavoriteCreatorUseCase = resolver.resolve((any CheckAlreadyFavoriteCreatorUseCaseProtocol).self)!
+            let saveTagAddApplicationUseCase = resolver.resolve((any SaveTagAddApplicationUseCaseProtocol).self)!
             return MainActor.assumeIsolated {
                 return CreatorDetailViewModel(
                     creator: creator,
                     getCreatorDetailUseCase: getCreatorDetailUseCase,
                     getTagListByTagIdListUseCase: getTagListByTagIdListUseCase,
                     toggleFavoriteCreatorUseCase: toggleFavoriteCreatorUseCase,
-                    checkAlreadyFavoriteCreatorUseCase: checkAlreadyFavoriteCreatorUseCase
+                    checkAlreadyFavoriteCreatorUseCase: checkAlreadyFavoriteCreatorUseCase,
+                    saveTagAddApplicationUseCase: saveTagAddApplicationUseCase
                 )
             }
         }.inObjectScope(.transient)

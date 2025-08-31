@@ -59,8 +59,9 @@ struct CreatorDetailView: View {
                     message: "追加したいタグ名を入力してください",
                     placeholder: "タグ名",
                     onSubmit: { tagName in
-                        // TODO: タグ追加処理
-                        print("Tag to add: \(tagName)")
+                        Task {
+                            await viewModel.submitTagAddApplication(tagName: tagName)
+                        }
                     },
                     onCancel: {
                         isPresentedTagAddApplication = false
