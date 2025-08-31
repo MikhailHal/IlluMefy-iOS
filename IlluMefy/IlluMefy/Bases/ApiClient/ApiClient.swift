@@ -9,6 +9,15 @@ import Alamofire
 import FirebaseAuth
 
 final class ApiClient: ApiClientProtocol {
+    
+    // MARK: - Properties
+    private let config: AppConfig
+    
+    // MARK: - Initialization
+    init(config: AppConfig) {
+        self.config = config
+    }
+    
     /// リクエスト処理
     ///
     /// - parameter T リクエスト型
@@ -24,8 +33,12 @@ final class ApiClient: ApiClientProtocol {
         responseType: T.Type,
         isRequiredAuth: Bool = true
     ) async throws -> T where T: Decodable, T: Encodable {
-        // TODO: あとで環境切り替えを行うこと
-        let url = "https://asia-northeast1-illumefy-dev.cloudfunctions.net/api" + endpoint
+        // AppConfigから環境別のベースURLを取得
+        let url = config.baseURL + endpoint
+        
+        if config.isLoggingEnabled {
+            print("🌐 [ApiClient] Request to: \(url)")
+        }
         var headers: HTTPHeaders = [:]
         if isRequiredAuth { headers = try await makeHeader() }
         let result = try await AF.request(

@@ -36,6 +36,11 @@ final class DependencyContainer: @unchecked Sendable {
     /// make concrete type of objects
     ///
     private func makeConcreteObjects() {
+        // AppConfig
+        container.register(AppConfig.self) { _ in
+            AppConfig.shared
+        }.inObjectScope(.container)
+        
         // the concrete type of UserLocalSettingsDataSource
         container.register(UserLocalSettingsDataSource.self) { _ in
             UserLocalSettingsDataSource()
@@ -50,8 +55,9 @@ final class DependencyContainer: @unchecked Sendable {
             return UserPreferencesRepository(userLocalSettingsDataSource: userLocalSettingsDataSource)
         }.inObjectScope(.container)
         // APIClient
-        container.register(ApiClient.self) { _ in
-            ApiClient()
+        container.register(ApiClient.self) { resolver in
+            let config = resolver.resolve(AppConfig.self)!
+            return ApiClient(config: config)
         }.inObjectScope(.container)
         
         // the concrete type of MockCreatorRepository
