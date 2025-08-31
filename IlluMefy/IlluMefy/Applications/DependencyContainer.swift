@@ -80,6 +80,11 @@ final class DependencyContainer: @unchecked Sendable {
             TagAddApplicationRepository()
         }.inObjectScope(.container)
         
+        // TagRemoveApplication repository
+        container.register(TagRemoveApplicationRepository.self) { _ in
+            TagRemoveApplicationRepository()
+        }.inObjectScope(.container)
+        
         // ProfileCorrection repository
         container.register(ProfileCorrectionRepository.self) { _ in
             ProfileCorrectionRepository()
@@ -188,6 +193,11 @@ final class DependencyContainer: @unchecked Sendable {
         // TagAddApplication repository
         container.register(TagAddApplicationRepositoryProtocol.self) { resolver in
             resolver.resolve(TagAddApplicationRepository.self)!
+        }.inObjectScope(.transient)
+        
+        // TagRemoveApplication repository
+        container.register(TagRemoveApplicationRepositoryProtocol.self) { resolver in
+            resolver.resolve(TagRemoveApplicationRepository.self)!
         }.inObjectScope(.transient)
         
         // ProfileCorrection repository
@@ -342,6 +352,16 @@ final class DependencyContainer: @unchecked Sendable {
         
         container.register((any SaveTagAddApplicationUseCaseProtocol).self) { resolver in
             resolver.resolve(SaveTagAddApplicationUseCase.self)!
+        }.inObjectScope(.transient)
+        
+        // SaveTagRemoveApplication usecase
+        container.register(SaveTagRemoveApplicationUseCase.self) { resolver in
+            let repository = resolver.resolve(TagRemoveApplicationRepositoryProtocol.self)!
+            return SaveTagRemoveApplicationUseCase(repository: repository)
+        }.inObjectScope(.transient)
+        
+        container.register((any SaveTagRemoveApplicationUseCaseProtocol).self) { resolver in
+            resolver.resolve(SaveTagRemoveApplicationUseCase.self)!
         }.inObjectScope(.transient)
         
         // SubmitProfileCorrection usecase
@@ -535,6 +555,7 @@ final class DependencyContainer: @unchecked Sendable {
             let toggleFavoriteCreatorUseCase = resolver.resolve((any ToggleFavoriteCreatorUseCaseProtocol).self)!
             let checkAlreadyFavoriteCreatorUseCase = resolver.resolve((any CheckAlreadyFavoriteCreatorUseCaseProtocol).self)!
             let saveTagAddApplicationUseCase = resolver.resolve((any SaveTagAddApplicationUseCaseProtocol).self)!
+            let saveTagRemoveApplicationUseCase = resolver.resolve((any SaveTagRemoveApplicationUseCaseProtocol).self)!
             return MainActor.assumeIsolated {
                 return CreatorDetailViewModel(
                     creator: creator,
@@ -542,7 +563,8 @@ final class DependencyContainer: @unchecked Sendable {
                     getTagListByTagIdListUseCase: getTagListByTagIdListUseCase,
                     toggleFavoriteCreatorUseCase: toggleFavoriteCreatorUseCase,
                     checkAlreadyFavoriteCreatorUseCase: checkAlreadyFavoriteCreatorUseCase,
-                    saveTagAddApplicationUseCase: saveTagAddApplicationUseCase
+                    saveTagAddApplicationUseCase: saveTagAddApplicationUseCase,
+                    saveTagRemoveApplicationUseCase: saveTagRemoveApplicationUseCase
                 )
             }
         }.inObjectScope(.transient)

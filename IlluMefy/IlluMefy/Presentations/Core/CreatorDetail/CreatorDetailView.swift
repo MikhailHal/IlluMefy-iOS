@@ -72,11 +72,23 @@ struct CreatorDetailView: View {
                     }
                 )
             }
+            
         }
         .alert("申請完了", isPresented: $showingTagApplicationSuccess) {
             Button("OK") { }
         } message: {
-            Text("タグの追加申請を受け付けました。\n審査後に反映されます。")
+            Text("タグの申請を受け付けました。\n審査後に反映されます。")
+        }
+        .alert("タグ削除申請", isPresented: $showingTagDeleteConfirmation) {
+            Button("削除申請", role: .destructive) {
+                Task {
+                    await viewModel.submitTagRemoveApplication(tagName: selectedTagForDeletion)
+                    showingTagApplicationSuccess = true
+                }
+            }
+            Button("キャンセル", role: .cancel) { }
+        } message: {
+            Text("「\(selectedTagForDeletion)」の削除を申請しますか？\n審査後に反映されます。")
         }
     }
     

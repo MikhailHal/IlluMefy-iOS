@@ -29,6 +29,7 @@ final class CreatorDetailViewModel: CreatorDetailViewModelProtocol {
     private let toggleFavoriteCreatorUseCase: ToggleFavoriteCreatorUseCaseProtocol
     private let checkAlreadyFavoriteCreatorUseCase: CheckAlreadyFavoriteCreatorUseCaseProtocol
     private let saveTagAddApplicationUseCase: SaveTagAddApplicationUseCaseProtocol
+    private let saveTagRemoveApplicationUseCase: SaveTagRemoveApplicationUseCaseProtocol
 
     init(
         creator: Creator,
@@ -36,7 +37,8 @@ final class CreatorDetailViewModel: CreatorDetailViewModelProtocol {
         getTagListByTagIdListUseCase: GetTagListByTagIdListUseCaseProtocol,
         toggleFavoriteCreatorUseCase: ToggleFavoriteCreatorUseCaseProtocol,
         checkAlreadyFavoriteCreatorUseCase: CheckAlreadyFavoriteCreatorUseCaseProtocol,
-        saveTagAddApplicationUseCase: SaveTagAddApplicationUseCaseProtocol
+        saveTagAddApplicationUseCase: SaveTagAddApplicationUseCaseProtocol,
+        saveTagRemoveApplicationUseCase: SaveTagRemoveApplicationUseCaseProtocol
     ) {
         self.creator = creator
         self.favoriteCount = creator.favoriteCount
@@ -45,6 +47,7 @@ final class CreatorDetailViewModel: CreatorDetailViewModelProtocol {
         self.toggleFavoriteCreatorUseCase = toggleFavoriteCreatorUseCase
         self.checkAlreadyFavoriteCreatorUseCase = checkAlreadyFavoriteCreatorUseCase
         self.saveTagAddApplicationUseCase = saveTagAddApplicationUseCase
+        self.saveTagRemoveApplicationUseCase = saveTagRemoveApplicationUseCase
         
         Task {
             await loadTags()
@@ -125,6 +128,23 @@ final class CreatorDetailViewModel: CreatorDetailViewModelProtocol {
             errorMessage = error.localizedDescription
         } catch {
             errorMessage = "タグ申請の送信に失敗しました"
+        }
+    }
+    
+    /// タグ削除申請を送信
+    func submitTagRemoveApplication(tagName: String) async {
+        do {
+            let request = SaveTagRemoveApplicationUseCaseRequest(
+                tagName: tagName,
+                userUid: Auth.auth().currentUser!.uid,
+                creatorId: creator.id
+            )
+            
+            try await saveTagRemoveApplicationUseCase.execute(request)
+        } catch let error as SaveTagRemoveApplicationUseCaseError {
+            errorMessage = error.localizedDescription
+        } catch {
+            errorMessage = "タグ削除申請の送信に失敗しました"
         }
     }
 }
