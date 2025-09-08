@@ -60,7 +60,9 @@
 "phoneNumberRegistration.input.phoneNumber.textfield" = "電話番号を入力";
 "phoneNumberRegistration.button.verification" = "認証コードを送信";
 "phoneNumberRegistration.checkbox.privacyPolicy" = "プライバシーポリシーに同意します";
+"phoneNumberRegistration.button.trial" = "まずは未登録で試したい方はこちら";
 "phoneNumberRegistration.message.verificationCodeSent" = "認証コードを送信しました";
+"phoneNumberRegistration.message.trialTapped" = "次へ進んでください";
 
 
 /* Common Components */

@@ -21,6 +21,6 @@ protocol PhoneNumberRegistrationViewModelProtocol: ObservableObject {
     var verificationID: String? { get set }
     
     // Methods
-    nonisolated func sendVerificationCode() async
-    nonisolated func sendAuthenticationCode() async
+    func sendVerificationCode(phoneNumber: String?) async
+    func sendAuthenticationCode(phoneNumber: String?) async
 }

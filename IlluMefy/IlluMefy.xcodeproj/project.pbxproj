@@ -398,7 +398,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		644309C32E64459F005B4583 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 8;
+			buildActionMask = 12;
 			files = (
 			);
 			inputFileListPaths = (
@@ -409,7 +409,7 @@
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if [ \"${CONFIGURATION}\" = \"Debug\" ];\nthen\n  echo \"Using Development Firebase config\"\n  cp \"${SRCROOT}/IlluMefy/GoogleService-Info-Dev.plist\" \"${SRCROOT}/IlluMefy/GoogleService-Info.plist\"\nelse\n  echo \"Using Production Firebase config\"\n  cp \"${SRCROOT}/IlluMefy/GoogleService-Info-Prod.plist\" \"${SRCROOT}/IlluMefy/GoogleService-Info.plist\"\nfi\n";
 		};

@@ -40,33 +40,27 @@ class PhoneNumberRegistrationViewModel: PhoneNumberRegistrationViewModelProtocol
     // MARK: - Methods
     
     /// 認証コードを送信
-    func sendVerificationCode() async {
+    func sendVerificationCode(phoneNumber: String? = nil) async {
         do {
-            let phoneNumber = await MainActor.run { self.phoneNumber }
-            let request = SendPhoneVerificationUseCaseRequest(phoneNumber: phoneNumber)
+            let targetPhoneNumber = phoneNumber ?? self.phoneNumber
+            let request = SendPhoneVerificationUseCaseRequest(phoneNumber: targetPhoneNumber)
             let response = try await sendPhoneVerificationUseCase.execute(request: request)
             
-            await MainActor.run {
-                // verificationIDを保存
-                self.verificationID = response.verificationID
-                notificationDialogMessage = L10n.PhoneNumberRegistration.Message.verificationCodeSent
-                isShowNotificationDialog = true
-            }
+            // verificationIDを保存
+            self.verificationID = response.verificationID
+            notificationDialogMessage = L10n.PhoneNumberRegistration.Message.verificationCodeSent
+            isShowNotificationDialog = true
         } catch let error as SendPhoneVerificationUseCaseError {
-            await MainActor.run {
-                errorDialogMessage = error.errorDescription ?? L10n.PhoneAuth.Error.unknownError
-                isShowErrorDialog = true
-            }
+            errorDialogMessage = error.errorDescription ?? L10n.PhoneAuth.Error.unknownError
+            isShowErrorDialog = true
         } catch {
-            await MainActor.run {
-                errorDialogMessage = L10n.PhoneAuth.Error.unknownError
-                isShowErrorDialog = true
-            }
+            errorDialogMessage = L10n.PhoneAuth.Error.unknownError
+            isShowErrorDialog = true
         }
     }
     
     /// 認証コード送信
-    func sendAuthenticationCode() async {
-        await sendVerificationCode()
+    func sendAuthenticationCode(phoneNumber: String? = nil) async {
+        await sendVerificationCode(phoneNumber: phoneNumber)
     }
 }

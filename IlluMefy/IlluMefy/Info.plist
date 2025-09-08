@@ -10,6 +10,8 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>$(REVERSED_CLIENT_ID)</string>
+				<string>app-1-405184515768-ios-64d849ac48429de799ee4d</string>
+				<string>app-1-637976567340-ios-d3ce5bf49bf90ad3487b89</string>
 			</array>
 		</dict>
 	</array>

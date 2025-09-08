@@ -70,7 +70,7 @@ struct PhoneVerificationView: View {
                 router.navigate(to: .home)
             }
         } message: {
-            Text(viewModel.notificationDialogMessage)
+            Text(L10n.PhoneVerification.Message.accountCreated)
         }
     }
     
@@ -126,9 +126,20 @@ struct VerificationFormView: View {
             withAnimation {
                 formAppeared = true
             }
-            // 認証番号フィールドに自動フォーカス
-            DispatchQueue.main.asyncAfter(deadline: .now() + AnimationParameters.autoFocusDelay) {
-                isCodeFocused = true
+            
+            // 電話番号が空で本画面に来るときはテストアカウントの時のみ
+            if viewModel.phoneNumber == "" {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                    viewModel.verificationCode = "000000"
+                    Task {
+                        await viewModel.registerAccount()
+                    }
+                }
+            } else {
+                // 通常モードでは認証番号フィールドに自動フォーカス
+                DispatchQueue.main.asyncAfter(deadline: .now() + AnimationParameters.autoFocusDelay) {
+                    isCodeFocused = true
+                }
             }
         }
         .onChange(of: viewModel.verificationCode) { _, _ in

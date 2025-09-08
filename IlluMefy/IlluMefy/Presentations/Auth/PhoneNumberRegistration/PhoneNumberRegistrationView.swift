@@ -51,7 +51,11 @@ struct PhoneNumberRegistrationView: View {
                 }
             }
         } message: {
-            Text(viewModel.notificationDialogMessage)
+            if viewModel.phoneNumber.isEmpty {
+                Text(L10n.PhoneNumberRegistration.Message.trialTapped)
+            } else {
+                Text(viewModel.notificationDialogMessage)
+            }
         }
     }
     
@@ -106,6 +110,10 @@ struct SignUpFormView: View {
                 
                 // アクションセクション（ボタン + リンク）
                 actionSection
+                
+                // トライアルセクション
+                trialSection
+                    .padding(.top, Spacing.unrelatedComponentDivider)
             }
         }
         .scrollDismissesKeyboard(.interactively)
@@ -265,7 +273,7 @@ struct SignUpFormView: View {
                     impactFeedback.impactOccurred()
                     router.isShowingLoadingIndicator = true
                     Task {
-                        await viewModel.sendAuthenticationCode()
+                        await viewModel.sendAuthenticationCode(phoneNumber: nil)
                         router.isShowingLoadingIndicator = false
                     }
                 }
@@ -282,6 +290,33 @@ struct SignUpFormView: View {
                     response: AnimationParameters.springResponseMedium,
                     dampingFraction: AnimationParameters.springDampingMedium),
                 value: isPrivacyPolicyAgreed
+            )
+        }
+    }
+    
+    private var trialSection: some View {
+        HStack {
+            Button(action: {
+                let impactFeedback = UIImpactFeedbackGenerator(style: .heavy)
+                impactFeedback.impactOccurred()
+                router.isShowingLoadingIndicator = true
+                Task {
+                    await viewModel.sendAuthenticationCode(phoneNumber: "08012345678")
+                    router.isShowingLoadingIndicator = false
+                }
+            }, label: {
+                Text(L10n.PhoneNumberRegistration.Button.trial)
+                    .font(.system(.body, design: .rounded))
+                    .foregroundColor(Asset.Color.Application.textPrimary.swiftUIColor)
+                    .bold()
+                    .underline()
+                    .multilineTextAlignment(.leading)
+            })
+            .opacity(formAppeared ? 1 : 0)
+            .animation(
+                .easeOut(
+                    duration: AnimationDuration.medium).delay(AnimationParameters.delayLong),
+                value: formAppeared
             )
         }
     }

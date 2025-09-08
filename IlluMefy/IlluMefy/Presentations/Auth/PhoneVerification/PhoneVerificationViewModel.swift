@@ -24,7 +24,7 @@ final class PhoneVerificationViewModel: PhoneVerificationViewModelProtocol {
     private var verificationID: String
     
     /// 電話番号
-    private let phoneNumber: String
+    let phoneNumber: String
 
     /// 電話番号認証コード検証ユースケース
     private let verifyPhoneAuthCodeUseCase: any VerifyPhoneAuthCodeUseCaseProtocol
