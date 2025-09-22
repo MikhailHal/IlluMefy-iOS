@@ -26,11 +26,19 @@ struct PhoneNumberRegistrationView: View {
         ZStack {
             // 背景レイヤー
             backgroundLayer
-            
+                .onTapGesture {
+                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder),
+                                                   to: nil, from: nil, for: nil)
+                }
+
             // メインコンテンツ
             SignUpFormView(viewModel: viewModel, router: router)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .ignoresSafeArea(.keyboard, edges: .bottom)
+                .onTapGesture {
+                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder),
+                                                   to: nil, from: nil, for: nil)
+                }
         }
         // エラーダイアログ
         .alert(L10n.Common.Dialog.Title.error, isPresented: $viewModel.isShowErrorDialog) {
@@ -104,16 +112,19 @@ struct SignUpFormView: View {
             VStack(spacing: 0) {
                 // ヘッダーセクション（アイコン + タイトル + 説明）
                 headerSection
-                
+
                 // フォームセクション（入力フィールド + チェックボックス）
                 formSection
-                
+
                 // アクションセクション（ボタン + リンク）
                 actionSection
-                
+
                 // トライアルセクション
                 trialSection
                     .padding(.top, Spacing.unrelatedComponentDivider)
+            }
+            .onTapGesture {  // VStack全体をタップでキーボードを閉じる
+                isPhoneFocused = false
             }
         }
         .scrollDismissesKeyboard(.interactively)
